@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Dashboard - Estadísticas</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body class="bg-light">
+
+<div id="navbar-container"></div>
+
+  <div class="container py-4">
+    <h2 class="text-center mb-4">Dashboard de Soporte</h2>
+
+    <p class="text-center fs-5 fw-bold" id="promedio">Calculando tiempo promedio de resolución...</p>
+
+    <div class="row g-4 mb-4 text-center" id="indicadores"></div>
+
+    <div class="row g-4">
+      <div class="col-md-6">
+        <canvas id="graficoTipos"></canvas>
+      </div>
+      <div class="col-md-6">
+        <canvas id="graficoEstatus"></canvas>
+      </div>
+      <div class="col-md-6">
+        <canvas id="graficoMateriales"></canvas>
+      </div>
+      <div class="col-md-6">
+        <canvas id="graficoAsignados"></canvas>
+      </div>
+      <div class="col-md-6">
+        <canvas id="graficoResueltos"></canvas>
+      </div>
+    </div>
+  </div>
+
+  <script>
+  const token = localStorage.getItem("token");
+  if (!token) {
+    window.location.href = "login.html";
+  }
+
+  function logout() {
+    localStorage.removeItem("token");
+    window.location.href = "login.html";
+  }
+
+  async function cargarDatos() {
+    const res = await fetch("/api/tickets", {
+      headers: { Authorization: `Bearer ${token}` }
+    });
+
+    const tickets = await res.json();
+
+    const tipos = { Sistemas: 0, Mantenimiento: 0 };
+    const estatus = { Abierto: 0, "En proceso": 0, Resuelto: 0, Cerrado: 0 };
+    let conMaterial = 0;
+    let sinAsignar = 0;
+    const asignadosPorUsuario = {};
+    const resueltosPorUsuario = {};
+
+    tickets.forEach(t => {
+      tipos[t.tipo] = (tipos[t.tipo] || 0) + 1;
+      estatus[t.estatus] = (estatus[t.estatus] || 0) + 1;
+      if (!t.asignadoA) {
+        sinAsignar++;
+      } else {
+        const nombre = t.asignadoA?.nombre || "(Sin nombre)";
+        asignadosPorUsuario[nombre] = (asignadosPorUsuario[nombre] || 0) + 1;
+        if (t.estatus === "Resuelto" || t.estatus === "Cerrado") {
+          resueltosPorUsuario[nombre] = (resueltosPorUsuario[nombre] || 0) + 1;
+        }
+      }
+      if (t.requiereMaterial && t.requiereMaterial.trim() !== "") {
+        conMaterial++;
+      }
+    });
+
+    const indicadores = [
+      { label: "Total", valor: tickets.length, color: "primary" },
+      { label: "Abiertos", valor: estatus.Abierto, color: "danger" },
+      { label: "En proceso", valor: estatus["En proceso"], color: "warning text-dark" },
+      { label: "Cerrados", valor: estatus.Resuelto + estatus.Cerrado, color: "success" },
+      { label: "Sin asignar", valor: sinAsignar, color: "secondary" }
+    ];
+
+    const contenedorIndicadores = document.getElementById("indicadores");
+    indicadores.forEach(i => {
+      contenedorIndicadores.innerHTML += `
+        <div class="col-md-2">
+          <div class="card bg-${i.color} text-white shadow">
+            <div class="card-body">
+              <h5 class="card-title">${i.label}</h5>
+              <h2>${i.valor}</h2>
+            </div>
+          </div>
+        </div>
+      `;
+    });
+
+    let totalMinutos = 0;
+    let ticketsCerrados = 0;
+
+    tickets.forEach(t => {
+      if (t.fechaCierre) {
+        const inicio = new Date(t.fechaCreacion);
+        const fin = new Date(t.fechaCierre);
+        const minutos = Math.floor((fin - inicio) / 60000);
+        totalMinutos += minutos;
+        ticketsCerrados++;
+      }
+    });
+
+    if (ticketsCerrados > 0) {
+      const promedioMin = Math.round(totalMinutos / ticketsCerrados);
+      const horas = Math.floor(promedioMin / 60);
+      const minutos = promedioMin % 60;
+      document.getElementById("promedio").textContent =
+        `⏱ Tiempo promedio de resolución: ${horas}h ${minutos}m`;
+    } else {
+      document.getElementById("promedio").textContent =
+        "⏱ No hay tickets resueltos o cerrados para calcular el promedio.";
+    }
+
+    const sinMaterial = tickets.length - conMaterial;
+
+    new Chart(document.getElementById("graficoTipos"), {
+      type: "bar",
+      data: {
+        labels: Object.keys(tipos),
+        datasets: [{
+          label: "Tickets por tipo",
+          data: Object.values(tipos),
+          borderWidth: 1
+        }]
+      }
+    });
+
+    new Chart(document.getElementById("graficoEstatus"), {
+      type: "pie",
+      data: {
+        labels: Object.keys(estatus),
+        datasets: [{
+          label: "Tickets por estatus",
+          data: Object.values(estatus)
+        }]
+      }
+    });
+
+    new Chart(document.getElementById("graficoMateriales"), {
+      type: "doughnut",
+      data: {
+        labels: ["Requieren material", "No requieren material"],
+        datasets: [{
+          data: [conMaterial, sinMaterial]
+        }]
+      }
+    });
+
+    new Chart(document.getElementById("graficoAsignados"), {
+      type: "bar",
+      data: {
+        labels: Object.keys(asignadosPorUsuario),
+        datasets: [{
+          label: "Tickets asignados por usuario",
+          data: Object.values(asignadosPorUsuario),
+          backgroundColor: "rgba(54, 162, 235, 0.7)",
+          borderColor: "#36A2EB",
+          borderWidth: 1
+        }]
+      },
+      options: {
+        responsive: true,
+        plugins: {
+          legend: { display: false },
+          title: { display: true, text: "Usuarios con tickets asignados" }
+        }
+      }
+    });
+
+    new Chart(document.getElementById("graficoResueltos"), {
+      type: "bar",
+      data: {
+        labels: Object.keys(resueltosPorUsuario),
+        datasets: [{
+          label: "Tickets resueltos",
+          data: Object.values(resueltosPorUsuario),
+          backgroundColor: "#28a745"
+        }]
+      },
+      options: {
+        responsive: true,
+        plugins: {
+          legend: { display: false },
+          title: { display: true, text: "Usuarios que han resuelto más tickets" }
+        }
+      }
+    });
+  }
+
+  cargarDatos();
+</script>
+<script src="js/navbar.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

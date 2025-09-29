@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gestión de Usuarios - RR.HH.</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-light">
+  <div id="navbar-container"></div>
+  <div class="container mt-4">
+    <h4 class="mb-3">Gestión de Vacaciones por Usuario</h4>
+
+    <div class="mb-3">
+      <input type="text" id="filtroUsuarios" class="form-control" placeholder="🔍 Buscar por nombre, puesto o departamento..." />
+    </div>
+
+    <table class="table table-bordered table-sm">
+      <thead class="table-dark">
+        <tr>
+          <th>Nombre</th>
+          <th>Rol</th>
+          <th>Fecha de Ingreso</th>
+          <th>Días Disponibles</th>
+          <th>Puesto</th>
+          <th>Departamento</th>
+          <th>Actualizar</th>
+        </tr>
+      </thead>
+      <tbody id="tabla-usuarios"></tbody>
+    </table>
+  </div>
+
+  <script>
+    const token = localStorage.getItem("token");
+
+    async function cargarUsuarios() {
+      const contenedor = document.getElementById("tabla-usuarios");
+      contenedor.innerHTML = "";
+
+      try {
+        const res = await fetch("/api/users", {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+        const data = await res.json();
+
+        data.forEach((u) => {
+          const fila = document.createElement("tr");
+          fila.innerHTML = `
+            <td>${u.nombre}</td>
+            <td>${u.roles?.[0]}</td>
+            <td>
+              <input type="date" class="form-control form-control-sm" id="fecha-${u._id}" value="${u.fechaIngreso ? new Date(u.fechaIngreso).toISOString().split("T")[0] : ""}">
+            </td>
+            <td>
+              <input type="number" class="form-control form-control-sm" id="dias-${u._id}" value="${u.diasVacacionesDisponibles ?? 0}">
+            </td>
+            <td>
+              <input type="text" class="form-control form-control-sm" id="puesto-${u._id}" value="${u.puesto ?? ""}">
+            </td>
+            <td>
+              <input type="text" class="form-control form-control-sm" id="depto-${u._id}" value="${u.departamento ?? ""}">
+            </td>
+            <td>
+              <button class="btn btn-sm btn-primary" onclick="actualizar('${u._id}')">💾 Guardar</button>
+            </td>
+          `;
+          contenedor.appendChild(fila);
+        });
+
+      } catch (err) {
+        alert("❌ Error al cargar usuarios.");
+      }
+    }
+
+    async function actualizar(id) {
+      const fecha = document.getElementById(`fecha-${id}`).value;
+      const dias = document.getElementById(`dias-${id}`).value;
+      const puesto = document.getElementById(`puesto-${id}`).value;
+      const departamento = document.getElementById(`depto-${id}`).value;
+
+      try {
+        const res = await fetch(`/api/users/${id}`, {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({
+            fechaIngreso: fecha,
+            diasVacacionesDisponibles: Number(dias),
+            puesto,
+            departamento,
+            actualizarDiasManual: true,
+          }),
+        });
+
+        const result = await res.json();
+        if (res.ok) {
+          alert("✅ Usuario actualizado");
+        } else {
+          alert("❌ Error: " + result.mensaje);
+        }
+      } catch (err) {
+        alert("⚠️ Error de red");
+      }
+    }
+
+    document.getElementById("filtroUsuarios").addEventListener("input", function () {
+      const filtro = this.value.toLowerCase();
+      const filas = document.querySelectorAll("#tabla-usuarios tr");
+
+      filas.forEach((fila) => {
+        const texto = fila.innerText.toLowerCase();
+        fila.style.display = texto.includes(filtro) ? "" : "none";
+      });
+    });
+
+    cargarUsuarios();
+  </script>
+  <script src="js/navbar.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

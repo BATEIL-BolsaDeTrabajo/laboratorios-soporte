@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Tickets Asignables</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-light">
+  <div id="navbar-container"></div>
+
+  <div class="container py-4">
+    <h2 class="text-center mb-4">Tickets Sin Asignar</h2>
+    <div id="tickets" class="row g-3"></div>
+  </div>
+
+  <script>
+    const token = localStorage.getItem("token");
+    if (!token) window.location.href = "login.html";
+
+    function logout() {
+      localStorage.removeItem("token");
+      localStorage.removeItem("usuario");
+      window.location.href = "login.html";
+    }
+
+    const estatusColor = {
+      "Abierto": { border: "secondary", bg: "bg-white", text: "text-dark" },
+      "En proceso": { border: "warning", bg: "bg-warning-subtle", text: "text-dark" }
+    };
+
+    let usuarios = [];
+
+    async function obtenerUsuarios() {
+      const res = await fetch("/api/users", {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      usuarios = await res.json();
+    }
+
+    async function cargarTicketsAsignables() {
+      await obtenerUsuarios();
+
+      const res = await fetch("/api/tickets/asignables", {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+
+      const tickets = await res.json();
+      const contenedor = document.getElementById("tickets");
+      contenedor.innerHTML = "";
+
+      tickets.forEach(ticket => {
+        const estilo = estatusColor[ticket.estatus] || { border: 'light', bg: 'bg-light', text: 'text-dark' };
+
+        const candidatos = usuarios.filter(u =>
+          (ticket.tipo === "Sistemas" && u.roles.includes("soporte")) ||
+          (ticket.tipo === "Mantenimiento" && u.roles.includes("mantenimiento"))
+        );
+
+        let asignarHTML = "";
+        if (candidatos.length) {
+          asignarHTML = `
+            <label class="form-label mt-2">Asignar a:</label>
+            <div class="input-group">
+              <select class="form-select" id="select-${ticket._id}">
+                ${candidatos.map(u => `<option value="${u._id}">${u.nombre}</option>`).join("")}
+              </select>
+              <button class="btn btn-success" onclick="asignarTicket('${ticket._id}')">Asignar</button>
+            </div>
+          `;
+        }
+
+        const div = document.createElement("div");
+        div.className = "col-md-6";
+        div.innerHTML = `
+          <div class="card border-${estilo.border} ${estilo.bg} ${estilo.text}">
+            <div class="card-body">
+              <h5 class="card-title">${ticket.tipo}</h5>
+              <p class="card-text">
+                Descripción: ${ticket.descripcion}<br>
+                Estatus: <strong>${ticket.estatus}</strong><br>
+                Creado por: ${ticket.creadoPor?.nombre || "N/A"}<br>
+                Fecha: ${new Date(ticket.fechaCreacion).toLocaleString()}
+              </p>
+              ${asignarHTML}
+            </div>
+          </div>
+        `;
+        contenedor.appendChild(div);
+      });
+    }
+
+    async function asignarTicket(id) {
+      const userId = document.getElementById(`select-${id}`).value;
+
+      const res = await fetch(`/api/tickets/${id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`
+        },
+        body: JSON.stringify({ asignadoA: userId })
+      });
+
+      const data = await res.json();
+      alert(data.mensaje);
+      cargarTicketsAsignables();
+    }
+
+    cargarTicketsAsignables();
+  </script>
+  <script src="js/navbar.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
+

@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Registrar Tiempo por Tiempo</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-light">
+<div id="navbar-container"></div>
+  <div class="container mt-5">
+    <h2 class="mb-4">⏱ Registrar Tiempo por Tiempo</h2>
+
+    <form id="formTiempo">
+      <div class="mb-3">
+        <label for="docenteId" class="form-label">Selecciona el usuario</label>
+        <select class="form-select" id="docenteId" required>
+          <option value="">-- Elige un usuario --</option>
+        </select>
+      </div>
+
+      <div class="mb-3">
+        <label for="horas" class="form-label">Cantidad de horas</label>
+        <select class="form-select" id="horas" required>
+          <option value="">-- Selecciona horas --</option>
+        </select>
+      </div>
+
+      <div class="mb-3">
+        <label for="motivo" class="form-label">Motivo (opcional)</label>
+        <input type="text" class="form-control" id="motivo">
+      </div>
+
+      <button type="submit" class="btn btn-primary">Registrar</button>
+    </form>
+
+    <div id="mensaje" class="mt-4"></div>
+  </div>
+
+  <script>
+    const token = localStorage.getItem('token');
+    const docenteSelect = document.getElementById('docenteId');
+    const horasSelect = document.getElementById('horas');
+    const mensaje = document.getElementById('mensaje');
+
+    // Generar opciones de 0.5 h a 10 h
+    for (let i = 0.5; i <= 10; i += 0.5) {
+      const option = document.createElement('option');
+      option.value = i;
+      const horas = Math.floor(i);
+      const minutos = i % 1 !== 0 ? '30 min' : '';
+      option.textContent = `${horas > 0 ? horas + ' h' : ''} ${minutos}`.trim();
+      horasSelect.appendChild(option);
+    }
+
+    // Obtener el rol del usuario desde el token
+    function getRolPrincipal() {
+      try {
+        const tokenData = JSON.parse(atob(token.split('.')[1]));
+        return tokenData.roles?.[0] || '';
+      } catch (err) {
+        return '';
+      }
+    }
+
+    // Cargar usuarios según rol
+    async function cargarUsuarios() {
+      const rol = getRolPrincipal();
+      let url = '';
+
+      if (rol === 'subdireccion') {
+        url = '/api/users/docentes';
+      } else if (rol === 'finanzas') {
+        url = '/api/users/talleres';
+      } else {
+        mensaje.innerHTML = `<div class="alert alert-danger">⚠️ No tienes permiso para ver esta sección</div>`;
+        return;
+      }
+
+      try {
+        const res = await fetch(url, {
+          headers: { 'Authorization': `Bearer ${token}` }
+        });
+        const datos = await res.json();
+
+        datos.forEach(u => {
+          const opt = document.createElement('option');
+          opt.value = u._id;
+          opt.textContent = u.nombre;
+          docenteSelect.appendChild(opt);
+        });
+      } catch (err) {
+        mensaje.innerHTML = `<div class="alert alert-danger">❌ Error al cargar usuarios</div>`;
+      }
+    }
+
+    cargarUsuarios();
+
+    // Enviar formulario
+    document.getElementById('formTiempo').addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const datos = {
+        docenteId: docenteSelect.value,
+        horas: parseFloat(horasSelect.value),
+        motivo: document.getElementById('motivo').value
+      };
+
+      try {
+        const res = await fetch('/api/tiempo/crear', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+          },
+          body: JSON.stringify(datos)
+        });
+
+        const json = await res.json();
+        if (res.ok) {
+          mensaje.innerHTML = `<div class="alert alert-success">${json.mensaje}</div>`;
+          e.target.reset();
+        } else {
+          mensaje.innerHTML = `<div class="alert alert-danger">${json.mensaje}</div>`;
+        }
+      } catch (err) {
+        mensaje.innerHTML = `<div class="alert alert-danger">⚠️ Error de red</div>`;
+      }
+    });
+  </script>
+  <script src="js/navbar.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

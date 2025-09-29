@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Formato de Vacaciones</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 20px; font-size: 14px; }
+    h2 { text-align: center; margin-bottom: 10px; }
+    table, td, th { border: 1px solid black; border-collapse: collapse; }
+    table { width: 100%; margin-top: 10px; }
+    td, th { padding: 4px; text-align: left; }
+    .seccion { border: 1px solid black; padding: 10px; margin-bottom: 10px; }
+    .firmas td { text-align: center; vertical-align: bottom; height: 60px; }
+  </style>
+</head>
+<body >
+
+  <h2>SOLICITUD DE VACACIONES</h2>
+
+  <div class="seccion">
+    <b>Fecha de elaboración:</b>
+    <span id="dia-elab"></span> /
+    <span id="mes-elab"></span> /
+    <span id="anio-elab"></span>
+  </div>
+
+  <div class="seccion">
+    <p><b>Nombre:</b> <span id="nombre"></span></p>
+    <p><b>Fecha de ingreso:</b> <span id="fechaIngreso"></span></p>
+    <p><b>Años de servicio:</b> <span id="anios-servicio"></span></p>
+    <p><b>Días hábiles a disfrutar:</b> <span id="dias-disfrutar"></span></p>
+    <p><b>Periodo a disfrutar:</b> <span id="periodo-disfrutar"></span></p>
+  </div>
+
+  <div class="seccion">
+    <p><b>SE REINCORPORA:</b> <span id="fecha-reincorpora"></span></p>
+    <p><b>Puesto:</b> <span id="puesto"></span></p>
+    <p><b>Departamento:</b> <span id="departamento"></span></p>
+    <p><b>Ejercicio:</b> <span id="ejercicio"></span></p>
+    <p><b>Saldo del ejercicio:</b> <span id="saldo-ejercicio"></span></p>
+  </div>
+
+  <div class="seccion">
+    <b>Uso exclusivo de Recursos Humanos</b>
+    <table>
+      <thead>
+        <tr>
+          <th>Periodo</th>
+          <th>Fecha límite</th>
+          <th>Días</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td id="periodo-historial"></td>
+          <td id="fecha-limite"></td>
+          <td id="dias-tomados"></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <table class="firmas">
+    <tr>
+      <td>Empleado<br>Aceptante<br>Nombre y Firma</td>
+      <td>Director del Plantel<br>Vo. Bo.<br>Nombre y Firma</td>
+      <td>Jefe Directo<br>Autorización<br>Nombre y Firma</td>
+      <td>Subdirección Administrativa<br>Nombre y Firma</td>
+      <td>R.H.<br>Nombre y Firma</td>
+    </tr>
+  </table>
+
+  <script>
+    const token = localStorage.getItem("token");
+    const params = new URLSearchParams(window.location.search);
+    const id = params.get("id");
+
+    if (!token) {
+      alert("Tu sesión ha expirado. Vuelve a iniciar sesión.");
+      window.close();
+    }
+
+    async function cargarDatos() {
+      try {
+        const res = await fetch(`/api/vacaciones/solicitud/${id}`, {
+          headers: { Authorization: `Bearer ${token}` }
+        });
+        const data = await res.json();
+        console.log("Datos recibidos del backend:", data);
+
+        const solicitud = data.solicitud;
+        const user = solicitud.solicitante || {};
+
+        const hoy = new Date();
+        document.getElementById("dia-elab").textContent = hoy.getDate().toString().padStart(2, "0");
+        document.getElementById("mes-elab").textContent = (hoy.getMonth() + 1).toString().padStart(2, "0");
+        document.getElementById("anio-elab").textContent = hoy.getFullYear();
+
+        document.getElementById("nombre").textContent = user.nombre || '';
+        document.getElementById("fechaIngreso").textContent = user.fechaIngreso ? user.fechaIngreso.split("T")[0] : '';
+
+        const ingreso = new Date(user.fechaIngreso);
+        const anios = hoy.getFullYear() - ingreso.getFullYear();
+        document.getElementById("anios-servicio").textContent = `${anios} año${anios !== 1 ? 's' : ''}`;
+
+        const inicio = new Date(solicitud.fechaInicio);
+        const fin = new Date(solicitud.fechaFin);
+        const diasSolicitados = solicitud.diasSolicitados;
+
+        document.getElementById("dias-disfrutar").textContent = `${diasSolicitados} día${diasSolicitados !== 1 ? 's' : ''}`;
+        document.getElementById("periodo-disfrutar").textContent = `${inicio.getDate()} al ${fin.getDate()} de ${fin.toLocaleString("default", { month: "long" })} ${fin.getFullYear()}`;
+        document.getElementById("fecha-reincorpora").textContent = new Date(fin.getTime() + 86400000).toLocaleDateString();
+
+        document.getElementById("puesto").textContent = user.puesto || '(sin puesto)';
+        document.getElementById("departamento").textContent = user.departamento || '(sin departamento)';
+        document.getElementById("ejercicio").textContent = hoy.getFullYear();
+        document.getElementById("saldo-ejercicio").textContent = user.diasVacacionesDisponibles || "0";
+
+        const siguiente = new Date(ingreso);
+        siguiente.setFullYear(hoy.getFullYear());
+        document.getElementById("periodo-historial").textContent = `${ingreso.toLocaleDateString()} / ${siguiente.toLocaleDateString()}`;
+        document.getElementById("fecha-limite").textContent = siguiente.toLocaleDateString();
+        document.getElementById("dias-tomados").textContent = diasSolicitados;
+
+      } catch (err) {
+        alert("❌ Error al cargar los datos.");
+        console.error(err);
+      }
+    }
+
+    cargarDatos();
+  </script>
+</body>
+</html>

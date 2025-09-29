@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Revisión Tiempo por Tiempo</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-light">
+<div id="navbar-container"></div>
+  <div class="container mt-5">
+    <h2 class="mb-4">🧾 Revisión Tiempo por Tiempo</h2>
+    <div id="mensaje"></div>
+
+    <table class="table table-bordered table-hover">
+      <thead class="table-dark">
+        <tr>
+          <th>Docente</th>
+          <th>Horas</th>
+          <th>Motivo</th>
+          <th>Acción</th>
+        </tr>
+      </thead>
+      <tbody id="tablaTiempo"></tbody>
+    </table>
+  </div>
+
+  <script>
+    const token = localStorage.getItem('token');
+    const tabla = document.getElementById('tablaTiempo');
+    const mensaje = document.getElementById('mensaje');
+
+    async function cargarRegistros() {
+      try {
+        const res = await fetch('/api/tiempo/pendientes', {
+          headers: { Authorization: `Bearer ${token}` }
+        });
+        const datos = await res.json();
+
+        if (!res.ok) {
+          mensaje.innerHTML = `<div class="alert alert-danger">${datos.mensaje || 'Error al cargar'}</div>`;
+          return;
+        }
+
+        if (datos.length === 0) {
+          tabla.innerHTML = `<tr><td colspan="4" class="text-center">Sin registros pendientes.</td></tr>`;
+          return;
+        }
+
+        datos.forEach(t => {
+          const fila = document.createElement('tr');
+          fila.innerHTML = `
+            <td>${t.docente?.nombre || '-'}</td>
+            <td>${t.horas}</td>
+            <td>${t.motivo || '-'}</td>
+            <td>
+              <select class="form-select form-select-sm" id="accion-${t._id}">
+                <option value="">-- Acción --</option>
+                <option value="Aceptado">✅ Aceptar</option>
+                <option value="Rechazado">❌ Rechazar</option>
+              </select>
+              <input type="text" class="form-control form-control-sm mt-1" placeholder="Motivo (opcional)" id="motivo-${t._id}">
+              <button class="btn btn-sm btn-primary mt-2" onclick="aprobar('${t._id}')">Guardar</button>
+            </td>
+          `;
+          tabla.appendChild(fila);
+        });
+      } catch (err) {
+        mensaje.innerHTML = `<div class="alert alert-danger">Error de red</div>`;
+      }
+    }
+
+    async function aprobar(id) {
+      const estatus = document.getElementById(`accion-${id}`).value;
+      const motivo = document.getElementById(`motivo-${id}`).value;
+
+      if (!estatus) return alert('Selecciona una acción');
+
+      try {
+        const res = await fetch(`/api/tiempo/revisar/${id}`, {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+          },
+          body: JSON.stringify({ estatus, motivoRespuesta: motivo })
+        });
+
+        const json = await res.json();
+        if (res.ok) {
+          alert('✅ Registro actualizado');
+          location.reload();
+        } else {
+          alert(`❌ ${json.mensaje}`);
+        }
+      } catch (err) {
+        alert('Error al guardar');
+      }
+    }
+
+    cargarRegistros();
+  </script>
+  <script src="js/navbar.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
