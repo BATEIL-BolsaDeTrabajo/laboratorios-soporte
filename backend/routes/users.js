@@ -26,7 +26,7 @@ function actualizarDiasSiCorresponde(usuario) {
 }
 
 // 🔍 Obtener todos los usuarios (admin y rrhh)
-router.get('/', verifyToken, verifyRole(['admin', 'rrhh']), async (req, res) => {
+router.get('/', verifyToken, verifyRole(['admin', 'rrhh', 'finanzas']), async (req, res) => {
   try {
     let usuarios;
 
@@ -107,7 +107,7 @@ router.get('/talleres', verifyToken, verifyRole(['finanzas']), async (req, res) 
 // Crear usuario (solo admin y rrhh)
 router.post('/crear', verifyToken, verifyRole(['admin', 'rrhh']), async (req, res) => {
   try {
-    const { nombre, correo, rol, fechaIngreso, diasVacacionesDisponibles, puesto, departamento } = req.body;
+    const { nombre, correo, contraseña, rol, fechaIngreso, diasVacacionesDisponibles, puesto, departamento } = req.body;
 
     // Verifica si el usuario ya existe
     const existe = await User.findOne({ correo });
@@ -115,10 +115,13 @@ router.post('/crear', verifyToken, verifyRole(['admin', 'rrhh']), async (req, re
       return res.status(400).json({ mensaje: 'El usuario ya existe con ese correo.' });
     }
 
+    const hashedPassword = await bcrypt.hash(contraseña, 10);
+
     const nuevo = new User({
       nombre,
       correo,
-      rol: [rol],
+      contraseña: hashedPassword,
+      roles: [rol],
       fechaIngreso,
       diasVacacionesDisponibles,
       puesto,
@@ -130,6 +133,16 @@ router.post('/crear', verifyToken, verifyRole(['admin', 'rrhh']), async (req, re
   } catch (error) {
     console.error("❌ Error al crear usuario:", error);
     res.status(500).json({ mensaje: 'Error al crear el usuario.' });
+  }
+});
+
+// 🔐 Obtener datos del usuario autenticado
+router.get('/me', verifyToken, async (req, res) => {
+  try {
+    const usuario = await User.findById(req.usuario.id).select('-contraseña');
+    res.json(usuario);
+  } catch (err) {
+    res.status(500).json({ mensaje: 'Error al obtener el usuario autenticado' });
   }
 });
 

@@ -306,5 +306,52 @@ router.get('/exportar', async (req, res) => {
   }
 });
 
+// Índice de reprobación por grupo
+router.get('/estadisticas/reprobacion-por-grupo', async (req, res) => {
+  try {
+    const { periodo, especialidad, semestre } = req.query;
+
+    const filtro = {};
+    if (periodo) filtro.periodo = periodo;
+    if (especialidad) filtro.especialidad = especialidad;
+    if (semestre) filtro.semestre = parseInt(semestre);
+
+    const resultado = await Calificacion.aggregate([
+      { $match: filtro },
+      {
+        $group: {
+          _id: '$grupo',
+          total: { $sum: 1 },
+          reprobados: {
+            $sum: {
+              $cond: [{ $lt: ['$final', 70] }, 1, 0]
+            }
+          }
+        }
+      },
+      {
+        $project: {
+          grupo: '$_id',
+          porcentaje: {
+            $cond: [
+              { $eq: ['$total', 0] },
+              0,
+              { $round: [{ $multiply: [{ $divide: ['$reprobados', '$total'] }, 100] }, 1] }
+            ]
+          },
+          _id: 0
+        }
+      },
+      { $sort: { grupo: 1 } }
+    ]);
+
+    res.json(resultado);
+  } catch (err) {
+    console.error('❌ Error en /reprobacion-por-grupo:', err);
+    res.status(500).json({ error: 'Error al calcular reprobación por grupo' });
+  }
+});
+
+
 
 module.exports = router;

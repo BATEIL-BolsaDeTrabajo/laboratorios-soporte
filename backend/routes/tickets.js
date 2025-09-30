@@ -87,7 +87,7 @@ router.put('/:id', verifyToken, async (req, res) => {
 });
 
 // Nueva ruta: Obtener solo tickets abiertos y sin asignar
-router.get('/asignables', verifyToken, verifyRole(['admin']), async (req, res) => {
+router.get('/asignables', verifyToken, verifyRole(['admin', 'finanzas']), async (req, res) => {
   try {
     const tickets = await Ticket.find({
       estatus: { $in: ['Abierto', 'En proceso'] },

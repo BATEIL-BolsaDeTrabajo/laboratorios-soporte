@@ -32,18 +32,13 @@
       </div>
     </div>
 
+    <div id="mensaje-estado" class="mb-3"></div>
     <div id="tickets" class="row g-3"></div>
   </div>
 
   <script>
     const token = localStorage.getItem("token");
     if (!token) window.location.href = "login.html";
-
-    function logout() {
-      localStorage.removeItem("token");
-      localStorage.removeItem("usuario");
-      window.location.href = "login.html";
-    }
 
     const estatusColor = {
       "Abierto": { border: "success", bg: "bg-success-subtle", text: "text-dark" },
@@ -55,14 +50,30 @@
     let usuarios = [];
 
     async function obtenerUsuarios() {
-      const res = await fetch("/api/users", {
-        headers: { Authorization: `Bearer ${token}` }
-      });
-      usuarios = await res.json();
+      try {
+        const res = await fetch("/api/users", {
+          headers: { Authorization: `Bearer ${token}` }
+        });
+        const data = await res.json();
+
+        if (!Array.isArray(data)) {
+          console.error("⚠ Error al obtener usuarios:", data);
+          mostrarMensaje("❌ No se pudieron cargar los usuarios", "danger");
+          return false;
+        }
+
+        usuarios = data;
+        return true;
+      } catch (error) {
+        console.error("❌ Error inesperado al cargar usuarios:", error);
+        mostrarMensaje("❌ Error al conectar con el servidor", "danger");
+        return false;
+      }
     }
 
     async function cargarTickets() {
-      await obtenerUsuarios();
+      const usuariosOK = await obtenerUsuarios();
+      if (!usuariosOK) return;
 
       const tipo = document.getElementById("filtroTipo").value;
       const estatus = document.getElementById("filtroEstatus").value;
@@ -145,7 +156,7 @@
       });
 
       const data = await res.json();
-      alert(data.mensaje);
+      mostrarMensaje(data.mensaje || "✅ Ticket asignado", "success");
       cargarTickets();
     }
 
@@ -160,8 +171,18 @@
       });
 
       const data = await res.json();
-      alert(data.mensaje);
+      mostrarMensaje(data.mensaje || "✅ Ticket cerrado", "success");
       cargarTickets();
+    }
+
+    function mostrarMensaje(texto, tipo = "info") {
+      const div = document.getElementById("mensaje-estado");
+      div.innerHTML = `
+        <div class="alert alert-${tipo} alert-dismissible fade show" role="alert">
+          ${texto}
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Cerrar"></button>
+        </div>
+      `;
     }
 
     cargarTickets();

@@ -5,22 +5,12 @@
   <title>Panel de Calificaciones</title>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <style>
-    h5 {
-      border-bottom: 1px solid #ccc;
-      padding-bottom: 5px;
-      margin-bottom: 10px;
-    }
-  </style>
 </head>
 <body class="bg-light">
 <div id="navbar-container"></div>
   <div class="container mt-4">
     <div class="card p-4 shadow-sm">
-
-      <h3 class="text-center mb-4">
-        📊 Dashboard de Calificaciones
-      </h3>
+      <h3 class="text-center mb-4">📊 Dashboard de Calificaciones</h3>
 
       <div class="mb-3 d-flex justify-content-center align-items-center gap-2">
         <label class="form-label mb-0">Periodo:</label>
@@ -42,14 +32,10 @@
             <select id="filtro-grupo" class="form-select"></select>
           </div>
         </div>
-        <!--<div class="d-flex justify-content-center mt-3">
-          <button id="btn-aplicar" class="btn btn-primary px-4">Aplicar filtros</button>
-        </div>-->
         <div class="d-flex justify-content-center mt-3 gap-3">
           <button id="btn-aplicar" class="btn btn-primary px-4">Aplicar filtros</button>
           <button id="btn-descargar" class="btn btn-success px-4">📥 Descargar Excel</button>
         </div>
-
       </div>
 
       <div class="row">
@@ -65,18 +51,23 @@
           <h5>Top 5 materias con más reprobados</h5>
           <canvas id="graficoTopMaterias"></canvas>
         </div>
+        <div class="col-md-12 mb-4">
+          <h5>Índice de reprobación por grupo (%)</h5>
+          <canvas id="graficoReprobacionGrupo"></canvas>
+        </div>
       </div>
-
     </div>
   </div>
 
   <script>
+    const token = localStorage.getItem('token');
     let charts = [];
 
     async function cargarPeriodos() {
-      const res = await fetch('/api/calificaciones/periodos');
+      const res = await fetch('/api/calificaciones/periodos', {
+        headers: { Authorization: `Bearer ${token}` }
+      });
       const periodos = await res.json();
-
       const select = document.getElementById('filtro-periodo');
       select.innerHTML = '';
       periodos.forEach(p => {
@@ -94,9 +85,11 @@
     }
 
     async function cargarFiltros() {
-      const res = await fetch('/api/calificaciones/distintos');
+      const periodo = document.getElementById('filtro-periodo').value;
+      const res = await fetch(`/api/calificaciones/distintos?periodo=${periodo}`, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
       const data = await res.json();
-
       llenarSelect('filtro-especialidad', data.especialidades);
       llenarSelect('filtro-semestre', data.semestres);
       llenarSelect('filtro-grupo', data.grupos);
@@ -120,22 +113,50 @@
       const grupo = document.getElementById('filtro-grupo').value;
 
       const params = new URLSearchParams();
-      params.append('periodo', periodo);
+      if (periodo) params.append('periodo', periodo);
       if (especialidad) params.append('especialidad', especialidad);
       if (semestre) params.append('semestre', semestre);
       if (grupo) params.append('grupo', grupo);
 
-      const res = await fetch(`/api/calificaciones/estadisticas?${params.toString()}`);
+      // Promedio por materia
+      const res = await fetch(`/api/calificaciones/estadisticas?${params.toString()}`, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
       const data = await res.json();
 
-      mostrarGrafica('graficoPromedios', 'bar', 'Promedio final', data.promedioPorMateria.map(m => m._id), data.promedioPorMateria.map(m => m.promedio), 'rgba(54, 162, 235, 0.6)');
-      mostrarGrafica('graficoReprobacion', 'bar', '% Reprobados', data.reprobacionPorEspecialidad.map(e => e._id), data.reprobacionPorEspecialidad.map(e => e.porcentajeReprobados), 'rgba(255, 99, 132, 0.6)');
-      mostrarGrafica('graficoTopMaterias', 'bar', 'Alumnos reprobados', data.topMateriasReprobadas.map(m => m._id), data.topMateriasReprobadas.map(m => m.reprobados), 'rgba(255, 206, 86, 0.6)');
+      mostrarGrafica('graficoPromedios', 'bar', 'Promedio final',
+        data.promedioPorMateria.map(m => m._id),
+        data.promedioPorMateria.map(m => m.promedio),
+        'rgba(54, 162, 235, 0.6)'
+      );
+
+      mostrarGrafica('graficoReprobacion', 'bar', '% Reprobados',
+        data.reprobacionPorEspecialidad.map(e => e._id),
+        data.reprobacionPorEspecialidad.map(e => e.porcentajeReprobados),
+        'rgba(255, 99, 132, 0.6)'
+      );
+
+      mostrarGrafica('graficoTopMaterias', 'bar', 'Alumnos reprobados',
+        data.topMateriasReprobadas.map(m => m._id),
+        data.topMateriasReprobadas.map(m => m.reprobados),
+        'rgba(255, 206, 86, 0.6)'
+      );
+
+      // Nueva: índice de reprobación por grupo
+      const resGrupo = await fetch(`/api/calificaciones/estadisticas/reprobacion-por-grupo?${params.toString()}`, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      const datosGrupo = await resGrupo.json();
+
+      mostrarGrafica('graficoReprobacionGrupo', 'bar', '% Reprobación',
+        datosGrupo.map(g => g.grupo),
+        datosGrupo.map(g => g.porcentaje),
+        'rgba(153, 102, 255, 0.6)'
+      );
     }
 
     function mostrarGrafica(id, tipo, etiqueta, etiquetas, valores, color) {
       const ctx = document.getElementById(id).getContext('2d');
-
       if (charts[id]) charts[id].destroy();
 
       charts[id] = new Chart(ctx, {
@@ -153,7 +174,7 @@
           scales: {
             y: {
               beginAtZero: true,
-              suggestedMax: tipo === 'bar' ? 100 : undefined
+              suggestedMax: 100
             }
           }
         }
@@ -162,13 +183,11 @@
 
     document.getElementById('btn-aplicar').addEventListener('click', cargarEstadisticas);
 
-    cargarPeriodos();
-
     document.getElementById('btn-descargar').addEventListener('click', () => {
-       const periodo = document.getElementById('filtro-periodo').value;
-       const especialidad = document.getElementById('filtro-especialidad').value;
-       const semestre = document.getElementById('filtro-semestre').value;
-       const grupo = document.getElementById('filtro-grupo').value;
+      const periodo = document.getElementById('filtro-periodo').value;
+      const especialidad = document.getElementById('filtro-especialidad').value;
+      const semestre = document.getElementById('filtro-semestre').value;
+      const grupo = document.getElementById('filtro-grupo').value;
 
       const params = new URLSearchParams();
       if (periodo) params.append('periodo', periodo);
@@ -176,13 +195,12 @@
       if (semestre) params.append('semestre', semestre);
       if (grupo) params.append('grupo', grupo);
 
-      const url = `/api/calificaciones/exportar?${params.toString()}`;
-      window.open(url, '_blank');
+      window.open(`/api/calificaciones/exportar?${params.toString()}&token=${token}`, '_blank');
     });
 
+    cargarPeriodos();
   </script>
   <script src="js/navbar.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-
 </body>
 </html>
