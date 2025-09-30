@@ -1,70 +1,40 @@
+// backend/server.js
 const express = require('express');
 const mongoose = require('mongoose');
 const dotenv = require('dotenv');
 const cors = require('cors');
+const path = require('path');
+const cron = require('node-cron');
 
 dotenv.config();
 
 const app = express();
 
-// Middlewares
+// ===== Middlewares =====
 app.use(cors());
 app.use(express.json());
 
-// Rutas
-const authRoutes = require('./routes/auth.js');
-app.use('/api/auth', authRoutes);
+// ===== Rutas API =====
+app.use('/api/auth', require('./routes/auth.js'));
+app.use('/api/horarios', require('./routes/horarios'));
+app.use('/api/fallas', require('./routes/fallas'));
+app.use('/api/tickets', require('./routes/tickets'));
+app.use('/api/users', require('./routes/users'));
+app.use('/api/vacaciones', require('./routes/vacacionesroutes.js'));
+app.use('/api/tiempo', require('./routes/tiempoRoutes'));
+app.use('/api/calificaciones', require('./routes/calificaciones'));
 
-const horarioRoutes = require('./routes/horarios');
-app.use('/api/horarios', horarioRoutes);
-
-const fallasRoutes = require('./routes/fallas');
-app.use('/api/fallas', fallasRoutes);
-
-const ticketsRoutes = require('./routes/tickets');
-app.use('/api/tickets', ticketsRoutes);
-
-const usersRoutes = require('./routes/users');
-app.use('/api/users', usersRoutes);
-
-const vacacionesRoutes = require('./routes/vacacionesroutes.js');
-app.use('/api/vacaciones', vacacionesRoutes);
-
-const tiempoRoutes = require('./routes/tiempoRoutes');
-app.use('/api/tiempo', tiempoRoutes);
-
-const calificacionesRoutes = require('./routes/calificaciones');
-app.use('/api/calificaciones', calificacionesRoutes);
-
-
-
+// ===== Frontend estático =====
+app.use(express.static(path.join(__dirname, '..', 'frontend')));
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 app.get('/', (req, res) => {
-  res.send('Servidor de gestión de laboratorios funcionando 🚀');
+  res.sendFile(path.join(__dirname, '..', 'frontend', 'login.html'));
 });
 
-const path = require('path');
-app.use(express.static(path.join(__dirname, '../frontend')));
-
-
-// Conexión a MongoDB
-mongoose.connect(process.env.MONGODB_URI, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true
-}).then(() => console.log('🟢 Conectado a MongoDB'))
-  .catch(err => console.error('🔴 Error en MongoDB:', err));
-
-// Iniciar servidor
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
-  console.log(`🚀 Servidor en http://localhost:${PORT}`);
-});
-
-
-//carga horarios cada domingo
-const cron = require('node-cron');
+// ===== Modelos y utilidades de negocio =====
 const Horario = require('./models/Horario');
+const User = require('./models/User');
 
-//const laboratorios = ["Lab 1", "Lab 2", "Lab 3"];
 const laboratorios = [
   "Laboratorio A",
   "Laboratorio B",
@@ -73,6 +43,7 @@ const laboratorios = [
   "Laboratorio de Química",
   "Audiovisual"
 ];
+
 const horas = [
   "8:00 a 8:50",
   "8:55 a 9:45",
@@ -94,126 +65,43 @@ const horasSabado = [
   "12:00 a 1:00"
 ];
 
-
-function obtenerProximoLunes() {
-  const hoy = new Date();
-  const dia = hoy.getDay(); // 0 = domingo
-  const lunes = new Date(hoy);
-  const diferencia = dia === 0 ? 1 : 8 - dia;
-  lunes.setDate(hoy.getDate() + diferencia);
-  lunes.setHours(0, 0, 0, 0);
-  return lunes;
-}
-
 function obtenerFechasSemanaActualOProxima() {
   const hoy = new Date();
   hoy.setHours(0, 0, 0, 0);
 
-  const diaHoy = hoy.getDay();
+  const diaHoy = hoy.getDay(); // 0=Dom, 1=Lun...
   const lunes = new Date(hoy);
-  const diferencia = diaHoy === 0 ? -6 : 1 - diaHoy; // Domingo → lunes anterior
+  const diferencia = diaHoy === 0 ? -6 : 1 - diaHoy; // Si es domingo, ir al lunes anterior
   lunes.setDate(hoy.getDate() + diferencia);
   lunes.setHours(0, 0, 0, 0);
 
   const fechas = [];
-  for (let i = 0; i < 6; i++) {
-    const fecha = new Date(lunes);
-    fecha.setDate(lunes.getDate() + i);
-    fechas.push(fecha);
+  for (let i = 0; i < 6; i++) { // Lunes a Sábado
+    const f = new Date(lunes);
+    f.setDate(lunes.getDate() + i);
+    fechas.push(f);
   }
-
   return fechas;
 }
 
-
-
-/*async function cargarHorariosDeLaSemana() {
-  try {
-    console.log("📆 Cargando horarios semanales...");
-
-    //await Horario.deleteMany({}); // Limpia los anteriores
-
-    const fechas = obtenerFechasSemanaActualOProxima();
-    const nuevos = [];
-
-    for (const fecha of fechas) {
-      laboratorios.forEach(lab => {
-        horas.forEach(hora => {
-          nuevos.push({
-            laboratorio: lab,
-            fecha,
-            hora,
-            estado: "Disponible"
-          });
-        });
-      });
-    }
-
-    await Horario.deleteMany({
-     fecha: { $in: obtenerFechasSemanaActualOProxima() }
-    });
-    await Horario.insertMany(nuevos);
-    console.log("✅ Horarios semanales cargados correctamente.");
-  } catch (err) {
-    console.error("❌ Error al cargar horarios:", err);
-  }
-}*/
-
-
-/*
-async function cargarHorariosDeLaSemana() {
-  try {
-    console.log("📆 Cargando horarios semanales...");
-
-    // Limpia los horarios de la semana actual
-    await Horario.deleteMany({
-      fecha: { $in: obtenerFechasSemanaActualOProxima() }
-    });
-
-    const fechas = obtenerFechasSemanaActualOProxima();
-    const nuevos = [];
-
-    for (const fecha of fechas) {
-  const esSabado = fecha.getDay() === 6; // 6 = sábado
-  const listaHoras = esSabado ? horasSabado : horas;
-
-  laboratorios.forEach(lab => {
-    listaHoras.forEach(hora => {
-      nuevos.push({
-        laboratorio: lab,
-        fecha,
-        hora,
-        estado: "Disponible"
-      });
-    });
-  });
-}
-
-    await Horario.insertMany(nuevos);
-    console.log("✅ Horarios semanales cargados correctamente.");
-  } catch (err) {
-    console.error("❌ Error al cargar horarios:", err);
-  }
-}
-*/
-
-
-// Conserva reservas: borra SOLO "Disponibles" y repone con upsert
+// Conserva reservas: borra SOLO "Disponibles" de la semana objetivo y repone con upsert
 async function cargarHorariosDeLaSemana() {
   try {
     console.log("📆 Cargando horarios semanales (conservando reservas)...");
-    const fechas = obtenerFechasSemanaActualOProxima(); // lunes→sábado
-    // 1) Borra solo los horarios Disponibles de las fechas objetivo
+    const fechas = obtenerFechasSemanaActualOProxima();
+
+    // 1) Borrar solo disponibles
     await Horario.deleteMany({
       fecha: { $in: fechas },
       estado: 'Disponible'
     });
 
-    // 2) Reponer con upsert (solo crea si no existe)
+    // 2) Upserts para reponer
     const ops = [];
     for (const fecha of fechas) {
       const esSabado = fecha.getDay() === 6; // 6 = sábado
       const listaHoras = esSabado ? horasSabado : horas;
+
       for (const lab of laboratorios) {
         for (const hora of listaHoras) {
           ops.push({
@@ -246,20 +134,7 @@ async function cargarHorariosDeLaSemana() {
   }
 }
 
-
-
-
-
-
-// Ejecutar una vez al iniciar el servidor
-cargarHorariosDeLaSemana();
-
-// Ejecutar cada domingo a las 00:00
-cron.schedule('0 0 * * 0', cargarHorariosDeLaSemana);
-
-//Cargar los dias cuando el usario cumpla la fecha estipulada por RR.HH
-const User = require('./models/User');
-
+// Vacaciones: sumar días en aniversario si corresponde
 function actualizarDiasSiCorresponde(usuario) {
   const hoy = new Date();
   if (!usuario.fechaIngreso) return usuario;
@@ -271,12 +146,11 @@ function actualizarDiasSiCorresponde(usuario) {
   const aniversario = new Date(ingreso);
   aniversario.setFullYear(añoActual);
 
-  if (hoy < aniversario) return usuario;
-  if (ultima && ultima.getFullYear() === añoActual) return usuario;
+  if (hoy < aniversario) return usuario; // Aún no llega el aniversario este año
+  if (ultima && ultima.getFullYear() === añoActual) return usuario; // Ya se actualizó este año
 
   usuario.diasVacacionesDisponibles = (usuario.diasVacacionesDisponibles || 0) + 10;
   usuario.ultimaActualizacionDias = hoy;
-
   return usuario;
 }
 
@@ -284,16 +158,34 @@ async function actualizarDiasVacacionesAutomatica() {
   try {
     console.log("🔁 Ejecutando revisión automática de días de vacaciones...");
     let usuarios = await User.find({});
-
     usuarios = usuarios.map(actualizarDiasSiCorresponde);
     await Promise.all(usuarios.map(u => u.save()));
-
     console.log("✅ Días de vacaciones actualizados automáticamente.");
   } catch (err) {
     console.error("❌ Error en actualización automática de vacaciones:", err);
   }
 }
 
-// Ejecutar todos los días a las 00:10 a.m.
-cron.schedule('10 0 * * *', actualizarDiasVacacionesAutomatica);
+// ===== Conexión a Mongo y arranque =====
+const PORT = process.env.PORT || 3000;
 
+mongoose.connect(process.env.MONGODB_URI)
+  .then(() => {
+    console.log('🟢 Conectado a MongoDB');
+
+    app.listen(PORT, () => {
+      console.log(`🚀 Servidor en http://localhost:${PORT}`);
+    });
+
+    // Ejecutar una vez al iniciar
+    cargarHorariosDeLaSemana();
+    actualizarDiasVacacionesAutomatica();
+
+    // Schedules
+    cron.schedule('0 0 * * 0', cargarHorariosDeLaSemana);     // Cada domingo 00:00
+    cron.schedule('10 0 * * *', actualizarDiasVacacionesAutomatica); // Diario 00:10
+  })
+  .catch(err => {
+    console.error('🔴 Error en MongoDB:', err);
+    process.exit(1);
+  });
