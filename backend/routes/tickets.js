@@ -36,22 +36,37 @@ function validarPayload(body) {
 
 // ===== Crear ticket =====
 // POST /api/tickets
+// ===== Crear ticket =====
+// POST /api/tickets
 router.post('/', verifyToken, async (req, res) => {
   try {
+    // 1) Validación del body
     const errors = validarPayload(req.body);
     if (errors.length) return res.status(400).json({ ok: false, errors });
 
+    // 2) Normalizar id del usuario desde el middleware
+    const userId =
+      (req.user && (req.user._id || req.user.id)) ||
+      req.userId ||
+      null;
+
+    if (!userId) {
+      return res.status(401).json({ ok: false, error: 'Token válido pero sin id de usuario.' });
+    }
+
+    // 3) Crear ticket
     const t = await Ticket.create({
       ...req.body,
-      creadoPor: req.user._id
+      creadoPor: userId
     });
 
-    res.status(201).json({ ok: true, ticket: t });
+    return res.status(201).json({ ok: true, ticket: t });
   } catch (err) {
-    console.error('POST /tickets error:', err);
-    res.status(500).json({ ok: false, error: 'No se pudo crear el ticket.' });
+    console.error('POST /tickets error:', err?.message || err);
+    return res.status(500).json({ ok: false, error: 'No se pudo crear el ticket.' });
   }
 });
+
 
 // ===== Listar con filtros =====
 // GET /api/tickets?area=&tipo=&estado=&laboratorio=&salon=&q=
