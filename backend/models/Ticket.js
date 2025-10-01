@@ -1,39 +1,35 @@
 // models/Ticket.js
 const mongoose = require('mongoose');
 
-const TicketSchema = new mongoose.Schema({
-  // Área responsable
-  area: { type: String, enum: ['sistemas', 'mantenimiento'], required: true, index: true },
-
-  // Subtipo para área "sistemas"
-  // 'laboratorio' = incidente en un lab de cómputo; 'otro' = fuera de laboratorio (oficinas, etc.)
-  tipo: { type: String, enum: ['laboratorio', 'otro', null], default: null, index: true },
-
-  // Contexto de ubicación
-  laboratorio: { type: String, default: null }, // Laboratorio A/B/C/D/Química/Audiovisual
-  equipo: { type: String, default: null },      // Etiqueta del equipo (ej. PC-03)
-  ubicacion: { type: String, default: null },   // Para "sistemas/otro"
-  salon: { type: String, default: null },       // Para "mantenimiento"
-
-  // Clasificación
-  tipoFalla: { type: String, required: true },  // Catálogo elegido desde el formulario
+const ticketSchema = new mongoose.Schema({
   descripcion: { type: String, required: true },
 
-  // Flujo
-  estado: {
+  // Área general (compat con lo anterior)
+  tipo: { type: String, enum: ['Sistemas', 'Mantenimiento'], required: true, index: true },
+
+  // Detalle adicional (opcionales)
+  subtipo: { type: String, enum: ['laboratorio','otro', null], default: null, index: true }, // solo para Sistemas
+  laboratorio: { type: String, default: null }, // Lab A/B/C/D/Química/Audiovisual
+  equipo: { type: String, default: null },      // etiqueta PC
+  ubicacion: { type: String, default: null },   // si es "otro" en sistemas
+  salon: { type: String, default: null },       // para mantenimiento
+  tipoFalla: { type: String, default: null },   // texto del catálogo
+
+  estatus: {
     type: String,
-    enum: ['Abierto','En atención','Resuelto','Cerrado','Cancelado'],
+    enum: ['Abierto', 'En proceso', 'Resuelto', 'Cerrado'],
     default: 'Abierto',
     index: true
   },
+  requiereMaterial: { type: String, default: '' },
+
   creadoPor: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true, index: true },
   asignadoA: { type: mongoose.Schema.Types.ObjectId, ref: 'User', default: null },
 
-  // Extras
-  requiereMaterial: { type: Boolean, default: false },
-  notas: { type: String, default: null }
+  fechaCreacion: { type: Date, default: Date.now },
+  fechaCierre: { type: Date, default: null }
 }, { timestamps: true });
 
-TicketSchema.index({ createdAt: -1 });
+ticketSchema.index({ createdAt: -1 });
 
-module.exports = mongoose.model('Ticket', TicketSchema);
+module.exports = mongoose.model('Ticket', ticketSchema);
