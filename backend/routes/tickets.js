@@ -1,103 +1,129 @@
+// routes/tickets.js
 const express = require('express');
 const router = express.Router();
 const Ticket = require('../models/Ticket');
-const { verifyToken, verifyRole } = require('../middlewares/auth');
+const { verifyToken, verifyRole } = require('../middlewares/auth'); // adapta si tu middleware se llama distinto
 
-// Crear ticket (docente)
+// ===== Helpers de validación mínima =====
+function validarPayload(body) {
+  const errors = [];
+  const { area, tipo, laboratorio, equipo, ubicacion, salon, tipoFalla, descripcion } = body;
+
+  if (!area || !['sistemas','mantenimiento'].includes(area)) {
+    errors.push('Área inválida (sistemas|mantenimiento).');
+  }
+
+  if (!tipoFalla) errors.push('Falta tipo de falla.');
+  if (!descripcion) errors.push('Falta descripción.');
+
+  if (area === 'sistemas') {
+    if (!tipo || !['laboratorio','otro'].includes(tipo)) {
+      errors.push('En sistemas, tipo debe ser laboratorio|otro.');
+    } else if (tipo === 'laboratorio') {
+      if (!laboratorio) errors.push('Selecciona laboratorio.');
+      if (!equipo) errors.push('Indica etiqueta de equipo.');
+    } else if (tipo === 'otro') {
+      if (!ubicacion) errors.push('Indica ubicación.');
+    }
+  }
+
+  if (area === 'mantenimiento') {
+    if (!salon) errors.push('Indica salón/área.');
+  }
+
+  return errors;
+}
+
+// ===== Crear ticket =====
+// POST /api/tickets
 router.post('/', verifyToken, async (req, res) => {
-  const { descripcion, tipo } = req.body;
   try {
-    const nuevo = new Ticket({
-      descripcion,
-      tipo,
-      creadoPor: req.usuario.id
+    const errors = validarPayload(req.body);
+    if (errors.length) return res.status(400).json({ ok: false, errors });
+
+    const t = await Ticket.create({
+      ...req.body,
+      creadoPor: req.user._id
     });
-    await nuevo.save();
-    res.status(201).json({ mensaje: 'Ticket creado' });
+
+    res.status(201).json({ ok: true, ticket: t });
   } catch (err) {
-    res.status(500).json({ mensaje: 'Error al crear ticket' });
+    console.error('POST /tickets error:', err);
+    res.status(500).json({ ok: false, error: 'No se pudo crear el ticket.' });
   }
 });
 
-// Ver tickets (filtrados por área si no es admin)
+// ===== Listar con filtros =====
+// GET /api/tickets?area=&tipo=&estado=&laboratorio=&salon=&q=
 router.get('/', verifyToken, async (req, res) => {
-  const rol = req.usuario.roles || req.usuario.rol;
-
-  let filtro = {};
-  if (rol.includes && rol.includes('soporte')) filtro.tipo = 'Sistemas';
-  else if (rol.includes && rol.includes('mantenimiento')) filtro.tipo = 'Mantenimiento';
-  else if (typeof rol === 'string') {
-    if (rol === 'soporte') filtro.tipo = 'Sistemas';
-    if (rol === 'mantenimiento') filtro.tipo = 'Mantenimiento';
-  }
-
-  const tickets = await Ticket.find(filtro)
-    .populate('creadoPor', 'nombre')
-    .populate('asignadoA', 'nombre');
-
-  res.json(tickets);
-});
-
-
-// Actualizar ticket (estatus, asignado, material, etc.)
-router.put('/:id', verifyToken, async (req, res) => {
-  const { estatus, requiereMaterial, asignar, asignadoA } = req.body;
-  const ticket = await Ticket.findById(req.params.id);
-  if (!ticket) return res.status(404).json({ mensaje: 'Ticket no encontrado' });
-
-  // ❌ No permitir cambiar el estatus de un ticket cerrado
-  if (ticket.estatus === 'Cerrado' && estatus && estatus !== 'Cerrado') {
-    return res.status(400).json({ mensaje: 'No se puede modificar un ticket cerrado.' });
-  }
-
-  // ✅ Estatus y fecha cierre
-  if (estatus) {
-    ticket.estatus = estatus;
-
-    if ((estatus === 'Resuelto' || estatus === 'Cerrado') && !ticket.fechaCierre) {
-      ticket.fechaCierre = new Date();
-    }
-
-    if (estatus === 'Abierto' || estatus === 'En proceso') {
-      ticket.fechaCierre = null;
-    }
-  }
-
-  const roles = req.usuario.roles || [req.usuario.rol];
-
-  // ✅ Si usuario es soporte o mantenimiento puede autoadjudicarse o modificar material
-  if (roles.includes('soporte') || roles.includes('mantenimiento')) {
-    if (requiereMaterial !== undefined) ticket.requiereMaterial = requiereMaterial;
-
-    if (asignar) {
-      if (ticket.estatus === "Cerrado" || ticket.estatus === "Resuelto") {
-        return res.status(400).json({ mensaje: "No puedes asignarte un ticket cerrado o resuelto." });
-      }
-      ticket.asignadoA = req.usuario.id;
-    }
-  }
-
-  // ✅ Si viene asignadoA (desde el panel de admin), lo aplicamos
-  if (asignadoA) {
-    ticket.asignadoA = asignadoA;
-  }
-
-  await ticket.save();
-  res.json({ mensaje: 'Ticket actualizado correctamente' });
-});
-
-// Nueva ruta: Obtener solo tickets abiertos y sin asignar
-router.get('/asignables', verifyToken, verifyRole(['admin', 'finanzas']), async (req, res) => {
   try {
-    const tickets = await Ticket.find({
-      estatus: { $in: ['Abierto', 'En proceso'] },
-      asignadoA: null
-    }).populate('creadoPor', 'nombre').sort({ fechaCreacion: -1 });
+    const { area, tipo, estado, laboratorio, salon, q } = req.query;
+    const find = {};
+    if (area && ['sistemas','mantenimiento'].includes(area)) find.area = area;
+    if (tipo && ['laboratorio','otro'].includes(tipo)) find.tipo = tipo;
+    if (estado) find.estado = estado;
+    if (laboratorio) find.laboratorio = laboratorio;
+    if (salon) find.salon = salon;
 
-    res.json(tickets);
+    // Búsqueda simple por título/desc/equipo (si tienes "titulo", agrega aquí)
+    if (q) {
+      const regex = new RegExp(q, 'i');
+      find.$or = [
+        { descripcion: regex },
+        { tipoFalla: regex },
+        { equipo: regex },
+        { laboratorio: regex },
+        { salon: regex },
+        { ubicacion: regex }
+      ];
+    }
+
+    const tickets = await Ticket.find(find)
+      .populate('creadoPor', 'nombre email rol')
+      .populate('asignadoA', 'nombre email rol')
+      .sort({ createdAt: -1 });
+
+    res.json({ ok: true, tickets });
   } catch (err) {
-    console.error('Error al obtener tickets asignables:', err);
-    res.status(500).json({ mensaje: 'Error al obtener tickets asignables' });
+    console.error('GET /tickets error:', err);
+    res.status(500).json({ ok: false, error: 'No se pudo obtener la lista.' });
+  }
+});
+
+// ===== Cambiar estado / asignar =====
+// PATCH /api/tickets/:id/estado   body: { estado }
+// roles: soporte/mantenimiento/admin (ajústalo a tu lógica)
+router.patch('/:id/estado', verifyToken, verifyRole(['admin','soporte','mantenimiento']), async (req, res) => {
+  try {
+    const { estado } = req.body;
+    if (!['Abierto','En atención','Resuelto','Cerrado','Cancelado'].includes(estado)) {
+      return res.status(400).json({ ok: false, error: 'Estado inválido.' });
+    }
+    const t = await Ticket.findByIdAndUpdate(
+      req.params.id,
+      { $set: { estado } },
+      { new: true }
+    );
+    res.json({ ok: true, ticket: t });
+  } catch (err) {
+    console.error('PATCH /tickets/:id/estado error:', err);
+    res.status(500).json({ ok: false, error: 'No se pudo actualizar el estado.' });
+  }
+});
+
+// PATCH /api/tickets/:id/asignar   body: { asignadoA }
+router.patch('/:id/asignar', verifyToken, verifyRole(['admin','soporte','mantenimiento']), async (req, res) => {
+  try {
+    const { asignadoA } = req.body;
+    const t = await Ticket.findByIdAndUpdate(
+      req.params.id,
+      { $set: { asignadoA: asignadoA || null } },
+      { new: true }
+    );
+    res.json({ ok: true, ticket: t });
+  } catch (err) {
+    console.error('PATCH /tickets/:id/asignar error:', err);
+    res.status(500).json({ ok: false, error: 'No se pudo asignar el ticket.' });
   }
 });
 
