@@ -153,6 +153,23 @@ fetch("navbar.html")
       }
     });
 
+      //Coordinacion docente
+      if (rol === "coordinacionD") {
+        const ids = [
+          "item-coordinacionD-header",
+          "item-coordinacionD-crear",
+          "item-coordinacionD-reservas",
+          "item-coordinacionD-divider"
+        ];
+      ids.forEach(id => {
+        const el = document.getElementById(id);
+       if (el) el.classList.remove("d-none");
+      });
+       visible = true;
+     }
+
+    });
+
     if (visible) {
       const dropdown = document.getElementById("menu-roles-dropdown");
       if (dropdown) dropdown.classList.remove("d-none");
