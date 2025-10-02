@@ -53,32 +53,13 @@ fetch("navbar.html")
       }
 
       // SOPORTE y MANTENIMIENTO
-      if (rol === "soporte") {
-        const ids = [
-        "item-soporte-header",
-        "item-soporte-tickets",
-        "item-soporte-labs",
-        "item-soporte-divider"
-      ];
-       ids.forEach(id => {
-       const el = document.getElementById(id);
-       if (el) el.classList.remove("d-none");
-      });
-      visible = true;
-     }
-
-     if (rol === "mantenimiento") {
-       const ids = [
-       "item-mantenimiento-header",
-       "item-mantenimiento-tickets",
-       "item-mantenimiento-divider"
-    ];
-      ids.forEach(id => {
-      const el = document.getElementById(id);
-      if (el) el.classList.remove("d-none");
-    });
-     visible = true;
-  }
+      if (rol === "soporte" || rol === "mantenimiento") {
+        const el = document.getElementById(`item-${rol}`);
+        if (el) {
+          el.classList.remove("d-none");
+          visible = true;
+        }
+      }
 
       // RRHH
       if (rol === "rrhh") {
@@ -141,8 +122,6 @@ fetch("navbar.html")
           "item-finanzas-revision",
           "item-finanzas-tiempo",
           "item-finanzas-revisiontiempo",
-          "item-finanzas-dashboard",
-          "item-finanzas-tickets",
           "item-finanzas-divider"
         ];
         ids.forEach(id => {
@@ -151,8 +130,6 @@ fetch("navbar.html")
         });
         visible = true;
       }
-    });
-
       //Coordinacion docente
       if (rol === "coordinacionD") {
         const ids = [
