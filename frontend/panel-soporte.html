@@ -2,131 +2,238 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>Panel de Trabajo - Soporte / Mantenimiento</title>
+  <title>Panel de Trabajo – Soporte & Mantenimiento</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
 </head>
 <body class="bg-light">
 
-  <!-- Contenedor para insertar el navbar -->
-<div id="navbar-container"></div>
+  <!-- NAVBAR -->
+  <div id="navbar-container"></div>
 
-
-  <!-- CONTENIDO -->
   <div class="container py-4">
     <h2 class="text-center mb-4">Panel de Trabajo</h2>
-    <div id="tickets" class="row g-3"></div>
+
+    <!-- ======== PANEL SOPORTE (Sistemas) ======== -->
+    <section class="mb-5">
+      <h4 class="mb-3">🖥️ Soporte (Sistemas)</h4>
+
+      <!-- KPIs -->
+      <div class="text-center mb-2">
+        <span class="fs-6 fw-semibold">⏱️ Tiempo promedio de resolución:
+          <span id="kpiS-tiempo">--</span>
+        </span>
+      </div>
+
+      <div class="row g-3 mb-4">
+        <div class="col-6 col-md-3">
+          <div class="p-3 text-center rounded-3 shadow-sm bg-primary text-white">
+            <div class="fw-semibold">Total</div>
+            <div id="kpiS-total" class="fs-2">0</div>
+          </div>
+        </div>
+        <div class="col-6 col-md-3">
+          <div class="p-3 text-center rounded-3 shadow-sm bg-danger text-white">
+            <div class="fw-semibold">Abiertos</div>
+            <div id="kpiS-abiertos" class="fs-2">0</div>
+          </div>
+        </div>
+        <div class="col-6 col-md-3">
+          <div class="p-3 text-center rounded-3 shadow-sm bg-warning text-dark">
+            <div class="fw-semibold">En proceso</div>
+            <div id="kpiS-proceso" class="fs-2">0</div>
+          </div>
+        </div>
+        <div class="col-6 col-md-3">
+          <div class="p-3 text-center rounded-3 shadow-sm bg-success text-white">
+            <div class="fw-semibold">Cerrados</div>
+            <div id="kpiS-cerrados" class="fs-2">0</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tarjetas -->
+      <div id="tickets-soporte" class="row g-3"></div>
+    </section>
+
+    <hr>
+
+    <!-- ======== PANEL MANTENIMIENTO (General) ======== -->
+    <section class="mt-5">
+      <h4 class="mb-3">🔧 Mantenimiento (General)</h4>
+
+      <!-- KPIs -->
+      <div class="text-center mb-2">
+        <span class="fs-6 fw-semibold">⏱️ Tiempo promedio de resolución:
+          <span id="kpiM-tiempo">--</span>
+        </span>
+      </div>
+
+      <div class="row g-3 mb-4">
+        <div class="col-6 col-md-3">
+          <div class="p-3 text-center rounded-3 shadow-sm bg-primary text-white">
+            <div class="fw-semibold">Total</div>
+            <div id="kpiM-total" class="fs-2">0</div>
+          </div>
+        </div>
+        <div class="col-6 col-md-3">
+          <div class="p-3 text-center rounded-3 shadow-sm bg-danger text-white">
+            <div class="fw-semibold">Abiertos</div>
+            <div id="kpiM-abiertos" class="fs-2">0</div>
+          </div>
+        </div>
+        <div class="col-6 col-md-3">
+          <div class="p-3 text-center rounded-3 shadow-sm bg-warning text-dark">
+            <div class="fw-semibold">En proceso</div>
+            <div id="kpiM-proceso" class="fs-2">0</div>
+          </div>
+        </div>
+        <div class="col-6 col-md-3">
+          <div class="p-3 text-center rounded-3 shadow-sm bg-success text-white">
+            <div class="fw-semibold">Cerrados</div>
+            <div id="kpiM-cerrados" class="fs-2">0</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tarjetas -->
+      <div id="tickets-mantenimiento" class="row g-3"></div>
+    </section>
   </div>
 
-  <!-- SCRIPTS -->
   <script>
+    // Seguridad básica
     const token = localStorage.getItem("token");
     if (!token) window.location.href = "login.html";
+    function logout(){ localStorage.removeItem("token"); localStorage.removeItem("usuario"); location.href="login.html"; }
 
-    function logout() {
-      localStorage.removeItem("token");
-      localStorage.removeItem("usuario");
-      window.location.href = "login.html";
-    }
-
-    const estatusColor = {
-      "Abierto": { border: "success", bg: "bg-success-subtle", text: "text-dark" },
-      "En proceso": { border: "warning", bg: "bg-warning-subtle", text: "text-dark" },
-      "Resuelto": { border: "danger", bg: "bg-danger-subtle", text: "text-dark" },
-      "Cerrado": { border: "dark", bg: "bg-dark", text: "text-white" }
+    // Colores por estado
+    const ESTILOS = {
+      "Abierto":   { border: "danger",  bg: "bg-danger-subtle",  text: "text-dark" },
+      "En proceso":{ border: "warning", bg: "bg-warning-subtle", text: "text-dark" },
+      "Resuelto":  { border: "success", bg: "bg-success-subtle", text: "text-dark" },
+      "Cerrado":   { border: "dark",    bg: "bg-dark",           text: "text-white" }
     };
 
-    async function cargarTickets() {
-      const res = await fetch("/api/tickets", {
-        headers: { Authorization: `Bearer ${token}` }
-      });
+    const fmtPromedio = (ms) => {
+      if (!ms || !isFinite(ms)) return "--";
+      const mins = Math.round(ms/60000);
+      const h = Math.floor(mins/60);
+      const m = mins%60;
+      return `${h}h ${m}m`;
+    };
 
-      const datos = await res.json();
-      const contenedor = document.getElementById("tickets");
-      contenedor.innerHTML = "";
+    // KPIs por grupo (prefijo 'kpiS' o 'kpiM')
+    function pintarKPIs(tickets, prefijo){
+      const total    = tickets.length;
+      const abiertos = tickets.filter(t=>t.estatus==="Abierto").length;
+      const proceso  = tickets.filter(t=>t.estatus==="En proceso").length;
+      const cerrados = tickets.filter(t=>t.estatus==="Cerrado").length;
 
-      datos.forEach(ticket => {
-        const esCerrado = ticket.estatus === "Cerrado";
+      // promedio usando fechaCreacion -> fechaCierre (o updatedAt si no)
+      const cerrables = tickets.filter(t => t.fechaCierre || t.estatus==="Cerrado");
+      let prom = 0;
+      if (cerrables.length){
+        const sum = cerrables.reduce((acc,t)=>{
+          const ini = new Date(t.fechaCreacion || t.createdAt).getTime();
+          const fin = new Date(t.fechaCierre || t.updatedAt || t.createdAt).getTime();
+          const d = fin - ini;
+          return d>0 ? acc + d : acc;
+        },0);
+        prom = sum / cerrables.length;
+      }
+
+      document.getElementById(`${prefijo}-total`).textContent    = total;
+      document.getElementById(`${prefijo}-abiertos`).textContent = abiertos;
+      document.getElementById(`${prefijo}-proceso`).textContent  = proceso;
+      document.getElementById(`${prefijo}-cerrados`).textContent = cerrados;
+      document.getElementById(`${prefijo}-tiempo`).textContent   = fmtPromedio(prom);
+    }
+
+    // Render tarjetas en contenedor dado
+    function renderTarjetas(tickets, contId){
+      const cont = document.getElementById(contId);
+      cont.innerHTML = "";
+      tickets.forEach(t=>{
+        const esCerrado = t.estatus === "Cerrado";
+        const e = ESTILOS[t.estatus] || { border:"secondary", bg:"bg-light", text:"text-dark" };
+
         const div = document.createElement("div");
-        div.className = "col-md-6 mb-3";
-
-        const estilo = estatusColor[ticket.estatus] || { border: "secondary", bg: "bg-light", text: "text-dark" };
-
+        div.className = "col-md-6";
         div.innerHTML = `
-          <div class="card border-${estilo.border} ${estilo.bg} ${estilo.text}">
+          <div class="card border-${e.border} ${e.bg} ${e.text}">
             <div class="card-body">
-              <h5 class="card-title">Área: ${ticket.tipo}</h5>
+              <h5 class="card-title mb-2">Área: ${t.tipo}</h5>
               <p class="card-text">
-                Descripción: ${ticket.descripcion}<br>
-                Estado: <strong>${ticket.estatus}</strong><br>
-                Creado por: ${ticket.creadoPor?.nombre || "Desconocido"}<br>
-                Asignado a: ${ticket.asignadoA?.nombre || "Sin asignar"}
+                <strong>Descripción:</strong> ${t.descripcion}<br>
+                <strong>Estado:</strong> ${t.estatus}<br>
+                <strong>Creado por:</strong> ${t.creadoPor?.nombre || "—"}<br>
+                <strong>Asignado a:</strong> ${t.asignadoA?.nombre || "Sin asignar"}
               </p>
 
               <label class="form-label">Estatus:</label>
-              <select class="form-select mb-2" id="estatus-${ticket._id}" ${esCerrado ? "disabled" : ""}>
-                <option ${ticket.estatus === "Abierto" ? "selected" : ""}>Abierto</option>
-                <option ${ticket.estatus === "En proceso" ? "selected" : ""}>En proceso</option>
-                <option ${ticket.estatus === "Resuelto" ? "selected" : ""}>Resuelto</option>
-                <option ${ticket.estatus === "Cerrado" ? "selected" : ""}>Cerrado</option>
+              <select class="form-select mb-2" id="estatus-${t._id}" ${esCerrado?"disabled":""}>
+                <option ${t.estatus==="Abierto"?"selected":""}>Abierto</option>
+                <option ${t.estatus==="En proceso"?"selected":""}>En proceso</option>
+                <option ${t.estatus==="Resuelto"?"selected":""}>Resuelto</option>
+                <option ${t.estatus==="Cerrado"?"selected":""}>Cerrado</option>
               </select>
 
               <label class="form-label">Requiere material:</label>
-              <input type="text" id="material-${ticket._id}" class="form-control mb-2"
-                placeholder="Material requerido (opcional)"
-                value="${ticket.requiereMaterial || ''}" ${esCerrado ? "disabled" : ""} />
+              <input class="form-control mb-2" id="material-${t._id}" placeholder="Material (opcional)"
+                     value="${t.requiereMaterial || ''}" ${esCerrado?"disabled":""} />
 
-              <button class="btn btn-primary w-100 mb-2" onclick="actualizarTicket('${ticket._id}')" ${esCerrado ? "disabled" : ""}>
-                Guardar cambios
-              </button>
-
-              ${!ticket.asignadoA && !esCerrado ? `
-                <button class="btn btn-success w-100" onclick="asignarmeTicket('${ticket._id}')">
-                  Asignarme
-                </button>` : ""
-              }
+              <button class="btn btn-primary w-100 mb-2" onclick="actualizarTicket('${t._id}')" ${esCerrado?"disabled":""}>Guardar cambios</button>
+              ${!t.asignadoA && !esCerrado ? `<button class="btn btn-success w-100" onclick="asignarmeTicket('${t._id}')">Asignarme</button>` : ""}
             </div>
-          </div>
-        `;
-
-        contenedor.appendChild(div);
+          </div>`;
+        cont.appendChild(div);
       });
     }
 
-    async function actualizarTicket(id) {
+    async function actualizarTicket(id){
       const estatus = document.getElementById(`estatus-${id}`).value;
       const requiereMaterial = document.getElementById(`material-${id}`).value;
-
       const res = await fetch(`/api/tickets/${id}`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`
-        },
+        method:"PUT",
+        headers:{ "Content-Type":"application/json", Authorization:`Bearer ${token}` },
         body: JSON.stringify({ estatus, requiereMaterial })
       });
-
       const data = await res.json();
-      alert(data.mensaje);
-      cargarTickets();
+      alert(data.mensaje || "Actualizado");
+      cargar(); // recargar para KPIs
     }
-
-    async function asignarmeTicket(id) {
+    async function asignarmeTicket(id){
       const res = await fetch(`/api/tickets/${id}`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`
-        },
-        body: JSON.stringify({ asignar: true })
+        method:"PUT",
+        headers:{ "Content-Type":"application/json", Authorization:`Bearer ${token}` },
+        body: JSON.stringify({ asignar:true })
       });
-
       const data = await res.json();
-      alert(data.mensaje);
-      cargarTickets();
+      alert(data.mensaje || "Asignado");
+      cargar();
     }
 
-    cargarTickets();
+    async function cargar(){
+      const res = await fetch("/api/tickets", { headers:{ Authorization:`Bearer ${token}` }});
+      const all = await res.json(); // tu backend ya filtra por rol si aplica
+
+      // Separar por tipo
+      const soporte = (all || []).filter(t => t.tipo === "Sistemas");
+      const mant    = (all || []).filter(t => t.tipo === "Mantenimiento");
+
+      // KPIs
+      pintarKPIs(soporte, "kpiS");
+      pintarKPIs(mant,    "kpiM");
+
+      // Tarjetas
+      renderTarjetas(soporte, "tickets-soporte");
+      renderTarjetas(mant,    "tickets-mantenimiento");
+    }
+
+    cargar();
   </script>
+
   <script src="js/navbar.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
