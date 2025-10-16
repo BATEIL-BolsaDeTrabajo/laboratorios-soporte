@@ -15,7 +15,7 @@
     <h2 class="text-center mb-4">Panel de Trabajo</h2>
 
     <!-- ======== PANEL SOPORTE (Sistemas) ======== -->
-    <section class="mb-5">
+    <section id="sec-soporte" class="mb-5">
       <h4 class="mb-3">🖥️ Soporte (Sistemas)</h4>
 
       <!-- KPIs -->
@@ -59,7 +59,7 @@
     <hr>
 
     <!-- ======== PANEL MANTENIMIENTO (General) ======== -->
-    <section class="mt-5">
+    <section id="sec-mantenimiento" class="mt-5">
       <h4 class="mb-3">🔧 Mantenimiento (General)</h4>
 
       <!-- KPIs -->
@@ -230,7 +230,40 @@
       renderTarjetas(soporte, "tickets-soporte");
       renderTarjetas(mant,    "tickets-mantenimiento");
     }
+function rolesActuales() {
+    try {
+      const u = JSON.parse(localStorage.getItem('usuario') || '{}');
+      let r = Array.isArray(u.roles) ? u.roles : (u.rol ? [u.rol] : []);
+      if (!r.length) {
+        const t = localStorage.getItem('token');
+        if (t && t.split('.').length === 3) {
+          const p = JSON.parse(atob(t.split('.')[1]));
+          r = Array.isArray(p.roles) ? p.roles : (p.rol ? [p.rol] : []);
+        }
+      }
+      return r.filter(Boolean).map(x => String(x).trim().toLowerCase());
+    } catch { return []; }
+  }
 
+  function ajustarPanelesPorRol() {
+    const roles = rolesActuales();
+    const esAdmin = roles.includes('admin');
+    const tieneSoporte = roles.includes('soporte');
+    const tieneMant = roles.includes('mantenimiento');
+
+    // Si es admin o tiene ambos, mostrar ambos
+    if (esAdmin || (tieneSoporte && tieneMant)) return;
+
+    // Mostrar solo el que corresponda
+    const secS = document.getElementById('sec-soporte');
+    const secM = document.getElementById('sec-mantenimiento');
+
+    if (tieneSoporte && secM) secM.classList.add('d-none');
+    if (tieneMant && secS) secS.classList.add('d-none');
+  }
+
+  // Llama esto ANTES de cargar datos
+  ajustarPanelesPorRol();
     cargar();
   </script>
 
