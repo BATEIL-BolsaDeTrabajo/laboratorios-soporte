@@ -1,12 +1,12 @@
-// /js/navbar.js — muestra el menú de SOPORTE usando el bloque de MANTENIMIENTO si es necesario
-fetch("/navbar.html?v=5") // rompe caché
+// /js/navbar.js — versión final con Soporte y Mantenimiento independientes
+fetch("/navbar.html?v=7")
   .then(res => res.text())
   .then(html => {
     const cont = document.getElementById("navbar-container") || document.getElementById("navbar");
-    if (!cont) return console.warn("Falta <div id='navbar-container'></div> en la página.");
+    if (!cont) return console.warn("Falta <div id='navbar-container'></div>");
     cont.innerHTML = html;
 
-    // === Obtener roles (usuario.roles | usuario.rol | token) ===
+    // === Obtener roles ===
     let roles = [];
     try {
       const u = JSON.parse(localStorage.getItem("usuario") || "{}");
@@ -24,7 +24,7 @@ fetch("/navbar.html?v=5") // rompe caché
       }
     }
     roles = roles.filter(Boolean).map(r => String(r).trim().toLowerCase());
-    // console.log("[navbar] roles:", roles);
+    // console.log("[navbar roles]:", roles);
 
     const show = ids => ids.forEach(id => {
       const el = document.getElementById(id);
@@ -32,9 +32,10 @@ fetch("/navbar.html?v=5") // rompe caché
     });
 
     let visible = false;
+    const has = r => roles.includes(r);
 
-    // DOCENTE
-    if (roles.includes("docente") || roles.includes("talleres")) {
+    // ===== DOCENTE =====
+    if (has("docente") || has("talleres")) {
       show([
         "item-docente-header","item-docente-crear","item-docente-reservar","item-docente-mis",
         "item-docente-falla","item-docente-vacaciones","item-docente-historial","item-docente-divider"
@@ -42,15 +43,14 @@ fetch("/navbar.html?v=5") // rompe caché
       visible = true;
     }
 
-    // ADMIN
-    if (roles.includes("admin")) {
+    // ===== ADMIN =====
+    if (has("admin")) {
       show([
         "item-admin-header","item-admin-dashboard","item-admin-usuarios",
         "item-admin-tickets","item-admin-asignables","item-admin-divider"
       ]);
       visible = true;
 
-      // badge asignables (opcional)
       const token = localStorage.getItem("token");
       fetch("/api/tickets/asignables",{headers:{Authorization:`Bearer ${token}`}})
         .then(r=>r.ok?r.json():[])
@@ -60,17 +60,20 @@ fetch("/navbar.html?v=5") // rompe caché
         }).catch(()=>{});
     }
 
-    // SOPORTE o MANTENIMIENTO -> usa el bloque existente de "mantenimiento"
-    if (roles.includes("soporte") || roles.includes("mantenimiento")) {
-      // IDs del bloque que tienes actualmente en navbar.html
-      show(["item-mantenimiento-header","item-mantenimiento-tickets","item-mantenimiento-divider"]);
-      // Por si tienes variantes con "soporte" en algún archivo
-      show(["item-soporte","item-soporte-header","item-soporte-tickets","item-soporte-divider"]);
+    // ===== SOPORTE (Panel de Sistemas) =====
+    if (has("soporte")) {
+      show(["item-soporte-header","item-soporte-tickets","item-soporte-divider"]);
       visible = true;
     }
 
-    // RRHH
-    if (roles.includes("rrhh")) {
+    // ===== MANTENIMIENTO (Panel General) =====
+    if (has("mantenimiento")) {
+      show(["item-mantenimiento-header","item-mantenimiento-tickets","item-mantenimiento-divider"]);
+      visible = true;
+    }
+
+    // ===== RRHH =====
+    if (has("rrhh")) {
       show([
         "item-rrhh-header","item-rrhh-solicitudes","item-rrhh-ticketsoporte",
         "item-rrhh-gestiondias","item-rrhh-histDiasyTiempo","item-rrhh-RegistrarUsuario","item-rrhh-divider"
@@ -78,8 +81,8 @@ fetch("/navbar.html?v=5") // rompe caché
       visible = true;
     }
 
-    // DIRECCIÓN
-    if (roles.includes("direccion")) {
+    // ===== DIRECCIÓN =====
+    if (has("direccion")) {
       show([
         "item-direccion-header","item-direccion-crear","item-direccion-panelCalificaciones",
         "item-direccion-subirCalificaciones","item-direccion-divider"
@@ -87,8 +90,8 @@ fetch("/navbar.html?v=5") // rompe caché
       visible = true;
     }
 
-    // SUBDIRECCIÓN
-    if (roles.includes("subdireccion")) {
+    // ===== SUBDIRECCIÓN =====
+    if (has("subdireccion")) {
       show([
         "item-subdireccion-header","item-subdireccion-crear","item-subdireccion-revision",
         "item-subdireccion-tiempo","item-subdireccion-soltxt",
@@ -97,8 +100,8 @@ fetch("/navbar.html?v=5") // rompe caché
       visible = true;
     }
 
-    // FINANZAS
-    if (roles.includes("finanzas")) {
+    // ===== FINANZAS =====
+    if (has("finanzas")) {
       show([
         "item-finanzas-header","item-finanzas-crear","item-finanzas-revision",
         "item-finanzas-tiempo","item-finanzas-revisiontiempo","item-finanzas-divider"
@@ -106,8 +109,8 @@ fetch("/navbar.html?v=5") // rompe caché
       visible = true;
     }
 
-    // COORDINACIÓN D
-    if (roles.includes("coordinacion") || roles.includes("coordinaciond")) {
+    // ===== COORDINACIÓN D =====
+    if (has("coordinacion") || has("coordinaciond")) {
       show(["item-coordinacionD-header","item-coordinacionD-crear","item-coordinacionD-reservas","item-coordinacionD-divider"]);
       visible = true;
     }
@@ -124,3 +127,4 @@ function logout() {
   localStorage.removeItem("usuario");
   window.location.href = "login.html";
 }
+
