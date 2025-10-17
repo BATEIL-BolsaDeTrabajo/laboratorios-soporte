@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<<!DOCTYPE html>
 <html lang="es">
 <head>
   <meta charset="UTF-8">
@@ -12,7 +12,17 @@
   <div id="navbar-container"></div>
 
   <div class="container py-4">
-    <h2 class="text-center mb-4">Panel de Trabajo</h2>
+    <h2 class="text-center mb-2">Panel de Trabajo</h2>
+
+    <!-- Alternador de comportamiento KPI -->
+    <div class="d-flex justify-content-center mb-4">
+      <div class="form-check form-switch">
+        <input class="form-check-input" type="checkbox" id="sync-kpi">
+        <label class="form-check-label" for="sync-kpi">
+          Sincronizar KPIs con filtros
+        </label>
+      </div>
+    </div>
 
     <!-- ======== PANEL SOPORTE (Sistemas) ======== -->
     <section id="sec-soporte" class="mb-5">
@@ -105,6 +115,7 @@
   </div>
 
   <script>
+    // ================== CONFIG BASE ==================
     const token = localStorage.getItem("token");
     if (!token) window.location.href = "login.html";
 
@@ -115,6 +126,7 @@
       "Cerrado":   { border: "success", bg: "bg-success",        text: "text-white" }
     };
 
+    // Roles y visibilidad
     function rolesActuales() {
       try {
         const u = JSON.parse(localStorage.getItem('usuario') || '{}');
@@ -142,17 +154,27 @@
     }
     ajustarPanelesPorRol();
 
+    // ================== KPI helpers ==================
     const fmtPromedio = (ms)=>{ if(!ms||!isFinite(ms))return"--";const m=Math.round(ms/60000);return `${Math.floor(m/60)}h ${m%60}m`;};
 
-    function pintarKPIs(tickets, prefijo){
-      const f=(s)=>tickets.filter(t=>t.estatus===s).length;
-      const total=tickets.length,ab=f("Abierto"),pr=f("En proceso"),re=f("Resuelto"),ce=f("Cerrado");
+    function calcKPIs(tickets){
+      const by = s => tickets.filter(t=>t.estatus===s).length;
+      const total=tickets.length, abiertos=by("Abierto"), proceso=by("En proceso"),
+            resueltos=by("Resuelto"), cerrados=by("Cerrado");
       const term=tickets.filter(t=>t.fechaCierre||t.estatus==="Cerrado"||t.estatus==="Resuelto");
       let prom=0;if(term.length){prom=term.reduce((a,t)=>a+(new Date(t.fechaCierre||t.updatedAt||t.createdAt)-new Date(t.fechaCreacion||t.createdAt)),0)/term.length;}
-      for(const [k,v] of Object.entries({total,abiertos:ab,proceso:pr,resueltos:re,cerrados:ce})) document.getElementById(`${prefijo}-${k}`).textContent=v;
-      document.getElementById(`${prefijo}-tiempo`).textContent=fmtPromedio(prom);
+      return { total, abiertos, proceso, resueltos, cerrados, prom };
+    }
+    function renderKPIs(kpi, prefijo){
+      document.getElementById(`${prefijo}-total`).textContent     = kpi.total;
+      document.getElementById(`${prefijo}-abiertos`).textContent  = kpi.abiertos;
+      document.getElementById(`${prefijo}-proceso`).textContent   = kpi.proceso;
+      document.getElementById(`${prefijo}-resueltos`).textContent = kpi.resueltos;
+      document.getElementById(`${prefijo}-cerrados`).textContent  = kpi.cerrados;
+      document.getElementById(`${prefijo}-tiempo`).textContent    = fmtPromedio(kpi.prom);
     }
 
+    // ================== Render de tarjetas ==================
     function renderTarjetas(tickets, contId){
       const c=document.getElementById(contId);c.innerHTML="";
       const admin=esAdminActual();
@@ -160,20 +182,21 @@
         const esC=t.estatus==="Cerrado",e=ESTILOS[t.estatus]||{border:"secondary",bg:"bg-light",text:"text-dark"};
         const ops=admin?["Abierto","En proceso","Resuelto","Cerrado"]:["Abierto","En proceso","Resuelto"];
         c.innerHTML+=`
-        <div class="col-md-6"><div class="card border-${e.border} ${e.bg} ${e.text}">
-        <div class="card-body">
-        <h5 class="card-title mb-2">Área: ${t.tipo}</h5>
-        <p><strong>Descripción:</strong> ${t.descripcion}<br><strong>Estado:</strong> ${t.estatus}<br>
-        <strong>Creado por:</strong> ${t.creadoPor?.nombre||"—"}<br><strong>Asignado a:</strong> ${t.asignadoA?.nombre||"Sin asignar"}</p>
-        <label class="form-label">Estatus:</label>
-        <select class="form-select mb-2" id="estatus-${t._id}" ${esC?"disabled":""}>
-          ${ops.map(o=>`<option ${t.estatus===o?"selected":""}>${o}</option>`).join("")}
-        </select>
-        <label class="form-label">Requiere material:</label>
-        <input class="form-control mb-2" id="material-${t._id}" value="${t.requiereMaterial||''}" placeholder="Material (opcional)" ${esC?"disabled":""}>
-        <button class="btn btn-primary w-100 mb-2" onclick="actualizarTicket('${t._id}')" ${esC?"disabled":""}>Guardar cambios</button>
-        ${!t.asignadoA&&!esC?`<button class="btn btn-success w-100" onclick="asignarmeTicket('${t._id}')">Asignarme</button>`:""}
-        </div></div></div>`;
+          <div class="col-md-6"><div class="card border-${e.border} ${e.bg} ${e.text}">
+            <div class="card-body">
+              <h5 class="card-title mb-2">Área: ${t.tipo}</h5>
+              <p><strong>Descripción:</strong> ${t.descripcion}<br><strong>Estado:</strong> ${t.estatus}<br>
+              <strong>Creado por:</strong> ${t.creadoPor?.nombre||"—"}<br><strong>Asignado a:</strong> ${t.asignadoA?.nombre||"Sin asignar"}</p>
+              <label class="form-label">Estatus:</label>
+              <select class="form-select mb-2" id="estatus-${t._id}" ${esC?"disabled":""}>
+                ${ops.map(o=>`<option ${t.estatus===o?"selected":""}>${o}</option>`).join("")}
+              </select>
+              <label class="form-label">Requiere material:</label>
+              <input class="form-control mb-2" id="material-${t._id}" value="${t.requiereMaterial||''}" placeholder="Material (opcional)" ${esC?"disabled":""}>
+              <button class="btn btn-primary w-100 mb-2" onclick="actualizarTicket('${t._id}')" ${esC?"disabled":""}>Guardar cambios</button>
+              ${!t.asignadoA&&!esC?`<button class="btn btn-success w-100" onclick="asignarmeTicket('${t._id}')">Asignarme</button>`:""}
+            </div>
+          </div></div>`;
       });
     }
 
@@ -188,37 +211,98 @@
       const d=await r.json();alert(d.mensaje||"Asignado");cargar();
     }
 
+    // ================== Carga y memoria de filtros ==================
     let todosTickets = [];
+    let kpiGlobal = { S:null, M:null };
+
+    const STORAGE_KEYS = {
+      sync: 'panel_syncKPI',
+      S: { est:'filtroS_estatus', q:'filtroS_busqueda' },
+      M: { est:'filtroM_estatus', q:'filtroM_busqueda' }
+    };
+
+    // persistencia
+    function saveFilters(pref){
+      localStorage.setItem(STORAGE_KEYS[pref].est, document.getElementById(`filtro${pref}-estatus`).value);
+      localStorage.setItem(STORAGE_KEYS[pref].q,   document.getElementById(`filtro${pref}-busqueda`).value);
+    }
+    function loadFilters(pref){
+      const est = localStorage.getItem(STORAGE_KEYS[pref].est) ?? '';
+      const q   = localStorage.getItem(STORAGE_KEYS[pref].q)   ?? '';
+      document.getElementById(`filtro${pref}-estatus`).value = est;
+      document.getElementById(`filtro${pref}-busqueda`).value = q;
+    }
+    function saveSync(){
+      localStorage.setItem(STORAGE_KEYS.sync, document.getElementById('sync-kpi').checked ? '1' : '0');
+    }
+    function loadSync(){
+      const v = localStorage.getItem(STORAGE_KEYS.sync);
+      document.getElementById('sync-kpi').checked = v === '1';
+    }
+
+    // filtros
+    function filtrarLista(pref, base){
+      const tipo = pref==="S"?"Sistemas":"Mantenimiento";
+      const estado = document.getElementById(`filtro${pref}-estatus`).value.trim();
+      const q = document.getElementById(`filtro${pref}-busqueda`).value.toLowerCase();
+      return base.filter(t=>{
+        if(t.tipo!==tipo) return false;
+        if(estado && t.estatus!==estado) return false;
+        if(q && !(`${t.descripcion} ${t.creadoPor?.nombre||''}`.toLowerCase().includes(q))) return false;
+        return true;
+      });
+    }
+
+    function refrescar(){
+      const soporte = todosTickets.filter(t=>t.tipo==="Sistemas");
+      const mant    = todosTickets.filter(t=>t.tipo==="Mantenimiento");
+
+      // KPIs globales calculados una sola vez (recordados)
+      kpiGlobal.S = calcKPIs(soporte);
+      kpiGlobal.M = calcKPIs(mant);
+
+      // Cargar estado de sync y filtros guardados
+      loadSync();
+      loadFilters('S');
+      loadFilters('M');
+
+      // Listas visibles (aplican filtros)
+      const listaS = filtrarLista('S', todosTickets);
+      const listaM = filtrarLista('M', todosTickets);
+
+      // KPIs: globales por defecto; si el switch está activado, con filtros
+      const usarFiltros = document.getElementById('sync-kpi').checked;
+      renderKPIs(usarFiltros ? calcKPIs(listaS) : kpiGlobal.S, 'kpiS');
+      renderKPIs(usarFiltros ? calcKPIs(listaM) : kpiGlobal.M, 'kpiM');
+
+      // Render listas
+      renderTarjetas(listaS, 'tickets-soporte');
+      renderTarjetas(listaM, 'tickets-mantenimiento');
+    }
+
+    // API load
     async function cargar(){
-      const r=await fetch("/api/tickets",{headers:{Authorization:`Bearer ${token}`}});
+      const r=await fetch("/api/tickets",{headers:{Authorization:`Bearer ${token}`}})
       todosTickets=await r.json();
       refrescar();
     }
 
-    function refrescar(){
-      const soporte=todosTickets.filter(t=>t.tipo==="Sistemas");
-      const mant=todosTickets.filter(t=>t.tipo==="Mantenimiento");
-      pintarKPIs(soporte,"kpiS");pintarKPIs(mant,"kpiM");
-      renderTarjetas(soporte,"tickets-soporte");renderTarjetas(mant,"tickets-mantenimiento");
-    }
+    // Eventos
+    document.getElementById('sync-kpi').addEventListener('change', ()=>{ saveSync(); refrescar(); });
+    document.getElementById('filtroS-estatus').addEventListener('change', ()=>{ saveFilters('S'); aplicarFiltros('S'); });
+    document.getElementById('filtroS-busqueda').addEventListener('input', ()=>{ saveFilters('S'); });
+    document.getElementById('filtroM-estatus').addEventListener('change', ()=>{ saveFilters('M'); aplicarFiltros('M'); });
+    document.getElementById('filtroM-busqueda').addEventListener('input', ()=>{ saveFilters('M'); });
 
-    // ================== FILTROS ==================
+    // Botones públicos
     function aplicarFiltros(pref){
-      const tipo = pref==="S"?"Sistemas":"Mantenimiento";
-      const filtroEstado=document.getElementById(`filtro${pref}-estatus`).value.trim();
-      const busqueda=document.getElementById(`filtro${pref}-busqueda`).value.toLowerCase();
-      const filtrados=todosTickets.filter(t=>{
-        if(t.tipo!==tipo)return false;
-        if(filtroEstado && t.estatus!==filtroEstado)return false;
-        if(busqueda && !(`${t.descripcion} ${t.creadoPor?.nombre||''}`.toLowerCase().includes(busqueda)))return false;
-        return true;
-      });
-      pintarKPIs(filtrados,`kpi${pref}`);
-      renderTarjetas(filtrados,`tickets-${pref==="S"?"soporte":"mantenimiento"}`);
+      saveFilters(pref);
+      refrescar();
     }
     function resetFiltros(pref){
-      document.getElementById(`filtro${pref}-estatus`).value="";
-      document.getElementById(`filtro${pref}-busqueda`).value="";
+      document.getElementById(`filtro${pref}-estatus`).value = '';
+      document.getElementById(`filtro${pref}-busqueda`).value = '';
+      saveFilters(pref);
       refrescar();
     }
 
