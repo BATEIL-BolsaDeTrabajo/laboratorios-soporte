@@ -1,356 +1,221 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <title>Panel de Trabajo – Soporte & Mantenimiento</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <meta charset="utf-8">
+  <title>Panel de Soporte / Mantenimiento</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- Bootstrap 5 -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body class="bg-light">
 
-  <!-- NAVBAR -->
-  <div id="navbar-container"></div>
-
   <div class="container py-4">
-    <h2 class="text-center mb-2">Panel de Trabajo</h2>
+    <h2 class="mb-3">Panel de trabajo</h2>
 
-    <!-- Alternador de comportamiento KPI -->
-    <div class="d-flex justify-content-center mb-4">
-      <div class="form-check form-switch">
-        <input class="form-check-input" type="checkbox" id="sync-kpi">
-        <label class="form-check-label" for="sync-kpi">
-          Sincronizar KPIs con filtros
-        </label>
-      </div>
-    </div>
-
-    <!-- Conmutador de panel visible (se muestra solo si el usuario puede ver ambos) -->
-    <div id="panel-switch" class="d-flex justify-content-center gap-2 mb-4 d-none">
-      <button id="btn-soporte" class="btn btn-outline-primary btn-sm">🖥️ Soporte</button>
-      <button id="btn-mantenimiento" class="btn btn-outline-primary btn-sm">🔧 Mantenimiento</button>
-    </div>
-
-    <!-- ======== PANEL SOPORTE (Sistemas) ======== -->
-    <section id="sec-soporte" class="mb-5">
-      <h4 class="mb-3">🖥️ Soporte (Sistemas)</h4>
-
-      <!-- Filtros -->
-      <div class="row g-2 align-items-center mb-3">
-        <div class="col-md-3">
-          <select id="filtroS-estatus" class="form-select">
-            <option value="">Todos los estados</option>
-            <option>Abierto</option>
-            <option>En proceso</option>
-            <option>Resuelto</option>
-            <option>Cerrado</option>
-          </select>
-        </div>
-        <div class="col-md-5">
-          <input id="filtroS-busqueda" type="text" class="form-control" placeholder="Buscar por descripción o solicitante...">
-        </div>
-        <div class="col-md-2">
-          <button class="btn btn-secondary w-100" onclick="aplicarFiltros('S')">Filtrar</button>
-        </div>
-        <div class="col-md-2">
-          <button class="btn btn-outline-secondary w-100" onclick="resetFiltros('S')">Limpiar</button>
-        </div>
-      </div>
-
-      <!-- KPIs -->
-      <div class="text-center mb-2">
-        <span class="fs-6 fw-semibold">⏱️ Tiempo promedio de resolución:
-          <span id="kpiS-tiempo">--</span>
-        </span>
-      </div>
-
-      <div class="row g-3 mb-4">
-        <div class="col-6 col-md-2"><div class="p-3 text-center rounded-3 bg-primary text-white"><div class="fw-semibold">Total</div><div id="kpiS-total" class="fs-2">0</div></div></div>
-        <div class="col-6 col-md-2"><div class="p-3 text-center rounded-3 bg-danger text-white"><div class="fw-semibold">Abiertos</div><div id="kpiS-abiertos" class="fs-2">0</div></div></div>
-        <div class="col-6 col-md-2"><div class="p-3 text-center rounded-3 bg-warning text-dark"><div class="fw-semibold">En proceso</div><div id="kpiS-proceso" class="fs-2">0</div></div></div>
-        <div class="col-6 col-md-2"><div class="p-3 text-center rounded-3 bg-info text-dark"><div class="fw-semibold">Resueltos</div><div id="kpiS-resueltos" class="fs-2">0</div></div></div>
-        <div class="col-6 col-md-2"><div class="p-3 text-center rounded-3 bg-success text-white"><div class="fw-semibold">Cerrados</div><div id="kpiS-cerrados" class="fs-2">0</div></div></div>
-      </div>
-
-      <div id="tickets-soporte" class="row g-3"></div>
-    </section>
-
-    <hr>
-
-    <!-- ======== PANEL MANTENIMIENTO (General) ======== -->
-    <section id="sec-mantenimiento" class="mt-5">
-      <h4 class="mb-3">🔧 Mantenimiento (General)</h4>
-
-      <!-- Filtros -->
-      <div class="row g-2 align-items-center mb-3">
-        <div class="col-md-3">
-          <select id="filtroM-estatus" class="form-select">
-            <option value="">Todos los estados</option>
-            <option>Abierto</option>
-            <option>En proceso</option>
-            <option>Resuelto</option>
-            <option>Cerrado</option>
-          </select>
-        </div>
-        <div class="col-md-5">
-          <input id="filtroM-busqueda" type="text" class="form-control" placeholder="Buscar por descripción o solicitante...">
-        </div>
-        <div class="col-md-2">
-          <button class="btn btn-secondary w-100" onclick="aplicarFiltros('M')">Filtrar</button>
-        </div>
-        <div class="col-md-2">
-          <button class="btn btn-outline-secondary w-100" onclick="resetFiltros('M')">Limpiar</button>
-        </div>
-      </div>
-
-      <div class="text-center mb-2">
-        <span class="fs-6 fw-semibold">⏱️ Tiempo promedio de resolución:
-          <span id="kpiM-tiempo">--</span>
-        </span>
-      </div>
-
-      <div class="row g-3 mb-4">
-        <div class="col-6 col-md-2"><div class="p-3 text-center rounded-3 bg-primary text-white"><div class="fw-semibold">Total</div><div id="kpiM-total" class="fs-2">0</div></div></div>
-        <div class="col-6 col-md-2"><div class="p-3 text-center rounded-3 bg-danger text-white"><div class="fw-semibold">Abiertos</div><div id="kpiM-abiertos" class="fs-2">0</div></div></div>
-        <div class="col-6 col-md-2"><div class="p-3 text-center rounded-3 bg-warning text-dark"><div class="fw-semibold">En proceso</div><div id="kpiM-proceso" class="fs-2">0</div></div></div>
-        <div class="col-6 col-md-2"><div class="p-3 text-center rounded-3 bg-info text-dark"><div class="fw-semibold">Resueltos</div><div id="kpiM-resueltos" class="fs-2">0</div></div></div>
-        <div class="col-6 col-md-2"><div class="p-3 text-center rounded-3 bg-success text-white"><div class="fw-semibold">Cerrados</div><div id="kpiM-cerrados" class="fs-2">0</div></div></div>
-      </div>
-
-      <div id="tickets-mantenimiento" class="row g-3"></div>
-    </section>
+    <!-- Contenedor donde se insertarán las tarjetas -->
+    <div class="row g-3" id="contenedorTickets"></div>
   </div>
 
   <script>
-    // ================== CONFIG BASE ==================
-    const token = localStorage.getItem("token");
-    if (!token) window.location.href = "login.html";
+  // ========= Config & helpers básicos =========
+  const API_BASE = ''; // si sirves el front junto al backend, deja vacío
+  const token = localStorage.getItem('token');
 
-    const ESTILOS = {
-      "Abierto":   { border: "danger",  bg: "bg-danger-subtle",  text: "text-dark" },
-      "En proceso":{ border: "warning", bg: "bg-warning-subtle", text: "text-dark" },
-      "Resuelto":  { border: "info",    bg: "bg-info-subtle",    text: "text-dark" },
-      "Cerrado":   { border: "success", bg: "bg-success",        text: "text-white" }
-    };
+  function decodeJWT(tk){
+    try {
+      const payload = tk.split('.')[1];
+      return JSON.parse(atob(payload));
+    } catch { return null; }
+  }
 
-    // Roles / permisos
-    function rolesActuales() {
-      try {
-        const u = JSON.parse(localStorage.getItem('usuario') || '{}');
-        let r = Array.isArray(u.roles) ? u.roles : (u.rol ? [u.rol] : []);
-        if (!r.length) {
-          const t = localStorage.getItem('token');
-          if (t && t.split('.').length === 3) {
-            const p = JSON.parse(atob(t.split('.')[1]));
-            r = Array.isArray(p.roles) ? p.roles : (p.rol ? [p.rol] : []);
-          }
-        }
-        return r.filter(Boolean).map(x => String(x).trim().toLowerCase());
-      } catch { return []; }
-    }
-    function esAdminActual() { return rolesActuales().includes('admin'); }
+  function esAdminActual(){
+    const p = decodeJWT(token);
+    if(!p) return false;
+    const roles = p.roles || (p.rol ? [p.rol] : []);
+    return roles.includes('admin');
+  }
 
-    // Visibilidad de paneles + persistencia
-    const PANEL_KEY = 'panel_visible'; // 'S' | 'M'
-    function setPanelVisible(pref){
-      const secS = document.getElementById('sec-soporte');
-      const secM = document.getElementById('sec-mantenimiento');
-      if (pref === 'S') { secS.classList.remove('d-none'); secM.classList.add('d-none'); }
-      else              { secM.classList.remove('d-none'); secS.classList.add('d-none'); }
-      localStorage.setItem(PANEL_KEY, pref);
-      // marcar botón activo
-      document.getElementById('btn-soporte')?.classList.toggle('btn-primary', pref==='S');
-      document.getElementById('btn-soporte')?.classList.toggle('btn-outline-primary', pref!=='S');
-      document.getElementById('btn-mantenimiento')?.classList.toggle('btn-primary', pref==='M');
-      document.getElementById('btn-mantenimiento')?.classList.toggle('btn-outline-primary', pref!=='M');
-    }
+  const ESTILOS = {
+    "Abierto":     { border:"primary",   bg:"",            text:"" },
+    "En proceso":  { border:"warning",   bg:"",            text:"" },
+    "Resuelto":    { border:"info",      bg:"",            text:"" },
+    "Cerrado":     { border:"success",   bg:"",            text:"" },
+    "Cancelado":   { border:"secondary", bg:"",            text:"" }
+  };
 
-    function ajustarPanelesPorRol() {
-      const roles = rolesActuales();
-      const esAdmin = roles.includes('admin');
-      const tieneS = roles.includes('soporte');
-      const tieneM = roles.includes('mantenimiento');
-      const secS = document.getElementById('sec-soporte');
-      const secM = document.getElementById('sec-mantenimiento');
-      const switcher = document.getElementById('panel-switch');
+  function textoUbicacion(t){
+    const tipo = (t.tipo || '').toLowerCase();       // 'sistemas' | 'mantenimiento'
+    const subtipo = (t.subtipo || '').toLowerCase(); // 'laboratorio' | 'otro' (solo sistemas)
 
-      if (esAdmin || (tieneS && tieneM)) {
-        // Puede ver ambos → mostrar switch y respetar preferencia
-        switcher.classList.remove('d-none');
-        const pref = localStorage.getItem(PANEL_KEY) || 'S';
-        setPanelVisible(pref);
-      } else if (tieneS) {
-        secM.classList.add('d-none'); secS.classList.remove('d-none');
-        localStorage.setItem(PANEL_KEY, 'S');
-      } else if (tieneM) {
-        secS.classList.add('d-none'); secM.classList.remove('d-none');
-        localStorage.setItem(PANEL_KEY, 'M');
-      } else {
-        // Si no tiene ninguno, por si acaso (no debería pasar si backend filtra)
-        secS.classList.add('d-none'); secM.classList.add('d-none');
+    if (tipo === 'sistemas') {
+      if (subtipo === 'laboratorio') {
+        const eq = t.equipo ? ` • Equipo: ${t.equipo}` : '';
+        return `Laboratorio: ${t.laboratorio || '—'}${eq}`;
       }
-
-      // Listeners de los botones
-      document.getElementById('btn-soporte')?.addEventListener('click', ()=> setPanelVisible('S'));
-      document.getElementById('btn-mantenimiento')?.addEventListener('click', ()=> setPanelVisible('M'));
+      return `Ubicación: ${t.ubicacion || '—'}`;
     }
-    ajustarPanelesPorRol();
-
-    // ================== KPI helpers ==================
-    const fmtPromedio = (ms)=>{ if(!ms||!isFinite(ms))return"--";const m=Math.round(ms/60000);return `${Math.floor(m/60)}h ${m%60}m`;};
-
-    function calcKPIs(tickets){
-      const by = s => tickets.filter(t=>t.estatus===s).length;
-      const total=tickets.length, abiertos=by("Abierto"), proceso=by("En proceso"),
-            resueltos=by("Resuelto"), cerrados=by("Cerrado");
-      const term=tickets.filter(t=>t.fechaCierre||t.estatus==="Cerrado"||t.estatus==="Resuelto");
-      let prom=0;if(term.length){prom=term.reduce((a,t)=>a+(new Date(t.fechaCierre||t.updatedAt||t.createdAt)-new Date(t.fechaCreacion||t.createdAt)),0)/term.length;}
-      return { total, abiertos, proceso, resueltos, cerrados, prom };
+    if (tipo === 'mantenimiento') {
+      return `Salón/Área: ${t.salon || '—'}`;
     }
-    function renderKPIs(kpi, prefijo){
-      document.getElementById(`${prefijo}-total`).textContent     = kpi.total;
-      document.getElementById(`${prefijo}-abiertos`).textContent  = kpi.abiertos;
-      document.getElementById(`${prefijo}-proceso`).textContent   = kpi.proceso;
-      document.getElementById(`${prefijo}-resueltos`).textContent = kpi.resueltos;
-      document.getElementById(`${prefijo}-cerrados`).textContent  = kpi.cerrados;
-      document.getElementById(`${prefijo}-tiempo`).textContent    = fmtPromedio(kpi.prom);
-    }
+    return '';
+  }
 
-    // ================== Render de tarjetas ==================
-    function renderTarjetas(tickets, contId){
-      const c=document.getElementById(contId);c.innerHTML="";
-      const admin=esAdminActual();
-      tickets.forEach(t=>{
-        const esC=t.estatus==="Cerrado",e=ESTILOS[t.estatus]||{border:"secondary",bg:"bg-light",text:"text-dark"};
-        const ops=admin?["Abierto","En proceso","Resuelto","Cerrado"]:["Abierto","En proceso","Resuelto"];
-        c.innerHTML+=`
-          <div class="col-md-6"><div class="card border-${e.border} ${e.bg} ${e.text}">
-            <div class="card-body">
-              <h5 class="card-title mb-2">Área: ${t.tipo}</h5>
-              <p><strong>Descripción:</strong> ${t.descripcion}<br><strong>Estado:</strong> ${t.estatus}<br>
-              <strong>Creado por:</strong> ${t.creadoPor?.nombre||"—"}<br><strong>Asignado a:</strong> ${t.asignadoA?.nombre||"Sin asignar"}</p>
-              <label class="form-label">Estatus:</label>
-              <select class="form-select mb-2" id="estatus-${t._id}" ${esC?"disabled":""}>
-                ${ops.map(o=>`<option ${t.estatus===o?"selected":""}>${o}</option>`).join("")}
-              </select>
-              <label class="form-label">Requiere material:</label>
-              <textarea class="form-control mb-2" id="material-${t._id}" value="${t.requiereMaterial||''}" placeholder="Material (opcional)" ${esC?"disabled":""}></textarea>
-              <label class="form-label">Resolución del problema:</label>
-                 <textarea class="form-control mb-2"
-                  id="resolucion-${t._id}"
-                  placeholder="Describe brevemente cómo se resolvió"
-                  rows="2" ${esC ? "disabled" : ""}>${t.resolucion || ''}</textarea>
-              <button class="btn btn-primary w-100 mb-2" onclick="actualizarTicket('${t._id}')" ${esC?"disabled":""}>Guardar cambios</button>
-              ${!t.asignadoA&&!esC?`<button class="btn btn-success w-100" onclick="asignarmeTicket('${t._id}')">Asignarme</button>`:""}
-            </div>
-          </div></div>`;
-      });
-    }
-
-    async function actualizarTicket(id){
-      const e=document.getElementById(`estatus-${id}`).value;
-      const m=document.getElementById(`material-${id}`).value;
-      const rs = document.getElementById(`resolucion-${id}`)?.value || '';
-      const r=await fetch(`/api/tickets/${id}`,{method:"PUT",headers:{"Content-Type":"application/json",Authorization:`Bearer ${token}`},body:JSON.stringify({estatus:e,requiereMaterial:m})});
-      const d=await r.json();alert(d.mensaje||"Actualizado");cargar();
-    }
-    async function asignarmeTicket(id){
-      const r=await fetch(`/api/tickets/${id}`,{method:"PUT",headers:{"Content-Type":"application/json",Authorization:`Bearer ${token}`},body:JSON.stringify({asignar:true})});
-      const d=await r.json();alert(d.mensaje||"Asignado");cargar();
-    }
-
-    // ================== Carga y memoria de filtros ==================
-    let todosTickets = [];
-    let kpiGlobal = { S:null, M:null };
-
-    const STORAGE_KEYS = {
-      sync: 'panel_syncKPI',
-      S: { est:'filtroS_estatus', q:'filtroS_busqueda' },
-      M: { est:'filtroM_estatus', q:'filtroM_busqueda' }
+  function badgeEstatus(estatus){
+    const map = {
+      'Abierto': 'bg-secondary',
+      'En proceso': 'bg-warning',
+      'Resuelto': 'bg-info',
+      'Cerrado': 'bg-success',
+      'Cancelado': 'bg-dark'
     };
+    const cls = map[estatus] || 'bg-secondary';
+    return `<span class="badge ${cls}">${estatus}</span>`;
+  }
 
-    function saveFilters(pref){
-      localStorage.setItem(STORAGE_KEYS[pref].est, document.getElementById(`filtro${pref}-estatus`).value);
-      localStorage.setItem(STORAGE_KEYS[pref].q,   document.getElementById(`filtro${pref}-busqueda`).value);
-    }
-    function loadFilters(pref){
-      const est = localStorage.getItem(STORAGE_KEYS[pref].est) ?? '';
-      const q   = localStorage.getItem(STORAGE_KEYS[pref].q)   ?? '';
-      document.getElementById(`filtro${pref}-estatus`).value = est;
-      document.getElementById(`filtro${pref}-busqueda`).value = q;
-    }
-    function saveSync(){
-      localStorage.setItem(STORAGE_KEYS.sync, document.getElementById('sync-kpi').checked ? '1' : '0');
-    }
-    function loadSync(){
-      const v = localStorage.getItem(STORAGE_KEYS.sync);
-      document.getElementById('sync-kpi').checked = v === '1';
-    }
+  // ========= Render de tarjetas =========
+  function tarjetaHTML(t){
+    const admin = esAdminActual();
+    const esC = t.estatus === "Cerrado";
+    const esR = t.estatus === "Resuelto";
+    const e = ESTILOS[t.estatus] || { border:"secondary", bg:"bg-light", text:"text-dark" };
 
-    function filtrarLista(pref, base){
-      const tipo = pref==="S"?"Sistemas":"Mantenimiento";
-      const estado = document.getElementById(`filtro${pref}-estatus`).value.trim();
-      const q = document.getElementById(`filtro${pref}-busqueda`).value.toLowerCase();
-      return base.filter(t=>{
-        if(t.tipo!==tipo) return false;
-        if(estado && t.estatus!==estado) return false;
-        if(q && !(`${t.descripcion} ${t.creadoPor?.nombre||''}`.toLowerCase().includes(q))) return false;
-        return true;
+    // Si no es admin, no puede seleccionar "Cerrado"
+    const opciones = admin ? ["Abierto","En proceso","Resuelto","Cerrado"] : ["Abierto","En proceso","Resuelto"];
+
+    return `
+      <div class="col-md-6">
+        <div class="card border-${e.border} shadow-sm">
+          <div class="card-body">
+            <div class="d-flex justify-content-between align-items-start mb-2">
+              <div>
+                <h5 class="mb-1">Área: ${t.tipo || '—'}</h5>
+                <div class="text-muted small">${textoUbicacion(t)}</div>
+              </div>
+              <div class="text-end small">
+                <div><strong>Estado:</strong> ${badgeEstatus(t.estatus)}</div>
+                <div><strong>Creado por:</strong> ${t.creadoPor?.nombre || "—"}</div>
+                <div><strong>Asignado a:</strong> ${t.asignadoA?.nombre || "Sin asignar"}</div>
+              </div>
+            </div>
+
+            <!-- Descripción detallada (solo lectura) -->
+            <label class="form-label">Descripción detallada:</label>
+            <div class="form-control mb-3" style="min-height:72px; white-space:pre-wrap;">
+              ${t.descripcion || "—"}
+            </div>
+
+            <div class="row g-2">
+              <div class="col-12 col-md-6">
+                <label class="form-label">Estatus:</label>
+                <select class="form-select" id="estatus-${t._id}" ${esC ? "disabled" : ""}>
+                  ${opciones.map(o => `<option ${t.estatus===o?"selected":""}>${o}</option>`).join("")}
+                </select>
+              </div>
+              <div class="col-12 col-md-6">
+                <label class="form-label">Requiere material:</label>
+                <textarea class="form-control" id="material-${t._id}" placeholder="Material (opcional)" rows="1" ${esC ? "disabled" : ""}>${t.requiereMaterial || ''}</textarea>
+              </div>
+            </div>
+
+            <div class="mt-2">
+              <label class="form-label">Resolución del problema:</label>
+              <textarea class="form-control" id="resolucion-${t._id}" rows="2" placeholder="Describe cómo se resolvió" ${esC ? "disabled" : ""}>${t.resolucion || ''}</textarea>
+            </div>
+
+            <div class="d-flex gap-2 mt-3">
+              <button class="btn btn-primary flex-fill" onclick="actualizarTicket('${t._id}')" ${esC ? "disabled" : ""}>Guardar cambios</button>
+              <button class="btn btn-success flex-fill" onclick="asignarmeTicket('${t._id}')" ${(esC||esR||t.asignadoA) ? "disabled" : ""}>Asignarme</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    `;
+  }
+
+  function renderTarjetas(tickets){
+    const cont = document.getElementById('contenedorTickets');
+    if(!tickets || !tickets.length){
+      cont.innerHTML = `<div class="col-12 text-muted">No hay tickets para mostrar.</div>`;
+      return;
+    }
+    cont.innerHTML = tickets.map(tarjetaHTML).join('');
+  }
+
+  // ========= Acciones =========
+  async function cargar(){
+    try{
+      const r = await fetch(`${API_BASE}/api/tickets`, {
+        headers: { 'Authorization': `Bearer ${token}` }
       });
+      const data = await r.json();
+      renderTarjetas(data);
+    }catch(e){
+      console.error(e);
+      document.getElementById('contenedorTickets').innerHTML =
+        `<div class="col-12 text-danger">No se pudieron cargar los tickets.</div>`;
+    }
+  }
+
+  async function actualizarTicket(id){
+    const estatus = document.getElementById(`estatus-${id}`)?.value;
+    const requiereMaterial = document.getElementById(`material-${id}`)?.value || '';
+    const resolucion = document.getElementById(`resolucion-${id}`)?.value || '';
+
+    // Validación opcional: pedir resolución al resolver/cerrar
+    const admin = esAdminActual();
+    if ((estatus === 'Resuelto' || estatus === 'Cerrado') && !resolucion.trim()){
+      alert('Para marcar como Resuelto o Cerrado, agrega la resolución del problema.');
+      return;
+    }
+    // Si no eres admin y escogiste "Cerrado" por algún motivo, lo evitamos
+    if (!admin && estatus === 'Cerrado'){
+      alert('Solo el administrador puede cerrar un ticket.');
+      return;
     }
 
-    function refrescar(){
-      const soporte = todosTickets.filter(t=>t.tipo==="Sistemas");
-      const mant    = todosTickets.filter(t=>t.tipo==="Mantenimiento");
+    const r = await fetch(`${API_BASE}/api/tickets/${id}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      },
+      body: JSON.stringify({ estatus, requiereMaterial, resolucion })
+    });
 
-      // KPIs globales
-      kpiGlobal.S = calcKPIs(soporte);
-      kpiGlobal.M = calcKPIs(mant);
-
-      // Cargar estado de sync y filtros guardados
-      loadSync();
-      loadFilters('S');
-      loadFilters('M');
-
-      // Listas visibles (aplican filtros)
-      const listaS = filtrarLista('S', todosTickets);
-      const listaM = filtrarLista('M', todosTickets);
-
-      // KPIs: globales por defecto; si el switch está activado, con filtros
-      const usarFiltros = document.getElementById('sync-kpi').checked;
-      renderKPIs(usarFiltros ? calcKPIs(listaS) : kpiGlobal.S, 'kpiS');
-      renderKPIs(usarFiltros ? calcKPIs(listaM) : kpiGlobal.M, 'kpiM');
-
-      // Render tarjetas
-      renderTarjetas(listaS, 'tickets-soporte');
-      renderTarjetas(listaM, 'tickets-mantenimiento');
+    const j = await r.json().catch(()=>({}));
+    if(!r.ok){
+      alert(j.mensaje || j.error || 'No se pudo actualizar el ticket');
+      return;
     }
-
-    async function cargar(){
-      const r=await fetch("/api/tickets",{headers:{Authorization:`Bearer ${token}`}})
-      todosTickets=await r.json();
-      refrescar();
-    }
-
-    // Eventos
-    document.getElementById('sync-kpi').addEventListener('change', ()=>{ saveSync(); refrescar(); });
-    document.getElementById('filtroS-estatus').addEventListener('change', ()=>{ saveFilters('S'); aplicarFiltros('S'); });
-    document.getElementById('filtroS-busqueda').addEventListener('input', ()=>{ saveFilters('S'); });
-    document.getElementById('filtroM-estatus').addEventListener('change', ()=>{ saveFilters('M'); aplicarFiltros('M'); });
-    document.getElementById('filtroM-busqueda').addEventListener('input', ()=>{ saveFilters('M'); });
-
-    // Botones públicos
-    function aplicarFiltros(pref){ saveFilters(pref); refrescar(); }
-    function resetFiltros(pref){
-      document.getElementById(`filtro${pref}-estatus`).value = '';
-      document.getElementById(`filtro${pref}-busqueda`).value = '';
-      saveFilters(pref); refrescar();
-    }
-
+    // feedback opcional
+    // alert(j.mensaje || 'Ticket actualizado');
     cargar();
+  }
+
+  async function asignarmeTicket(id){
+    const r = await fetch(`${API_BASE}/api/tickets/${id}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      },
+      body: JSON.stringify({ asignar: true })
+    });
+
+    const j = await r.json().catch(()=>({}));
+    if(!r.ok){
+      alert(j.mensaje || j.error || 'No se pudo asignar el ticket');
+      return;
+    }
+    cargar();
+  }
+
+  // ========= Inicio =========
+  document.addEventListener('DOMContentLoaded', cargar);
   </script>
 
-  <script src="js/navbar.js"></script>
+  <!-- Bootstrap JS (opcional) -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
-

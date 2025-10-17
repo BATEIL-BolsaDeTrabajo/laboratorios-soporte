@@ -14,6 +14,14 @@ const ticketSchema = new mongoose.Schema({
   ubicacion: { type: String, default: null },   // si es "otro" en sistemas
   salon: { type: String, default: null },       // para mantenimiento
   tipoFalla: { type: String, default: null },   // texto del catálogo
+  ubicacion: { type: String, default: '' },
+
+  // MANTENIMIENTO
+  salonArea: { type: String, default: '' },
+
+  // GENERAL
+  tipoFalla: { type: String, default: '' },
+  descripcion: { type: String, default: '' },
 
   estatus: {
     type: String,

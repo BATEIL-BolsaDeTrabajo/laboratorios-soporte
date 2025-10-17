@@ -23,19 +23,14 @@ function validarNuevoPayload(body) {
   } else if (area === 'mantenimiento') {
     if (!salon) errors.push('Indica salón/área.');
   }
-  // si no viene "area" asumimos que es el formato viejo; lo valida Mongoose más abajo
+
   return errors;
 }
 
 // ===== Crear ticket =====
-// Acepta:
-//  - Formato NUEVO: { area, tipo, laboratorio/equipo/ubicacion/salon, tipoFalla, descripcion }
-//  - Formato VIEJO: { tipo:'Sistemas|Mantenimiento', descripcion }
 router.post('/', verifyToken, async (req, res) => {
   try {
     const body = req.body;
-
-    // Usuario del token (tu middleware usa req.usuario.id)
     const userId = req.usuario?.id;
     if (!userId) {
       return res.status(401).json({ ok: false, error: 'Token válido pero sin id de usuario.' });
@@ -44,7 +39,7 @@ router.post('/', verifyToken, async (req, res) => {
     let doc = null;
 
     if (body.area) {
-      // ==== Formato NUEVO desde la página unificada ====
+      // ==== NUEVO formato unificado ====
       const errores = validarNuevoPayload(body);
       if (errores.length) return res.status(400).json({ ok: false, errors: errores });
 
@@ -52,17 +47,20 @@ router.post('/', verifyToken, async (req, res) => {
 
       doc = {
         descripcion: body.descripcion,
-        tipo: tipoGeneral,             // Sistemas | Mantenimiento (compat con schema)
-        subtipo: body.area === 'sistemas' ? body.tipo : null, // laboratorio | otro (solo sistemas)
+        tipo: tipoGeneral, // Sistemas | Mantenimiento
+        subtipo: body.area === 'sistemas' ? body.tipo : null, // laboratorio | otro
         laboratorio: body.laboratorio || null,
         equipo: body.equipo || null,
         ubicacion: body.ubicacion || null,
         salon: body.salon || null,
         tipoFalla: body.tipoFalla || null,
-        creadoPor: userId
+        creadoPor: userId,
+        estatus: 'Abierto',
+        requiereMaterial: '',
+        resolucion: ''
       };
     } else {
-      // ==== Formato VIEJO (crear-ticket.html anterior) ====
+      // ==== Formato viejo ====
       if (!body.tipo || !['Sistemas','Mantenimiento'].includes(body.tipo)) {
         return res.status(400).json({ ok: false, error: 'tipo debe ser Sistemas|Mantenimiento' });
       }
@@ -72,7 +70,8 @@ router.post('/', verifyToken, async (req, res) => {
       doc = {
         descripcion: body.descripcion,
         tipo: body.tipo,
-        creadoPor: userId
+        creadoPor: userId,
+        estatus: 'Abierto'
       };
     }
 
@@ -84,11 +83,11 @@ router.post('/', verifyToken, async (req, res) => {
   }
 });
 
-// ===== Ver tickets (igual que lo tenías) =====
+// ===== Obtener tickets según rol =====
 router.get('/', verifyToken, async (req, res) => {
   const rol = req.usuario.roles || req.usuario.rol;
-
   let filtro = {};
+
   if (rol.includes && rol.includes('soporte')) filtro.tipo = 'Sistemas';
   else if (rol.includes && rol.includes('mantenimiento')) filtro.tipo = 'Mantenimiento';
   else if (typeof rol === 'string') {
@@ -103,7 +102,7 @@ router.get('/', verifyToken, async (req, res) => {
   res.json(tickets);
 });
 
-// ===== Actualizar ticket (igual que lo tenías) =====
+// ===== Actualizar ticket =====
 router.put('/:id', verifyToken, async (req, res) => {
   const { estatus, requiereMaterial, resolucion, asignar, asignadoA } = req.body;
   const ticket = await Ticket.findById(req.params.id);
@@ -113,9 +112,9 @@ router.put('/:id', verifyToken, async (req, res) => {
     return res.status(400).json({ mensaje: 'No se puede modificar un ticket cerrado.' });
   }
 
+  // --- Actualizar estatus ---
   if (estatus) {
     ticket.estatus = estatus;
-
     if ((estatus === 'Resuelto' || estatus === 'Cerrado') && !ticket.fechaCierre) {
       ticket.fechaCierre = new Date();
     }
@@ -124,10 +123,12 @@ router.put('/:id', verifyToken, async (req, res) => {
     }
   }
 
+  // --- Actualizar campos según rol ---
   const roles = req.usuario.roles || [req.usuario.rol];
   if (roles.includes('soporte') || roles.includes('mantenimiento')) {
     if (requiereMaterial !== undefined) ticket.requiereMaterial = requiereMaterial;
     if (resolucion !== undefined) ticket.resolucion = resolucion;
+
     if (asignar) {
       if (ticket.estatus === "Cerrado" || ticket.estatus === "Resuelto") {
         return res.status(400).json({ mensaje: "No puedes asignarte un ticket cerrado o resuelto." });
@@ -141,13 +142,15 @@ router.put('/:id', verifyToken, async (req, res) => {
   res.json({ mensaje: 'Ticket actualizado correctamente' });
 });
 
-// ===== Asignables (igual que lo tenías) =====
+// ===== Tickets asignables (para admin) =====
 router.get('/asignables', verifyToken, verifyRole(['admin', 'finanzas']), async (req, res) => {
   try {
     const tickets = await Ticket.find({
       estatus: { $in: ['Abierto', 'En proceso'] },
       asignadoA: null
-    }).populate('creadoPor', 'nombre').sort({ fechaCreacion: -1 });
+    })
+      .populate('creadoPor', 'nombre')
+      .sort({ fechaCreacion: -1 });
 
     res.json(tickets);
   } catch (err) {
