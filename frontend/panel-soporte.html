@@ -233,7 +233,7 @@
                 ${ops.map(o=>`<option ${t.estatus===o?"selected":""}>${o}</option>`).join("")}
               </select>
               <label class="form-label">Requiere material:</label>
-              <input class="form-control mb-2" id="material-${t._id}" value="${t.requiereMaterial||''}" placeholder="Material (opcional)" ${esC?"disabled":""}>
+              <textarea class="form-control mb-2" id="material-${t._id}" value="${t.requiereMaterial||''}" placeholder="Material (opcional)" ${esC?"disabled":""}></textarea>
               <label class="form-label">Resolución del problema:</label>
                  <textarea class="form-control mb-2"
                   id="resolucion-${t._id}"
