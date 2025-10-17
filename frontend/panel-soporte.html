@@ -228,51 +228,94 @@
       return '';
     }
 
+    function badgeEstatus(estatus){
+  const map = {
+    'Abierto': 'bg-secondary',
+    'En proceso': 'bg-warning',
+    'Resuelto': 'bg-info',
+    'Cerrado': 'bg-success',
+    'Cancelado': 'bg-dark'
+  };
+  const cls = map[estatus] || 'bg-secondary';
+  return `<span class="badge ${cls}">${estatus}</span>`;
+}
+
     // ================== Render de tarjetas ==================
     function renderTarjetas(tickets, contId){
-      const c=document.getElementById(contId);c.innerHTML="";
-      const admin=esAdminActual();
-      tickets.forEach(t=>{
-        const esC=t.estatus==="Cerrado",e=ESTILOS[t.estatus]||{border:"secondary",bg:"bg-light",text:"text-dark"};
-        const ops=admin?["Abierto","En proceso","Resuelto","Cerrado"]:["Abierto","En proceso","Resuelto"];
-        c.innerHTML+=`
-          <div class="col-md-6"><div class="card border-${e.border} ${e.bg} ${e.text}">
-            <div class="card-body">
-              <h5 class="card-title mb-1">Área: ${t.tipo}</h5>
-              <div class="small text-muted mb-2">${textoUbicacion(t)}</div>
+  const c = document.getElementById(contId);
+  c.innerHTML = "";
+  const admin = esAdminActual();
 
-              <div class="small mb-2">
-                <strong>Estado:</strong> ${t.estatus}<br>
-                <strong>Creado por:</strong> ${t.creadoPor?.nombre||"—"}<br>
-                <strong>Asignado a:</strong> ${t.asignadoA?.nombre||"Sin asignar"}
+  tickets.forEach(t => {
+    const esC = t.estatus === "Cerrado";
+    const e   = ESTILOS[t.estatus] || { border:"secondary", bg:"bg-light", text:"text-dark" };
+    const ops = admin ? ["Abierto","En proceso","Resuelto","Cerrado"] : ["Abierto","En proceso","Resuelto"];
+
+    c.innerHTML += `
+      <div class="col-md-6">
+        <div class="card border-${e.border} ${e.bg} ${e.text}">
+          <div class="card-body">
+
+            <!-- Encabezado: título a la izquierda / estado + creador + asignado a la derecha -->
+            <div class="d-flex justify-content-between align-items-start mb-1">
+              <h5 class="card-title mb-0">Área: ${t.tipo}</h5>
+              <div class="text-end small">
+                <div><strong>Estado:</strong> ${badgeEstatus(t.estatus)}</div>
+                <div><strong>Creado por:</strong> ${t.creadoPor?.nombre || "—"}</div>
+                <div><strong>Asignado a:</strong> ${t.asignadoA?.nombre || "Sin asignar"}</div>
               </div>
-
-              <label class="form-label">Descripción detallada:</label>
-              <div class="form-control mb-2" style="min-height:72px; white-space:pre-wrap;">
-                ${t.descripcion || '—'}
-              </div>
-
-              <label class="form-label">Estatus:</label>
-              <select class="form-select mb-2" id="estatus-${t._id}" ${esC?"disabled":""}>
-                ${ops.map(o=>`<option ${t.estatus===o?"selected":""}>${o}</option>`).join("")}
-              </select>
-
-              <label class="form-label">Requiere material:</label>
-              <textarea class="form-control mb-2" id="material-${t._id}" placeholder="Material (opcional)" ${esC?"disabled":""}>${t.requiereMaterial || ''}</textarea>
-
-              <label class="form-label">Resolución del problema:</label>
-              <textarea class="form-control mb-2"
-                id="resolucion-${t._id}"
-                placeholder="Describe brevemente cómo se resolvió"
-                rows="2" ${esC ? "disabled" : ""}>${t.resolucion || ''}</textarea>
-
-              <button class="btn btn-primary w-100 mb-2" onclick="actualizarTicket('${t._id}')" ${esC?"disabled":""}>Guardar cambios</button>
-              ${!t.asignadoA&&!esC?`<button class="btn btn-success w-100" onclick="asignarmeTicket('${t._id}')">Asignarme</button>`:""}
             </div>
-          </div></div>`;
-      });
-    }
 
+            <!-- Línea de ubicación -->
+            <div class="text-muted small mb-3">
+              ${ (function(){
+                  const tipo = (t.tipo||'').toLowerCase();
+                  const subt = (t.subtipo||'').toLowerCase();
+                  if (tipo==='sistemas') {
+                    if (subt==='laboratorio') {
+                      const eq = t.equipo ? ' • Equipo: ' + t.equipo : '';
+                      return 'Ubicación: Laboratorio ' + (t.laboratorio||'—') + eq;
+                    }
+                    return 'Ubicación: ' + (t.ubicacion || '—');
+                  }
+                  if (tipo==='mantenimiento') return 'Ubicación: ' + (t.salon || '—');
+                  return 'Ubicación: —';
+              })() }
+            </div>
+
+            <!-- Descripción -->
+            <label class="form-label">Descripción detallada:</label>
+            <div class="form-control mb-3" style="min-height:72px; white-space:pre-wrap;">${t.descripcion || '—'}</div>
+
+            <!-- Fila: Estatus (izq) / Material (der) -->
+            <div class="row g-2 align-items-start mb-2">
+              <div class="col-12 col-md-6">
+                <label class="form-label">Estatus:</label>
+                <select class="form-select" id="estatus-${t._id}" ${esC ? "disabled" : ""}>
+                  ${ops.map(o => `<option ${t.estatus===o?"selected":""}>${o}</option>`).join("")}
+                </select>
+              </div>
+              <div class="col-12 col-md-6">
+                <label class="form-label">Requiere material:</label>
+                <textarea class="form-control" id="material-${t._id}" placeholder="Material (opcional)" rows="1" ${esC ? "disabled" : ""}>${t.requiereMaterial || ''}</textarea>
+              </div>
+            </div>
+
+            <!-- Resolución -->
+            <label class="form-label">Resolución del problema:</label>
+            <textarea class="form-control mb-3" id="resolucion-${t._id}" rows="2" placeholder="Describe cómo se resolvió" ${esC ? "disabled" : ""}>${t.resolucion || ''}</textarea>
+
+            <!-- Botones -->
+            <div class="d-flex gap-2">
+              <button class="btn btn-primary flex-fill" onclick="actualizarTicket('${t._id}')" ${esC ? "disabled" : ""}>Guardar cambios</button>
+              <button class="btn btn-success flex-fill" onclick="asignarmeTicket('${t._id}')" ${ (esC || t.asignadoA) ? "disabled" : "" }>Asignarme</button>
+            </div>
+
+          </div>
+        </div>
+      </div>`;
+  });
+}
     async function actualizarTicket(id){
       const e=document.getElementById(`estatus-${id}`).value;
       const m=document.getElementById(`material-${id}`).value || '';
