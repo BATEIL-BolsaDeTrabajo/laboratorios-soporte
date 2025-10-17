@@ -22,6 +22,7 @@ const ticketSchema = new mongoose.Schema({
     index: true
   },
   requiereMaterial: { type: String, default: '' },
+  resolucion: { type: String, default: '' },
 
   creadoPor: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true, index: true },
   asignadoA: { type: mongoose.Schema.Types.ObjectId, ref: 'User', default: null },

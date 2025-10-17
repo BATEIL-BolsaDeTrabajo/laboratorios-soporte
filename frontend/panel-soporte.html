@@ -234,6 +234,11 @@
               </select>
               <label class="form-label">Requiere material:</label>
               <input class="form-control mb-2" id="material-${t._id}" value="${t.requiereMaterial||''}" placeholder="Material (opcional)" ${esC?"disabled":""}>
+              <label class="form-label">Resolución del problema:</label>
+                 <textarea class="form-control mb-2"
+                  id="resolucion-${t._id}"
+                  placeholder="Describe brevemente cómo se resolvió"
+                  rows="2" ${esC ? "disabled" : ""}>${t.resolucion || ''}</textarea>
               <button class="btn btn-primary w-100 mb-2" onclick="actualizarTicket('${t._id}')" ${esC?"disabled":""}>Guardar cambios</button>
               ${!t.asignadoA&&!esC?`<button class="btn btn-success w-100" onclick="asignarmeTicket('${t._id}')">Asignarme</button>`:""}
             </div>
@@ -244,6 +249,7 @@
     async function actualizarTicket(id){
       const e=document.getElementById(`estatus-${id}`).value;
       const m=document.getElementById(`material-${id}`).value;
+      const rs = document.getElementById(`resolucion-${id}`)?.value || '';
       const r=await fetch(`/api/tickets/${id}`,{method:"PUT",headers:{"Content-Type":"application/json",Authorization:`Bearer ${token}`},body:JSON.stringify({estatus:e,requiereMaterial:m})});
       const d=await r.json();alert(d.mensaje||"Actualizado");cargar();
     }

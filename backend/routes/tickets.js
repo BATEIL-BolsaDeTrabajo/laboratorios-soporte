@@ -105,7 +105,7 @@ router.get('/', verifyToken, async (req, res) => {
 
 // ===== Actualizar ticket (igual que lo tenías) =====
 router.put('/:id', verifyToken, async (req, res) => {
-  const { estatus, requiereMaterial, asignar, asignadoA } = req.body;
+  const { estatus, requiereMaterial, resolucion, asignar, asignadoA } = req.body;
   const ticket = await Ticket.findById(req.params.id);
   if (!ticket) return res.status(404).json({ mensaje: 'Ticket no encontrado' });
 
@@ -127,6 +127,7 @@ router.put('/:id', verifyToken, async (req, res) => {
   const roles = req.usuario.roles || [req.usuario.rol];
   if (roles.includes('soporte') || roles.includes('mantenimiento')) {
     if (requiereMaterial !== undefined) ticket.requiereMaterial = requiereMaterial;
+    if (resolucion !== undefined) ticket.resolucion = resolucion;
     if (asignar) {
       if (ticket.estatus === "Cerrado" || ticket.estatus === "Resuelto") {
         return res.status(400).json({ mensaje: "No puedes asignarte un ticket cerrado o resuelto." });
