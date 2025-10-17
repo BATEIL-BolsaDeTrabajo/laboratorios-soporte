@@ -1,4 +1,4 @@
-<<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="es">
 <head>
   <meta charset="UTF-8">
@@ -22,6 +22,12 @@
           Sincronizar KPIs con filtros
         </label>
       </div>
+    </div>
+
+    <!-- Conmutador de panel visible (se muestra solo si el usuario puede ver ambos) -->
+    <div id="panel-switch" class="d-flex justify-content-center gap-2 mb-4 d-none">
+      <button id="btn-soporte" class="btn btn-outline-primary btn-sm">🖥️ Soporte</button>
+      <button id="btn-mantenimiento" class="btn btn-outline-primary btn-sm">🔧 Mantenimiento</button>
     </div>
 
     <!-- ======== PANEL SOPORTE (Sistemas) ======== -->
@@ -126,7 +132,7 @@
       "Cerrado":   { border: "success", bg: "bg-success",        text: "text-white" }
     };
 
-    // Roles y visibilidad
+    // Roles / permisos
     function rolesActuales() {
       try {
         const u = JSON.parse(localStorage.getItem('usuario') || '{}');
@@ -143,14 +149,49 @@
     }
     function esAdminActual() { return rolesActuales().includes('admin'); }
 
+    // Visibilidad de paneles + persistencia
+    const PANEL_KEY = 'panel_visible'; // 'S' | 'M'
+    function setPanelVisible(pref){
+      const secS = document.getElementById('sec-soporte');
+      const secM = document.getElementById('sec-mantenimiento');
+      if (pref === 'S') { secS.classList.remove('d-none'); secM.classList.add('d-none'); }
+      else              { secM.classList.remove('d-none'); secS.classList.add('d-none'); }
+      localStorage.setItem(PANEL_KEY, pref);
+      // marcar botón activo
+      document.getElementById('btn-soporte')?.classList.toggle('btn-primary', pref==='S');
+      document.getElementById('btn-soporte')?.classList.toggle('btn-outline-primary', pref!=='S');
+      document.getElementById('btn-mantenimiento')?.classList.toggle('btn-primary', pref==='M');
+      document.getElementById('btn-mantenimiento')?.classList.toggle('btn-outline-primary', pref!=='M');
+    }
+
     function ajustarPanelesPorRol() {
       const roles = rolesActuales();
       const esAdmin = roles.includes('admin');
       const tieneS = roles.includes('soporte');
       const tieneM = roles.includes('mantenimiento');
-      if (esAdmin || (tieneS && tieneM)) return;
-      if (tieneS) document.getElementById('sec-mantenimiento').classList.add('d-none');
-      if (tieneM) document.getElementById('sec-soporte').classList.add('d-none');
+      const secS = document.getElementById('sec-soporte');
+      const secM = document.getElementById('sec-mantenimiento');
+      const switcher = document.getElementById('panel-switch');
+
+      if (esAdmin || (tieneS && tieneM)) {
+        // Puede ver ambos → mostrar switch y respetar preferencia
+        switcher.classList.remove('d-none');
+        const pref = localStorage.getItem(PANEL_KEY) || 'S';
+        setPanelVisible(pref);
+      } else if (tieneS) {
+        secM.classList.add('d-none'); secS.classList.remove('d-none');
+        localStorage.setItem(PANEL_KEY, 'S');
+      } else if (tieneM) {
+        secS.classList.add('d-none'); secM.classList.remove('d-none');
+        localStorage.setItem(PANEL_KEY, 'M');
+      } else {
+        // Si no tiene ninguno, por si acaso (no debería pasar si backend filtra)
+        secS.classList.add('d-none'); secM.classList.add('d-none');
+      }
+
+      // Listeners de los botones
+      document.getElementById('btn-soporte')?.addEventListener('click', ()=> setPanelVisible('S'));
+      document.getElementById('btn-mantenimiento')?.addEventListener('click', ()=> setPanelVisible('M'));
     }
     ajustarPanelesPorRol();
 
@@ -221,7 +262,6 @@
       M: { est:'filtroM_estatus', q:'filtroM_busqueda' }
     };
 
-    // persistencia
     function saveFilters(pref){
       localStorage.setItem(STORAGE_KEYS[pref].est, document.getElementById(`filtro${pref}-estatus`).value);
       localStorage.setItem(STORAGE_KEYS[pref].q,   document.getElementById(`filtro${pref}-busqueda`).value);
@@ -240,7 +280,6 @@
       document.getElementById('sync-kpi').checked = v === '1';
     }
 
-    // filtros
     function filtrarLista(pref, base){
       const tipo = pref==="S"?"Sistemas":"Mantenimiento";
       const estado = document.getElementById(`filtro${pref}-estatus`).value.trim();
@@ -257,7 +296,7 @@
       const soporte = todosTickets.filter(t=>t.tipo==="Sistemas");
       const mant    = todosTickets.filter(t=>t.tipo==="Mantenimiento");
 
-      // KPIs globales calculados una sola vez (recordados)
+      // KPIs globales
       kpiGlobal.S = calcKPIs(soporte);
       kpiGlobal.M = calcKPIs(mant);
 
@@ -275,12 +314,11 @@
       renderKPIs(usarFiltros ? calcKPIs(listaS) : kpiGlobal.S, 'kpiS');
       renderKPIs(usarFiltros ? calcKPIs(listaM) : kpiGlobal.M, 'kpiM');
 
-      // Render listas
+      // Render tarjetas
       renderTarjetas(listaS, 'tickets-soporte');
       renderTarjetas(listaM, 'tickets-mantenimiento');
     }
 
-    // API load
     async function cargar(){
       const r=await fetch("/api/tickets",{headers:{Authorization:`Bearer ${token}`}})
       todosTickets=await r.json();
@@ -295,15 +333,11 @@
     document.getElementById('filtroM-busqueda').addEventListener('input', ()=>{ saveFilters('M'); });
 
     // Botones públicos
-    function aplicarFiltros(pref){
-      saveFilters(pref);
-      refrescar();
-    }
+    function aplicarFiltros(pref){ saveFilters(pref); refrescar(); }
     function resetFiltros(pref){
       document.getElementById(`filtro${pref}-estatus`).value = '';
       document.getElementById(`filtro${pref}-busqueda`).value = '';
-      saveFilters(pref);
-      refrescar();
+      saveFilters(pref); refrescar();
     }
 
     cargar();
@@ -313,3 +347,4 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
+
