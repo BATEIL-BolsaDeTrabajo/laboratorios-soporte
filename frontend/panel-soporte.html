@@ -251,6 +251,36 @@
     const e   = ESTILOS[t.estatus] || { border:"secondary", bg:"bg-light", text:"text-dark" };
     const ops = admin ? ["Abierto","En proceso","Resuelto","Cerrado"] : ["Abierto","En proceso","Resuelto"];
 
+    // ---- Formateo del equipo y laboratorio ----
+    function formatearEquipo(eq){
+      if(!eq) return "";
+      eq = eq.toUpperCase().trim();
+      // Si empieza con PC y un número, lo normalizamos
+      const match = eq.match(/^PC[-\s]?(\d+)$/i);
+      if(match) {
+        const num = match[1].padStart(2, "0");
+        return `PC-${num}`;
+      }
+      return eq;
+    }
+
+    function formatearUbicacion(){
+      const tipo = (t.tipo || "").toLowerCase();
+      const subt = (t.subtipo || "").toLowerCase();
+      if (tipo === "sistemas") {
+        if (subt === "laboratorio") {
+          const lab = t.laboratorio ? t.laboratorio.trim().toUpperCase() : "—";
+          const eq = formatearEquipo(t.equipo);
+          return `Laboratorio ${lab}${eq ? ` • Equipo: ${eq}` : ""}`;
+        }
+        return `Ubicación: ${t.ubicacion || "—"}`;
+      }
+      if (tipo === "mantenimiento") {
+        return `Salón/Área: ${t.salon || "—"}`;
+      }
+      return "Ubicación: —";
+    }
+
     c.innerHTML += `
       <div class="col-md-6">
         <div class="card border-${e.border} ${e.bg} ${e.text}">
@@ -267,21 +297,7 @@
             </div>
 
             <!-- Línea de ubicación -->
-            <div class="text-muted small mb-3">
-              ${ (function(){
-                  const tipo = (t.tipo||'').toLowerCase();
-                  const subt = (t.subtipo||'').toLowerCase();
-                  if (tipo==='sistemas') {
-                    if (subt==='laboratorio') {
-                      const eq = t.equipo ? ' • Equipo: ' + t.equipo : '';
-                      return 'Ubicación: Laboratorio ' + (t.laboratorio||'—') + eq;
-                    }
-                    return 'Ubicación: ' + (t.ubicacion || '—');
-                  }
-                  if (tipo==='mantenimiento') return 'Ubicación: ' + (t.salon || '—');
-                  return 'Ubicación: —';
-              })() }
-            </div>
+            <div class="text-muted small mb-3">${formatearUbicacion()}</div>
 
             <!-- Descripción -->
             <label class="form-label">Descripción detallada:</label>
@@ -308,7 +324,7 @@
             <!-- Botones -->
             <div class="d-flex gap-2">
               <button class="btn btn-primary flex-fill" onclick="actualizarTicket('${t._id}')" ${esC ? "disabled" : ""}>Guardar cambios</button>
-              <button class="btn btn-success flex-fill" onclick="asignarmeTicket('${t._id}')" ${ (esC || t.asignadoA) ? "disabled" : "" }>Asignarme</button>
+              <button class="btn btn-success flex-fill" onclick="asignarmeTicket('${t._id}')" ${(esC || t.asignadoA) ? "disabled" : ""}>Asignarme</button>
             </div>
 
           </div>
