@@ -16,6 +16,12 @@ const ticketSchema = new mongoose.Schema({
   tipoFalla: { type: String, default: null },   // texto del catálogo
   ubicacion: { type: String, default: '' },
 
+  // Fechas
+fechaCreacion: { type: Date, default: Date.now },
+fechaInicio:   { type: Date, default: null }, 
+fechaCierre:   { type: Date, default: null }, 
+
+
   // MANTENIMIENTO
   salonArea: { type: String, default: '' },
 
@@ -25,7 +31,7 @@ const ticketSchema = new mongoose.Schema({
 
   estatus: {
     type: String,
-    enum: ['Abierto', 'En proceso', 'Resuelto', 'Cerrado'],
+    enum: ['Abierto', 'En proceso', 'Resuelto', 'Cerrado','En espera de material'],
     default: 'Abierto',
     index: true
   },

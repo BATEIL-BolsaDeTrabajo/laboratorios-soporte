@@ -240,8 +240,17 @@
   return `<span class="badge ${cls}">${estatus}</span>`;
 }
 
+// ================== formateador de fechas ==================
+  function fmtFecha(dt)
+  {
+    if(!dt) return '—';
+    const d = new Date(dt);
+    const pad = n => String(n).padStart(2,'0');
+    return `${pad(d.getDate())}/${pad(d.getMonth()+1)}/${d.getFullYear()} ${pad(d.getHours())}:${pad(d.getMinutes())}`;
+  }
+
     // ================== Render de tarjetas ==================
-    function renderTarjetas(tickets, contId){
+function renderTarjetas(tickets, contId){
   const c = document.getElementById(contId);
   c.innerHTML = "";
   const admin = esAdminActual();
@@ -249,44 +258,52 @@
   tickets.forEach(t => {
     const esC = t.estatus === "Cerrado";
     const e   = ESTILOS[t.estatus] || { border:"secondary", bg:"bg-light", text:"text-dark" };
-    const ops = admin ? ["Abierto","En proceso","Resuelto","Cerrado"] : ["Abierto","En proceso","Resuelto"];
 
-    // ---- Formateo del equipo y laboratorio ----
+    // Opciones de estatus:
+    // - No admin: no puede "Cerrado"
+    // - Ambos ven "En espera de material" (pausa)
+    const ops = admin
+      ? ["Abierto","En proceso","En espera de material","Resuelto","Cerrado"]
+      : ["Abierto","En proceso","En espera de material","Resuelto"];
+
+    // ---- Helpers de UI ----
     function formatearEquipo(eq){
       if(!eq) return "";
       eq = eq.toUpperCase().trim();
-      // Si empieza con PC y un número, lo normalizamos
-      const match = eq.match(/^PC[-\s]?(\d+)$/i);
-      if(match) {
-        const num = match[1].padStart(2, "0");
-        return `PC-${num}`;
-      }
+      const m = eq.match(/^PC[-\s]?(\d+)$/i);
+      if(m){ return `PC-${m[1].padStart(2,'0')}`; }
       return eq;
     }
-
-    function formatearUbicacion(){
-      const tipo = (t.tipo || "").toLowerCase();
-      const subt = (t.subtipo || "").toLowerCase();
-      if (tipo === "sistemas") {
-        if (subt === "laboratorio") {
-          const lab = t.laboratorio ? t.laboratorio.trim().toUpperCase() : "—";
-          const eq = formatearEquipo(t.equipo);
-          return `Laboratorio ${lab}${eq ? ` • Equipo: ${eq}` : ""}`;
+    function ubicacionLinea(){
+      const tipo = (t.tipo||'').toLowerCase();
+      const subt = (t.subtipo||'').toLowerCase();
+      if (tipo==='sistemas') {
+        if (subt==='laboratorio') {
+          const lab = t.laboratorio ? t.laboratorio.trim().toUpperCase() : '—';
+          const eq  = formatearEquipo(t.equipo);
+          return `Ubicación: Laboratorio ${lab}${eq ? ' • Equipo: '+eq : ''}`;
         }
-        return `Ubicación: ${t.ubicacion || "—"}`;
+        return `Ubicación: ${t.ubicacion || '—'}`;
       }
-      if (tipo === "mantenimiento") {
-        return `Salón/Área: ${t.salon || "—"}`;
-      }
-      return "Ubicación: —";
+      if (tipo==='mantenimiento') return `Ubicación: ${t.salon || '—'}`;
+      return 'Ubicación: —';
     }
+
+    // --- Botón rápido para pausar/reanudar por material ---
+    const puedePausar = !!(t.requiereMaterial && t.requiereMaterial.trim());
+    const btnPausa = (t.estatus !== 'En espera de material' && puedePausar && !esC)
+      ? `<button class="btn btn-outline-secondary flex-fill" onclick="cambiarEstatus('${t._id}','En espera de material')">Pausar por material</button>`
+      : '';
+    const btnReanudar = (t.estatus === 'En espera de material' && !esC)
+      ? `<button class="btn btn-outline-success flex-fill" onclick="cambiarEstatus('${t._id}','En proceso')">Material recibido (reanudar)</button>`
+      : '';
 
     c.innerHTML += `
       <div class="col-md-6">
         <div class="card border-${e.border} ${e.bg} ${e.text}">
           <div class="card-body">
 
-            <!-- Encabezado: título a la izquierda / estado + creador + asignado a la derecha -->
+            <!-- Encabezado -->
             <div class="d-flex justify-content-between align-items-start mb-1">
               <h5 class="card-title mb-0">Área: ${t.tipo}</h5>
               <div class="text-end small">
@@ -296,14 +313,21 @@
               </div>
             </div>
 
-            <!-- Línea de ubicación -->
-            <div class="text-muted small mb-3">${formatearUbicacion()}</div>
+            <!-- Fechas -->
+            <div class="row g-2 small text-muted mb-2">
+              <div class="col-12 col-md-4"><strong>Solicitado:</strong> ${fmtFecha(t.fechaCreacion || t.createdAt)}</div>
+              <div class="col-12 col-md-4"><strong>Inicio:</strong> ${fmtFecha(t.fechaInicio)}</div>
+              <div class="col-12 col-md-4"><strong>Finalización:</strong> ${fmtFecha(t.fechaCierre)}</div>
+            </div>
+
+            <!-- Ubicación -->
+            <div class="text-muted small mb-3">${ubicacionLinea()}</div>
 
             <!-- Descripción -->
             <label class="form-label">Descripción detallada:</label>
             <div class="form-control mb-3" style="min-height:72px; white-space:pre-wrap;">${t.descripcion || '—'}</div>
 
-            <!-- Fila: Estatus (izq) / Material (der) -->
+            <!-- Fila: Estatus / Material -->
             <div class="row g-2 align-items-start mb-2">
               <div class="col-12 col-md-6">
                 <label class="form-label">Estatus:</label>
@@ -314,6 +338,7 @@
               <div class="col-12 col-md-6">
                 <label class="form-label">Requiere material:</label>
                 <textarea class="form-control" id="material-${t._id}" placeholder="Material (opcional)" rows="1" ${esC ? "disabled" : ""}>${t.requiereMaterial || ''}</textarea>
+                <div class="form-text">${puedePausar ? 'Puedes pausar el ticket hasta recibir el material.' : 'Agrega material para habilitar la pausa.'}</div>
               </div>
             </div>
 
@@ -322,8 +347,10 @@
             <textarea class="form-control mb-3" id="resolucion-${t._id}" rows="2" placeholder="Describe cómo se resolvió" ${esC ? "disabled" : ""}>${t.resolucion || ''}</textarea>
 
             <!-- Botones -->
-            <div class="d-flex gap-2">
+            <div class="d-flex flex-wrap gap-2">
               <button class="btn btn-primary flex-fill" onclick="actualizarTicket('${t._id}')" ${esC ? "disabled" : ""}>Guardar cambios</button>
+              ${btnPausa}
+              ${btnReanudar}
               <button class="btn btn-success flex-fill" onclick="asignarmeTicket('${t._id}')" ${(esC || t.asignadoA) ? "disabled" : ""}>Asignarme</button>
             </div>
 
@@ -332,6 +359,7 @@
       </div>`;
   });
 }
+
     async function actualizarTicket(id){
       const e=document.getElementById(`estatus-${id}`).value;
       const m=document.getElementById(`material-${id}`).value || '';
@@ -350,6 +378,15 @@
       });
       const d=await r.json();alert(d.mensaje||"Actualizado");cargar();
     }
+
+    async function cambiarEstatus(id, nuevo){
+     const estSel = document.getElementById(`estatus-${id}`);
+     if (estSel) estSel.value = nuevo; // refleja el cambio en el select
+     await actualizarTicket(id);       // reutilizamos el mismo guardado
+    }
+
+
+
     async function asignarmeTicket(id){
       const r=await fetch(`/api/tickets/${id}`,{
         method:"PUT",

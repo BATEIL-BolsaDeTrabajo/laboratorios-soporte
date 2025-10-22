@@ -108,26 +108,40 @@ router.put('/:id', verifyToken, async (req, res) => {
   const ticket = await Ticket.findById(req.params.id);
   if (!ticket) return res.status(404).json({ mensaje: 'Ticket no encontrado' });
 
+  // No permitir reabrir un cerrado cambiando a otro estado (opcional)
   if (ticket.estatus === 'Cerrado' && estatus && estatus !== 'Cerrado') {
     return res.status(400).json({ mensaje: 'No se puede modificar un ticket cerrado.' });
   }
 
-  // --- Actualizar estatus ---
+  // --- CAMBIO DE ESTATUS Y FECHAS ---
   if (estatus) {
-    ticket.estatus = estatus;
-    if ((estatus === 'Resuelto' || estatus === 'Cerrado') && !ticket.fechaCierre) {
+    // 1) Guardar fecha de inicio SOLO una vez cuando entra a "En proceso"
+    if (estatus === 'En proceso' && !ticket.fechaInicio) {
+      ticket.fechaInicio = new Date();
+    }
+
+    // 2) Poner fecha de cierre al resolver/cerrar
+    if ((estatus === 'Resuelto' || estatus === 'Cerrado')) {
       ticket.fechaCierre = new Date();
     }
-    if (estatus === 'Abierto' || estatus === 'En proceso') {
+
+    // 3) Si vuelve a "Abierto", limpiar fechas de inicio y cierre
+    if (estatus === 'Abierto') {
+      ticket.fechaInicio = null;
       ticket.fechaCierre = null;
     }
+
+    // 4) "En espera de material" NO toca fechas. (pausa)
+    //    Cuando se reanude a "En proceso", NO se vuelve a pisar fechaInicio.
+
+    ticket.estatus = estatus;
   }
 
-  // --- Actualizar campos según rol ---
+  // --- Actualizar campos de trabajo según rol ---
   const roles = req.usuario.roles || [req.usuario.rol];
   if (roles.includes('soporte') || roles.includes('mantenimiento')) {
-    if (requiereMaterial !== undefined) ticket.requiereMaterial = requiereMaterial;
-    if (resolucion !== undefined) ticket.resolucion = resolucion;
+    if (typeof requiereMaterial !== 'undefined') ticket.requiereMaterial = requiereMaterial;
+    if (typeof resolucion       !== 'undefined') ticket.resolucion       = resolucion;
 
     if (asignar) {
       if (ticket.estatus === "Cerrado" || ticket.estatus === "Resuelto") {
@@ -141,6 +155,7 @@ router.put('/:id', verifyToken, async (req, res) => {
   await ticket.save();
   res.json({ mensaje: 'Ticket actualizado correctamente' });
 });
+
 
 // ===== Tickets asignables (para admin) =====
 router.get('/asignables', verifyToken, verifyRole(['admin', 'finanzas']), async (req, res) => {
