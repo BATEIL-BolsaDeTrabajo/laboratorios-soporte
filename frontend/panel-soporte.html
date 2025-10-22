@@ -42,6 +42,7 @@
             <option>Abierto</option>
             <option>En proceso</option>
             <option>Resuelto</option>
+            <option>En espera de material</option>
             <option>Cerrado</option>
           </select>
         </div>
@@ -67,6 +68,16 @@
         <div class="col-6 col-md-2"><div class="p-3 text-center rounded-3 bg-primary text-white"><div class="fw-semibold">Total</div><div id="kpiS-total" class="fs-2">0</div></div></div>
         <div class="col-6 col-md-2"><div class="p-3 text-center rounded-3 bg-danger text-white"><div class="fw-semibold">Abiertos</div><div id="kpiS-abiertos" class="fs-2">0</div></div></div>
         <div class="col-6 col-md-2"><div class="p-3 text-center rounded-3 bg-warning text-dark"><div class="fw-semibold">En proceso</div><div id="kpiS-proceso" class="fs-2">0</div></div></div>
+
+
+        <div class="col-6 col-md-2">
+           <div class="p-3 text-center rounded-3 bg-secondary text-white">
+           <div class="fw-semibold">En espera</div>
+           <div id="kpiS-espera" class="fs-2">0</div>
+         </div>
+        </div>
+
+
         <div class="col-6 col-md-2"><div class="p-3 text-center rounded-3 bg-info text-dark"><div class="fw-semibold">Resueltos</div><div id="kpiS-resueltos" class="fs-2">0</div></div></div>
         <div class="col-6 col-md-2"><div class="p-3 text-center rounded-3 bg-success text-white"><div class="fw-semibold">Cerrados</div><div id="kpiS-cerrados" class="fs-2">0</div></div></div>
       </div>
@@ -88,6 +99,7 @@
             <option>Abierto</option>
             <option>En proceso</option>
             <option>Resuelto</option>
+            <option>En espera de material</option>
             <option>Cerrado</option>
           </select>
         </div>
@@ -112,6 +124,16 @@
         <div class="col-6 col-md-2"><div class="p-3 text-center rounded-3 bg-primary text-white"><div class="fw-semibold">Total</div><div id="kpiM-total" class="fs-2">0</div></div></div>
         <div class="col-6 col-md-2"><div class="p-3 text-center rounded-3 bg-danger text-white"><div class="fw-semibold">Abiertos</div><div id="kpiM-abiertos" class="fs-2">0</div></div></div>
         <div class="col-6 col-md-2"><div class="p-3 text-center rounded-3 bg-warning text-dark"><div class="fw-semibold">En proceso</div><div id="kpiM-proceso" class="fs-2">0</div></div></div>
+
+
+        <div class="col-6 col-md-2">
+         <div class="p-3 text-center rounded-3 bg-secondary text-white">
+           <div class="fw-semibold">En espera</div>
+           <div id="kpiS-espera" class="fs-2">0</div>
+         </div>
+       </div>
+
+
         <div class="col-6 col-md-2"><div class="p-3 text-center rounded-3 bg-info text-dark"><div class="fw-semibold">Resueltos</div><div id="kpiM-resueltos" class="fs-2">0</div></div></div>
         <div class="col-6 col-md-2"><div class="p-3 text-center rounded-3 bg-success text-white"><div class="fw-semibold">Cerrados</div><div id="kpiM-cerrados" class="fs-2">0</div></div></div>
       </div>
@@ -195,21 +217,35 @@
     const fmtPromedio = (ms)=>{ if(!ms||!isFinite(ms))return"--";const m=Math.round(ms/60000);return `${Math.floor(m/60)}h ${m%60}m`;};
 
     function calcKPIs(tickets){
-      const by = s => tickets.filter(t=>t.estatus===s).length;
-      const total=tickets.length, abiertos=by("Abierto"), proceso=by("En proceso"),
-            resueltos=by("Resuelto"), cerrados=by("Cerrado");
-      const term=tickets.filter(t=>t.fechaCierre||t.estatus==="Cerrado"||t.estatus==="Resuelto");
-      let prom=0;if(term.length){prom=term.reduce((a,t)=>a+(new Date(t.fechaCierre||t.updatedAt||t.createdAt)-new Date(t.fechaCreacion||t.createdAt)),0)/term.length;}
-      return { total, abiertos, proceso, resueltos, cerrados, prom };
+     const by = s => tickets.filter(t=>t.estatus===s).length;
+     const total     = tickets.length;
+     const abiertos  = by("Abierto");
+     const proceso   = by("En proceso");
+     const espera    = by("En espera de material"); // NUEVO
+     const resueltos = by("Resuelto");
+     const cerrados  = by("Cerrado");
+
+     const term = tickets.filter(t => t.fechaCierre || t.estatus==="Cerrado" || t.estatus==="Resuelto");
+      let prom = 0;
+      if (term.length){
+       prom = term.reduce((a,t)=>
+         a + (new Date(t.fechaCierre || t.updatedAt || t.createdAt) - new Date(t.fechaCreacion || t.createdAt)), 0
+        ) / term.length;
+      }
+      return { total, abiertos, proceso, espera, resueltos, cerrados, prom };
     }
+
     function renderKPIs(kpi, prefijo){
-      document.getElementById(`${prefijo}-total`).textContent     = kpi.total;
-      document.getElementById(`${prefijo}-abiertos`).textContent  = kpi.abiertos;
-      document.getElementById(`${prefijo}-proceso`).textContent   = kpi.proceso;
-      document.getElementById(`${prefijo}-resueltos`).textContent = kpi.resueltos;
-      document.getElementById(`${prefijo}-cerrados`).textContent  = kpi.cerrados;
-      document.getElementById(`${prefijo}-tiempo`).textContent    = fmtPromedio(kpi.prom);
+     document.getElementById(`${prefijo}-total`).textContent     = kpi.total;
+     document.getElementById(`${prefijo}-abiertos`).textContent  = kpi.abiertos;
+     document.getElementById(`${prefijo}-proceso`).textContent   = kpi.proceso;
+     document.getElementById(`${prefijo}-resueltos`).textContent = kpi.resueltos;
+     document.getElementById(`${prefijo}-cerrados`).textContent  = kpi.cerrados;
+     const esperaEl = document.getElementById(`${prefijo}-espera`);
+     if (esperaEl) esperaEl.textContent = kpi.espera; // NUEVO
+     document.getElementById(`${prefijo}-tiempo`).textContent    = fmtPromedio(kpi.prom);
     }
+
 
     // ----------- NUEVO: ubicación dinámica según ticket -----------
     function textoUbicacion(t){
