@@ -69,14 +69,13 @@
         <div class="col-6 col-md-2"><div class="p-3 text-center rounded-3 bg-danger text-white"><div class="fw-semibold">Abiertos</div><div id="kpiS-abiertos" class="fs-2">0</div></div></div>
         <div class="col-6 col-md-2"><div class="p-3 text-center rounded-3 bg-warning text-dark"><div class="fw-semibold">En proceso</div><div id="kpiS-proceso" class="fs-2">0</div></div></div>
 
-
+        <!-- KPI: En espera -->
         <div class="col-6 col-md-2">
-           <div class="p-3 text-center rounded-3 bg-secondary text-white">
-           <div class="fw-semibold">En espera</div>
-           <div id="kpiS-espera" class="fs-2">0</div>
-         </div>
+          <div class="p-3 text-center rounded-3 bg-secondary text-white">
+            <div class="fw-semibold">En espera</div>
+            <div id="kpiS-espera" class="fs-2">0</div>
+          </div>
         </div>
-
 
         <div class="col-6 col-md-2"><div class="p-3 text-center rounded-3 bg-info text-dark"><div class="fw-semibold">Resueltos</div><div id="kpiS-resueltos" class="fs-2">0</div></div></div>
         <div class="col-6 col-md-2"><div class="p-3 text-center rounded-3 bg-success text-white"><div class="fw-semibold">Cerrados</div><div id="kpiS-cerrados" class="fs-2">0</div></div></div>
@@ -125,14 +124,13 @@
         <div class="col-6 col-md-2"><div class="p-3 text-center rounded-3 bg-danger text-white"><div class="fw-semibold">Abiertos</div><div id="kpiM-abiertos" class="fs-2">0</div></div></div>
         <div class="col-6 col-md-2"><div class="p-3 text-center rounded-3 bg-warning text-dark"><div class="fw-semibold">En proceso</div><div id="kpiM-proceso" class="fs-2">0</div></div></div>
 
-
+        <!-- KPI: En espera (id corregido) -->
         <div class="col-6 col-md-2">
-         <div class="p-3 text-center rounded-3 bg-secondary text-white">
-           <div class="fw-semibold">En espera</div>
-           <div id="kpiS-espera" class="fs-2">0</div>
-         </div>
-       </div>
-
+          <div class="p-3 text-center rounded-3 bg-secondary text-white">
+            <div class="fw-semibold">En espera</div>
+            <div id="kpiM-espera" class="fs-2">0</div>
+          </div>
+        </div>
 
         <div class="col-6 col-md-2"><div class="p-3 text-center rounded-3 bg-info text-dark"><div class="fw-semibold">Resueltos</div><div id="kpiM-resueltos" class="fs-2">0</div></div></div>
         <div class="col-6 col-md-2"><div class="p-3 text-center rounded-3 bg-success text-white"><div class="fw-semibold">Cerrados</div><div id="kpiM-cerrados" class="fs-2">0</div></div></div>
@@ -150,6 +148,7 @@
     const ESTILOS = {
       "Abierto":   { border: "danger",  bg: "bg-danger-subtle",  text: "text-dark" },
       "En proceso":{ border: "warning", bg: "bg-warning-subtle", text: "text-dark" },
+      "En espera de material": { border: "secondary", bg: "bg-secondary-subtle", text: "text-dark" }, // NUEVO
       "Resuelto":  { border: "info",    bg: "bg-info-subtle",    text: "text-dark" },
       "Cerrado":   { border: "success", bg: "bg-success",        text: "text-white" }
     };
@@ -217,40 +216,39 @@
     const fmtPromedio = (ms)=>{ if(!ms||!isFinite(ms))return"--";const m=Math.round(ms/60000);return `${Math.floor(m/60)}h ${m%60}m`;};
 
     function calcKPIs(tickets){
-     const by = s => tickets.filter(t=>t.estatus===s).length;
-     const total     = tickets.length;
-     const abiertos  = by("Abierto");
-     const proceso   = by("En proceso");
-     const espera    = by("En espera de material"); // NUEVO
-     const resueltos = by("Resuelto");
-     const cerrados  = by("Cerrado");
+      const by = s => tickets.filter(t=>t.estatus===s).length;
+      const total     = tickets.length;
+      const abiertos  = by("Abierto");
+      const proceso   = by("En proceso");
+      const espera    = by("En espera de material"); // NUEVO
+      const resueltos = by("Resuelto");
+      const cerrados  = by("Cerrado");
 
-     const term = tickets.filter(t => t.fechaCierre || t.estatus==="Cerrado" || t.estatus==="Resuelto");
+      const term = tickets.filter(t => t.fechaCierre || t.estatus==="Cerrado" || t.estatus==="Resuelto");
       let prom = 0;
       if (term.length){
-       prom = term.reduce((a,t)=>
-         a + (new Date(t.fechaCierre || t.updatedAt || t.createdAt) - new Date(t.fechaCreacion || t.createdAt)), 0
+        prom = term.reduce((a,t)=>
+          a + (new Date(t.fechaCierre || t.updatedAt || t.createdAt) - new Date(t.fechaCreacion || t.createdAt)), 0
         ) / term.length;
       }
       return { total, abiertos, proceso, espera, resueltos, cerrados, prom };
     }
 
     function renderKPIs(kpi, prefijo){
-     document.getElementById(`${prefijo}-total`).textContent     = kpi.total;
-     document.getElementById(`${prefijo}-abiertos`).textContent  = kpi.abiertos;
-     document.getElementById(`${prefijo}-proceso`).textContent   = kpi.proceso;
-     document.getElementById(`${prefijo}-resueltos`).textContent = kpi.resueltos;
-     document.getElementById(`${prefijo}-cerrados`).textContent  = kpi.cerrados;
-     const esperaEl = document.getElementById(`${prefijo}-espera`);
-     if (esperaEl) esperaEl.textContent = kpi.espera; // NUEVO
-     document.getElementById(`${prefijo}-tiempo`).textContent    = fmtPromedio(kpi.prom);
-}
-
+      document.getElementById(`${prefijo}-total`).textContent     = kpi.total;
+      document.getElementById(`${prefijo}-abiertos`).textContent  = kpi.abiertos;
+      document.getElementById(`${prefijo}-proceso`).textContent   = kpi.proceso;
+      const esperaEl = document.getElementById(`${prefijo}-espera`);
+      if (esperaEl) esperaEl.textContent = kpi.espera; // NUEVO
+      document.getElementById(`${prefijo}-resueltos`).textContent = kpi.resueltos;
+      document.getElementById(`${prefijo}-cerrados`).textContent  = kpi.cerrados;
+      document.getElementById(`${prefijo}-tiempo`).textContent    = fmtPromedio(kpi.prom);
+    }
 
     // ----------- NUEVO: ubicación dinámica según ticket -----------
     function textoUbicacion(t){
-      const tipo = (t.tipo || '').toLowerCase();       // 'sistemas' | 'mantenimiento'
-      const subtipo = (t.subtipo || '').toLowerCase(); // 'laboratorio' | 'otro' (solo sistemas)
+      const tipo = (t.tipo || '').toLowerCase();
+      const subtipo = (t.subtipo || '').toLowerCase();
       if (tipo === 'sistemas') {
         if (subtipo === 'laboratorio') {
           const eq = t.equipo ? ` • Equipo: ${t.equipo}` : '';
@@ -265,145 +263,155 @@
     }
 
     function badgeEstatus(estatus){
-  const map = {
-    'Abierto': 'bg-secondary',
-    'En proceso': 'bg-warning',
-    'Resuelto': 'bg-info',
-    'Cerrado': 'bg-success',
-    'Cancelado': 'bg-dark'
-  };
-  const cls = map[estatus] || 'bg-secondary';
-  return `<span class="badge ${cls}">${estatus}</span>`;
-}
+      const map = {
+        'Abierto': 'bg-secondary',
+        'En proceso': 'bg-warning',
+        'En espera de material': 'bg-secondary', // NUEVO
+        'Resuelto': 'bg-info',
+        'Cerrado': 'bg-success',
+        'Cancelado': 'bg-dark'
+      };
+      const cls = map[estatus] || 'bg-secondary';
+      return `<span class="badge ${cls}">${estatus}</span>`;
+    }
 
-// ================== formateador de fechas ==================
-  function fmtFecha(dt)
-  {
-    if(!dt) return '—';
-    const d = new Date(dt);
-    const pad = n => String(n).padStart(2,'0');
-    return `${pad(d.getDate())}/${pad(d.getMonth()+1)}/${d.getFullYear()} ${pad(d.getHours())}:${pad(d.getMinutes())}`;
-  }
+    // ================== formateador de fechas ==================
+    function fmtFecha(dt){
+      if(!dt) return '—';
+      const d = new Date(dt);
+      const pad = n => String(n).padStart(2,'0');
+      return `${pad(d.getDate())}/${pad(d.getMonth()+1)}/${d.getFullYear()} ${pad(d.getHours())}:${pad(d.getMinutes())}`;
+    }
 
     // ================== Render de tarjetas ==================
-function renderTarjetas(tickets, contId){
-  const c = document.getElementById(contId);
-  c.innerHTML = "";
-  const admin = esAdminActual();
+    function renderTarjetas(tickets, contId){
+      const c = document.getElementById(contId);
+      c.innerHTML = "";
+      const admin = esAdminActual();
 
-  tickets.forEach(t => {
-    const esC = t.estatus === "Cerrado";
-    const e   = ESTILOS[t.estatus] || { border:"secondary", bg:"bg-light", text:"text-dark" };
+      tickets.forEach(t => {
+        const esC = t.estatus === "Cerrado";
+        const e   = ESTILOS[t.estatus] || { border:"secondary", bg:"bg-light", text:"text-dark" };
 
-    // Opciones de estatus:
-    // - No admin: no puede "Cerrado"
-    // - Ambos ven "En espera de material" (pausa)
-    const ops = admin
-      ? ["Abierto","En proceso","En espera de material","Resuelto","Cerrado"]
-      : ["Abierto","En proceso","En espera de material","Resuelto"];
+        // Opciones de estatus (ambos ven "En espera de material")
+        const ops = admin
+          ? ["Abierto","En proceso","En espera de material","Resuelto","Cerrado"]
+          : ["Abierto","En proceso","En espera de material","Resuelto"];
 
-    // ---- Helpers de UI ----
-    function formatearEquipo(eq){
-      if(!eq) return "";
-      eq = eq.toUpperCase().trim();
-      const m = eq.match(/^PC[-\s]?(\d+)$/i);
-      if(m){ return `PC-${m[1].padStart(2,'0')}`; }
-      return eq;
+        const enEspera = t.estatus === 'En espera de material';
+        const tieneMaterial = !!(t.requiereMaterial && t.requiereMaterial.trim());
+
+        c.innerHTML += `
+          <div class="col-md-6">
+            <div class="card border-${e.border} ${e.bg} ${e.text}">
+              <div class="card-body">
+
+                <!-- Encabezado -->
+                <div class="d-flex justify-content-between align-items-start mb-1">
+                  <h5 class="card-title mb-0">Área: ${t.tipo}</h5>
+                  <div class="text-end small">
+                    <div><strong>Estado:</strong> ${badgeEstatus(t.estatus)}</div>
+                    <div><strong>Creado por:</strong> ${t.creadoPor?.nombre || "—"}</div>
+                    <div><strong>Asignado a:</strong> ${t.asignadoA?.nombre || "Sin asignar"}</div>
+                  </div>
+                </div>
+
+                <!-- Fechas -->
+                <div class="row g-2 small text-muted mb-2">
+                  <div class="col-12 col-md-4"><strong>Solicitado:</strong> ${fmtFecha(t.fechaCreacion || t.createdAt)}</div>
+                  <div class="col-12 col-md-4"><strong>Inicio:</strong> ${fmtFecha(t.fechaInicio)}</div>
+                  <div class="col-12 col-md-4"><strong>Finalización:</strong> ${fmtFecha(t.fechaCierre)}</div>
+                </div>
+
+                <!-- Ubicación -->
+                <div class="text-muted small mb-3">${textoUbicacion(t)}</div>
+
+                <!-- Descripción -->
+                <label class="form-label">Descripción detallada:</label>
+                <div class="form-control mb-3" style="min-height:72px; white-space:pre-wrap;">${t.descripcion || '—'}</div>
+
+                <!-- Fila: Estatus / Material -->
+                <div class="row g-2 align-items-start mb-2">
+                  <div class="col-12 col-md-6">
+                    <label class="form-label">Estatus:</label>
+                    <select class="form-select"
+                            id="estatus-${t._id}"
+                            onchange="onChangeEstatus('${t._id}')"
+                            ${esC ? "disabled" : ""}>
+                      ${ops.map(o => `<option ${t.estatus===o?"selected":""}>${o}</option>`).join("")}
+                    </select>
+                  </div>
+
+                  <div class="col-12 col-md-6">
+                    <!-- EDITABLE: solo cuando está En espera de material -->
+                    <div id="wrap-material-edit-${t._id}" class="${enEspera ? '' : 'd-none'}">
+                      <label class="form-label">Requiere material:</label>
+                      <textarea class="form-control"
+                                id="material-${t._id}"
+                                placeholder="Material requerido"
+                                rows="1"
+                                ${enEspera ? '' : 'disabled'}>${t.requiereMaterial || ''}</textarea>
+                      <div class="form-text">Editable únicamente cuando el estatus está en espera.</div>
+                    </div>
+
+                    <!-- SOLO LECTURA: cuando NO está en espera pero hay material capturado -->
+                    <div id="wrap-material-read-${t._id}" class="${(!enEspera && tieneMaterial) ? '' : 'd-none'}">
+                      <label class="form-label">Material requerido (histórico):</label>
+                      <div class="form-control" style="min-height: 38px; white-space:pre-wrap;" aria-readonly="true">
+                        ${t.requiereMaterial || ''}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Resolución -->
+                <label class="form-label">Resolución del problema:</label>
+                <textarea class="form-control mb-3" id="resolucion-${t._id}" rows="2" placeholder="Describe cómo se resolvió" ${esC ? "disabled" : ""}>${t.resolucion || ''}</textarea>
+
+                <!-- Botones -->
+                <div class="d-flex flex-wrap gap-2">
+                  <button class="btn btn-primary flex-fill" onclick="actualizarTicket('${t._id}')" ${esC ? "disabled" : ""}>Guardar cambios</button>
+                  <button class="btn btn-success flex-fill" onclick="asignarmeTicket('${t._id}')" ${(esC || t.asignadoA) ? "disabled" : ""}>Asignarme</button>
+                </div>
+
+              </div>
+            </div>
+          </div>`;
+      });
     }
-    function ubicacionLinea(){
-      const tipo = (t.tipo||'').toLowerCase();
-      const subt = (t.subtipo||'').toLowerCase();
-      if (tipo==='sistemas') {
-        if (subt==='laboratorio') {
-          const lab = t.laboratorio ? t.laboratorio.trim().toUpperCase() : '—';
-          const eq  = formatearEquipo(t.equipo);
-          return `Ubicación: Laboratorio ${lab}${eq ? ' • Equipo: '+eq : ''}`;
-        }
-        return `Ubicación: ${t.ubicacion || '—'}`;
-      }
-      if (tipo==='mantenimiento') return `Ubicación: ${t.salon || '—'}`;
-      return 'Ubicación: —';
+
+    // Mostrar/ocultar material según estatus
+    function onChangeEstatus(id){
+      const sel  = document.getElementById(`estatus-${id}`);
+      const edit = document.getElementById(`wrap-material-edit-${id}`);
+      const read = document.getElementById(`wrap-material-read-${id}`);
+      const ta   = document.getElementById(`material-${id}`);
+      if(!sel || !edit || !read || !ta) return;
+      const enEspera = sel.value === 'En espera de material';
+
+      edit.classList.toggle('d-none', !enEspera);
+      ta.disabled = !enEspera;
+
+      // Si ya había material, al salir de "En espera" se muestra en solo lectura
+      const tieneMaterial = !!(ta.value && ta.value.trim());
+      read.classList.toggle('d-none', enEspera || !tieneMaterial);
     }
-
-    // --- Botón rápido para pausar/reanudar por material ---
-    const puedePausar = !!(t.requiereMaterial && t.requiereMaterial.trim());
-    const btnPausa = (t.estatus !== 'En espera de material' && puedePausar && !esC)
-      ? `<button class="btn btn-outline-secondary flex-fill" onclick="cambiarEstatus('${t._id}','En espera de material')">Pausar por material</button>`
-      : '';
-    const btnReanudar = (t.estatus === 'En espera de material' && !esC)
-      ? `<button class="btn btn-outline-success flex-fill" onclick="cambiarEstatus('${t._id}','En proceso')">Material recibido (reanudar)</button>`
-      : '';
-
-    c.innerHTML += `
-      <div class="col-md-6">
-        <div class="card border-${e.border} ${e.bg} ${e.text}">
-          <div class="card-body">
-
-            <!-- Encabezado -->
-            <div class="d-flex justify-content-between align-items-start mb-1">
-              <h5 class="card-title mb-0">Área: ${t.tipo}</h5>
-              <div class="text-end small">
-                <div><strong>Estado:</strong> ${badgeEstatus(t.estatus)}</div>
-                <div><strong>Creado por:</strong> ${t.creadoPor?.nombre || "—"}</div>
-                <div><strong>Asignado a:</strong> ${t.asignadoA?.nombre || "Sin asignar"}</div>
-              </div>
-            </div>
-
-            <!-- Fechas -->
-            <div class="row g-2 small text-muted mb-2">
-              <div class="col-12 col-md-4"><strong>Solicitado:</strong> ${fmtFecha(t.fechaCreacion || t.createdAt)}</div>
-              <div class="col-12 col-md-4"><strong>Inicio:</strong> ${fmtFecha(t.fechaInicio)}</div>
-              <div class="col-12 col-md-4"><strong>Finalización:</strong> ${fmtFecha(t.fechaCierre)}</div>
-            </div>
-
-            <!-- Ubicación -->
-            <div class="text-muted small mb-3">${ubicacionLinea()}</div>
-
-            <!-- Descripción -->
-            <label class="form-label">Descripción detallada:</label>
-            <div class="form-control mb-3" style="min-height:72px; white-space:pre-wrap;">${t.descripcion || '—'}</div>
-
-            <!-- Fila: Estatus / Material -->
-            <div class="row g-2 align-items-start mb-2">
-              <div class="col-12 col-md-6">
-                <label class="form-label">Estatus:</label>
-                <select class="form-select" id="estatus-${t._id}" ${esC ? "disabled" : ""}>
-                  ${ops.map(o => `<option ${t.estatus===o?"selected":""}>${o}</option>`).join("")}
-                </select>
-              </div>
-              <div class="col-12 col-md-6">
-                <label class="form-label">Requiere material:</label>
-                <textarea class="form-control" id="material-${t._id}" placeholder="Material (opcional)" rows="1" ${esC ? "disabled" : ""}>${t.requiereMaterial || ''}</textarea>
-                <div class="form-text">${puedePausar ? 'Puedes pausar el ticket hasta recibir el material.' : 'Agrega material para habilitar la pausa.'}</div>
-              </div>
-            </div>
-
-            <!-- Resolución -->
-            <label class="form-label">Resolución del problema:</label>
-            <textarea class="form-control mb-3" id="resolucion-${t._id}" rows="2" placeholder="Describe cómo se resolvió" ${esC ? "disabled" : ""}>${t.resolucion || ''}</textarea>
-
-            <!-- Botones -->
-            <div class="d-flex flex-wrap gap-2">
-              <button class="btn btn-primary flex-fill" onclick="actualizarTicket('${t._id}')" ${esC ? "disabled" : ""}>Guardar cambios</button>
-              ${btnPausa}
-              ${btnReanudar}
-              <button class="btn btn-success flex-fill" onclick="asignarmeTicket('${t._id}')" ${(esC || t.asignadoA) ? "disabled" : ""}>Asignarme</button>
-            </div>
-
-          </div>
-        </div>
-      </div>`;
-  });
-}
 
     async function actualizarTicket(id){
-      const e=document.getElementById(`estatus-${id}`).value;
-      const m=document.getElementById(`material-${id}`).value || '';
-      const rs = document.getElementById(`resolucion-${id}`)?.value || '';
+      let e   = document.getElementById(`estatus-${id}`)?.value;
+      const taM = document.getElementById(`material-${id}`);
+      const rs  = document.getElementById(`resolucion-${id}`)?.value || '';
 
-      // Validación opcional: exigir resolución al resolver/cerrar
+      // Solo mandamos material cuando está "En espera de material"
+      const m = (e === 'En espera de material' && taM) ? (taM.value || '') : '';
+
+      // Validaciones útiles
       if ((e === 'Resuelto' || e === 'Cerrado') && !rs.trim()){
         alert('Para marcar como Resuelto o Cerrado, agrega la resolución del problema.');
+        return;
+      }
+      if (e === 'En espera de material' && (!m || !m.trim())){
+        alert('Indica el material requerido para poner el ticket en espera.');
         return;
       }
 
@@ -412,16 +420,14 @@ function renderTarjetas(tickets, contId){
         headers:{"Content-Type":"application/json",Authorization:`Bearer ${token}`},
         body:JSON.stringify({estatus:e,requiereMaterial:m,resolucion:rs})
       });
-      const d=await r.json();alert(d.mensaje||"Actualizado");cargar();
+      const d=await r.json().catch(()=>({}));
+      if(!r.ok){ alert(d.mensaje||d.error||'No se pudo actualizar el ticket'); return; }
+
+      // Deshabilitar el textarea de material después de guardar
+      if (taM) taM.disabled = true;
+
+      cargar();
     }
-
-    async function cambiarEstatus(id, nuevo){
-     const estSel = document.getElementById(`estatus-${id}`);
-     if (estSel) estSel.value = nuevo; // refleja el cambio en el select
-     await actualizarTicket(id);       // reutilizamos el mismo guardado
-    }
-
-
 
     async function asignarmeTicket(id){
       const r=await fetch(`/api/tickets/${id}`,{
