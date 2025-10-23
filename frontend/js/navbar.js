@@ -104,7 +104,7 @@ fetch("/navbar.html?v=7")
     if (has("finanzas")) {
       show([
         "item-finanzas-header","item-finanzas-crear","item-finanzas-revision",
-        "item-finanzas-tiempo","item-finanzas-revisiontiempo","item-finanzas-divider"
+        "item-finanzas-tiempo","item-finanzas-revisiontiempo","item-finanzas-tickets","item-finanzas-divider"
       ]);
       visible = true;
     }
