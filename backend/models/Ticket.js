@@ -17,9 +17,12 @@ const ticketSchema = new mongoose.Schema({
   ubicacion: { type: String, default: '' },
 
   // Fechas
-fechaCreacion: { type: Date, default: Date.now },
-fechaInicio:   { type: Date, default: null }, 
-fechaCierre:   { type: Date, default: null }, 
+fechaCreacion:   { type: Date, default: Date.now }, // ya la tienes como createdAt
+fechaInicio:     { type: Date, default: null },     // primera vez que pasa a "En proceso"
+fechaPausa:      { type: Date, default: null },     // cuando pasa a "En espera de material"
+fechaReanudacion:{ type: Date, default: null },     // cuando vuelve a "En proceso" después de pausa
+fechaCierre:     { type: Date, default: null },     // cuando pasa a "Resuelto" o "Cerrado"
+
 
 
   // MANTENIMIENTO

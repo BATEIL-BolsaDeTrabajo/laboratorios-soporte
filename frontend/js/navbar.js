@@ -85,7 +85,7 @@ fetch("/navbar.html?v=7")
     if (has("direccion")) {
       show([
         "item-direccion-header","item-direccion-crear","item-direccion-panelCalificaciones",
-        "item-direccion-subirCalificaciones","item-direccion-divider"
+        "item-direccion-subirCalificaciones","item-direccion-historial","item-direccion-divider"
       ]);
       visible = true;
     }
@@ -95,7 +95,7 @@ fetch("/navbar.html?v=7")
       show([
         "item-subdireccion-header","item-subdireccion-crear","item-subdireccion-revision",
         "item-subdireccion-tiempo","item-subdireccion-soltxt",
-        "item-subdireccion-panelCalificaciones","item-subdireccion-subirCalificaciones","item-subdireccion-divider"
+        "item-subdireccion-panelCalificaciones","item-subdireccion-subirCalificaciones","item-subdireccion-historial","item-subdireccion-divider"
       ]);
       visible = true;
     }
@@ -104,7 +104,7 @@ fetch("/navbar.html?v=7")
     if (has("finanzas")) {
       show([
         "item-finanzas-header","item-finanzas-crear","item-finanzas-revision",
-        "item-finanzas-tiempo","item-finanzas-revisiontiempo","item-finanzas-tickets","item-finanzas-divider"
+        "item-finanzas-tiempo","item-finanzas-revisiontiempo","item-finanzas-tickets","item-finanzas-historial","item-finanzas-divider"
       ]);
       visible = true;
     }

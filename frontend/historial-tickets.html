@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>Historial de Tickets</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+</head>
+<body class="bg-light">
+  <div id="navbar-container"></div>
+
+  <div class="container py-4">
+    <h3 class="mb-3">Historial de Tickets</h3>
+
+    <!-- Filtros básicos -->
+    <div class="row g-2 mb-3">
+      <div class="col-md-3">
+        <select id="filtro-estado" class="form-select">
+          <option value="">Todos los estados</option>
+          <option>Abierto</option>
+          <option>En proceso</option>
+          <option>En espera de material</option>
+          <option>Resuelto</option>
+          <option>Cerrado</option>
+        </select>
+      </div>
+      <div class="col-md-5">
+        <input id="filtro-busqueda" class="form-control" placeholder="Buscar por asignado o creador..." />
+      </div>
+      <div class="col-md-2">
+        <button class="btn btn-secondary w-100" onclick="refrescar()">Filtrar</button>
+      </div>
+      <div class="col-md-2">
+        <button class="btn btn-outline-secondary w-100" onclick="resetFiltros()">Limpiar</button>
+      </div>
+    </div>
+
+    <!-- Tabla -->
+    <div class="table-responsive">
+      <table class="table table-sm table-hover align-middle bg-white">
+        <thead class="table-light">
+          <tr>
+            <th>Área</th>
+            <th>Asignado</th>
+            <th>Creado</th>
+            <th>Inicio</th>
+            <th>Reanudación</th>
+            <th>Cierre</th>
+            <th>Req. material</th>
+            <th class="text-end">Tiempo de solución</th>
+            <th>Estatus</th>
+          </tr>
+        </thead>
+        <tbody id="tbody-historial"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <script>
+    // === Navbar ===
+    fetch("/navbar.html").then(r=>r.text()).then(h=>{
+      const c=document.getElementById('navbar-container'); if(c) c.innerHTML=h;
+    });
+
+    const token = localStorage.getItem('token');
+    if(!token) location.href = 'login.html';
+
+    let DATA = [];
+
+    function pad(n){ return String(n).padStart(2,'0'); }
+    function fmtFecha(d){
+      if(!d) return '—';
+      d = new Date(d);
+      return `${pad(d.getDate())}/${pad(d.getMonth()+1)}/${d.getFullYear()} ${pad(d.getHours())}:${pad(d.getMinutes())}`;
+    }
+    function fmtDur(ms){
+      if(!ms || !isFinite(ms) || ms < 0) return '—';
+      const m = Math.round(ms/60000);
+      const d = Math.floor(m / (60*24));
+      const h = Math.floor((m - d*60*24) / 60);
+      const mm= m % 60;
+      if (d > 0) return `${d}d ${h}h ${mm}m`;
+      if (h > 0) return `${h}h ${mm}m`;
+      return `${mm}m`;
+    }
+
+    // Regla de duración: si hay reanudación (tras material) usar esa; si no, inicio
+    function duracionTicket(t){
+      const cierre = t.fechaCierre ? new Date(t.fechaCierre) : new Date();
+      const inicioReal = t.fechaReanudacion ? new Date(t.fechaReanudacion)
+                        : t.fechaInicio   ? new Date(t.fechaInicio)
+                        : t.createdAt     ? new Date(t.createdAt)
+                        : null;
+      if(!inicioReal) return null;
+      return cierre - inicioReal;
+    }
+
+    function requiereMat(t){
+      return !!(t.requiereMaterial && String(t.requiereMaterial).trim());
+    }
+
+    function pasaFiltros(t){
+      const est = document.getElementById('filtro-estado').value;
+      const q = document.getElementById('filtro-busqueda').value.toLowerCase().trim();
+      if (est && t.estatus !== est) return false;
+      if (q){
+        const asignado = t.asignadoA?.nombre || '';
+        const creador  = t.creadoPor?.nombre || '';
+        if (!(asignado.toLowerCase().includes(q) || creador.toLowerCase().includes(q))) return false;
+      }
+      return true;
+    }
+
+    function refrescar(){
+      const tbody = document.getElementById('tbody-historial');
+      tbody.innerHTML = '';
+      DATA.filter(pasaFiltros).forEach(t=>{
+        const ms = duracionTicket(t);
+        tbody.innerHTML += `
+          <tr>
+            <td>${t.tipo}</td>
+            <td>${t.asignadoA?.nombre || '—'}</td>
+            <td>${fmtFecha(t.fechaCreacion || t.createdAt)}</td>
+            <td>${fmtFecha(t.fechaInicio)}</td>
+            <td>${fmtFecha(t.fechaReanudacion)}</td>
+            <td>${fmtFecha(t.fechaCierre)}</td>
+            <td>${requiereMat(t) ? 'Sí' : 'No'}</td>
+            <td class="text-end">${fmtDur(ms)}</td>
+            <td><span class="badge ${badgeCls(t.estatus)}">${t.estatus}</span></td>
+          </tr>`;
+      });
+    }
+
+    function resetFiltros(){
+      document.getElementById('filtro-estado').value = '';
+      document.getElementById('filtro-busqueda').value = '';
+      refrescar();
+    }
+
+    function badgeCls(s){
+      const map = {
+        'Abierto':'bg-secondary',
+        'En proceso':'bg-warning',
+        'En espera de material':'bg-secondary',
+        'Resuelto':'bg-info',
+        'Cerrado':'bg-success'
+      };
+      return map[s] || 'bg-secondary';
+    }
+
+    async function cargar(){
+      const r = await fetch('/api/tickets/historial', { headers: { Authorization:`Bearer ${token}` }});
+      if(!r.ok){ alert('No se pudo cargar el historial'); return; }
+      DATA = await r.json();
+      refrescar();
+    }
+    cargar();
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

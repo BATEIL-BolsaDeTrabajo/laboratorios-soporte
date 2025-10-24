@@ -108,38 +108,48 @@ router.put('/:id', verifyToken, async (req, res) => {
   const ticket = await Ticket.findById(req.params.id);
   if (!ticket) return res.status(404).json({ mensaje: 'Ticket no encontrado' });
 
-  // No permitir reabrir un cerrado cambiando a otro estado (opcional)
-  if (ticket.estatus === 'Cerrado' && estatus && estatus !== 'Cerrado') {
-    return res.status(400).json({ mensaje: 'No se puede modificar un ticket cerrado.' });
-  }
+  const anterior = ticket.estatus;
 
-  // --- CAMBIO DE ESTATUS Y FECHAS ---
+  // Cambios de estatus y fechas
   if (estatus) {
-    // 1) Guardar fecha de inicio SOLO una vez cuando entra a "En proceso"
+    // Inicio (solo la primera vez que entra a "En proceso")
     if (estatus === 'En proceso' && !ticket.fechaInicio) {
       ticket.fechaInicio = new Date();
     }
 
-    // 2) Poner fecha de cierre al resolver/cerrar
-    if ((estatus === 'Resuelto' || estatus === 'Cerrado')) {
+    // Pausa por material
+    if (estatus === 'En espera de material') {
+      // Validación dura: no permitir poner en espera sin material
+      if (!requiereMaterial || !String(requiereMaterial).trim()) {
+        return res.status(400).json({ mensaje: 'Debes indicar el material requerido para poner el ticket en espera.' });
+      }
+      ticket.fechaPausa = new Date();
+    }
+
+    // Reanudación (cuando venimos de pausa a En proceso)
+    if (estatus === 'En proceso' && anterior === 'En espera de material') {
+      ticket.fechaReanudacion = new Date();
+    }
+
+    // Cierre (Resuelto o Cerrado)
+    if (estatus === 'Resuelto' || estatus === 'Cerrado') {
       ticket.fechaCierre = new Date();
     }
 
-    // 3) Si vuelve a "Abierto", limpiar fechas de inicio y cierre
+    // Reapertura
     if (estatus === 'Abierto') {
       ticket.fechaInicio = null;
+      ticket.fechaPausa = null;
+      ticket.fechaReanudacion = null;
       ticket.fechaCierre = null;
     }
-
-    // 4) "En espera de material" NO toca fechas. (pausa)
-    //    Cuando se reanude a "En proceso", NO se vuelve a pisar fechaInicio.
 
     ticket.estatus = estatus;
   }
 
-  // --- Actualizar campos de trabajo según rol ---
+  // Campos de trabajo
   const roles = req.usuario.roles || [req.usuario.rol];
-  if (roles.includes('soporte') || roles.includes('mantenimiento')) {
+  if (roles.includes('soporte') || roles.includes('mantenimiento') || roles.includes('admin')) {
     if (typeof requiereMaterial !== 'undefined') ticket.requiereMaterial = requiereMaterial;
     if (typeof resolucion       !== 'undefined') ticket.resolucion       = resolucion;
 
@@ -155,6 +165,7 @@ router.put('/:id', verifyToken, async (req, res) => {
   await ticket.save();
   res.json({ mensaje: 'Ticket actualizado correctamente' });
 });
+
 
 
 // ===== Tickets asignables (para admin) =====
@@ -173,5 +184,43 @@ router.get('/asignables', verifyToken, verifyRole(['admin', 'finanzas']), async 
     res.status(500).json({ mensaje: 'Error al obtener tickets asignables' });
   }
 });
+
+// === HISTORIAL PARA DIRECTIVOS ===
+// GET /api/tickets/historial
+// Roles permitidos: admin, direccion, subdireccion, finanzas
+router.get('/historial', verifyToken, async (req, res) => {
+  try {
+    // Si NO tienes un middleware allowRoles, validamos aquí:
+    const roles = (req.usuario?.roles || [req.usuario?.rol || ''])
+      .filter(Boolean)
+      .map(r => String(r).toLowerCase());
+
+    const puede =
+      roles.includes('admin') ||
+      roles.includes('direccion') ||
+      roles.includes('subdireccion') ||
+      roles.includes('finanzas');
+
+    if (!puede) {
+      return res.status(403).json({ mensaje: 'No autorizado' });
+    }
+
+    // Traemos tickets con los campos necesarios y personas
+    const tickets = await Ticket.find({}, {
+      // excluye campos largos si quieres:
+      descripcion: 0,
+      resolucion: 0
+    })
+      .populate('asignadoA', 'nombre correo')
+      .populate('creadoPor', 'nombre correo')
+      .sort({ fechaCierre: -1, createdAt: -1 });
+
+    res.json(tickets);
+  } catch (e) {
+    console.error('GET /api/tickets/historial:', e);
+    res.status(500).json({ mensaje: 'Error al obtener historial' });
+  }
+});
+
 
 module.exports = router;
