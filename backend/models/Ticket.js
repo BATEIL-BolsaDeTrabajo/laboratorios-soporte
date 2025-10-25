@@ -15,6 +15,8 @@ const ticketSchema = new mongoose.Schema({
   salon: { type: String, default: null },       // para mantenimiento
   tipoFalla: { type: String, default: null },   // texto del catálogo
   ubicacion: { type: String, default: '' },
+  folio: { type: String, unique: true, index: true }, // NUEVO
+
 
   // Fechas
 fechaCreacion:   { type: Date, default: Date.now }, // ya la tienes como createdAt
@@ -49,5 +51,36 @@ fechaCierre:     { type: Date, default: null },     // cuando pasa a "Resuelto" 
 }, { timestamps: true });
 
 ticketSchema.index({ createdAt: -1 });
+
+// Helper para folio: TIPO + AÑO + consecutivo de 6 dígitos
+function buildFolio(tipo, year, seq) {
+  // Normaliza: Sistemas => SYS, Mantenimiento => MNT, default TCK
+  const map = { 'sistemas': 'SYS', 'mantenimiento': 'MNT' };
+  const pref = map[(tipo || '').toLowerCase()] || 'TCK';
+  return `${pref}-${year}-${String(seq).padStart(6, '0')}`;
+}
+
+TicketSchema.pre('save', async function(next){
+  if (this.folio) return next(); // ya tiene folio (no lo cambies)
+
+  try {
+    const year = new Date(this.createdAt || Date.now()).getFullYear();
+    const key = `ticket-${year}`; // contador por año (reinicia cada año)
+
+    const counter = await Counter.findOneAndUpdate(
+      { key },
+      { $inc: { seq: 1 } },
+      { new: true, upsert: true }
+    );
+
+    const seq = counter.seq;
+    this.folio = buildFolio(this.tipo, year, seq);
+    next();
+  } catch (err) {
+    next(err);
+  }
+});
+
+module.exports = mongoose.model('Ticket', TicketSchema);
 
 module.exports = mongoose.model('Ticket', ticketSchema);

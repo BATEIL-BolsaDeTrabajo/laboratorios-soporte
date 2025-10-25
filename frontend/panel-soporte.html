@@ -308,6 +308,7 @@
                 <!-- Encabezado -->
                 <div class="d-flex justify-content-between align-items-start mb-1">
                   <h5 class="card-title mb-0">Área: ${t.tipo}</h5>
+                  <div class="small text-muted">Folio: <span class="fw-semibold">${t.folio || '—'}</span></div>
                   <div class="text-end small">
                     <div><strong>Estado:</strong> ${badgeEstatus(t.estatus)}</div>
                     <div><strong>Creado por:</strong> ${t.creadoPor?.nombre || "—"}</div>
@@ -490,12 +491,15 @@
       const estado = document.getElementById(`filtro${pref}-estatus`).value.trim();
       const q = document.getElementById(`filtro${pref}-busqueda`).value.toLowerCase();
       return base.filter(t=>{
-        if(t.tipo!==tipo) return false;
-        if(estado && t.estatus!==estado) return false;
-        if(q && !(`${t.descripcion} ${t.creadoPor?.nombre||''}`.toLowerCase().includes(q))) return false;
-        return true;
-      });
-    }
+       if(t.tipo!==tipo) return false;
+       if(estado && t.estatus!==estado) return false;
+       if(q){
+         const txt = `${t.descripcion||''} ${t.creadoPor?.nombre||''} ${t.folio||''}`.toLowerCase();
+         if (!txt.includes(q)) return false;
+       }
+       return true;
+    });
+  }
 
     function refrescar(){
       const soporte = todosTickets.filter(t=>t.tipo==="Sistemas");

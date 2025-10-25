@@ -40,6 +40,7 @@
       <table class="table table-sm table-hover align-middle bg-white">
         <thead class="table-light">
           <tr>
+            <th>Folio</th>
             <th>Área</th>
             <th>Asignado</th>
             <th>Creado</th>
@@ -118,6 +119,7 @@
         const ms = duracionTicket(t);
         tbody.innerHTML += `
           <tr>
+            <td>${t.folio || '—'}</td>
             <td>${t.tipo}</td>
             <td>${t.asignadoA?.nombre || '—'}</td>
             <td>${fmtFecha(t.fechaCreacion || t.createdAt)}</td>
