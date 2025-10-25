@@ -57,7 +57,7 @@ ticketSchema.pre('save', async function(next){
   if (this.folio) return next(); // ya tiene folio
   try {
     const year = new Date(this.createdAt || Date.now()).getFullYear();
-    const key = `ticket-${year}`; // contador por año (si quieres por tipo: `ticket-${(this.tipo||'').toLowerCase()}-${year}`)
+    const key = `ticket-${(this.tipo || '').toLowerCase()}-${year}`;
 
     const counter = await Counter.findOneAndUpdate(
       { key },
