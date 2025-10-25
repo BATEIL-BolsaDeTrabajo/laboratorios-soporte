@@ -147,6 +147,7 @@ router.put('/:id', verifyToken, async (req, res) => {
     ticket.estatus = estatus;
   }
 
+  if (typeof prioridad !== 'undefined') ticket.prioridad = prioridad;
   // Campos de trabajo
   const roles = req.usuario.roles || [req.usuario.rol];
   if (roles.includes('soporte') || roles.includes('mantenimiento') || roles.includes('admin')) {

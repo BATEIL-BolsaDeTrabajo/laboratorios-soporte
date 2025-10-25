@@ -17,6 +17,7 @@ const ticketSchema = new mongoose.Schema({
   ubicacion: { type: String, default: '' },  // ÚNICO (quitamos duplicado)
   salon: { type: String, default: null },    // Para mantenimiento
   tipoFalla: { type: String, default: '' },  // ÚNICO (quitamos duplicado)
+  prioridad: { type: String, enum: ['Alta','Media','Baja'], default: 'Media', index: true },
 
   // Estado y trabajo
   estatus: {

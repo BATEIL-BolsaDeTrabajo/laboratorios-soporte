@@ -11,9 +11,9 @@
   <div class="container py-4">
     <h2 class="text-center mb-4">Panel de Administración - Tickets</h2>
 
-    <div class="row mb-4">
+    <div class="row mb-4 g-3">
       <div class="col-md-4">
-        <label>Filtrar por tipo</label>
+        <label class="form-label">Filtrar por tipo</label>
         <select id="filtroTipo" class="form-select" onchange="cargarTickets()">
           <option value="">Todos</option>
           <option value="Sistemas">Sistemas</option>
@@ -21,13 +21,22 @@
         </select>
       </div>
       <div class="col-md-4">
-        <label>Filtrar por estatus</label>
+        <label class="form-label">Filtrar por estatus</label>
         <select id="filtroEstatus" class="form-select" onchange="cargarTickets()">
           <option value="">Todos</option>
           <option>Abierto</option>
           <option>En proceso</option>
           <option>Resuelto</option>
           <option>Cerrado</option>
+        </select>
+      </div>
+      <div class="col-md-4">
+        <label class="form-label">Filtrar por prioridad</label>
+        <select id="filtroPrioridad" class="form-select" onchange="cargarTickets()">
+          <option value="">Todas</option>
+          <option>Alta</option>
+          <option>Media</option>
+          <option>Baja</option>
         </select>
       </div>
     </div>
@@ -40,20 +49,26 @@
     const token = localStorage.getItem("token");
     if (!token) window.location.href = "login.html";
 
+    // Colores por estatus (igual que tenías)
     const estatusColor = {
-      "Abierto": { border: "success", bg: "bg-success-subtle", text: "text-dark" },
-      "En proceso": { border: "warning", bg: "bg-warning-subtle", text: "text-dark" },
-      "Resuelto": { border: "danger", bg: "bg-danger-subtle", text: "text-dark" },
-      "Cerrado": { border: "dark", bg: "bg-dark", text: "text-white" }
+      "Abierto":   { border: "success", bg: "bg-success-subtle",  text: "text-dark" },
+      "En proceso":{ border: "warning", bg: "bg-warning-subtle", text: "text-dark" },
+      "Resuelto":  { border: "danger",  bg: "bg-danger-subtle",  text: "text-dark" },
+      "Cerrado":   { border: "dark",    bg: "bg-dark",           text: "text-white" }
+    };
+
+    // Badge por prioridad
+    const prioridadBadge = (p) => {
+      const map = { 'Alta': 'danger', 'Media': 'warning', 'Baja': 'secondary' };
+      const cls = map[p] || 'secondary';
+      return `<span class="badge bg-${cls}">${p || 'Media'}</span>`;
     };
 
     let usuarios = [];
 
     async function obtenerUsuarios() {
       try {
-        const res = await fetch("/api/users", {
-          headers: { Authorization: `Bearer ${token}` }
-        });
+        const res = await fetch("/api/users", { headers: { Authorization: `Bearer ${token}` } });
         const data = await res.json();
 
         if (!Array.isArray(data)) {
@@ -61,7 +76,6 @@
           mostrarMensaje("❌ No se pudieron cargar los usuarios", "danger");
           return false;
         }
-
         usuarios = data;
         return true;
       } catch (error) {
@@ -75,31 +89,30 @@
       const usuariosOK = await obtenerUsuarios();
       if (!usuariosOK) return;
 
-      const tipo = document.getElementById("filtroTipo").value;
-      const estatus = document.getElementById("filtroEstatus").value;
+      const tipo      = document.getElementById("filtroTipo").value;
+      const estatus   = document.getElementById("filtroEstatus").value;
+      const prioridad = document.getElementById("filtroPrioridad").value;
 
-      const res = await fetch("/api/tickets", {
-        headers: { Authorization: `Bearer ${token}` }
-      });
-
+      const res = await fetch("/api/tickets", { headers: { Authorization: `Bearer ${token}` } });
       const datos = await res.json();
       const contenedor = document.getElementById("tickets");
       contenedor.innerHTML = "";
 
       let filtrados = datos;
-      if (tipo) filtrados = filtrados.filter(t => t.tipo === tipo);
-      if (estatus) filtrados = filtrados.filter(t => t.estatus === estatus);
+      if (tipo)      filtrados = filtrados.filter(t => t.tipo === tipo);
+      if (estatus)   filtrados = filtrados.filter(t => t.estatus === estatus);
+      if (prioridad) filtrados = filtrados.filter(t => (t.prioridad || 'Media') === prioridad);
 
       filtrados.forEach(ticket => {
         const div = document.createElement("div");
         div.className = "col-md-6";
 
         const puedeAsignar = !ticket.asignadoA && ticket.estatus !== "Cerrado";
-        const puedeCerrar = ticket.estatus !== "Cerrado";
+        const puedeCerrar  = ticket.estatus !== "Cerrado";
 
         const candidatos = usuarios.filter(u =>
-          (ticket.tipo === "Sistemas" && u.roles.includes("soporte")) ||
-          (ticket.tipo === "Mantenimiento" && u.roles.includes("mantenimiento"))
+          (ticket.tipo === "Sistemas" && (u.roles || []).includes("soporte")) ||
+          (ticket.tipo === "Mantenimiento" && (u.roles || []).includes("mantenimiento"))
         );
 
         let asignarHTML = "";
@@ -120,20 +133,40 @@
           cerrarHTML = `<button class="btn btn-danger mt-2 w-100" onclick="cerrarTicket('${ticket._id}')">Cerrar ticket</button>`;
         }
 
+        // selector de prioridad (guarda al cambiar)
+        const selectorPrioridad = `
+          <label class="form-label mt-2">Prioridad:</label>
+          <div class="input-group">
+            <select class="form-select" id="prio-${ticket._id}" onchange="actualizarPrioridad('${ticket._id}')">
+              ${['Alta','Media','Baja'].map(p => `<option ${ (ticket.prioridad||'Media')===p?'selected':'' }>${p}</option>`).join('')}
+            </select>
+            <span class="input-group-text">${prioridadBadge(ticket.prioridad || 'Media')}</span>
+          </div>
+        `;
+
         const estilo = estatusColor[ticket.estatus] || { border: 'light', bg: 'bg-light', text: 'text-dark' };
 
         div.innerHTML = `
           <div class="card border-${estilo.border} ${estilo.bg} ${estilo.text}">
             <div class="card-body">
-              <h5 class="card-title">${ticket.tipo}</h5>
-              <p class="card-text">
+              <div class="d-flex justify-content-between align-items-start">
+                <h5 class="card-title mb-1">${ticket.tipo}</h5>
+                <div class="text-end small">
+                  <div>Estatus: <strong>${ticket.estatus}</strong></div>
+                  <div>Prioridad: ${prioridadBadge(ticket.prioridad || 'Media')}</div>
+                </div>
+              </div>
+
+              <p class="card-text mb-2">
+                <span class="text-muted">Folio:</span> <strong>${ticket.folio || '—'}</strong><br>
                 Descripción: ${ticket.descripcion}<br>
-                Estatus: <strong>${ticket.estatus}</strong><br>
                 Material requerido: ${ticket.requiereMaterial || 'Ninguno'}<br>
                 Creado por: ${ticket.creadoPor?.nombre || "N/A"}<br>
                 Asignado a: ${ticket.asignadoA?.nombre || "Sin asignar"}<br>
-                Fecha: ${new Date(ticket.fechaCreacion).toLocaleString()}
+                Fecha: ${new Date(ticket.fechaCreacion || ticket.createdAt).toLocaleString()}
               </p>
+
+              ${selectorPrioridad}
               ${asignarHTML}
               ${cerrarHTML}
             </div>
@@ -148,10 +181,7 @@
 
       const res = await fetch(`/api/tickets/${id}`, {
         method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`
-        },
+        headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
         body: JSON.stringify({ asignadoA: userId })
       });
 
@@ -163,15 +193,25 @@
     async function cerrarTicket(id) {
       const res = await fetch(`/api/tickets/${id}`, {
         method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`
-        },
+        headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
         body: JSON.stringify({ estatus: "Cerrado" })
       });
 
       const data = await res.json();
       mostrarMensaje(data.mensaje || "✅ Ticket cerrado", "success");
+      cargarTickets();
+    }
+
+    async function actualizarPrioridad(id){
+      const prio = document.getElementById(`prio-${id}`).value;
+      const res = await fetch(`/api/tickets/${id}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
+        body: JSON.stringify({ prioridad: prio })
+      });
+      const data = await res.json().catch(()=>({}));
+      if(!res.ok){ mostrarMensaje(data.mensaje || 'No se pudo actualizar la prioridad', 'danger'); return; }
+      mostrarMensaje("✅ Prioridad actualizada", "success");
       cargarTickets();
     }
 

@@ -49,6 +49,7 @@
             <th>Cierre</th>
             <th>Req. material</th>
             <th class="text-end">Tiempo de solución</th>
+            <th>Prioridad</th>
             <th>Estatus</th>
           </tr>
         </thead>
@@ -128,6 +129,13 @@
             <td>${fmtFecha(t.fechaCierre)}</td>
             <td>${requiereMat(t) ? 'Sí' : 'No'}</td>
             <td class="text-end">${fmtDur(ms)}</td>
+            <td>
+              <span class="badge ${
+              (t.prioridad==='Alta') ? 'bg-danger'
+               : (t.prioridad==='Media') ? 'bg-warning'
+               : 'bg-secondary'
+              }">${t.prioridad || 'Media'}</span>
+              </td>
             <td><span class="badge ${badgeCls(t.estatus)}">${t.estatus}</span></td>
           </tr>`;
       });
