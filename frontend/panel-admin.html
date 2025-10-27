@@ -137,10 +137,15 @@
         const selectorPrioridad = `
           <label class="form-label mt-2">Prioridad:</label>
           <div class="input-group">
-            <select class="form-select" id="prio-${ticket._id}" onchange="actualizarPrioridad('${ticket._id}')">
-              ${['Alta','Media','Baja'].map(p => `<option ${ (ticket.prioridad||'Media')===p?'selected':'' }>${p}</option>`).join('')}
+            <select class="form-select" id="prio-${ticket._id}">
+              ${['Alta','Media','Baja'].map(p => `<option ${(ticket.prioridad||'Media')===p?'selected':''}>${p}</option>`).join('')}
             </select>
-            <span class="input-group-text">${prioridadBadge(ticket.prioridad || 'Media')}</span>
+            <button class="btn btn-outline-primary" type="button" onclick="guardarPrioridad('${ticket._id}')">
+              Guardar
+            </button>
+            <span class="input-group-text" id="prio-badge-${ticket._id}">
+              ${prioridadBadge(ticket.prioridad || 'Media')}
+            </span>
           </div>
         `;
 
@@ -224,6 +229,32 @@
         </div>
       `;
     }
+
+    async function guardarPrioridad(id){
+  const prio = document.getElementById(`prio-${id}`).value;
+
+  const res = await fetch(`/api/tickets/${id}`, {
+    method: "PUT",
+    headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
+    body: JSON.stringify({ prioridad: prio })
+  });
+
+  const data = await res.json().catch(()=>({}));
+  if (!res.ok){
+    mostrarMensaje(data.mensaje || 'No se pudo actualizar la prioridad', 'danger');
+    return;
+  }
+
+  // Actualiza el badge sin recargar toda la lista
+  const badgeHost = document.getElementById(`prio-badge-${id}`);
+  if (badgeHost){
+    // reutilizamos tu función prioridadBadge(p)
+    badgeHost.innerHTML = prioridadBadge(prio);
+  }
+
+  mostrarMensaje("✅ Prioridad actualizada", "success");
+}
+
 
     cargarTickets();
   </script>
