@@ -310,20 +310,19 @@
                   <h5 class="card-title mb-0">Área: ${t.tipo}</h5>
                   <div class="small text-muted">Folio: <span class="fw-semibold">${t.folio || '—'}</span></div>
                   <div class="text-end small">
-                    <div><strong>Estado:</strong> ${badgeEstatus(t.estatus)}</div>
+                    
                     <div><strong>Creado por:</strong> ${t.creadoPor?.nombre || "—"}</div>
                     <div><strong>Asignado a:</strong> ${t.asignadoA?.nombre || "Sin asignar"}</div>
 
-          <div class="text-end small">
-  <div><strong>Estado:</strong> ${badgeEstatus(t.estatus)}</div>
-  <div><strong>Prioridad:</strong> <span class="badge ${
-    (t.prioridad==='Alta') ? 'bg-danger' :
-    (t.prioridad==='Media') ? 'bg-warning' : 'bg-secondary'
-  }">${t.prioridad || 'Media'}</span></div>
-  <div><strong>Creado por:</strong> ${t.creadoPor?.nombre || "—"}</div>
-  <div><strong>Asignado a:</strong> ${t.asignadoA?.nombre || "Sin asignar"}</div>
-</div>
-
+                    <div class="text-end small">
+                    <div><strong>Estado:</strong> ${badgeEstatus(t.estatus)}</div>
+                    <div><strong>Prioridad:</strong> <span class="badge ${
+                      (t.prioridad==='Alta') ? 'bg-danger' :
+                      (t.prioridad==='Media') ? 'bg-warning' : 'bg-secondary'
+                       }">${t.prioridad || 'Media'}</span></div>
+                    <div><strong>Creado por:</strong> ${t.creadoPor?.nombre || "—"}</div>
+                    <div><strong>Asignado a:</strong> ${t.asignadoA?.nombre || "Sin asignar"}</div>
+                    </div>
 
 
                   </div>
