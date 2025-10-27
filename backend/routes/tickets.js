@@ -47,7 +47,7 @@ router.post('/', verifyToken, async (req, res) => {
 
       doc = {
         descripcion: body.descripcion,
-        tipo: tipoGeneral, // Sistemas | Mantenimiento
+        tipo: tipoGeneral,                          // Sistemas | Mantenimiento
         subtipo: body.area === 'sistemas' ? body.tipo : null, // laboratorio | otro
         laboratorio: body.laboratorio || null,
         equipo: body.equipo || null,
@@ -57,7 +57,9 @@ router.post('/', verifyToken, async (req, res) => {
         creadoPor: userId,
         estatus: 'Abierto',
         requiereMaterial: '',
-        resolucion: ''
+        resolucion: '',
+        // prioridad opcional (default en el modelo = 'Media')
+        ...(body.prioridad && ['Alta','Media','Baja'].includes(body.prioridad) ? { prioridad: body.prioridad } : {})
       };
     } else {
       // ==== Formato viejo ====
@@ -71,7 +73,8 @@ router.post('/', verifyToken, async (req, res) => {
         descripcion: body.descripcion,
         tipo: body.tipo,
         creadoPor: userId,
-        estatus: 'Abierto'
+        estatus: 'Abierto',
+        ...(body.prioridad && ['Alta','Media','Baja'].includes(body.prioridad) ? { prioridad: body.prioridad } : {})
       };
     }
 
@@ -88,8 +91,8 @@ router.get('/', verifyToken, async (req, res) => {
   const rol = req.usuario.roles || req.usuario.rol;
   let filtro = {};
 
-  if (rol.includes && rol.includes('soporte')) filtro.tipo = 'Sistemas';
-  else if (rol.includes && rol.includes('mantenimiento')) filtro.tipo = 'Mantenimiento';
+  if (rol?.includes && rol.includes('soporte')) filtro.tipo = 'Sistemas';
+  else if (rol?.includes && rol.includes('mantenimiento')) filtro.tipo = 'Mantenimiento';
   else if (typeof rol === 'string') {
     if (rol === 'soporte') filtro.tipo = 'Sistemas';
     if (rol === 'mantenimiento') filtro.tipo = 'Mantenimiento';
@@ -104,72 +107,83 @@ router.get('/', verifyToken, async (req, res) => {
 
 // ===== Actualizar ticket =====
 router.put('/:id', verifyToken, async (req, res) => {
-  const { estatus, requiereMaterial, resolucion, asignar, asignadoA } = req.body;
-  const ticket = await Ticket.findById(req.params.id);
-  if (!ticket) return res.status(404).json({ mensaje: 'Ticket no encontrado' });
+  try {
+    const { estatus, requiereMaterial, resolucion, asignar, asignadoA, prioridad } = req.body;
+    const ticket = await Ticket.findById(req.params.id);
+    if (!ticket) return res.status(404).json({ mensaje: 'Ticket no encontrado' });
 
-  const anterior = ticket.estatus;
+    const anterior = ticket.estatus;
 
-  // Cambios de estatus y fechas
-  if (estatus) {
-    // Inicio (solo la primera vez que entra a "En proceso")
-    if (estatus === 'En proceso' && !ticket.fechaInicio) {
-      ticket.fechaInicio = new Date();
-    }
-
-    // Pausa por material
-    if (estatus === 'En espera de material') {
-      // Validación dura: no permitir poner en espera sin material
-      if (!requiereMaterial || !String(requiereMaterial).trim()) {
-        return res.status(400).json({ mensaje: 'Debes indicar el material requerido para poner el ticket en espera.' });
+    // ---- Cambios de estatus y fechas ----
+    if (estatus) {
+      // Inicio (solo la primera vez que entra a "En proceso")
+      if (estatus === 'En proceso' && !ticket.fechaInicio) {
+        ticket.fechaInicio = new Date();
       }
-      ticket.fechaPausa = new Date();
-    }
 
-    // Reanudación (cuando venimos de pausa a En proceso)
-    if (estatus === 'En proceso' && anterior === 'En espera de material') {
-      ticket.fechaReanudacion = new Date();
-    }
-
-    // Cierre (Resuelto o Cerrado)
-    if (estatus === 'Resuelto' || estatus === 'Cerrado') {
-      ticket.fechaCierre = new Date();
-    }
-
-    // Reapertura
-    if (estatus === 'Abierto') {
-      ticket.fechaInicio = null;
-      ticket.fechaPausa = null;
-      ticket.fechaReanudacion = null;
-      ticket.fechaCierre = null;
-    }
-
-    ticket.estatus = estatus;
-  }
-
-  if (typeof prioridad !== 'undefined') ticket.prioridad = prioridad;
-  // Campos de trabajo
-  const roles = req.usuario.roles || [req.usuario.rol];
-  if (roles.includes('soporte') || roles.includes('mantenimiento') || roles.includes('admin')) {
-    if (typeof requiereMaterial !== 'undefined') ticket.requiereMaterial = requiereMaterial;
-    if (typeof resolucion       !== 'undefined') ticket.resolucion       = resolucion;
-
-    if (asignar) {
-      if (ticket.estatus === "Cerrado" || ticket.estatus === "Resuelto") {
-        return res.status(400).json({ mensaje: "No puedes asignarte un ticket cerrado o resuelto." });
+      // Pausa por material
+      if (estatus === 'En espera de material') {
+        // Validación dura: no permitir poner en espera sin material
+        if (!requiereMaterial || !String(requiereMaterial).trim()) {
+          return res.status(400).json({ mensaje: 'Debes indicar el material requerido para poner el ticket en espera.' });
+        }
+        ticket.fechaPausa = new Date();
       }
-      ticket.asignadoA = req.usuario.id;
-    }
-  }
-  if (asignadoA) ticket.asignadoA = asignadoA;
 
-  await ticket.save();
-  res.json({ mensaje: 'Ticket actualizado correctamente' });
+      // Reanudación (cuando venimos de pausa a En proceso)
+      if (estatus === 'En proceso' && anterior === 'En espera de material') {
+        ticket.fechaReanudacion = new Date();
+      }
+
+      // Cierre (Resuelto o Cerrado)
+      if (estatus === 'Resuelto' || estatus === 'Cerrado') {
+        ticket.fechaCierre = new Date();
+      }
+
+      // Reapertura
+      if (estatus === 'Abierto') {
+        ticket.fechaInicio = null;
+        ticket.fechaPausa = null;
+        ticket.fechaReanudacion = null;
+        ticket.fechaCierre = null;
+      }
+
+      ticket.estatus = estatus;
+    }
+
+    // ---- Prioridad (validación única) ----
+    if (typeof prioridad !== 'undefined') {
+      const ok = ['Alta','Media','Baja'].includes(prioridad);
+      if (!ok) return res.status(400).json({ mensaje: 'Prioridad inválida' });
+      ticket.prioridad = prioridad;
+    }
+
+    // ---- Campos de trabajo ----
+    const roles = req.usuario.roles || [req.usuario.rol];
+    if (roles.includes('soporte') || roles.includes('mantenimiento') || roles.includes('admin')) {
+      if (typeof requiereMaterial !== 'undefined') ticket.requiereMaterial = requiereMaterial;
+      if (typeof resolucion       !== 'undefined') ticket.resolucion       = resolucion;
+
+      if (asignar) {
+        if (ticket.estatus === "Cerrado" || ticket.estatus === "Resuelto") {
+          return res.status(400).json({ mensaje: "No puedes asignarte un ticket cerrado o resuelto." });
+        }
+        ticket.asignadoA = req.usuario.id;
+      }
+    }
+
+    // Asignación directa (desde panel admin)
+    if (asignadoA) ticket.asignadoA = asignadoA;
+
+    await ticket.save();
+    res.json({ mensaje: 'Ticket actualizado correctamente' });
+  } catch (err) {
+    console.error('PUT /tickets/:id error:', err);
+    res.status(500).json({ mensaje: 'Error al actualizar ticket' });
+  }
 });
 
-
-
-// ===== Tickets asignables (para admin) =====
+// ===== Tickets asignables (para admin y finanzas) =====
 router.get('/asignables', verifyToken, verifyRole(['admin', 'finanzas']), async (req, res) => {
   try {
     const tickets = await Ticket.find({
@@ -191,7 +205,6 @@ router.get('/asignables', verifyToken, verifyRole(['admin', 'finanzas']), async 
 // Roles permitidos: admin, direccion, subdireccion, finanzas
 router.get('/historial', verifyToken, async (req, res) => {
   try {
-    // Si NO tienes un middleware allowRoles, validamos aquí:
     const roles = (req.usuario?.roles || [req.usuario?.rol || ''])
       .filter(Boolean)
       .map(r => String(r).toLowerCase());
@@ -206,7 +219,6 @@ router.get('/historial', verifyToken, async (req, res) => {
       return res.status(403).json({ mensaje: 'No autorizado' });
     }
 
-    // Traemos tickets con los campos necesarios y personas
     const tickets = await Ticket.find({}, {
       // excluye campos largos si quieres:
       descripcion: 0,
@@ -222,6 +234,5 @@ router.get('/historial', verifyToken, async (req, res) => {
     res.status(500).json({ mensaje: 'Error al obtener historial' });
   }
 });
-
 
 module.exports = router;
