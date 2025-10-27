@@ -207,7 +207,7 @@
       cargarTickets();
     }
 
-    async function actualizarPrioridad(id){
+   /* async function actualizarPrioridad(id){
       const prio = document.getElementById(`prio-${id}`).value;
       const res = await fetch(`/api/tickets/${id}`, {
         method: "PUT",
@@ -218,7 +218,7 @@
       if(!res.ok){ mostrarMensaje(data.mensaje || 'No se pudo actualizar la prioridad', 'danger'); return; }
       mostrarMensaje("✅ Prioridad actualizada", "success");
       cargarTickets();
-    }
+    }*/
 
     function mostrarMensaje(texto, tipo = "info") {
       const div = document.getElementById("mensaje-estado");
@@ -230,7 +230,7 @@
       `;
     }
 
-    async function guardarPrioridad(id){
+  async function guardarPrioridad(id){
   const prio = document.getElementById(`prio-${id}`).value;
 
   const res = await fetch(`/api/tickets/${id}`, {
