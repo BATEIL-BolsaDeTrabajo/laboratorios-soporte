@@ -2,263 +2,95 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>Panel de Administración</title>
+  <title>Panel de Soporte y Mantenimiento</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <style>
+    .kpi {
+      border-radius: 14px;
+      padding: 16px;
+      text-align: center;
+      transition: transform .2s ease;
+    }
+    .kpi:hover { transform: translateY(-3px); }
+    .kpi .label { font-weight: 600; opacity: .9; }
+    .kpi .value { font-size: 2rem; font-weight: 700; line-height: 1; }
+
+    .kpi-total    { background: #1E73FF; color: #fff; }   /* Azul */
+    .kpi-abiertos { background: #FF9800; color: #fff; }   /* Naranja */
+    .kpi-proceso  { background: #FFC107; color: #111; }   /* Amarillo */
+    .kpi-espera   { background: #9E9E9E; color: #fff; }   /* Gris */
+    .kpi-resueltos{ background: #03A9F4; color: #fff; }   /* Azul cielo */
+    .kpi-cerrados { background: #4CAF50; color: #fff; }   /* Verde */
+  </style>
 </head>
 <body class="bg-light">
   <div id="navbar-container"></div>
 
   <div class="container py-4">
-    <h2 class="text-center mb-4">Panel de Administración - Tickets</h2>
+    <h2 class="text-center mb-4">Panel de Trabajo - Soporte y Mantenimiento</h2>
 
-    <div class="row mb-4 g-3">
-      <div class="col-md-4">
-        <label class="form-label">Filtrar por tipo</label>
-        <select id="filtroTipo" class="form-select" onchange="cargarTickets()">
-          <option value="">Todos</option>
-          <option value="Sistemas">Sistemas</option>
-          <option value="Mantenimiento">Mantenimiento</option>
-        </select>
-      </div>
-      <div class="col-md-4">
-        <label class="form-label">Filtrar por estatus</label>
-        <select id="filtroEstatus" class="form-select" onchange="cargarTickets()">
-          <option value="">Todos</option>
-          <option>Abierto</option>
-          <option>En proceso</option>
-          <option>Resuelto</option>
-          <option>Cerrado</option>
-        </select>
-      </div>
-      <div class="col-md-4">
-        <label class="form-label">Filtrar por prioridad</label>
-        <select id="filtroPrioridad" class="form-select" onchange="cargarTickets()">
-          <option value="">Todas</option>
-          <option>Alta</option>
-          <option>Media</option>
-          <option>Baja</option>
-        </select>
-      </div>
+    <!-- KPIs de Sistemas -->
+    <h4 class="mt-4">Área de Sistemas</h4>
+    <div class="row g-3 mb-4">
+      <div class="col-6 col-md-2"><div class="kpi kpi-total"><div class="label">Total</div><div id="kpiS-total" class="value">0</div></div></div>
+      <div class="col-6 col-md-2"><div class="kpi kpi-abiertos"><div class="label">Abiertos</div><div id="kpiS-abiertos" class="value">0</div></div></div>
+      <div class="col-6 col-md-2"><div class="kpi kpi-proceso"><div class="label">En proceso</div><div id="kpiS-proceso" class="value">0</div></div></div>
+      <div class="col-6 col-md-2"><div class="kpi kpi-espera"><div class="label">En espera</div><div id="kpiS-espera" class="value">0</div></div></div>
+      <div class="col-6 col-md-2"><div class="kpi kpi-resueltos"><div class="label">Resueltos</div><div id="kpiS-resueltos" class="value">0</div></div></div>
+      <div class="col-6 col-md-2"><div class="kpi kpi-cerrados"><div class="label">Cerrados</div><div id="kpiS-cerrados" class="value">0</div></div></div>
     </div>
 
-    <div id="mensaje-estado" class="mb-3"></div>
-    <div id="tickets" class="row g-3"></div>
+    <!-- KPIs de Mantenimiento -->
+    <h4 class="mt-5">Área de Mantenimiento</h4>
+    <div class="row g-3 mb-4">
+      <div class="col-6 col-md-2"><div class="kpi kpi-total"><div class="label">Total</div><div id="kpiM-total" class="value">0</div></div></div>
+      <div class="col-6 col-md-2"><div class="kpi kpi-abiertos"><div class="label">Abiertos</div><div id="kpiM-abiertos" class="value">0</div></div></div>
+      <div class="col-6 col-md-2"><div class="kpi kpi-proceso"><div class="label">En proceso</div><div id="kpiM-proceso" class="value">0</div></div></div>
+      <div class="col-6 col-md-2"><div class="kpi kpi-espera"><div class="label">En espera</div><div id="kpiM-espera" class="value">0</div></div></div>
+      <div class="col-6 col-md-2"><div class="kpi kpi-resueltos"><div class="label">Resueltos</div><div id="kpiM-resueltos" class="value">0</div></div></div>
+      <div class="col-6 col-md-2"><div class="kpi kpi-cerrados"><div class="label">Cerrados</div><div id="kpiM-cerrados" class="value">0</div></div></div>
+    </div>
+
+    <!-- Contenedor de tickets -->
+    <div id="tickets-container" class="mt-4"></div>
   </div>
 
-  <script>
-    const token = localStorage.getItem("token");
-    if (!token) window.location.href = "login.html";
-
-    // Colores por estatus (igual que tenías)
-    const estatusColor = {
-      "Abierto":   { border: "success", bg: "bg-success-subtle",  text: "text-dark" },
-      "En proceso":{ border: "warning", bg: "bg-warning-subtle", text: "text-dark" },
-      "Resuelto":  { border: "danger",  bg: "bg-danger-subtle",  text: "text-dark" },
-      "Cerrado":   { border: "dark",    bg: "bg-dark",           text: "text-white" }
-    };
-
-    // Badge por prioridad
-    const prioridadBadge = (p) => {
-      const map = { 'Alta': 'danger', 'Media': 'warning', 'Baja': 'secondary' };
-      const cls = map[p] || 'secondary';
-      return `<span class="badge bg-${cls}">${p || 'Media'}</span>`;
-    };
-
-    let usuarios = [];
-
-    async function obtenerUsuarios() {
-      try {
-        const res = await fetch("/api/users", { headers: { Authorization: `Bearer ${token}` } });
-        const data = await res.json();
-
-        if (!Array.isArray(data)) {
-          console.error("⚠ Error al obtener usuarios:", data);
-          mostrarMensaje("❌ No se pudieron cargar los usuarios", "danger");
-          return false;
-        }
-        usuarios = data;
-        return true;
-      } catch (error) {
-        console.error("❌ Error inesperado al cargar usuarios:", error);
-        mostrarMensaje("❌ Error al conectar con el servidor", "danger");
-        return false;
-      }
-    }
-
-    async function cargarTickets() {
-      const usuariosOK = await obtenerUsuarios();
-      if (!usuariosOK) return;
-
-      const tipo      = document.getElementById("filtroTipo").value;
-      const estatus   = document.getElementById("filtroEstatus").value;
-      const prioridad = document.getElementById("filtroPrioridad").value;
-
-      const res = await fetch("/api/tickets", { headers: { Authorization: `Bearer ${token}` } });
-      const datos = await res.json();
-      const contenedor = document.getElementById("tickets");
-      contenedor.innerHTML = "";
-
-      let filtrados = datos;
-      if (tipo)      filtrados = filtrados.filter(t => t.tipo === tipo);
-      if (estatus)   filtrados = filtrados.filter(t => t.estatus === estatus);
-      if (prioridad) filtrados = filtrados.filter(t => (t.prioridad || 'Media') === prioridad);
-
-      filtrados.forEach(ticket => {
-        const div = document.createElement("div");
-        div.className = "col-md-6";
-
-        const puedeAsignar = !ticket.asignadoA && ticket.estatus !== "Cerrado";
-        const puedeCerrar  = ticket.estatus !== "Cerrado";
-
-        const candidatos = usuarios.filter(u =>
-          (ticket.tipo === "Sistemas" && (u.roles || []).includes("soporte")) ||
-          (ticket.tipo === "Mantenimiento" && (u.roles || []).includes("mantenimiento"))
-        );
-
-        let asignarHTML = "";
-        if (puedeAsignar && candidatos.length) {
-          asignarHTML = `
-            <label class="form-label mt-2">Asignar a:</label>
-            <div class="input-group">
-              <select class="form-select" id="select-${ticket._id}">
-                ${candidatos.map(u => `<option value="${u._id}">${u.nombre}</option>`).join("")}
-              </select>
-              <button class="btn btn-success" onclick="asignarTicket('${ticket._id}')">Asignar</button>
-            </div>
-          `;
-        }
-
-        let cerrarHTML = "";
-        if (puedeCerrar) {
-          cerrarHTML = `<button class="btn btn-danger mt-2 w-100" onclick="cerrarTicket('${ticket._id}')">Cerrar ticket</button>`;
-        }
-
-        // selector de prioridad (guarda al cambiar)
-        const selectorPrioridad = `
-          <label class="form-label mt-2">Prioridad:</label>
-          <div class="input-group">
-            <select class="form-select" id="prio-${ticket._id}">
-              ${['Alta','Media','Baja'].map(p => `<option ${(ticket.prioridad||'Media')===p?'selected':''}>${p}</option>`).join('')}
-            </select>
-            <button class="btn btn-outline-primary" type="button" onclick="guardarPrioridad('${ticket._id}')">
-              Guardar
-            </button>
-            <span class="input-group-text" id="prio-badge-${ticket._id}">
-              ${prioridadBadge(ticket.prioridad || 'Media')}
-            </span>
-          </div>
-        `;
-
-        const estilo = estatusColor[ticket.estatus] || { border: 'light', bg: 'bg-light', text: 'text-dark' };
-
-        div.innerHTML = `
-          <div class="card border-${estilo.border} ${estilo.bg} ${estilo.text}">
-            <div class="card-body">
-              <div class="d-flex justify-content-between align-items-start">
-                <h5 class="card-title mb-1">${ticket.tipo}</h5>
-                <div class="text-end small">
-                  <div>Estatus: <strong>${ticket.estatus}</strong></div>
-                  <div>Prioridad: ${prioridadBadge(ticket.prioridad || 'Media')}</div>
-                </div>
-              </div>
-
-              <p class="card-text mb-2">
-                <span class="text-muted">Folio:</span> <strong>${ticket.folio || '—'}</strong><br>
-                Descripción: ${ticket.descripcion}<br>
-                Material requerido: ${ticket.requiereMaterial || 'Ninguno'}<br>
-                Creado por: ${ticket.creadoPor?.nombre || "N/A"}<br>
-                Asignado a: ${ticket.asignadoA?.nombre || "Sin asignar"}<br>
-                Fecha: ${new Date(ticket.fechaCreacion || ticket.createdAt).toLocaleString()}
-              </p>
-
-              ${selectorPrioridad}
-              ${asignarHTML}
-              ${cerrarHTML}
-            </div>
-          </div>
-        `;
-        contenedor.appendChild(div);
-      });
-    }
-
-    async function asignarTicket(id) {
-      const userId = document.getElementById(`select-${id}`).value;
-
-      const res = await fetch(`/api/tickets/${id}`, {
-        method: "PUT",
-        headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
-        body: JSON.stringify({ asignadoA: userId })
-      });
-
-      const data = await res.json();
-      mostrarMensaje(data.mensaje || "✅ Ticket asignado", "success");
-      cargarTickets();
-    }
-
-    async function cerrarTicket(id) {
-      const res = await fetch(`/api/tickets/${id}`, {
-        method: "PUT",
-        headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
-        body: JSON.stringify({ estatus: "Cerrado" })
-      });
-
-      const data = await res.json();
-      mostrarMensaje(data.mensaje || "✅ Ticket cerrado", "success");
-      cargarTickets();
-    }
-
-   /* async function actualizarPrioridad(id){
-      const prio = document.getElementById(`prio-${id}`).value;
-      const res = await fetch(`/api/tickets/${id}`, {
-        method: "PUT",
-        headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
-        body: JSON.stringify({ prioridad: prio })
-      });
-      const data = await res.json().catch(()=>({}));
-      if(!res.ok){ mostrarMensaje(data.mensaje || 'No se pudo actualizar la prioridad', 'danger'); return; }
-      mostrarMensaje("✅ Prioridad actualizada", "success");
-      cargarTickets();
-    }*/
-
-    function mostrarMensaje(texto, tipo = "info") {
-      const div = document.getElementById("mensaje-estado");
-      div.innerHTML = `
-        <div class="alert alert-${tipo} alert-dismissible fade show" role="alert">
-          ${texto}
-          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Cerrar"></button>
-        </div>
-      `;
-    }
-
-  async function guardarPrioridad(id){
-  const prio = document.getElementById(`prio-${id}`).value;
-
-  const res = await fetch(`/api/tickets/${id}`, {
-    method: "PUT",
-    headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
-    body: JSON.stringify({ prioridad: prio })
-  });
-
-  const data = await res.json().catch(()=>({}));
-  if (!res.ok){
-    mostrarMensaje(data.mensaje || 'No se pudo actualizar la prioridad', 'danger');
-    return;
-  }
-
-  // Actualiza el badge sin recargar toda la lista
-  const badgeHost = document.getElementById(`prio-badge-${id}`);
-  if (badgeHost){
-    // reutilizamos tu función prioridadBadge(p)
-    badgeHost.innerHTML = prioridadBadge(prio);
-  }
-
-  mostrarMensaje("✅ Prioridad actualizada", "success");
-}
-
-
-    cargarTickets();
-  </script>
   <script src="js/navbar.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+  <script>
+    const token = localStorage.getItem('token');
+    if (!token) window.location.href = 'login.html';
+
+    async function cargar() {
+      const res = await fetch('/api/tickets', { headers: { Authorization: `Bearer ${token}` } });
+      const tickets = await res.json();
+      actualizarKPIs(tickets);
+    }
+
+    function actualizarKPIs(tickets) {
+      const sistemas = tickets.filter(t => t.tipo === 'Sistemas');
+      const mantenimiento = tickets.filter(t => t.tipo === 'Mantenimiento');
+
+      const contar = (arr, est) => arr.filter(t => t.estatus === est).length;
+
+      document.getElementById('kpiS-total').textContent = sistemas.length;
+      document.getElementById('kpiS-abiertos').textContent = contar(sistemas, 'Abierto');
+      document.getElementById('kpiS-proceso').textContent = contar(sistemas, 'En proceso');
+      document.getElementById('kpiS-espera').textContent = contar(sistemas, 'En espera de material');
+      document.getElementById('kpiS-resueltos').textContent = contar(sistemas, 'Resuelto');
+      document.getElementById('kpiS-cerrados').textContent = contar(sistemas, 'Cerrado');
+
+      document.getElementById('kpiM-total').textContent = mantenimiento.length;
+      document.getElementById('kpiM-abiertos').textContent = contar(mantenimiento, 'Abierto');
+      document.getElementById('kpiM-proceso').textContent = contar(mantenimiento, 'En proceso');
+      document.getElementById('kpiM-espera').textContent = contar(mantenimiento, 'En espera de material');
+      document.getElementById('kpiM-resueltos').textContent = contar(mantenimiento, 'Resuelto');
+      document.getElementById('kpiM-cerrados').textContent = contar(mantenimiento, 'Cerrado');
+    }
+
+    cargar();
+  </script>
 </body>
 </html>
