@@ -18,12 +18,13 @@
     .kpi-excedido { background:#E53935; color:#fff; }  /* Tiempo excedido: rojo */
 
     /* Colores de tarjetas por estatus */
-    .card-estatus-Abierto              { border-color:#FF9800 !important; background:#FF9800; color:#fff; }
-    .card-estatus-En\ proceso          { border-color:#FFC107 !important; background:#FFC107; color:#111; }
-    .card-estatus-En\ espera\ de\ material { border-color:#9E9E9E !important; background:#9E9E9E; color:#fff; }
-    .card-estatus-Resuelto             { border-color:#03A9F4 !important; background:#03A9F4; color:#fff; }
-    .card-estatus-Cerrado              { border-color:#4CAF50 !important; background:#4CAF50; color:#fff; }
-    .card-estatus-Tiempo\ excedido     { border-color:#E53935 !important; background:#E53935; color:#fff; }
+    .card-estatus-Abierto                  { border-color:#FF9800 !important; background:#FF9800; color:#fff; }
+    .card-estatus-En-proceso               { border-color:#FFC107 !important; background:#FFC107; color:#111; }
+    .card-estatus-En-espera-de-material    { border-color:#9E9E9E !important; background:#9E9E9E; color:#fff; }
+    .card-estatus-Resuelto                 { border-color:#03A9F4 !important; background:#03A9F4; color:#fff; }
+    .card-estatus-Cerrado                  { border-color:#4CAF50 !important; background:#4CAF50; color:#fff; }
+    .card-estatus-Tiempo-excedido          { border-color:#E53935 !important; background:#E53935; color:#fff; }
+
   </style>
 </head>
 <body class="bg-light">
@@ -85,13 +86,14 @@
 
     // Colores por estatus (actualizados a la paleta)
     const estatusColor = {
-      "Abierto":             { border: "light", bg: "card-estatus-Abierto"               , text: "" },
-      "En proceso":          { border: "light", bg: "card-estatus-En proceso"            , text: "" },
-      "En espera de material":{ border: "light", bg: "card-estatus-En espera de material", text: "" },
-      "Resuelto":            { border: "light", bg: "card-estatus-Resuelto"              , text: "" },
-      "Cerrado":             { border: "light", bg: "card-estatus-Cerrado"               , text: "" },
-      "Tiempo excedido":     { border: "light", bg: "card-estatus-Tiempo excedido"       , text: "" }
+      "Abierto":               { border: "light", bg: "card-estatus-Abierto",                text: "" },
+      "En proceso":            { border: "light", bg: "card-estatus-En-proceso",             text: "" },
+      "En espera de material": { border: "light", bg: "card-estatus-En-espera-de-material",  text: "" },
+      "Resuelto":              { border: "light", bg: "card-estatus-Resuelto",               text: "" },
+      "Cerrado":               { border: "light", bg: "card-estatus-Cerrado",                text: "" },
+      "Tiempo excedido":       { border: "light", bg: "card-estatus-Tiempo-excedido",        text: "" }
     };
+
 
     // Badge por prioridad
     const prioridadBadge = (p) => {
