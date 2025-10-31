@@ -226,13 +226,14 @@
 
     /* SOLO cambio de colores (misma lógica de antes) */
     const ESTILOS = {
-      "Abierto":   { border: "0", bg: "bg-ticket-abierto",  text: "" },
-      "En proceso":{ border: "0", bg: "bg-ticket-proceso",  text: "" },
-      "En espera de material": { border: "0", bg: "bg-ticket-espera",   text: "" },
-      "Resuelto":  { border: "0", bg: "bg-ticket-resuelto", text: "" },
-      "Tiempo excedido": { border: "0", bg: "bg-ticket-excedido", text: "" },
-      "Cerrado":   { border: "0", bg: "bg-ticket-cerrado",  text: "" }
+      "Abierto":               { border: "0", bg: "card-estatus-Abierto",               text: "" },
+      "En proceso":            { border: "0", bg: "card-estatus-En-proceso",            text: "" },
+      "En espera de material": { border: "0", bg: "card-estatus-En-espera-de-material", text: "" },
+      "Resuelto":              { border: "0", bg: "card-estatus-Resuelto",              text: "" },
+      "Cerrado":               { border: "0", bg: "card-estatus-Cerrado",               text: "" },
+      "Tiempo excedido":       { border: "0", bg: "card-estatus-Tiempo-excedido",       text: "" }
     };
+
 
     // Roles / permisos
     function rolesActuales() {
@@ -358,6 +359,7 @@
       const cls = map[estatus] || 'bg-secondary';
       return `<span class="badge ${cls}">${estatus}</span>`;
     }
+
 
     // ================== formateador de fechas ==================
     function fmtFecha(dt){
