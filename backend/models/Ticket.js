@@ -22,12 +22,13 @@ const ticketSchema = new mongoose.Schema({
   // Estado y trabajo
   estatus: {
     type: String,
-    enum: ['Abierto', 'En proceso', 'En espera de material', 'Resuelto', 'Cerrado'],
+    enum: ['Abierto', 'En proceso', 'En espera de material', 'Resuelto', 'Tiempo excedido','Cerrado'],
     default: 'Abierto',
     index: true
   },
   requiereMaterial: { type: String, default: '' },
   resolucion: { type: String, default: '' },
+  fechaExcedido: { type: Date }, // ✅ nuevo campo opcional
 
   // Relaciones (ajusta el ref a tu modelo real de usuarios)
   creadoPor: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true, index: true },
@@ -38,6 +39,7 @@ const ticketSchema = new mongoose.Schema({
   fechaInicio:      { type: Date, default: null },
   fechaPausa:       { type: Date, default: null },
   fechaReanudacion: { type: Date, default: null },
+  fechaExcedido:    { type: Date, default: null },
   fechaCierre:      { type: Date, default: null },
 
   // Folio

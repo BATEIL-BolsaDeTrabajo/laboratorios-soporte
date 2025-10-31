@@ -116,6 +116,19 @@ router.put('/:id', verifyToken, async (req, res) => {
 
     // ---- Cambios de estatus y fechas ----
     if (estatus) {
+      const estatusValidos = [
+        'Abierto',
+        'En proceso',
+        'En espera de material',
+        'Resuelto',
+        'Cerrado',
+        'Tiempo excedido' // ✅ nuevo estatus permitido
+      ];
+
+      if (!estatusValidos.includes(estatus)) {
+        return res.status(400).json({ mensaje: 'Estatus inválido.' });
+      }
+
       // Inicio (solo la primera vez que entra a "En proceso")
       if (estatus === 'En proceso' && !ticket.fechaInicio) {
         ticket.fechaInicio = new Date();
@@ -123,7 +136,6 @@ router.put('/:id', verifyToken, async (req, res) => {
 
       // Pausa por material
       if (estatus === 'En espera de material') {
-        // Validación dura: no permitir poner en espera sin material
         if (!requiereMaterial || !String(requiereMaterial).trim()) {
           return res.status(400).json({ mensaje: 'Debes indicar el material requerido para poner el ticket en espera.' });
         }
@@ -140,20 +152,26 @@ router.put('/:id', verifyToken, async (req, res) => {
         ticket.fechaCierre = new Date();
       }
 
+      // Nuevo: Tiempo excedido
+      if (estatus === 'Tiempo excedido') {
+        ticket.fechaExcedido = new Date(); // 📅 nuevo campo (si no existe, se agregará en el modelo)
+      }
+
       // Reapertura
       if (estatus === 'Abierto') {
         ticket.fechaInicio = null;
         ticket.fechaPausa = null;
         ticket.fechaReanudacion = null;
         ticket.fechaCierre = null;
+        ticket.fechaExcedido = null;
       }
 
       ticket.estatus = estatus;
     }
 
-    // ---- Prioridad (validación única) ----
+    // ---- Prioridad ----
     if (typeof prioridad !== 'undefined') {
-      const ok = ['Alta','Media','Baja'].includes(prioridad);
+      const ok = ['Alta', 'Media', 'Baja'].includes(prioridad);
       if (!ok) return res.status(400).json({ mensaje: 'Prioridad inválida' });
       ticket.prioridad = prioridad;
     }
@@ -162,11 +180,11 @@ router.put('/:id', verifyToken, async (req, res) => {
     const roles = req.usuario.roles || [req.usuario.rol];
     if (roles.includes('soporte') || roles.includes('mantenimiento') || roles.includes('admin')) {
       if (typeof requiereMaterial !== 'undefined') ticket.requiereMaterial = requiereMaterial;
-      if (typeof resolucion       !== 'undefined') ticket.resolucion       = resolucion;
+      if (typeof resolucion !== 'undefined') ticket.resolucion = resolucion;
 
       if (asignar) {
-        if (ticket.estatus === "Cerrado" || ticket.estatus === "Resuelto") {
-          return res.status(400).json({ mensaje: "No puedes asignarte un ticket cerrado o resuelto." });
+        if (ticket.estatus === 'Cerrado' || ticket.estatus === 'Resuelto') {
+          return res.status(400).json({ mensaje: 'No puedes asignarte un ticket cerrado o resuelto.' });
         }
         ticket.asignadoA = req.usuario.id;
       }
@@ -182,6 +200,7 @@ router.put('/:id', verifyToken, async (req, res) => {
     res.status(500).json({ mensaje: 'Error al actualizar ticket' });
   }
 });
+
 
 // ===== Tickets asignables (para admin y finanzas) =====
 router.get('/asignables', verifyToken, verifyRole(['admin', 'finanzas']), async (req, res) => {
