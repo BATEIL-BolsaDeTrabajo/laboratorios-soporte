@@ -4,6 +4,27 @@
   <meta charset="UTF-8">
   <title>Panel de Administración</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    /* Paleta KPI */
+    .kpi { border-radius:14px; padding:16px; text-align:center; }
+    .kpi .label { font-weight:600; opacity:.9; }
+    .kpi .value { font-size:2rem; font-weight:700; line-height:1; }
+    .kpi-total    { background:#1E73FF; color:#fff; }  /* Total: azul */
+    .kpi-abiertos { background:#FF9800; color:#fff; }  /* Abiertos: naranja */
+    .kpi-proceso  { background:#FFC107; color:#111; }  /* En proceso: amarillo */
+    .kpi-espera   { background:#9E9E9E; color:#fff; }  /* En espera: gris */
+    .kpi-resueltos{ background:#03A9F4; color:#fff; }  /* Resueltos: azul cielo */
+    .kpi-cerrados { background:#4CAF50; color:#fff; }  /* Cerrados: verde */
+    .kpi-excedido { background:#E53935; color:#fff; }  /* Tiempo excedido: rojo */
+
+    /* Colores de tarjetas por estatus */
+    .card-estatus-Abierto              { border-color:#FF9800 !important; background:#FF9800; color:#fff; }
+    .card-estatus-En\ proceso          { border-color:#FFC107 !important; background:#FFC107; color:#111; }
+    .card-estatus-En\ espera\ de\ material { border-color:#9E9E9E !important; background:#9E9E9E; color:#fff; }
+    .card-estatus-Resuelto             { border-color:#03A9F4 !important; background:#03A9F4; color:#fff; }
+    .card-estatus-Cerrado              { border-color:#4CAF50 !important; background:#4CAF50; color:#fff; }
+    .card-estatus-Tiempo\ excedido     { border-color:#E53935 !important; background:#E53935; color:#fff; }
+  </style>
 </head>
 <body class="bg-light">
   <div id="navbar-container"></div>
@@ -26,8 +47,10 @@
           <option value="">Todos</option>
           <option>Abierto</option>
           <option>En proceso</option>
+          <option>En espera de material</option>
           <option>Resuelto</option>
           <option>Cerrado</option>
+          <option>Tiempo excedido</option>
         </select>
       </div>
       <div class="col-md-4">
@@ -41,6 +64,17 @@
       </div>
     </div>
 
+    <!-- KPIs -->
+    <div class="row g-3 mb-4" id="kpis">
+      <div class="col-6 col-md-2"><div class="kpi kpi-total"><div class="label">Total</div><div id="kpi-total" class="value">0</div></div></div>
+      <div class="col-6 col-md-2"><div class="kpi kpi-abiertos"><div class="label">Abiertos</div><div id="kpi-abiertos" class="value">0</div></div></div>
+      <div class="col-6 col-md-2"><div class="kpi kpi-proceso"><div class="label">En proceso</div><div id="kpi-proceso" class="value">0</div></div></div>
+      <div class="col-6 col-md-2"><div class="kpi kpi-espera"><div class="label">En espera</div><div id="kpi-espera" class="value">0</div></div></div>
+      <div class="col-6 col-md-2"><div class="kpi kpi-resueltos"><div class="label">Resueltos</div><div id="kpi-resueltos" class="value">0</div></div></div>
+      <div class="col-6 col-md-2"><div class="kpi kpi-cerrados"><div class="label">Cerrados</div><div id="kpi-cerrados" class="value">0</div></div></div>
+      <div class="col-6 col-md-2"><div class="kpi kpi-excedido"><div class="label">Tiempo excedido</div><div id="kpi-excedido" class="value">0</div></div></div>
+    </div>
+
     <div id="mensaje-estado" class="mb-3"></div>
     <div id="tickets" class="row g-3"></div>
   </div>
@@ -49,12 +83,14 @@
     const token = localStorage.getItem("token");
     if (!token) window.location.href = "login.html";
 
-    // Colores por estatus (igual que tenías)
+    // Colores por estatus (actualizados a la paleta)
     const estatusColor = {
-      "Abierto":   { border: "success", bg: "bg-success-subtle",  text: "text-dark" },
-      "En proceso":{ border: "warning", bg: "bg-warning-subtle", text: "text-dark" },
-      "Resuelto":  { border: "danger",  bg: "bg-danger-subtle",  text: "text-dark" },
-      "Cerrado":   { border: "dark",    bg: "bg-dark",           text: "text-white" }
+      "Abierto":             { border: "light", bg: "card-estatus-Abierto"               , text: "" },
+      "En proceso":          { border: "light", bg: "card-estatus-En proceso"            , text: "" },
+      "En espera de material":{ border: "light", bg: "card-estatus-En espera de material", text: "" },
+      "Resuelto":            { border: "light", bg: "card-estatus-Resuelto"              , text: "" },
+      "Cerrado":             { border: "light", bg: "card-estatus-Cerrado"               , text: "" },
+      "Tiempo excedido":     { border: "light", bg: "card-estatus-Tiempo excedido"       , text: "" }
     };
 
     // Badge por prioridad
@@ -85,6 +121,17 @@
       }
     }
 
+    function actualizarKPIs(lista){
+      const by = (st) => lista.filter(t => t.estatus === st).length;
+      document.getElementById('kpi-total').textContent     = lista.length;
+      document.getElementById('kpi-abiertos').textContent  = by('Abierto');
+      document.getElementById('kpi-proceso').textContent   = by('En proceso');
+      document.getElementById('kpi-espera').textContent    = by('En espera de material');
+      document.getElementById('kpi-resueltos').textContent = by('Resuelto');
+      document.getElementById('kpi-cerrados').textContent  = by('Cerrado');
+      document.getElementById('kpi-excedido').textContent  = by('Tiempo excedido');
+    }
+
     async function cargarTickets() {
       const usuariosOK = await obtenerUsuarios();
       if (!usuariosOK) return;
@@ -102,6 +149,9 @@
       if (tipo)      filtrados = filtrados.filter(t => t.tipo === tipo);
       if (estatus)   filtrados = filtrados.filter(t => t.estatus === estatus);
       if (prioridad) filtrados = filtrados.filter(t => (t.prioridad || 'Media') === prioridad);
+
+      // KPIs sobre los datos filtrados
+      actualizarKPIs(filtrados);
 
       filtrados.forEach(ticket => {
         const div = document.createElement("div");
@@ -133,7 +183,7 @@
           cerrarHTML = `<button class="btn btn-danger mt-2 w-100" onclick="cerrarTicket('${ticket._id}')">Cerrar ticket</button>`;
         }
 
-        // selector de prioridad (guarda al cambiar)
+        // selector de prioridad + guardar
         const selectorPrioridad = `
           <label class="form-label mt-2">Prioridad:</label>
           <div class="input-group">
@@ -148,6 +198,14 @@
             </span>
           </div>
         `;
+
+        // Botón marcar tiempo excedido (si no está cerrado)
+        const btnExcedido = (ticket.estatus !== 'Cerrado')
+          ? `<button class="btn btn-outline-danger mt-2 w-100" onclick="marcarExcedido('${ticket._id}')"
+                ${ticket.estatus === 'Tiempo excedido' ? 'disabled' : ''}>
+                Marcar tiempo excedido
+             </button>`
+          : '';
 
         const estilo = estatusColor[ticket.estatus] || { border: 'light', bg: 'bg-light', text: 'text-dark' };
 
@@ -173,6 +231,7 @@
 
               ${selectorPrioridad}
               ${asignarHTML}
+              ${btnExcedido}
               ${cerrarHTML}
             </div>
           </div>
@@ -207,18 +266,40 @@
       cargarTickets();
     }
 
-   /* async function actualizarPrioridad(id){
+    async function marcarExcedido(id){
+      const res = await fetch(`/api/tickets/${id}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
+        body: JSON.stringify({ estatus: "Tiempo excedido" })
+      });
+      const data = await res.json().catch(()=>({}));
+      if (!res.ok){ mostrarMensaje(data.mensaje || 'No se pudo marcar como excedido', 'danger'); return; }
+      mostrarMensaje('⏰ Ticket marcado como tiempo excedido', 'warning');
+      cargarTickets();
+    }
+
+    async function guardarPrioridad(id){
       const prio = document.getElementById(`prio-${id}`).value;
+
       const res = await fetch(`/api/tickets/${id}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
         body: JSON.stringify({ prioridad: prio })
       });
+
       const data = await res.json().catch(()=>({}));
-      if(!res.ok){ mostrarMensaje(data.mensaje || 'No se pudo actualizar la prioridad', 'danger'); return; }
+      if (!res.ok){
+        mostrarMensaje(data.mensaje || 'No se pudo actualizar la prioridad', 'danger');
+        return;
+      }
+
+      const badgeHost = document.getElementById(`prio-badge-${id}`);
+      if (badgeHost){
+        badgeHost.innerHTML = prioridadBadge(prio);
+      }
+
       mostrarMensaje("✅ Prioridad actualizada", "success");
-      cargarTickets();
-    }*/
+    }
 
     function mostrarMensaje(texto, tipo = "info") {
       const div = document.getElementById("mensaje-estado");
@@ -229,32 +310,6 @@
         </div>
       `;
     }
-
-  async function guardarPrioridad(id){
-  const prio = document.getElementById(`prio-${id}`).value;
-
-  const res = await fetch(`/api/tickets/${id}`, {
-    method: "PUT",
-    headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
-    body: JSON.stringify({ prioridad: prio })
-  });
-
-  const data = await res.json().catch(()=>({}));
-  if (!res.ok){
-    mostrarMensaje(data.mensaje || 'No se pudo actualizar la prioridad', 'danger');
-    return;
-  }
-
-  // Actualiza el badge sin recargar toda la lista
-  const badgeHost = document.getElementById(`prio-badge-${id}`);
-  if (badgeHost){
-    // reutilizamos tu función prioridadBadge(p)
-    badgeHost.innerHTML = prioridadBadge(prio);
-  }
-
-  mostrarMensaje("✅ Prioridad actualizada", "success");
-}
-
 
     cargarTickets();
   </script>
