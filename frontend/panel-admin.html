@@ -5,12 +5,20 @@
   <title>Panel de Administración</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
   <style>
-    /* ======= NUEVOS COLORES KPI ======= */
-    .bg-orange { background-color:#FF9800 !important; }   /* Naranja */
-    /* Azul cielo con texto blanco para mejor contraste */
-    .kpi-info-white { color:#fff !important; }
+    /* ======= BLOQUE KPI (lo que faltaba) ======= */
+    .kpi { border-radius:14px; padding:16px; text-align:center; }
+    .kpi .label { font-weight:600; opacity:.9; }
+    .kpi .value { font-size:2rem; font-weight:700; line-height:1; }
 
-    /* ======= COLORES TARJETAS POR ESTATUS (solo color) ======= */
+    .kpi-total    { background:#1E73FF; color:#fff; }  /* Total: azul */
+    .kpi-abiertos { background:#FF9800; color:#fff; }  /* Abiertos: naranja */
+    .kpi-proceso  { background:#FFC107; color:#111; }  /* En proceso: amarillo */
+    .kpi-espera   { background:#9E9E9E; color:#fff; }  /* En espera: gris */
+    .kpi-resueltos{ background:#03A9F4; color:#fff; }  /* Resueltos: azul cielo */
+    .kpi-cerrados { background:#4CAF50; color:#fff; }  /* Cerrados: verde */
+    .kpi-excedido { background:#E53935; color:#fff; }  /* Excedido: rojo */
+
+    /* ======= COLORES TARJETAS POR ESTATUS ======= */
     .bg-ticket-abierto  { background-color:#FF9800 !important; color:#fff !important; }
     .bg-ticket-proceso  { background-color:#FFC107 !important; color:#111 !important; }
     .bg-ticket-espera   { background-color:#9E9E9E !important; color:#fff !important; }
@@ -76,7 +84,7 @@
     const token = localStorage.getItem("token");
     if (!token) window.location.href = "login.html";
 
-    // ✅ Mapea a TUS clases bg-ticket-*
+    /* Map a tus clases de color para tarjetas */
     const estatusColor = {
       "Abierto":               { border: "light", bg: "bg-ticket-abierto",  text: "" },
       "En proceso":            { border: "light", bg: "bg-ticket-proceso",  text: "" },
@@ -86,7 +94,6 @@
       "Tiempo excedido":       { border: "light", bg: "bg-ticket-excedido", text: "" }
     };
 
-    // Badge por prioridad
     const prioridadBadge = (p) => {
       const map = { 'Alta': 'danger', 'Media': 'warning', 'Baja': 'secondary' };
       const cls = map[p] || 'secondary';
@@ -99,7 +106,6 @@
       try {
         const res = await fetch("/api/users", { headers: { Authorization: `Bearer ${token}` } });
         const data = await res.json();
-
         if (!Array.isArray(data)) {
           console.error("⚠ Error al obtener usuarios:", data);
           mostrarMensaje("❌ No se pudieron cargar los usuarios", "danger");
@@ -107,8 +113,8 @@
         }
         usuarios = data;
         return true;
-      } catch (error) {
-        console.error("❌ Error inesperado al cargar usuarios:", error);
+      } catch (e) {
+        console.error("❌ Error inesperado al cargar usuarios:", e);
         mostrarMensaje("❌ Error al conectar con el servidor", "danger");
         return false;
       }
@@ -143,7 +149,6 @@
       if (estatus)   filtrados = filtrados.filter(t => t.estatus === estatus);
       if (prioridad) filtrados = filtrados.filter(t => (t.prioridad || 'Media') === prioridad);
 
-      // KPIs sobre los datos filtrados
       actualizarKPIs(filtrados);
 
       filtrados.forEach(ticket => {
@@ -176,26 +181,19 @@
           cerrarHTML = `<button class="btn btn-danger mt-2 w-100" onclick="cerrarTicket('${ticket._id}')">Cerrar ticket</button>`;
         }
 
-        // selector de prioridad + guardar
         const selectorPrioridad = `
           <label class="form-label mt-2">Prioridad:</label>
           <div class="input-group">
             <select class="form-select" id="prio-${ticket._id}">
               ${['Alta','Media','Baja'].map(p => `<option ${(ticket.prioridad||'Media')===p?'selected':''}>${p}</option>`).join('')}
             </select>
-            <button class="btn btn-outline-primary" type="button" onclick="guardarPrioridad('${ticket._id}')">
-              Guardar
-            </button>
+            <button class="btn btn-outline-primary" type="button" onclick="guardarPrioridad('${ticket._id}')">Guardar</button>
             <span class="input-group-text" id="prio-badge-${ticket._id}">${prioridadBadge(ticket.prioridad || 'Media')}</span>
           </div>
         `;
 
-        // Botón marcar tiempo excedido (si no está cerrado)
         const btnExcedido = (ticket.estatus !== 'Cerrado')
-          ? `<button class="btn btn-outline-danger mt-2 w-100" onclick="marcarExcedido('${ticket._id}')"
-                ${ticket.estatus === 'Tiempo excedido' ? 'disabled' : ''}>
-                Marcar tiempo excedido
-             </button>`
+          ? `<button class="btn btn-outline-danger mt-2 w-100" onclick="marcarExcedido('${ticket._id}')" ${ticket.estatus==='Tiempo excedido'?'disabled':''}>Marcar tiempo excedido</button>`
           : '';
 
         const estilo = estatusColor[ticket.estatus] || { border: 'light', bg: 'bg-light', text: 'text-dark' };
@@ -233,13 +231,11 @@
 
     async function asignarTicket(id) {
       const userId = document.getElementById(`select-${id}`).value;
-
       const res = await fetch(`/api/tickets/${id}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
         body: JSON.stringify({ asignadoA: userId })
       });
-
       const data = await res.json();
       mostrarMensaje(data.mensaje || "✅ Ticket asignado", "success");
       cargarTickets();
@@ -251,7 +247,6 @@
         headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
         body: JSON.stringify({ estatus: "Cerrado" })
       });
-
       const data = await res.json();
       mostrarMensaje(data.mensaje || "✅ Ticket cerrado", "success");
       cargarTickets();
@@ -271,24 +266,18 @@
 
     async function guardarPrioridad(id){
       const prio = document.getElementById(`prio-${id}`).value;
-
       const res = await fetch(`/api/tickets/${id}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
         body: JSON.stringify({ prioridad: prio })
       });
-
       const data = await res.json().catch(()=>({}));
       if (!res.ok){
         mostrarMensaje(data.mensaje || 'No se pudo actualizar la prioridad', 'danger');
         return;
       }
-
       const badgeHost = document.getElementById(`prio-badge-${id}`);
-      if (badgeHost){
-        badgeHost.innerHTML = prioridadBadge(prio);
-      }
-
+      if (badgeHost){ badgeHost.innerHTML = prioridadBadge(prio); }
       mostrarMensaje("✅ Prioridad actualizada", "success");
     }
 
@@ -308,3 +297,4 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
+
