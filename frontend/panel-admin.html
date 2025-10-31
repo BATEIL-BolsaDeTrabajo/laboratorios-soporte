@@ -2,121 +2,262 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>Panel de Trabajo – Soporte & Mantenimiento</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
-
-  <style>
-    /* === NUEVOS COLORES === */
-    .bg-total { background-color: #1E73FF !important; color: #fff !important; }
-    .bg-abiertos { background-color: #FF9800 !important; color: #fff !important; }
-    .bg-proceso { background-color: #FFC107 !important; color: #111 !important; }
-    .bg-espera { background-color: #9E9E9E !important; color: #fff !important; }
-    .bg-resueltos { background-color: #03A9F4 !important; color: #fff !important; }
-    .bg-cerrados { background-color: #4CAF50 !important; color: #fff !important; }
-
-    .kpi {
-      border-radius: 14px;
-      padding: 16px;
-      text-align: center;
-      transition: transform .2s ease;
-    }
-    .kpi:hover { transform: translateY(-3px); }
-    .kpi .label { font-weight: 600; opacity: .9; }
-    .kpi .value { font-size: 2rem; font-weight: 700; line-height: 1; }
-  </style>
+  <title>Panel de Administración</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body class="bg-light">
   <div id="navbar-container"></div>
 
   <div class="container py-4">
-    <h2 class="text-center mb-2">Panel de Trabajo</h2>
+    <h2 class="text-center mb-4">Panel de Administración - Tickets</h2>
 
-    <!-- ======== PANEL SOPORTE (Sistemas) ======== -->
-    <section id="sec-soporte" class="mb-5">
-      <h4 class="mb-3">🖥️ Soporte (Sistemas)</h4>
-
-      <!-- KPIs -->
-      <div class="row g-3 mb-4">
-        <div class="col-6 col-md-2"><div class="kpi bg-total"><div class="label">Total</div><div id="kpiS-total" class="value">0</div></div></div>
-        <div class="col-6 col-md-2"><div class="kpi bg-abiertos"><div class="label">Abiertos</div><div id="kpiS-abiertos" class="value">0</div></div></div>
-        <div class="col-6 col-md-2"><div class="kpi bg-proceso"><div class="label">En proceso</div><div id="kpiS-proceso" class="value">0</div></div></div>
-        <div class="col-6 col-md-2"><div class="kpi bg-espera"><div class="label">En espera</div><div id="kpiS-espera" class="value">0</div></div></div>
-        <div class="col-6 col-md-2"><div class="kpi bg-resueltos"><div class="label">Resueltos</div><div id="kpiS-resueltos" class="value">0</div></div></div>
-        <div class="col-6 col-md-2"><div class="kpi bg-cerrados"><div class="label">Cerrados</div><div id="kpiS-cerrados" class="value">0</div></div></div>
+    <div class="row mb-4 g-3">
+      <div class="col-md-4">
+        <label class="form-label">Filtrar por tipo</label>
+        <select id="filtroTipo" class="form-select" onchange="cargarTickets()">
+          <option value="">Todos</option>
+          <option value="Sistemas">Sistemas</option>
+          <option value="Mantenimiento">Mantenimiento</option>
+        </select>
       </div>
-
-      <div id="tickets-soporte" class="row g-3"></div>
-    </section>
-
-    <hr>
-
-    <!-- ======== PANEL MANTENIMIENTO (General) ======== -->
-    <section id="sec-mantenimiento" class="mt-5">
-      <h4 class="mb-3">🔧 Mantenimiento (General)</h4>
-
-      <!-- KPIs -->
-      <div class="row g-3 mb-4">
-        <div class="col-6 col-md-2"><div class="kpi bg-total"><div class="label">Total</div><div id="kpiM-total" class="value">0</div></div></div>
-        <div class="col-6 col-md-2"><div class="kpi bg-abiertos"><div class="label">Abiertos</div><div id="kpiM-abiertos" class="value">0</div></div></div>
-        <div class="col-6 col-md-2"><div class="kpi bg-proceso"><div class="label">En proceso</div><div id="kpiM-proceso" class="value">0</div></div></div>
-        <div class="col-6 col-md-2"><div class="kpi bg-espera"><div class="label">En espera</div><div id="kpiM-espera" class="value">0</div></div></div>
-        <div class="col-6 col-md-2"><div class="kpi bg-resueltos"><div class="label">Resueltos</div><div id="kpiM-resueltos" class="value">0</div></div></div>
-        <div class="col-6 col-md-2"><div class="kpi bg-cerrados"><div class="label">Cerrados</div><div id="kpiM-cerrados" class="value">0</div></div></div>
+      <div class="col-md-4">
+        <label class="form-label">Filtrar por estatus</label>
+        <select id="filtroEstatus" class="form-select" onchange="cargarTickets()">
+          <option value="">Todos</option>
+          <option>Abierto</option>
+          <option>En proceso</option>
+          <option>Resuelto</option>
+          <option>Cerrado</option>
+        </select>
       </div>
+      <div class="col-md-4">
+        <label class="form-label">Filtrar por prioridad</label>
+        <select id="filtroPrioridad" class="form-select" onchange="cargarTickets()">
+          <option value="">Todas</option>
+          <option>Alta</option>
+          <option>Media</option>
+          <option>Baja</option>
+        </select>
+      </div>
+    </div>
 
-      <div id="tickets-mantenimiento" class="row g-3"></div>
-    </section>
+    <div id="mensaje-estado" class="mb-3"></div>
+    <div id="tickets" class="row g-3"></div>
   </div>
 
   <script>
-    // === CONFIG DE COLORES DE TARJETAS DE TICKETS ===
-    const ESTILOS = {
-      "Abierto":   { border: "abiertos",  bg: "bg-abiertos",  text: "text-white" },
-      "En proceso":{ border: "proceso",   bg: "bg-proceso",   text: "text-dark" },
-      "En espera de material": { border: "espera", bg: "bg-espera", text: "text-white" },
-      "Resuelto":  { border: "resueltos", bg: "bg-resueltos", text: "text-white" },
-      "Cerrado":   { border: "cerrados",  bg: "bg-cerrados",  text: "text-white" }
+    const token = localStorage.getItem("token");
+    if (!token) window.location.href = "login.html";
+
+    // Colores por estatus (igual que tenías)
+    const estatusColor = {
+      "Abierto":   { border: "success", bg: "bg-success-subtle",  text: "text-dark" },
+      "En proceso":{ border: "warning", bg: "bg-warning-subtle", text: "text-dark" },
+      "Resuelto":  { border: "danger",  bg: "bg-danger-subtle",  text: "text-dark" },
+      "Cerrado":   { border: "dark",    bg: "bg-dark",           text: "text-white" }
     };
 
-    async function cargar() {
-      const token = localStorage.getItem("token");
-      if (!token) window.location.href = "login.html";
-      const res = await fetch("/api/tickets", { headers: { Authorization: `Bearer ${token}` } });
-      const tickets = await res.json();
-      renderTarjetas(tickets);
+    // Badge por prioridad
+    const prioridadBadge = (p) => {
+      const map = { 'Alta': 'danger', 'Media': 'warning', 'Baja': 'secondary' };
+      const cls = map[p] || 'secondary';
+      return `<span class="badge bg-${cls}">${p || 'Media'}</span>`;
+    };
+
+    let usuarios = [];
+
+    async function obtenerUsuarios() {
+      try {
+        const res = await fetch("/api/users", { headers: { Authorization: `Bearer ${token}` } });
+        const data = await res.json();
+
+        if (!Array.isArray(data)) {
+          console.error("⚠ Error al obtener usuarios:", data);
+          mostrarMensaje("❌ No se pudieron cargar los usuarios", "danger");
+          return false;
+        }
+        usuarios = data;
+        return true;
+      } catch (error) {
+        console.error("❌ Error inesperado al cargar usuarios:", error);
+        mostrarMensaje("❌ Error al conectar con el servidor", "danger");
+        return false;
+      }
     }
 
-    function renderTarjetas(tickets){
-      const soporte = tickets.filter(t=>t.tipo==='Sistemas');
-      const mant    = tickets.filter(t=>t.tipo==='Mantenimiento');
+    async function cargarTickets() {
+      const usuariosOK = await obtenerUsuarios();
+      if (!usuariosOK) return;
 
-      const render = (arr, contId)=>{
-        const cont = document.getElementById(contId);
-        cont.innerHTML = "";
-        arr.forEach(t=>{
-          const e = ESTILOS[t.estatus] || { border:'secondary', bg:'bg-light', text:'text-dark' };
-          cont.innerHTML += `
-            <div class="col-md-6">
-              <div class="card border-${e.border} ${e.bg} ${e.text}">
-                <div class="card-body">
-                  <h5 class="card-title mb-1">${t.tipo}</h5>
-                  <p class="card-text mb-1"><strong>Descripción:</strong> ${t.descripcion || '—'}</p>
-                  <p class="card-text small mb-1"><strong>Estado:</strong> ${t.estatus}</p>
-                  <p class="card-text small mb-1"><strong>Prioridad:</strong> ${t.prioridad || 'Media'}</p>
-                  <p class="card-text small mb-0"><strong>Creado por:</strong> ${t.creadoPor?.nombre || '—'}</p>
+      const tipo      = document.getElementById("filtroTipo").value;
+      const estatus   = document.getElementById("filtroEstatus").value;
+      const prioridad = document.getElementById("filtroPrioridad").value;
+
+      const res = await fetch("/api/tickets", { headers: { Authorization: `Bearer ${token}` } });
+      const datos = await res.json();
+      const contenedor = document.getElementById("tickets");
+      contenedor.innerHTML = "";
+
+      let filtrados = datos;
+      if (tipo)      filtrados = filtrados.filter(t => t.tipo === tipo);
+      if (estatus)   filtrados = filtrados.filter(t => t.estatus === estatus);
+      if (prioridad) filtrados = filtrados.filter(t => (t.prioridad || 'Media') === prioridad);
+
+      filtrados.forEach(ticket => {
+        const div = document.createElement("div");
+        div.className = "col-md-6";
+
+        const puedeAsignar = !ticket.asignadoA && ticket.estatus !== "Cerrado";
+        const puedeCerrar  = ticket.estatus !== "Cerrado";
+
+        const candidatos = usuarios.filter(u =>
+          (ticket.tipo === "Sistemas" && (u.roles || []).includes("soporte")) ||
+          (ticket.tipo === "Mantenimiento" && (u.roles || []).includes("mantenimiento"))
+        );
+
+        let asignarHTML = "";
+        if (puedeAsignar && candidatos.length) {
+          asignarHTML = `
+            <label class="form-label mt-2">Asignar a:</label>
+            <div class="input-group">
+              <select class="form-select" id="select-${ticket._id}">
+                ${candidatos.map(u => `<option value="${u._id}">${u.nombre}</option>`).join("")}
+              </select>
+              <button class="btn btn-success" onclick="asignarTicket('${ticket._id}')">Asignar</button>
+            </div>
+          `;
+        }
+
+        let cerrarHTML = "";
+        if (puedeCerrar) {
+          cerrarHTML = `<button class="btn btn-danger mt-2 w-100" onclick="cerrarTicket('${ticket._id}')">Cerrar ticket</button>`;
+        }
+
+        // selector de prioridad (guarda al cambiar)
+        const selectorPrioridad = `
+          <label class="form-label mt-2">Prioridad:</label>
+          <div class="input-group">
+            <select class="form-select" id="prio-${ticket._id}">
+              ${['Alta','Media','Baja'].map(p => `<option ${(ticket.prioridad||'Media')===p?'selected':''}>${p}</option>`).join('')}
+            </select>
+            <button class="btn btn-outline-primary" type="button" onclick="guardarPrioridad('${ticket._id}')">
+              Guardar
+            </button>
+            <span class="input-group-text" id="prio-badge-${ticket._id}">
+              ${prioridadBadge(ticket.prioridad || 'Media')}
+            </span>
+          </div>
+        `;
+
+        const estilo = estatusColor[ticket.estatus] || { border: 'light', bg: 'bg-light', text: 'text-dark' };
+
+        div.innerHTML = `
+          <div class="card border-${estilo.border} ${estilo.bg} ${estilo.text}">
+            <div class="card-body">
+              <div class="d-flex justify-content-between align-items-start">
+                <h5 class="card-title mb-1">${ticket.tipo}</h5>
+                <div class="text-end small">
+                  <div>Estatus: <strong>${ticket.estatus}</strong></div>
+                  <div>Prioridad: ${prioridadBadge(ticket.prioridad || 'Media')}</div>
                 </div>
               </div>
-            </div>`;
-        });
-      };
-      render(soporte,'tickets-soporte');
-      render(mant,'tickets-mantenimiento');
+
+              <p class="card-text mb-2">
+                <span class="text-muted">Folio:</span> <strong>${ticket.folio || '—'}</strong><br>
+                Descripción: ${ticket.descripcion}<br>
+                Material requerido: ${ticket.requiereMaterial || 'Ninguno'}<br>
+                Creado por: ${ticket.creadoPor?.nombre || "N/A"}<br>
+                Asignado a: ${ticket.asignadoA?.nombre || "Sin asignar"}<br>
+                Fecha: ${new Date(ticket.fechaCreacion || ticket.createdAt).toLocaleString()}
+              </p>
+
+              ${selectorPrioridad}
+              ${asignarHTML}
+              ${cerrarHTML}
+            </div>
+          </div>
+        `;
+        contenedor.appendChild(div);
+      });
     }
 
-    cargar();
-  </script>
+    async function asignarTicket(id) {
+      const userId = document.getElementById(`select-${id}`).value;
 
+      const res = await fetch(`/api/tickets/${id}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
+        body: JSON.stringify({ asignadoA: userId })
+      });
+
+      const data = await res.json();
+      mostrarMensaje(data.mensaje || "✅ Ticket asignado", "success");
+      cargarTickets();
+    }
+
+    async function cerrarTicket(id) {
+      const res = await fetch(`/api/tickets/${id}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
+        body: JSON.stringify({ estatus: "Cerrado" })
+      });
+
+      const data = await res.json();
+      mostrarMensaje(data.mensaje || "✅ Ticket cerrado", "success");
+      cargarTickets();
+    }
+
+   /* async function actualizarPrioridad(id){
+      const prio = document.getElementById(`prio-${id}`).value;
+      const res = await fetch(`/api/tickets/${id}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
+        body: JSON.stringify({ prioridad: prio })
+      });
+      const data = await res.json().catch(()=>({}));
+      if(!res.ok){ mostrarMensaje(data.mensaje || 'No se pudo actualizar la prioridad', 'danger'); return; }
+      mostrarMensaje("✅ Prioridad actualizada", "success");
+      cargarTickets();
+    }*/
+
+    function mostrarMensaje(texto, tipo = "info") {
+      const div = document.getElementById("mensaje-estado");
+      div.innerHTML = `
+        <div class="alert alert-${tipo} alert-dismissible fade show" role="alert">
+          ${texto}
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Cerrar"></button>
+        </div>
+      `;
+    }
+
+  async function guardarPrioridad(id){
+  const prio = document.getElementById(`prio-${id}`).value;
+
+  const res = await fetch(`/api/tickets/${id}`, {
+    method: "PUT",
+    headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
+    body: JSON.stringify({ prioridad: prio })
+  });
+
+  const data = await res.json().catch(()=>({}));
+  if (!res.ok){
+    mostrarMensaje(data.mensaje || 'No se pudo actualizar la prioridad', 'danger');
+    return;
+  }
+
+  // Actualiza el badge sin recargar toda la lista
+  const badgeHost = document.getElementById(`prio-badge-${id}`);
+  if (badgeHost){
+    // reutilizamos tu función prioridadBadge(p)
+    badgeHost.innerHTML = prioridadBadge(prio);
+  }
+
+  mostrarMensaje("✅ Prioridad actualizada", "success");
+}
+
+
+    cargarTickets();
+  </script>
   <script src="js/navbar.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
