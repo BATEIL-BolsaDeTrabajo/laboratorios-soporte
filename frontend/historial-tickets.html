@@ -44,6 +44,9 @@
       </div>
     </div>
 
+    <!-- Mensajes -->
+    <div id="mensaje-estado" class="mb-3"></div>
+
     <!-- Tabla resumida -->
     <div class="table-responsive">
       <table class="table table-sm table-hover align-middle bg-white">
@@ -111,6 +114,27 @@
     const token = localStorage.getItem("token");
     if (!token) location.href = "login.html";
 
+    // Persistencia de filtros
+    const FK = {
+      estado: 'hist_est',
+      prioridad: 'hist_pri',
+      busqueda: 'hist_q'
+    };
+
+    function saveFilters(){
+      localStorage.setItem(FK.estado, document.getElementById('filtro-estado').value);
+      localStorage.setItem(FK.prioridad, document.getElementById('filtro-prioridad').value);
+      localStorage.setItem(FK.busqueda, document.getElementById('filtro-busqueda').value);
+    }
+    function loadFilters(){
+      const e = localStorage.getItem(FK.estado) ?? '';
+      const p = localStorage.getItem(FK.prioridad) ?? '';
+      const q = localStorage.getItem(FK.busqueda) ?? '';
+      document.getElementById('filtro-estado').value = e;
+      document.getElementById('filtro-prioridad').value = p;
+      document.getElementById('filtro-busqueda').value = q;
+    }
+
     let DATA = [];
 
     const pad = n => String(n).padStart(2, "0");
@@ -137,9 +161,29 @@
       return `<span class="badge ${map[p] || "bg-warning text-dark"}">${p || "Media"}</span>`;
     }
 
+    function showMsg(texto, tipo='info'){
+      const div = document.getElementById('mensaje-estado');
+      div.innerHTML = `
+        <div class="alert alert-${tipo} alert-dismissible fade show" role="alert">
+          ${texto}
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Cerrar"></button>
+        </div>`;
+    }
+
     async function cargar() {
-      const r = await fetch("/api/tickets/historial", { headers: { Authorization: `Bearer ${token}` } });
-      if (!r.ok) { alert("No se pudo cargar el historial"); return; }
+      loadFilters();
+      let r;
+      try{
+        r = await fetch("/api/tickets/historial", { headers: { Authorization: `Bearer ${token}` } });
+      }catch(e){
+        showMsg('No se pudo conectar con el servidor.', 'danger');
+        return;
+      }
+
+      if (r.status === 401) { showMsg('Sesión expirada. Inicia sesión de nuevo.', 'warning'); return; }
+      if (r.status === 403) { showMsg('No tienes permisos para ver el historial.', 'warning'); return; }
+      if (!r.ok) { showMsg('No se pudo cargar el historial.', 'danger'); return; }
+
       DATA = await r.json();
       refrescar();
     }
@@ -161,9 +205,17 @@
     }
 
     function refrescar() {
+      saveFilters();
       const tb = document.getElementById("tbody-historial");
       tb.innerHTML = "";
-      DATA.filter(pasaFiltros).forEach(t => {
+      const rows = DATA.filter(pasaFiltros);
+
+      if (!rows.length){
+        tb.innerHTML = `<tr><td colspan="8" class="text-center text-muted py-4">No hay resultados con los filtros actuales.</td></tr>`;
+        return;
+      }
+
+      rows.forEach(t => {
         tb.innerHTML += `
           <tr>
             <td>${t.folio || "—"}</td>
@@ -187,10 +239,17 @@
     }
 
     async function verDetalles(id) {
+      const headers = { Authorization: `Bearer ${token}` };
       const [tRes, hRes] = await Promise.all([
-        fetch(`/api/tickets/${id}`, { headers: { Authorization: `Bearer ${token}` } }),
-        fetch(`/api/tickets/${id}/historial`, { headers: { Authorization: `Bearer ${token}` } })
+        fetch(`/api/tickets/${id}`, { headers }),
+        fetch(`/api/tickets/${id}/historial`, { headers })
       ]);
+
+      if (!tRes.ok || !hRes.ok){
+        showMsg('No se pudieron cargar los detalles del ticket.', 'danger');
+        return;
+      }
+
       const t = await tRes.json();
       const hist = await hRes.json();
 
@@ -220,8 +279,25 @@
         `;
       });
 
-      new bootstrap.Modal(document.getElementById("modalDetalles")).show();
+      // Abrir modal con fallback por si bootstrap aún no está disponible (muy raro)
+      const el = document.getElementById("modalDetalles");
+      if (window.bootstrap && bootstrap.Modal) {
+        new bootstrap.Modal(el).show();
+      } else {
+        el.classList.add('show');
+        el.style.display = 'block';
+        el.removeAttribute('aria-hidden');
+      }
     }
+
+    // Eventos para persistencia inmediata
+    document.getElementById('filtro-estado').addEventListener('change', refrescar);
+    document.getElementById('filtro-prioridad').addEventListener('change', refrescar);
+    document.getElementById('filtro-busqueda').addEventListener('input', ()=> {
+      // simple debounce
+      clearTimeout(window.__hist_deb);
+      window.__hist_deb = setTimeout(refrescar, 250);
+    });
 
     cargar();
   </script>
@@ -230,3 +306,4 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
+

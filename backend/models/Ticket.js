@@ -1,40 +1,63 @@
 // models/Ticket.js
 const mongoose = require('mongoose');
-const Counter  = require('./Counter'); // Asegúrate de crear este archivo (ver más abajo)
+const Counter  = require('./Counter'); // Asegúrate de tener este archivo creado
+const { Schema } = mongoose;
 
+// === Subdocumento de historial de cambios ===
+const HistorySchema = new Schema({
+  fecha: { type: Date, default: Date.now },
+  usuario: { type: Schema.Types.ObjectId, ref: 'User' },
+  usuarioNombre: { type: String },        // snapshot del nombre
+  de: { type: String },                   // estatus anterior
+  a: { type: String },                    // estatus nuevo
+  comentario: { type: String },           // si se agrega un comentario
+  requiereMaterial: { type: String },     // texto capturado si aplica
+  resolucion: { type: String },           // resolución si aplica
+  fechaInicio: { type: Date },
+  fechaReanudacion: { type: Date },
+  fechaCierre: { type: Date },
+  tiempoSolucionMin: { type: Number }     // minutos, calculado cuando cierra/resuelve
+}, { _id: false });
+
+// === Esquema principal de Ticket ===
 const ticketSchema = new mongoose.Schema({
   // Descripción
-  descripcion: { type: String, required: true }, // (deja requerido como lo tenías)
+  descripcion: { type: String, required: true },
 
   // Área general
   tipo: { type: String, enum: ['Sistemas', 'Mantenimiento'], required: true, index: true },
 
-  // Detalle adicional (opcionales)
-  // OJO: evita enum con null. Déjalo libre o con enum sin default.
-  subtipo: { type: String },                 // p.ej. 'laboratorio' | 'otro'
+  // Detalles adicionales
+  subtipo: { type: String },
   laboratorio: { type: String, default: null },
   equipo: { type: String, default: null },
-  ubicacion: { type: String, default: '' },  // ÚNICO (quitamos duplicado)
-  salon: { type: String, default: null },    // Para mantenimiento
-  tipoFalla: { type: String, default: '' },  // ÚNICO (quitamos duplicado)
+  ubicacion: { type: String, default: '' },
+  salon: { type: String, default: null },
+  tipoFalla: { type: String, default: '' },
   prioridad: { type: String, enum: ['Alta','Media','Baja'], default: 'Media', index: true },
 
-  // Estado y trabajo
+  // Estado general
   estatus: {
     type: String,
-    enum: ['Abierto', 'En proceso', 'En espera de material', 'Resuelto', 'Tiempo excedido','Cerrado'],
+    enum: [
+      'Abierto',
+      'En proceso',
+      'En espera de material',
+      'Resuelto',
+      'Tiempo excedido',
+      'Cerrado'
+    ],
     default: 'Abierto',
     index: true
   },
   requiereMaterial: { type: String, default: '' },
   resolucion: { type: String, default: '' },
-  fechaExcedido: { type: Date }, // ✅ nuevo campo opcional
 
-  // Relaciones (ajusta el ref a tu modelo real de usuarios)
+  // Relaciones con usuarios
   creadoPor: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true, index: true },
   asignadoA: { type: mongoose.Schema.Types.ObjectId, ref: 'User', default: null },
 
-  // Fechas clave (únicas, sin duplicados)
+  // Fechas clave
   fechaCreacion:    { type: Date, default: Date.now },
   fechaInicio:      { type: Date, default: null },
   fechaPausa:       { type: Date, default: null },
@@ -42,13 +65,16 @@ const ticketSchema = new mongoose.Schema({
   fechaExcedido:    { type: Date, default: null },
   fechaCierre:      { type: Date, default: null },
 
-  // Folio
-  folio: { type: String, unique: true, index: true }
+  // Folio único
+  folio: { type: String, unique: true, index: true },
+
+  // Historial de cambios
+  historial: { type: [HistorySchema], default: [] }
 }, { timestamps: true });
 
 ticketSchema.index({ createdAt: -1 });
 
-// Helper para folio: TIPO + AÑO + consecutivo de 6 dígitos
+// === Generador de folios ===
 function buildFolio(tipo, year, seq) {
   const map = { 'sistemas': 'SYS', 'mantenimiento': 'MNT' };
   const pref = map[(tipo || '').toLowerCase()] || 'TCK';
@@ -71,10 +97,10 @@ ticketSchema.pre('save', async function(next){
     this.folio = buildFolio(this.tipo, year, counter.seq);
     next();
   } catch (err) {
+    console.error('Error al generar folio:', err);
     next(err);
   }
 });
 
-// Export único (evita recompilar en hot-reload)
+// === Exporta el modelo ===
 module.exports = mongoose.models.Ticket || mongoose.model('Ticket', ticketSchema);
-
