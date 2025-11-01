@@ -12,30 +12,7 @@
   <div class="container py-4">
     <h3 class="mb-3">Historial de Tickets</h3>
 
-    <!-- Filtros básicos -->
-    <div class="row g-2 mb-3">
-      <div class="col-md-3">
-        <select id="filtro-estado" class="form-select">
-          <option value="">Todos los estados</option>
-          <option>Abierto</option>
-          <option>En proceso</option>
-          <option>En espera de material</option>
-          <option>Resuelto</option>
-          <option>Cerrado</option>
-        </select>
-      </div>
-      <div class="col-md-5">
-        <input id="filtro-busqueda" class="form-control" placeholder="Buscar por asignado o creador..." />
-      </div>
-      <div class="col-md-2">
-        <button class="btn btn-secondary w-100" onclick="refrescar()">Filtrar</button>
-      </div>
-      <div class="col-md-2">
-        <button class="btn btn-outline-secondary w-100" onclick="resetFiltros()">Limpiar</button>
-      </div>
-    </div>
-
-    <!-- Tabla -->
+    <!-- Tabla resumida -->
     <div class="table-responsive">
       <table class="table table-sm table-hover align-middle bg-white">
         <thead class="table-light">
@@ -44,13 +21,9 @@
             <th>Área</th>
             <th>Asignado</th>
             <th>Creado</th>
-            <th>Inicio</th>
-            <th>Reanudación</th>
             <th>Cierre</th>
-            <th>Req. material</th>
-            <th class="text-end">Tiempo de solución</th>
             <th>Prioridad</th>
-            <th>Estatus</th>
+            <th>Estado</th>
             <th>Detalles</th>
           </tr>
         </thead>
@@ -59,7 +32,7 @@
     </div>
   </div>
 
-  <!-- MODAL DETALLES -->
+  <!-- Modal Detalles -->
   <div class="modal fade" id="modalDetalles" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-xl modal-dialog-scrollable">
       <div class="modal-content">
@@ -69,7 +42,6 @@
         </div>
         <div class="modal-body">
           <div id="detalle-meta" class="mb-3 small text-muted"></div>
-
           <div class="table-responsive">
             <table class="table table-bordered table-sm">
               <thead class="table-light">
@@ -98,144 +70,97 @@
   </div>
 
   <script>
-    fetch("/navbar.html").then(r=>r.text()).then(h=>{
-      const c=document.getElementById('navbar-container'); if(c) c.innerHTML=h;
+    // Navbar
+    fetch("/navbar.html").then(r => r.text()).then(h => {
+      const c = document.getElementById('navbar-container'); if (c) c.innerHTML = h;
     });
 
     const token = localStorage.getItem('token');
-    if(!token) location.href = 'login.html';
+    if (!token) location.href = 'login.html';
 
     let DATA = [];
 
-    function pad(n){ return String(n).padStart(2,'0'); }
-    function fmtFecha(d){
-      if(!d) return '—';
-      d = new Date(d);
-      return `${pad(d.getDate())}/${pad(d.getMonth()+1)}/${d.getFullYear()} ${pad(d.getHours())}:${pad(d.getMinutes())}`;
+    const pad = n => String(n).padStart(2, '0');
+    function fmtFecha(d) {
+      if (!d) return '—';
+      const dt = new Date(d);
+      return `${pad(dt.getDate())}/${pad(dt.getMonth() + 1)}/${dt.getFullYear()} ${pad(dt.getHours())}:${pad(dt.getMinutes())}`;
     }
-    function fmtDur(ms){
-      if(!ms || !isFinite(ms) || ms < 0) return '—';
-      const m = Math.round(ms/60000);
-      const d = Math.floor(m / (60*24));
-      const h = Math.floor((m - d*60*24) / 60);
-      const mm= m % 60;
-      if (d > 0) return `${d}d ${h}h ${mm}m`;
-      if (h > 0) return `${h}h ${mm}m`;
-      return `${mm}m`;
-    }
-
-    function duracionTicket(t){
-      const cierre = t.fechaCierre ? new Date(t.fechaCierre) : new Date();
-      const inicioReal = t.fechaReanudacion ? new Date(t.fechaReanudacion)
-                        : t.fechaInicio   ? new Date(t.fechaInicio)
-                        : t.createdAt     ? new Date(t.createdAt)
-                        : null;
-      if(!inicioReal) return null;
-      return cierre - inicioReal;
-    }
-
-    function requiereMat(t){
-      return !!(t.requiereMaterial && String(t.requiereMaterial).trim());
-    }
-
-    function badgeCls(s){
+    function badgeEstado(est) {
       const map = {
-        'Abierto':'bg-secondary',
-        'En proceso':'bg-warning',
-        'En espera de material':'bg-secondary',
-        'Resuelto':'bg-info',
-        'Cerrado':'bg-success'
+        'Abierto': 'bg-secondary',
+        'En proceso': 'bg-warning',
+        'En espera de material': 'bg-secondary',
+        'Resuelto': 'bg-info',
+        'Cerrado': 'bg-success',
+        'Tiempo excedido': 'bg-danger'
       };
-      return map[s] || 'bg-secondary';
+      return `<span class="badge ${map[est] || 'bg-secondary'}">${est}</span>`;
+    }
+    function badgePrioridad(p) {
+      const map = { 'Alta': 'bg-danger', 'Media': 'bg-warning text-dark', 'Baja': 'bg-secondary' };
+      return `<span class="badge ${map[p] || 'bg-warning text-dark'}">${p || 'Media'}</span>`;
     }
 
-    function pasaFiltros(t){
-      const est = document.getElementById('filtro-estado').value;
-      const q = document.getElementById('filtro-busqueda').value.toLowerCase().trim();
-      if (est && t.estatus !== est) return false;
-      if (q){
-        const asignado = t.asignadoA?.nombre || '';
-        const creador  = t.creadoPor?.nombre || '';
-        if (!(asignado.toLowerCase().includes(q) || creador.toLowerCase().includes(q))) return false;
-      }
-      return true;
+    async function cargar() {
+      // Usa tu endpoint de historial o el listado normal si así lo tienes
+      const r = await fetch('/api/tickets/historial', { headers: { Authorization: `Bearer ${token}` } });
+      if (!r.ok) { alert('No se pudo cargar el historial'); return; }
+      DATA = await r.json();
+      renderTabla();
     }
 
-    function refrescar(){
-      const tbody = document.getElementById('tbody-historial');
-      tbody.innerHTML = '';
-      DATA.filter(pasaFiltros).forEach(t=>{
-        const ms = duracionTicket(t);
-        tbody.innerHTML += `
+    function renderTabla() {
+      const tb = document.getElementById('tbody-historial');
+      tb.innerHTML = '';
+      DATA.forEach(t => {
+        tb.innerHTML += `
           <tr>
             <td>${t.folio || '—'}</td>
-            <td>${t.tipo}</td>
+            <td>${t.tipo || '—'}</td>
             <td>${t.asignadoA?.nombre || '—'}</td>
             <td>${fmtFecha(t.fechaCreacion || t.createdAt)}</td>
-            <td>${fmtFecha(t.fechaInicio)}</td>
-            <td>${fmtFecha(t.fechaReanudacion)}</td>
             <td>${fmtFecha(t.fechaCierre)}</td>
-            <td>${requiereMat(t) ? 'Sí' : 'No'}</td>
-            <td class="text-end">${fmtDur(ms)}</td>
-            <td>
-              <span class="badge ${
-              (t.prioridad==='Alta') ? 'bg-danger'
-               : (t.prioridad==='Media') ? 'bg-warning'
-               : 'bg-secondary'
-              }">${t.prioridad || 'Media'}</span>
-            </td>
-            <td><span class="badge ${badgeCls(t.estatus)}">${t.estatus}</span></td>
+            <td>${badgePrioridad(t.prioridad)}</td>
+            <td>${badgeEstado(t.estatus)}</td>
             <td><button class="btn btn-outline-primary btn-sm" onclick="verDetalles('${t._id}')">Detalles</button></td>
-          </tr>`;
+          </tr>
+        `;
       });
     }
 
-    function resetFiltros(){
-      document.getElementById('filtro-estado').value = '';
-      document.getElementById('filtro-busqueda').value = '';
-      refrescar();
-    }
-
-    async function cargar(){
-      const r = await fetch('/api/tickets/historial', { headers: { Authorization:`Bearer ${token}` }});
-      if(!r.ok){ alert('No se pudo cargar el historial'); return; }
-      DATA = await r.json();
-      refrescar();
-    }
-
-    async function verDetalles(id){
+    async function verDetalles(id) {
       const [tRes, hRes] = await Promise.all([
-        fetch(`/api/tickets/${id}`, { headers:{ Authorization:`Bearer ${token}` } }),
-        fetch(`/api/tickets/${id}/historial`, { headers:{ Authorization:`Bearer ${token}` } })
+        fetch(`/api/tickets/${id}`, { headers: { Authorization: `Bearer ${token}` } }),
+        fetch(`/api/tickets/${id}/historial`, { headers: { Authorization: `Bearer ${token}` } })
       ]);
       const t = await tRes.json();
       const hist = await hRes.json();
 
-      const meta = `
-        <div><strong>Folio:</strong> ${t.folio || '—'} | <strong>Área:</strong> ${t.tipo} | <strong>Estado actual:</strong> ${t.estatus}</div>
+      document.getElementById('detalle-meta').innerHTML = `
+        <div><strong>Folio:</strong> ${t.folio || '—'} | <strong>Área:</strong> ${t.tipo || '—'} | <strong>Estado actual:</strong> ${t.estatus || '—'}</div>
         <div><strong>Creado por:</strong> ${t.creadoPor?.nombre || '—'} | <strong>Asignado a:</strong> ${t.asignadoA?.nombre || 'Sin asignar'}</div>
-        <div><strong>Creado:</strong> ${fmtFecha(t.fechaCreacion||t.createdAt)} | <strong>Cierre:</strong> ${fmtFecha(t.fechaCierre)} | <strong>Prioridad:</strong> ${t.prioridad || 'Media'}</div>
+        <div><strong>Creado:</strong> ${fmtFecha(t.fechaCreacion || t.createdAt)} | <strong>Cierre:</strong> ${fmtFecha(t.fechaCierre)} | <strong>Prioridad:</strong> ${t.prioridad || 'Media'}</div>
       `;
-      document.getElementById('detalle-meta').innerHTML = meta;
 
       const tbody = document.getElementById('tbl-historial');
       tbody.innerHTML = '';
-      (hist || []).forEach(h=>{
-        const tr = document.createElement('tr');
+      (hist || []).forEach(h => {
         const ts = (h.tiempoSolucionMin != null) ? `${h.tiempoSolucionMin} min` : '—';
-        tr.innerHTML = `
-          <td>${fmtFecha(h.fecha)}</td>
-          <td>${(h.de||'—')} → ${(h.a||'—')}</td>
-          <td>${h.usuarioNombre || h.usuario?.nombre || '—'}</td>
-          <td>${fmtFecha(h.fechaInicio)}</td>
-          <td>${fmtFecha(h.fechaReanudacion)}</td>
-          <td>${h.requiereMaterial ? 'Sí' : 'No'}</td>
-          <td>${ts}</td>
-          <td style="white-space:pre-wrap">${h.comentario || '—'}</td>
-          <td style="white-space:pre-wrap">${h.requiereMaterial || '—'}</td>
-          <td style="white-space:pre-wrap">${h.resolucion || '—'}</td>
+        tbody.innerHTML += `
+          <tr>
+            <td>${fmtFecha(h.fecha)}</td>
+            <td>${(h.de || '—')} → ${(h.a || '—')}</td>
+            <td>${h.usuarioNombre || h.usuario?.nombre || '—'}</td>
+            <td>${fmtFecha(h.fechaInicio)}</td>
+            <td>${fmtFecha(h.fechaReanudacion)}</td>
+            <td>${h.requiereMaterial ? 'Sí' : 'No'}</td>
+            <td>${ts}</td>
+            <td style="white-space:pre-wrap">${h.comentario || '—'}</td>
+            <td style="white-space:pre-wrap">${h.requiereMaterial || '—'}</td>
+            <td style="white-space:pre-wrap">${h.resolucion || '—'}</td>
+          </tr>
         `;
-        tbody.appendChild(tr);
       });
 
       new bootstrap.Modal(document.getElementById('modalDetalles')).show();
