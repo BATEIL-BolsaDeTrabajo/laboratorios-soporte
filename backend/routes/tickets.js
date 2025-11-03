@@ -4,10 +4,10 @@ const router = express.Router();
 const Ticket = require('../models/Ticket');
 const { verifyToken, verifyRole } = require('../middlewares/auth');
 
-// -------- Helpers --------
+/* ========= Helpers ========= */
 function validarNuevoPayload(body) {
   const errors = [];
-  const { area, tipo, laboratorio, equipo, ubicacion, salon, tipoFalla, descripcion } = body;
+  const { area, tipo, laboratorio, equipo, ubicacion, salon, descripcion } = body;
 
   if (!descripcion) errors.push('Falta descripción.');
 
@@ -46,13 +46,13 @@ function pushHistorial(ticket, {
 
   (ticket.historial ||= []).push({
     fecha: new Date(),
-    usuario: usuarioId,
-    usuarioNombre,
-    de,
-    a,
-    comentario,
-    requiereMaterial,
-    resolucion,
+    usuario: usuarioId || null,
+    usuarioNombre: usuarioNombre || '',
+    de: de || '',
+    a: a || de || '',
+    comentario: comentario || '',
+    requiereMaterial: requiereMaterial || '',
+    resolucion: resolucion || '',
     fechaInicio: ticket.fechaInicio || undefined,
     fechaReanudacion: ticket.fechaReanudacion || undefined,
     fechaCierre: ticket.fechaCierre || undefined,
@@ -60,12 +60,12 @@ function pushHistorial(ticket, {
   });
 }
 
-// -------- Crear --------
+/* ========= Crear ========= */
 router.post('/', verifyToken, async (req, res) => {
   try {
     const body = req.body;
     const userId = req.usuario?.id;
-    if (!userId) return res.status(401).json({ ok:false, error:'Token sin id de usuario.' });
+    if (!userId) return res.status(401).json({ ok:false, error:'Token válido pero sin id de usuario.' });
 
     let doc;
 
@@ -76,8 +76,8 @@ router.post('/', verifyToken, async (req, res) => {
       const tipoGeneral = body.area === 'sistemas' ? 'Sistemas' : 'Mantenimiento';
       doc = {
         descripcion: body.descripcion,
-        tipo: tipoGeneral,
-        subtipo: body.area === 'sistemas' ? body.tipo : null,
+        tipo: tipoGeneral,                        // Sistemas|Mantenimiento
+        subtipo: body.area === 'sistemas' ? body.tipo : null, // laboratorio|otro
         laboratorio: body.laboratorio || null,
         equipo: body.equipo || null,
         ubicacion: body.ubicacion || null,
@@ -90,13 +90,12 @@ router.post('/', verifyToken, async (req, res) => {
         ...(body.prioridad && ['Alta','Media','Baja'].includes(body.prioridad) ? { prioridad: body.prioridad } : {})
       };
     } else {
-      // formato viejo
+      // formato “viejo”
       if (!body.tipo || !['Sistemas','Mantenimiento'].includes(body.tipo)) {
         return res.status(400).json({ ok:false, error:'tipo debe ser Sistemas|Mantenimiento' });
       }
-      if (!body.descripcion) {
-        return res.status(400).json({ ok:false, error:'Falta descripción.' });
-      }
+      if (!body.descripcion) return res.status(400).json({ ok:false, error:'Falta descripción.' });
+
       doc = {
         descripcion: body.descripcion,
         tipo: body.tipo,
@@ -114,7 +113,7 @@ router.post('/', verifyToken, async (req, res) => {
   }
 });
 
-// -------- Listar según rol --------
+/* ========= Listar según rol ========= */
 router.get('/', verifyToken, async (req, res) => {
   const roles = (req.usuario.roles || [req.usuario.rol]).filter(Boolean).map(r => String(r).toLowerCase());
   const filtro = {};
@@ -128,7 +127,24 @@ router.get('/', verifyToken, async (req, res) => {
   res.json(tickets);
 });
 
-// -------- Actualizar + historial --------
+/* ========= Tickets asignables (admin/finanzas) ========= */
+router.get('/asignables', verifyToken, verifyRole(['admin', 'finanzas']), async (req, res) => {
+  try {
+    const tickets = await Ticket.find({
+      estatus: { $in: ['Abierto', 'En proceso'] },
+      asignadoA: null
+    })
+      .populate('creadoPor', 'nombre')
+      .sort({ fechaCreacion: -1 });
+
+    res.json(tickets);
+  } catch (err) {
+    console.error('GET /asignables', err);
+    res.status(500).json({ mensaje:'Error al obtener tickets asignables' });
+  }
+});
+
+/* ========= Actualizar (estatus/fechas/prioridad/asignación/comentario) ========= */
 router.put('/:id', verifyToken, async (req, res) => {
   try {
     const {
@@ -140,26 +156,35 @@ router.put('/:id', verifyToken, async (req, res) => {
     if (!ticket) return res.status(404).json({ mensaje:'Ticket no encontrado' });
 
     const anterior = ticket.estatus;
+    const ahora = new Date();
     const usuarioId = req.usuario?.id;
     const usuarioNombre = req.usuario?.nombre || req.usuario?.email || 'Usuario';
-    const ahora = new Date();
 
-    // Validación de estatus
+    // === Manejo de estatus y fechas ===
     if (estatus) {
-      const validos = ['Abierto','En proceso','En espera de material','Resuelto','Tiempo excedido','Cerrado'];
-      if (!validos.includes(estatus)) return res.status(400).json({ mensaje:'Estatus inválido.' });
+      const estatusValidos = ['Abierto','En proceso','En espera de material','Resuelto','Tiempo excedido','Cerrado'];
+      if (!estatusValidos.includes(estatus)) {
+        return res.status(400).json({ mensaje:'Estatus inválido.' });
+      }
 
-      if (estatus === 'En proceso' && !ticket.fechaInicio) ticket.fechaInicio = ahora;
+      if (estatus === 'En proceso' && !ticket.fechaInicio) {
+        ticket.fechaInicio = ahora;
+      }
       if (estatus === 'En espera de material') {
         if (!requiereMaterial || !String(requiereMaterial).trim()) {
           return res.status(400).json({ mensaje:'Debes indicar el material requerido para poner el ticket en espera.' });
         }
         ticket.fechaPausa = ahora;
       }
-      if (estatus === 'En proceso' && anterior === 'En espera de material') ticket.fechaReanudacion = ahora;
-      if (estatus === 'Tiempo excedido') ticket.fechaExcedido = ahora;
-      if (estatus === 'Resuelto' || estatus === 'Cerrado') ticket.fechaCierre = ahora;
-
+      if (estatus === 'En proceso' && anterior === 'En espera de material') {
+        ticket.fechaReanudacion = ahora;
+      }
+      if (estatus === 'Tiempo excedido') {
+        ticket.fechaExcedido = ahora;
+      }
+      if (estatus === 'Resuelto' || estatus === 'Cerrado') {
+        ticket.fechaCierre = ahora;
+      }
       if (estatus === 'Abierto') {
         ticket.fechaInicio = null;
         ticket.fechaPausa = null;
@@ -180,7 +205,7 @@ router.put('/:id', verifyToken, async (req, res) => {
       }
     }
 
-    // Prioridad
+    // === Prioridad ===
     if (typeof prioridad !== 'undefined') {
       const ok = ['Alta','Media','Baja'].includes(prioridad);
       if (!ok) return res.status(400).json({ mensaje:'Prioridad inválida' });
@@ -195,16 +220,19 @@ router.put('/:id', verifyToken, async (req, res) => {
       }
     }
 
-    // Campos de trabajo
-    const roles = (req.usuario.roles || [req.usuario.rol]).filter(Boolean).map(r => String(r).toLowerCase());
+    // === Campos de trabajo (material/resolución/asignarme) ===
+    const roles = (req.usuario.roles || [req.usuario.rol]).filter(Boolean).map(r=>String(r).toLowerCase());
     const puedeTrabajar = roles.some(r => ['soporte','mantenimiento','admin'].includes(r));
+
     if (puedeTrabajar) {
       if (typeof requiereMaterial !== 'undefined' && requiereMaterial !== ticket.requiereMaterial) {
-        pushHistorial(ticket, { usuarioId, usuarioNombre, de: ticket.estatus, a: ticket.estatus, comentario:'Actualización de material requerido', requiereMaterial });
+        pushHistorial(ticket, { usuarioId, usuarioNombre, de: ticket.estatus, a: ticket.estatus,
+          comentario:'Actualización de material requerido', requiereMaterial });
         ticket.requiereMaterial = requiereMaterial;
       }
       if (typeof resolucion !== 'undefined' && resolucion !== ticket.resolucion) {
-        pushHistorial(ticket, { usuarioId, usuarioNombre, de: ticket.estatus, a: ticket.estatus, comentario:'Actualización de resolución', resolucion });
+        pushHistorial(ticket, { usuarioId, usuarioNombre, de: ticket.estatus, a: ticket.estatus,
+          comentario:'Actualización de resolución', resolucion });
         ticket.resolucion = resolucion;
       }
       if (asignar) {
@@ -212,20 +240,24 @@ router.put('/:id', verifyToken, async (req, res) => {
           return res.status(400).json({ mensaje:'No puedes asignarte un ticket cerrado o resuelto.' });
         }
         if (!ticket.asignadoA || String(ticket.asignadoA) !== String(usuarioId)) {
-          pushHistorial(ticket, { usuarioId, usuarioNombre, de: ticket.estatus, a: ticket.estatus, comentario:'Auto-asignación al usuario' });
+          pushHistorial(ticket, { usuarioId, usuarioNombre, de: ticket.estatus, a: ticket.estatus,
+            comentario:'Auto-asignación al usuario' });
         }
         ticket.asignadoA = usuarioId;
       }
     }
 
-    // Asignación directa (panel admin)
+    // === Asignación directa (panel admin) ===
     if (asignadoA && String(asignadoA) !== String(ticket.asignadoA || '')) {
-      pushHistorial(ticket, { usuarioId, usuarioNombre, de: ticket.estatus, a: ticket.estatus, comentario:`Asignado a usuario ${asignadoA}` });
+      pushHistorial(ticket, { usuarioId, usuarioNombre, de: ticket.estatus, a: ticket.estatus,
+        comentario:`Asignado a usuario ${asignadoA}` });
       ticket.asignadoA = asignadoA;
     }
 
-    // Comentario libre (sin otros cambios)
-    if (comentario && !comentario.trim() === false && !estatus && typeof prioridad === 'undefined' && typeof requiereMaterial === 'undefined' && typeof resolucion === 'undefined' && !asignar && !asignadoA) {
+    // === Comentario “solo” (sin otros cambios) ===
+    if (comentario && !estatus && typeof prioridad === 'undefined'
+        && typeof requiereMaterial === 'undefined' && typeof resolucion === 'undefined'
+        && !asignar && !asignadoA) {
       pushHistorial(ticket, { usuarioId, usuarioNombre, de: ticket.estatus, a: ticket.estatus, comentario });
     }
 
@@ -237,13 +269,14 @@ router.put('/:id', verifyToken, async (req, res) => {
   }
 });
 
-// -------- Comentarios (bitácora) --------
+/* ========= Comentarios (bitácora) ========= */
 router.post('/:id/comentarios', verifyToken, async (req, res) => {
   try {
     const { comentario } = req.body;
     if (!comentario || !String(comentario).trim()) {
       return res.status(400).json({ mensaje:'Comentario requerido' });
     }
+
     const ticket = await Ticket.findById(req.params.id);
     if (!ticket) return res.status(404).json({ mensaje:'Ticket no encontrado' });
 
@@ -262,11 +295,14 @@ router.post('/:id/comentarios', verifyToken, async (req, res) => {
   }
 });
 
-// -------- Historial (tabla general) --------
+/* ========= Historial para tabla (directivos) ========= */
 router.get('/historial', verifyToken, async (req, res) => {
   try {
-    const roles = (req.usuario?.roles || [req.usuario?.rol || '']).filter(Boolean).map(r => String(r).toLowerCase());
-    const puede = roles.some(r => ['admin','direccion','subdireccion','finanzas'].includes(r));
+    const roles = (req.usuario?.roles || [req.usuario?.rol || ''])
+      .filter(Boolean)
+      .map(r => String(r).toLowerCase());
+
+    const puede = ['admin','direccion','subdireccion','finanzas'].some(r => roles.includes(r));
     if (!puede) return res.status(403).json({ mensaje:'No autorizado' });
 
     const tickets = await Ticket.find({}, { descripcion:0, resolucion:0 })
@@ -281,7 +317,7 @@ router.get('/historial', verifyToken, async (req, res) => {
   }
 });
 
-// -------- Ticket (metadatos para modal) --------
+/* ========= Get ticket para encabezado del modal ========= */
 router.get('/:id', verifyToken, async (req, res) => {
   try {
     const t = await Ticket.findById(req.params.id)
@@ -295,7 +331,7 @@ router.get('/:id', verifyToken, async (req, res) => {
   }
 });
 
-// -------- Historial por ticket (filas del modal) --------
+/* ========= Historial por ticket (filas del modal) ========= */
 router.get('/:id/historial', verifyToken, async (req, res) => {
   try {
     const t = await Ticket.findById(req.params.id)
