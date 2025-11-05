@@ -34,7 +34,7 @@ const ticketSchema = new mongoose.Schema({
   ubicacion: { type: String, default: '' },
   salon: { type: String, default: null },
   tipoFalla: { type: String, default: '' },
-  prioridad: { type: String, enum: ['Alta','Media','Baja'], default: null, index: true },
+  prioridad: { type: String, enum: ['Alta','Media','Baja'], default: 'Media', index: true },
 
   // Estado general
   estatus: {

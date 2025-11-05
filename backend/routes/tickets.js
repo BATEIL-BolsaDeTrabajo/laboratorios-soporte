@@ -206,24 +206,19 @@ router.put('/:id', verifyToken, async (req, res) => {
     }
 
     // === Prioridad ===
-    // ACTUALIZAR (solo permite cambiar prioridad si ya está asignado)
-if (typeof prioridad !== 'undefined') {
-  const ok = ['Alta','Media','Baja'].includes(prioridad);
-  if (!ok) return res.status(400).json({ mensaje:'Prioridad inválida' });
+    if (typeof prioridad !== 'undefined') {
+      const ok = ['Alta','Media','Baja'].includes(prioridad);
+      if (!ok) return res.status(400).json({ mensaje:'Prioridad inválida' });
 
-  if (!ticket.asignadoA) {
-    return res.status(400).json({ mensaje: 'Primero asigna el ticket para poder establecer prioridad.' });
-  }
-
-  if (ticket.prioridad !== prioridad) {
-    pushHistorial(ticket, {
-      usuarioId, usuarioNombre,
-      de: ticket.estatus, a: ticket.estatus,
-      comentario: `Cambio de prioridad: ${ticket.prioridad ?? 'Sin prioridad'} → ${prioridad}`
-    });
-    ticket.prioridad = prioridad;
-  }
-}
+      if (ticket.prioridad !== prioridad) {
+        pushHistorial(ticket, {
+          usuarioId, usuarioNombre,
+          de: ticket.estatus, a: ticket.estatus,
+          comentario: `Cambio de prioridad: ${ticket.prioridad || 'N/D'} → ${prioridad}`
+        });
+        ticket.prioridad = prioridad;
+      }
+    }
 
     // === Campos de trabajo (material/resolución/asignarme) ===
     const roles = (req.usuario.roles || [req.usuario.rol]).filter(Boolean).map(r=>String(r).toLowerCase());
