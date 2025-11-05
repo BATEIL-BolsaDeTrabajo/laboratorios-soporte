@@ -1,4 +1,4 @@
-<!D<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="es">
 <head>
   <meta charset="UTF-8">
@@ -58,7 +58,6 @@
         <label class="form-label">Filtrar por prioridad</label>
         <select id="filtroPrioridad" class="form-select" onchange="cargarTickets()">
           <option value="">Todas</option>
-          <option value="none">Sin prioridad</option>
           <option>Alta</option>
           <option>Media</option>
           <option>Baja</option>
@@ -96,12 +95,12 @@
     };
 
     // badge prioridad
-    const prioridadBadge = (p) => {
-      if (!p) return `<span class="badge bg-secondary">Sin prioridad</span>`;
-      const map = { 'Alta':'danger', 'Media':'warning', 'Baja':'secondary' };
-      const cls = map[p] || 'secondary';
-      return `<span class="badge bg-${cls}">${p}</span>`;
-    };
+const prioridadBadge = (p) => {
+  if (!p) return `<span class="badge bg-secondary">Sin prioridad</span>`;
+  const map = { 'Alta':'danger', 'Media':'warning', 'Baja':'secondary' };
+  const cls = map[p] || 'secondary';
+  return `<span class="badge bg-${cls}">${p}</span>`;
+};
 
     let usuarios = [];
 
@@ -150,15 +149,7 @@
       let filtrados = datos;
       if (tipo)      filtrados = filtrados.filter(t => t.tipo === tipo);
       if (estatus)   filtrados = filtrados.filter(t => t.estatus === estatus);
-
-      // ✅ filtro de prioridad compatible con null (sin prioridad)
-      if (prioridad !== '') {
-        if (prioridad === 'none') {
-          filtrados = filtrados.filter(t => !t.prioridad);
-        } else {
-          filtrados = filtrados.filter(t => t.prioridad === prioridad);
-        }
-      }
+      if (prioridad) filtrados = filtrados.filter(t => (t.prioridad || 'Media') === prioridad);
 
       actualizarKPIs(filtrados);
 
@@ -195,38 +186,39 @@
         /* Selector de prioridad + guardar */
         const estaAsignado = !!ticket.asignadoA;
 
-        const selectorPrioridad = `
-          <label class="form-label mt-2">Prioridad:</label>
-          <div class="input-group">
-            <select class="form-select" id="prio-${ticket._id}" ${!estaAsignado ? 'disabled' : ''}>
-              <option value="">— Selecciona —</option>
-              ${['Alta','Media','Baja'].map(p =>
-                `<option value="${p}" ${(ticket.prioridad===p)?'selected':''}>${p}</option>`).join('')}
-            </select>
-            <button class="btn btn-outline-primary" type="button"
-                    onclick="guardarPrioridad('${ticket._id}')" ${!estaAsignado ? 'disabled' : ''}>
-              Guardar
-            </button>
-            <span class="input-group-text" id="prio-badge-${ticket._id}">
-              ${prioridadBadge(ticket.prioridad)}
-            </span>
-          </div>
-          ${!estaAsignado ? '<div class="form-text text-muted">Asigna el ticket para habilitar la prioridad.</div>' : ''}
-        `;
+const selectorPrioridad = `
+  <label class="form-label mt-2">Prioridad:</label>
+  <div class="input-group">
+    <select class="form-select" id="prio-${ticket._id}" ${!estaAsignado ? 'disabled' : ''}>
+      <option value="">— Selecciona —</option>
+      ${['Alta','Media','Baja'].map(p =>
+        `<option value="${p}" ${(ticket.prioridad===p)?'selected':''}>${p}</option>`).join('')}
+    </select>
+    <button class="btn btn-outline-primary" type="button"
+            onclick="guardarPrioridad('${ticket._id}')" ${!estaAsignado ? 'disabled' : ''}>
+      Guardar
+    </button>
+    <span class="input-group-text" id="prio-badge-${ticket._id}">
+      ${prioridadBadge(ticket.prioridad)}
+    </span>
+  </div>
+  ${!estaAsignado ? '<div class="form-text text-muted">Asigna el ticket para habilitar la prioridad.</div>' : ''}
+`;
 
-        /* Textarea de comentarios (usa 'resolucion' como notas internas) */
+
+        /* Textarea de comentarios (usa el campo 'resolucion' del backend) */
         const comentariosHTML = `
           <label class="form-label mt-3">Comentarios (internos):</label>
           <textarea id="coment-${ticket._id}" class="form-control" rows="2" placeholder="Agrega notas, avances o cualquier comentario">${ticket.resolucion || ''}</textarea>
           <button class="btn btn-outline-secondary mt-2 w-100" onclick="guardarComentarios('${ticket._id}')">Guardar comentarios</button>
         `;
 
-        /* Botón marcar tiempo excedido */
+        /* Botón marcar tiempo excedido (si no está cerrado) */
         const btnExcedido = (ticket.estatus !== 'Cerrado')
           ? `<button class="btn btn-outline-danger mt-2 w-100" onclick="marcarExcedido('${ticket._id}')" ${ticket.estatus==='Tiempo excedido'?'disabled':''}>Marcar tiempo excedido</button>`
           : '';
 
-        /* Botón reabrir */
+        /* Botón reabrir ticket (se muestra si está Cerrado o Tiempo excedido) */
         const btnReabrir = (ticket.estatus === 'Cerrado' || ticket.estatus === 'Tiempo excedido')
           ? `<button class="btn btn-outline-dark mt-2 w-100" onclick="reabrirTicket('${ticket._id}')">Reabrir ticket</button>`
           : '';
@@ -314,22 +306,27 @@
     }
 
     async function guardarPrioridad(id){
-      const sel = document.getElementById(`prio-${id}`);
-      const prio = sel.value || null; // null si quedó en placeholder
-      const res = await fetch(`/api/tickets/${id}`, {
-        method: "PUT",
-        headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
-        body: JSON.stringify({ prioridad: prio })
-      });
-      const data = await res.json().catch(()=>({}));
-      if (!res.ok){
-        mostrarMensaje(data.mensaje || 'No se pudo actualizar la prioridad', 'danger');
-        return;
-      }
-      const badgeHost = document.getElementById(`prio-badge-${id}`);
-      if (badgeHost) badgeHost.innerHTML = prioridadBadge(prio);
-      mostrarMensaje("✅ Prioridad actualizada", "success");
-    }
+  const sel = document.getElementById(`prio-${id}`);
+  const prio = sel.value || null; // null si quedó en placeholder
+
+  const res = await fetch(`/api/tickets/${id}`, {
+    method: "PUT",
+    headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
+    body: JSON.stringify({ prioridad: prio })
+  });
+  const data = await res.json().catch(()=>({}));
+
+  if (!res.ok){
+    mostrarMensaje(data.mensaje || 'No se pudo actualizar la prioridad', 'danger');
+    return;
+  }
+
+  const badgeHost = document.getElementById(`prio-badge-${id}`);
+  if (badgeHost) badgeHost.innerHTML = prioridadBadge(prio);
+
+  mostrarMensaje("✅ Prioridad actualizada", "success");
+}
+
 
     async function guardarComentarios(id){
       const txt = document.getElementById(`coment-${id}`).value || '';
