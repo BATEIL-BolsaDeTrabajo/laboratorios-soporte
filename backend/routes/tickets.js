@@ -86,8 +86,8 @@ router.post('/', verifyToken, async (req, res) => {
         creadoPor: userId,
         estatus: 'Abierto',
         requiereMaterial: '',
-        resolucion: '',
-        ...(body.prioridad && ['Alta','Media','Baja'].includes(body.prioridad) ? { prioridad: body.prioridad } : {})
+        resolucion: ''
+        //...(body.prioridad && ['Alta','Media','Baja'].includes(body.prioridad) ? { prioridad: body.prioridad } : {})
       };
     } else {
       // formato “viejo”
@@ -100,8 +100,8 @@ router.post('/', verifyToken, async (req, res) => {
         descripcion: body.descripcion,
         tipo: body.tipo,
         creadoPor: userId,
-        estatus: 'Abierto',
-        ...(body.prioridad && ['Alta','Media','Baja'].includes(body.prioridad) ? { prioridad: body.prioridad } : {})
+        estatus: 'Abierto'
+       // ...(body.prioridad && ['Alta','Media','Baja'].includes(body.prioridad) ? { prioridad: body.prioridad } : {})
       };
     }
 
@@ -206,19 +206,36 @@ router.put('/:id', verifyToken, async (req, res) => {
     }
 
     // === Prioridad ===
-    if (typeof prioridad !== 'undefined') {
-      const ok = ['Alta','Media','Baja'].includes(prioridad);
-      if (!ok) return res.status(400).json({ mensaje:'Prioridad inválida' });
+    // ACTUALIZAR (solo permite cambiar prioridad si ya está asignado)
+// === Prioridad (después de manejar asignaciones) ===
+// Nota: validamos prioridad permitiendo null para "sin prioridad".
+if (typeof prioridad !== 'undefined') {
+  const prioridadValida = prioridad === null || ['Alta','Media','Baja'].includes(prioridad);
 
-      if (ticket.prioridad !== prioridad) {
-        pushHistorial(ticket, {
-          usuarioId, usuarioNombre,
-          de: ticket.estatus, a: ticket.estatus,
-          comentario: `Cambio de prioridad: ${ticket.prioridad || 'N/D'} → ${prioridad}`
-        });
-        ticket.prioridad = prioridad;
-      }
-    }
+  if (!prioridadValida) {
+    return res.status(400).json({ mensaje:'Prioridad inválida' });
+  }
+
+  // ¿El ticket quedará asignado al final de esta misma petición?
+  const asignadoDespues =
+    asignadoA ||                    // lo asignan por admin
+    (asignar ? req.usuario.id : null) ||  // se auto-asigna
+    ticket.asignadoA;               // ya estaba asignado
+
+  if (!asignadoDespues) {
+    return res.status(400).json({ mensaje: 'Primero asigna el ticket para poder establecer prioridad.' });
+  }
+
+  if (ticket.prioridad !== prioridad) {
+    pushHistorial(ticket, {
+      usuarioId, usuarioNombre,
+      de: ticket.estatus, a: ticket.estatus,
+      comentario: `Cambio de prioridad: ${ticket.prioridad ?? 'Sin prioridad'} → ${prioridad ?? 'Sin prioridad'}`
+    });
+    ticket.prioridad = prioridad; // puede ser 'Alta' | 'Media' | 'Baja' | null
+  }
+}
+
 
     // === Campos de trabajo (material/resolución/asignarme) ===
     const roles = (req.usuario.roles || [req.usuario.rol]).filter(Boolean).map(r=>String(r).toLowerCase());

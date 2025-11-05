@@ -20,7 +20,7 @@ const HistorySchema = new Schema({
 }, { _id: false });
 
 // === Esquema principal de Ticket ===
-const ticketSchema = new mongoose.Schema({
+const ticketSchema = new Schema({
   // Descripción
   descripcion: { type: String, required: true },
 
@@ -34,19 +34,14 @@ const ticketSchema = new mongoose.Schema({
   ubicacion: { type: String, default: '' },
   salon: { type: String, default: null },
   tipoFalla: { type: String, default: '' },
-  prioridad: { type: String, enum: ['Alta','Media','Baja'], default: undefined, index: true },
+
+  // Prioridad: ahora puede ser null (sin prioridad)
+  prioridad: { type: String, enum: ['Alta','Media','Baja'], default: null, index: true },
 
   // Estado general
   estatus: {
     type: String,
-    enum: [
-      'Abierto',
-      'En proceso',
-      'En espera de material',
-      'Resuelto',
-      'Tiempo excedido',
-      'Cerrado'
-    ],
+    enum: ['Abierto','En proceso','En espera de material','Resuelto','Tiempo excedido','Cerrado'],
     default: 'Abierto',
     index: true
   },
@@ -54,11 +49,11 @@ const ticketSchema = new mongoose.Schema({
   resolucion: { type: String, default: '' },
 
   // Relaciones con usuarios
-  creadoPor: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true, index: true },
-  asignadoA: { type: mongoose.Schema.Types.ObjectId, ref: 'User', default: null },
+  creadoPor: { type: Schema.Types.ObjectId, ref: 'User', required: true, index: true },
+  asignadoA: { type: Schema.Types.ObjectId, ref: 'User', default: null, index: true }, // <— índice útil
 
   // Fechas clave
-  fechaCreacion:    { type: Date, default: Date.now },
+  fechaCreacion:    { type: Date, default: Date.now },  // Ojo: también tienes createdAt por timestamps
   fechaInicio:      { type: Date, default: null },
   fechaPausa:       { type: Date, default: null },
   fechaReanudacion: { type: Date, default: null },
@@ -73,6 +68,8 @@ const ticketSchema = new mongoose.Schema({
 }, { timestamps: true });
 
 ticketSchema.index({ createdAt: -1 });
+// (Opcional) índice compuesto si lo usas mucho: tipo+estatus+prioridad
+// ticketSchema.index({ tipo: 1, estatus: 1, prioridad: 1 });
 
 // === Generador de folios ===
 function buildFolio(tipo, year, seq) {
