@@ -184,8 +184,7 @@ const prioridadBadge = (p) => {
         }
 
         /* Selector de prioridad + guardar */
-        const estaAsignado = !!ticket.asignadoA;
-
+       const estaAsignado = !!ticket.asignadoA;
 const selectorPrioridad = `
   <label class="form-label mt-2">Prioridad:</label>
   <div class="input-group">
@@ -204,6 +203,7 @@ const selectorPrioridad = `
   </div>
   ${!estaAsignado ? '<div class="form-text text-muted">Asigna el ticket para habilitar la prioridad.</div>' : ''}
 `;
+
 
 
         /* Textarea de comentarios (usa el campo 'resolucion' del backend) */
@@ -307,25 +307,19 @@ const selectorPrioridad = `
 
     async function guardarPrioridad(id){
   const sel = document.getElementById(`prio-${id}`);
-  const prio = sel.value || null; // null si quedó en placeholder
-
+  const prio = sel.value || null;
   const res = await fetch(`/api/tickets/${id}`, {
     method: "PUT",
     headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
     body: JSON.stringify({ prioridad: prio })
   });
   const data = await res.json().catch(()=>({}));
-
-  if (!res.ok){
-    mostrarMensaje(data.mensaje || 'No se pudo actualizar la prioridad', 'danger');
-    return;
-  }
-
+  if (!res.ok){ mostrarMensaje(data.mensaje || 'No se pudo actualizar la prioridad', 'danger'); return; }
   const badgeHost = document.getElementById(`prio-badge-${id}`);
   if (badgeHost) badgeHost.innerHTML = prioridadBadge(prio);
-
   mostrarMensaje("✅ Prioridad actualizada", "success");
 }
+
 
 
     async function guardarComentarios(id){
