@@ -138,11 +138,29 @@
     let DATA = [];
 
     const pad = n => String(n).padStart(2, "0");
+
     function fmtFecha(d) {
       if (!d) return "—";
       const dt = new Date(d);
       return `${pad(dt.getDate())}/${pad(dt.getMonth() + 1)}/${dt.getFullYear()} ${pad(dt.getHours())}:${pad(dt.getMinutes())}`;
     }
+
+      // Convierte minutos a "2 días 3 h 15 min" (maneja null/0)
+    function fmtMinutos(min) {
+      if (min === null || min === undefined) return '—';
+      const n = Math.max(0, Math.round(min));
+      const dias = Math.floor(n / 1440);
+      const horas = Math.floor((n % 1440) / 60);
+      const minutos = n % 60;
+
+      const partes = [];
+      if (dias)   partes.push(`${dias} ${dias === 1 ? 'día' : 'días'}`);
+      if (horas)  partes.push(`${horas} h`);
+      if (minutos || partes.length === 0) partes.push(`${minutos} min`);
+      return partes.join(' ');
+    }
+
+
 
     function badgeEstado(est) {
       const map = {
@@ -262,7 +280,7 @@
       const tbody = document.getElementById("tbl-historial");
       tbody.innerHTML = "";
       (hist || []).forEach(h => {
-        const ts = (h.tiempoSolucionMin != null) ? `${h.tiempoSolucionMin} min` : "—";
+        const ts = fmtMinutos(h.tiempoSolucionMin); // ✅ usamos el nuevo helper
         tbody.innerHTML += `
           <tr>
             <td>${fmtFecha(h.fecha)}</td>
