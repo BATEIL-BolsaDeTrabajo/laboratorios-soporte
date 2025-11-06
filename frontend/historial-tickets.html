@@ -157,7 +157,7 @@
     }
 
     function badgePrioridad(p) {
-      const map = { "Alta": "bg-danger", "Media": "bg-warning text-dark", "Baja": "bg-secondary" };
+      const map = { "Alta": "bg-danger", "Media": "bg-warning text-dark", "Baja": "bg-primary","Sin prioridad": "bg-secondary" };
       return `<span class="badge ${map[p] || "bg-warning text-dark"}">${p || "Media"}</span>`;
     }
 
