@@ -95,11 +95,17 @@
     };
 
     // badge prioridad
-const prioridadBadge = (p) => {
-  if (!p) return `<span class="badge bg-secondary">Sin prioridad</span>`;
-  const map = { 'Alta':'danger', 'Media':'warning', 'Baja':'secondary' };
-  const cls = map[p] || 'secondary';
-  return `<span class="badge bg-${cls}">${p}</span>`;
+    const prioridadBadge = (p) => {
+      if (!p || p === 'Sin prioridad')
+        return `<span class="badge bg-secondary">Sin prioridad</span>`;
+      
+      const map = {
+        'Alta': 'danger',     // 🔴 Rojo
+        'Media': 'warning',   // 🟡 Amarillo
+        'Baja': 'primary'     // 🔵 Azul
+      };
+
+  return `<span class="badge bg-${map[p] || 'secondary'} text-${p === 'Media' ? 'dark' : 'light'}">${p}</span>`;
 };
 
     let usuarios = [];
@@ -185,24 +191,23 @@ const prioridadBadge = (p) => {
 
         /* Selector de prioridad + guardar */
        const estaAsignado = !!ticket.asignadoA;
-const selectorPrioridad = `
-  <label class="form-label mt-2">Prioridad:</label>
-  <div class="input-group">
-    <select class="form-select" id="prio-${ticket._id}" ${!estaAsignado ? 'disabled' : ''}>
-      <option value="">— Selecciona —</option>
-      ${['Alta','Media','Baja'].map(p =>
-        `<option value="${p}" ${(ticket.prioridad===p)?'selected':''}>${p}</option>`).join('')}
-    </select>
-    <button class="btn btn-outline-primary" type="button"
-            onclick="guardarPrioridad('${ticket._id}')" ${!estaAsignado ? 'disabled' : ''}>
-      Guardar
-    </button>
-    <span class="input-group-text" id="prio-badge-${ticket._id}">
-      ${prioridadBadge(ticket.prioridad)}
-    </span>
-  </div>
-  ${!estaAsignado ? '<div class="form-text text-muted">Asigna el ticket para habilitar la prioridad.</div>' : ''}
-`;
+        const selectorPrioridad = `
+          <label class="form-label mt-2">Prioridad:</label>
+          <div class="input-group">
+            <select class="form-select" id="prio-${ticket._id}" ${!estaAsignado ? 'disabled' : ''}>
+              ${['Sin prioridad','Alta','Media','Baja'].map(p =>
+                `<option value="${p}" ${(ticket.prioridad===p)?'selected':''}>${p}</option>`).join('')}
+            </select>
+            <button class="btn btn-outline-primary" type="button"
+                    onclick="guardarPrioridad('${ticket._id}')"
+                    ${!estaAsignado ? 'disabled' : ''}>Guardar</button>
+            <span class="input-group-text" id="prio-badge-${ticket._id}">
+              ${prioridadBadge(ticket.prioridad)}
+            </span>
+          </div>
+          ${!estaAsignado ? '<div class="form-text text-muted">Asigna el ticket para habilitar la prioridad.</div>' : ''}
+        `;
+
 
 
 
