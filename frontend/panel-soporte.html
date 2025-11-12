@@ -17,7 +17,6 @@
     .card-estatus-Resuelto              { border-color:#03A9F4 !important; background:#03A9F4; color:#fff; }
     .card-estatus-Cerrado               { border-color:#4CAF50 !important; background:#4CAF50; color:#fff; }
     .card-estatus-Tiempo-excedido       { border-color:#E53935 !important; background:#E53935; color:#fff; }
-
   </style>
 </head>
 <body class="bg-light">
@@ -112,13 +111,13 @@
             <div id="kpiS-resueltos" class="fs-2">0</div>
           </div>
         </div>
-         <!-- Rojo con texto blanco -->
+        <!-- Rojo con texto blanco -->
         <div class="col-6 col-md-2">
           <div class="p-3 text-center rounded-3" style="background:#E53935;color:#fff;">
-          <div class="fw-semibold">Excedido</div>
-        <div id="kpiS-excedido" class="fs-2">0</div> <!-- usa kpiM-excedido en mantenimiento -->
-       </div>
-      </div>
+            <div class="fw-semibold">Excedido</div>
+            <div id="kpiS-excedido" class="fs-2">0</div>
+          </div>
+        </div>
         <div class="col-6 col-md-2">
           <div class="p-3 text-center rounded-3 bg-success text-white">
             <div class="fw-semibold">Cerrados</div>
@@ -198,15 +197,13 @@
             <div id="kpiM-resueltos" class="fs-2">0</div>
           </div>
         </div>
-
-         <!-- Rojo con texto blanco -->
+        <!-- Rojo con texto blanco -->
         <div class="col-6 col-md-2">
-         <div class="p-3 text-center rounded-3" style="background:#E53935;color:#fff;">
-         <div class="fw-semibold">Excedido</div>
-        <div id="kpiM-excedido" class="fs-2">0</div> <!-- usa kpiM-excedido en mantenimiento -->
-      </div>
-     </div>
-
+          <div class="p-3 text-center rounded-3" style="background:#E53935;color:#fff;">
+            <div class="fw-semibold">Excedido</div>
+            <div id="kpiM-excedido" class="fs-2">0</div>
+          </div>
+        </div>
         <div class="col-6 col-md-2">
           <div class="p-3 text-center rounded-3 bg-success text-white">
             <div class="fw-semibold">Cerrados</div>
@@ -217,6 +214,37 @@
 
       <div id="tickets-mantenimiento" class="row g-3"></div>
     </section>
+  </div>
+
+  <!-- ========== MODAL COMENTARIOS (nuevo) ========== -->
+  <div class="modal fade" id="modalComentarios" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-scrollable">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="comentarios-titulo">Comentarios</h5>
+          <button class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+        </div>
+        <div class="modal-body">
+          <div class="table-responsive">
+            <table class="table table-sm table-bordered">
+              <thead class="table-light">
+                <tr>
+                  <th style="width:180px">Fecha</th>
+                  <th style="width:220px">Usuario</th>
+                  <th>Comentario</th>
+                </tr>
+              </thead>
+              <tbody id="comentarios-tbody">
+                <tr><td colspan="3" class="text-center text-muted">Sin comentarios.</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+        </div>
+      </div>
+    </div>
   </div>
 
   <script>
@@ -233,7 +261,6 @@
       "Cerrado":               { border: "0", bg: "card-estatus-Cerrado",               text: "" },
       "Tiempo excedido":       { border: "0", bg: "card-estatus-Tiempo-excedido",       text: "" }
     };
-
 
     // Roles / permisos
     function rolesActuales() {
@@ -360,7 +387,6 @@
       return `<span class="badge ${cls}">${estatus}</span>`;
     }
 
-
     // ================== formateador de fechas ==================
     function fmtFecha(dt){
       if(!dt) return '—';
@@ -400,8 +426,9 @@
                     <div><strong>Estado:</strong> ${badgeEstatus(t.estatus)}</div>
                     <div><strong>Prioridad:</strong> <span class="badge ${
                       (t.prioridad==='Alta') ? 'bg-danger' :
-                      (t.prioridad==='Media') ? 'bg-warning' : 'bg-primary'
-                    }">${t.prioridad || 'Media'}</span></div>
+                      (t.prioridad==='Media') ? 'bg-warning' :
+                      (t.prioridad==='Baja')  ? 'bg-primary' : 'bg-secondary'
+                    }">${t.prioridad || 'Sin prioridad'}</span></div>
                     <div><strong>Creado por:</strong> ${t.creadoPor?.nombre || "—"}</div>
                     <div><strong>Asignado a:</strong> ${t.asignadoA?.nombre || "Sin asignar"}</div>
                   </div>
@@ -473,6 +500,10 @@
                   <button class="btn btn-success flex-fill"
                           onclick="asignarmeTicket('${t._id}')"
                           ${(esC || t.asignadoA) ? "disabled" : ""}>Asignarme</button>
+
+                  <!-- Botón nuevo: ver comentarios -->
+                  <button class="btn btn-dark flex-fill"
+                          onclick="verComentarios('${t._id}', '${t.folio || ''}', '${t.tipo || ''}')">Comentarios</button>
                 </div>
 
               </div>
@@ -499,11 +530,10 @@
     }
 
     async function reanudarTicket(id){
-      // Cambia el select visualmente a "En proceso" y guarda
       const sel = document.getElementById(`estatus-${id}`);
       if (sel) {
         sel.value = 'En proceso';
-        onChangeEstatus(id); // ocultar textarea y mostrar histórico si aplica
+        onChangeEstatus(id);
       }
       await actualizarTicket(id);
     }
@@ -513,10 +543,8 @@
       const taM = document.getElementById(`material-${id}`);
       const rs  = document.getElementById(`resolucion-${id}`)?.value || '';
 
-      // Solo mandamos material cuando está "En espera de material"
       const m = (e === 'En espera de material' && taM) ? (taM.value || '') : '';
 
-      // Validaciones útiles
       if ((e === 'Resuelto' || e === 'Cerrado') && !rs.trim()){
         alert('Para marcar como Resuelto o Cerrado, agrega la resolución del problema.');
         return;
@@ -534,9 +562,7 @@
       const d=await r.json().catch(()=>({}));
       if(!r.ok){ alert(d.mensaje||d.error||'No se pudo actualizar el ticket'); return; }
 
-      // Deshabilitar el textarea de material después de guardar
       if (taM) taM.disabled = true;
-
       cargar();
     }
 
@@ -547,6 +573,40 @@
         body:JSON.stringify({asignar:true})
       });
       const d=await r.json();alert(d.mensaje||"Asignado");cargar();
+    }
+
+    // ======= NUEVO: Ver comentarios admin en modal =======
+    async function verComentarios(id, folio='', tipo=''){
+      try{
+        const r = await fetch(`/api/tickets/${id}`, { headers:{Authorization:`Bearer ${token}`} });
+        if(!r.ok){ alert('No se pudieron cargar los comentarios'); return; }
+        const t = await r.json();
+        const rows = (t.comentariosAdmin || [])
+          .slice()
+          .sort((a,b)=> new Date(a.fecha) - new Date(b.fecha));
+
+        document.getElementById('comentarios-titulo').textContent =
+          `Comentarios – ${folio || 'Folio —'} (${tipo || '—'})`;
+
+        const tb = document.getElementById('comentarios-tbody');
+        if (!rows.length){
+          tb.innerHTML = `<tr><td colspan="3" class="text-center text-muted">Sin comentarios.</td></tr>`;
+        } else {
+          tb.innerHTML = rows.map(c => `
+            <tr>
+              <td>${fmtFecha(c.fecha)}</td>
+              <td>${c.usuarioNombre || '—'}</td>
+              <td style="white-space:pre-wrap">${(c.texto || '').trim()}</td>
+            </tr>
+          `).join('');
+        }
+
+        const el = document.getElementById('modalComentarios');
+        (new bootstrap.Modal(el)).show();
+      }catch(e){
+        console.error(e);
+        alert('Error al cargar comentarios');
+      }
     }
 
     // ================== Carga y memoria de filtros ==================
@@ -609,7 +669,7 @@
       const listaS = filtrarLista('S', todosTickets);
       const listaM = filtrarLista('M', todosTickets);
 
-      // KPIs: globales por defecto; si el switch está activado, con filtros
+      // KPIs
       const usarFiltros = document.getElementById('sync-kpi').checked;
       renderKPIs(usarFiltros ? calcKPIs(listaS) : kpiGlobal.S, 'kpiS');
       renderKPIs(usarFiltros ? calcKPIs(listaM) : kpiGlobal.M, 'kpiM');

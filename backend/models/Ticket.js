@@ -3,24 +3,34 @@ const mongoose = require('mongoose');
 const Counter  = require('./Counter'); // Asegúrate de tener este archivo creado
 const { Schema } = mongoose;
 
-// === Subdocumento de historial de cambios ===
-const HistorySchema = new Schema({
-  fecha: { type: Date, default: Date.now },
-  usuario: { type: Schema.Types.ObjectId, ref: 'User' },
-  usuarioNombre: { type: String },        // snapshot del nombre
-  de: { type: String },                   // estatus anterior
-  a: { type: String },                    // estatus nuevo
-  comentario: { type: String },           // si se agrega un comentario
-  requiereMaterial: { type: String },     // texto capturado si aplica
-  resolucion: { type: String },           // resolución si aplica
-  fechaInicio: { type: Date },
-  fechaReanudacion: { type: Date },
-  fechaCierre: { type: Date },
-  tiempoSolucionMin: { type: Number }     // minutos, calculado cuando cierra/resuelve
+/* ==== Subdocumentos (deben ir ANTES de usarlos) ==== */
+
+// Comentarios que se capturan desde panel-admin
+const ComentarioAdminSchema = new Schema({
+  fecha:         { type: Date, default: Date.now },
+  usuario:       { type: Schema.Types.ObjectId, ref: 'User' },
+  usuarioNombre: { type: String },
+  texto:         { type: String, required: true }
 }, { _id: false });
 
-// === Esquema principal de Ticket ===
-const ticketSchema = new mongoose.Schema({
+// Historial general de cambios
+const HistorySchema = new Schema({
+  fecha:            { type: Date, default: Date.now },
+  usuario:          { type: Schema.Types.ObjectId, ref: 'User' },
+  usuarioNombre:    { type: String },        // snapshot del nombre
+  de:               { type: String },        // estatus anterior
+  a:                { type: String },        // estatus nuevo
+  comentario:       { type: String },        // si se agrega un comentario
+  requiereMaterial: { type: String },        // texto capturado si aplica
+  resolucion:       { type: String },        // resolución si aplica
+  fechaInicio:      { type: Date },
+  fechaReanudacion: { type: Date },
+  fechaCierre:      { type: Date },
+  tiempoSolucionMin:{ type: Number }         // minutos, calculado cuando cierra/resuelve
+}, { _id: false });
+
+/* ==== Esquema principal ==== */
+const ticketSchema = new Schema({
   // Descripción
   descripcion: { type: String, required: true },
 
@@ -28,34 +38,32 @@ const ticketSchema = new mongoose.Schema({
   tipo: { type: String, enum: ['Sistemas', 'Mantenimiento'], required: true, index: true },
 
   // Detalles adicionales
-  subtipo: { type: String },
+  subtipo:     { type: String },
   laboratorio: { type: String, default: null },
-  equipo: { type: String, default: null },
-  ubicacion: { type: String, default: '' },
-  salon: { type: String, default: null },
-  tipoFalla: { type: String, default: '' },
+  equipo:      { type: String, default: null },
+  ubicacion:   { type: String, default: '' },
+  salon:       { type: String, default: null },
+  tipoFalla:   { type: String, default: '' },
+
+  // Prioridad (incluye Sin prioridad como default)
   prioridad: { type: String, enum: ['Alta','Media','Baja','Sin prioridad'], default: 'Sin prioridad', index: true },
+
+  // Comentarios de admin
+  comentariosAdmin: { type: [ComentarioAdminSchema], default: [] },
 
   // Estado general
   estatus: {
     type: String,
-    enum: [
-      'Abierto',
-      'En proceso',
-      'En espera de material',
-      'Resuelto',
-      'Tiempo excedido',
-      'Cerrado'
-    ],
+    enum: ['Abierto','En proceso','En espera de material','Resuelto','Tiempo excedido','Cerrado'],
     default: 'Abierto',
     index: true
   },
   requiereMaterial: { type: String, default: '' },
-  resolucion: { type: String, default: '' },
+  resolucion:       { type: String, default: '' },
 
   // Relaciones con usuarios
-  creadoPor: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true, index: true },
-  asignadoA: { type: mongoose.Schema.Types.ObjectId, ref: 'User', default: null },
+  creadoPor: { type: Schema.Types.ObjectId, ref: 'User', required: true, index: true },
+  asignadoA: { type: Schema.Types.ObjectId, ref: 'User', default: null },
 
   // Fechas clave
   fechaCreacion:    { type: Date, default: Date.now },
@@ -74,7 +82,7 @@ const ticketSchema = new mongoose.Schema({
 
 ticketSchema.index({ createdAt: -1 });
 
-// === Generador de folios ===
+/* ==== Generador de folios ==== */
 function buildFolio(tipo, year, seq) {
   const map = { 'sistemas': 'SYS', 'mantenimiento': 'MNT' };
   const pref = map[(tipo || '').toLowerCase()] || 'TCK';
@@ -86,7 +94,7 @@ ticketSchema.pre('save', async function(next){
   if (this.folio) return next(); // ya tiene folio
   try {
     const year = new Date(this.createdAt || Date.now()).getFullYear();
-    const key = `ticket-${(this.tipo || '').toLowerCase()}-${year}`;
+    const key  = `ticket-${(this.tipo || '').toLowerCase()}-${year}`;
 
     const counter = await Counter.findOneAndUpdate(
       { key },
@@ -102,5 +110,6 @@ ticketSchema.pre('save', async function(next){
   }
 });
 
-// === Exporta el modelo ===
+// Exporta el modelo
 module.exports = mongoose.models.Ticket || mongoose.model('Ticket', ticketSchema);
+

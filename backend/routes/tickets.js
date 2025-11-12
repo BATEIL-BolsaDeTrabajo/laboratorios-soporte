@@ -269,6 +269,62 @@ router.put('/:id', verifyToken, async (req, res) => {
   }
 });
 
+
+                                 //Prueba
+
+// === Comentarios ADMIN: crear ===
+// POST /api/tickets/:id/comentarios-admin
+router.post('/:id/comentarios-admin', verifyToken, async (req, res) => {
+  try {
+    const { texto } = req.body;
+    if (!texto || !String(texto).trim()) {
+      return res.status(400).json({ mensaje: 'Comentario requerido' });
+    }
+
+    const t = await Ticket.findById(req.params.id);
+    if (!t) return res.status(404).json({ mensaje: 'Ticket no encontrado' });
+
+    // guardamos snapshot del nombre por si cambia después
+    const usuarioNombre = req.usuario?.nombre || req.usuario?.email || 'Usuario';
+
+    t.comentariosAdmin.push({
+      usuario: req.usuario?.id || null,
+      usuarioNombre,
+      texto: String(texto).trim()
+    });
+
+    await t.save();
+    return res.json({ ok: true, mensaje: 'Comentario guardado' });
+  } catch (e) {
+    console.error('POST /comentarios-admin', e);
+    res.status(500).json({ mensaje: 'Error al guardar comentario' });
+  }
+});
+
+// === Comentarios ADMIN: leer (para modal en soporte) ===
+// GET /api/tickets/:id/comentarios-admin
+router.get('/:id/comentarios-admin', verifyToken, async (req, res) => {
+  try {
+    const t = await Ticket.findById(req.params.id, { comentariosAdmin: 1 }).lean();
+    if (!t) return res.status(404).json({ mensaje: 'Ticket no encontrado' });
+
+    const rows = (t.comentariosAdmin || [])
+      .slice()
+      .sort((a,b)=> new Date(b.fecha) - new Date(a.fecha)); // más recientes primero
+
+    res.json(rows);
+  } catch (e) {
+    console.error('GET /comentarios-admin', e);
+    res.status(500).json({ mensaje: 'Error al obtener comentarios' });
+  }
+});
+
+
+                             // Prueba
+
+
+
+
 /* ========= Comentarios (bitácora) ========= */
 router.post('/:id/comentarios', verifyToken, async (req, res) => {
   try {
