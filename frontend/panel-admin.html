@@ -227,7 +227,11 @@
                 <h5 class="card-title mb-1">${ticket.tipo}</h5>
                 <div class="text-end small">
                   <div>Estatus: <strong>${ticket.estatus}</strong></div>
-                  <div>Prioridad: ${prioridadBadge(ticket.prioridad || 'Sin prioridad')}</div>
+                  <div>Prioridad: 
+                    <span id="prio-header-${ticket._id}">
+                      ${prioridadBadge(ticket.prioridad || 'Sin prioridad')}
+                    </span>
+                  </div>
                 </div>
               </div>
 
@@ -236,7 +240,9 @@
                 Descripción: ${ticket.descripcion}<br>
                 Material requerido: ${ticket.requiereMaterial || 'Ninguno'}<br>
                 Creado por: ${ticket.creadoPor?.nombre || "N/A"}<br>
-                Asignado a: ${ticket.asignadoA?.nombre || "Sin asignar"}<br>
+                Asignado a: <span id="asignado-${ticket._id}">
+                  ${ticket.asignadoA?.nombre || "Sin asignar"}
+                </span><br>
                 Fecha: ${new Date(ticket.fechaCreacion || ticket.createdAt).toLocaleString()}
               </p>
 
@@ -254,18 +260,52 @@
       });
     }
 
-    async function asignarTicket(id) {
-      const userId = document.getElementById(`select-${id}`).value;
-      const res = await fetch(`/api/tickets/${id}`, {
-        method: "PUT",
-        headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
-        body: JSON.stringify({ asignadoA: userId })
-      });
-      const data = await res.json();
-      if (!res.ok) { mostrarMensaje(data.mensaje || "No se pudo asignar", "danger"); return; }
-      mostrarMensaje(data.mensaje || "✅ Asignación actualizada", "success");
-      cargarTickets();
-    }
+    // Asignar / reasignar
+      async function asignarTicket(id) {
+        const select = document.getElementById(`select-${id}`);
+        if (!select) return;
+
+        const userId   = select.value;
+        const userName = select.options[select.selectedIndex].textContent;
+
+        const res = await fetch(`/api/tickets/${id}`, {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`
+          },
+          body: JSON.stringify({ asignadoA: userId })
+        });
+
+        const data = await res.json().catch(() => ({}));
+
+        if (!res.ok) {
+          mostrarMensaje(data.mensaje || "❌ No se pudo asignar el ticket", "danger");
+          return;
+        }
+
+        // ✅ Actualizar texto "Asignado a" en el card
+        const spanAsignado = document.getElementById(`asignado-${id}`);
+        if (spanAsignado) {
+          spanAsignado.textContent = userName;
+        }
+
+        // ✅ Habilitar selector y botón de prioridad en este ticket
+        const selPrio = document.getElementById(`prio-${id}`);
+        if (selPrio) selPrio.disabled = false;
+
+        // el botón "Guardar" está en el mismo input-group que el select
+        if (selPrio && selPrio.parentElement) {
+          const btnPrio = selPrio.parentElement.querySelector('button');
+          if (btnPrio) btnPrio.disabled = false;
+        }
+
+        mostrarMensaje(data.mensaje || "✅ Ticket asignado / reasignado", "success");
+        // Ya no es necesario recargar todos los tickets aquí
+        // (si quieres, puedes dejar cargarTickets(); pero ya no hace falta)
+      }
+
+
 
     async function cerrarTicket(id) {
       const res = await fetch(`/api/tickets/${id}`, {
@@ -314,27 +354,46 @@
       cargarTickets();
     }
 
-    async function guardarPrioridad(id){
-      const sel = document.getElementById(`prio-${id}`);
-      const prio = sel.value || 'Sin prioridad';
+    // Cambiar prioridad
+      async function guardarPrioridad(id){
+        const sel  = document.getElementById(`prio-${id}`);
+        const prio = sel.value || null; // null si quedó en placeholder
 
-      const res = await fetch(`/api/tickets/${id}`, {
-        method: "PUT",
-        headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
-        body: JSON.stringify({ prioridad: prio })
-      });
-      const data = await res.json().catch(()=>({}));
+        const res = await fetch(`/api/tickets/${id}`, {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`
+          },
+          body: JSON.stringify({ prioridad: prio })
+        });
 
-      if (!res.ok){
-        mostrarMensaje(data.mensaje || 'No se pudo actualizar la prioridad', 'danger');
-        return;
+        const data = await res.json().catch(() => ({}));
+
+        if (!res.ok){
+          mostrarMensaje(data.mensaje || '❌ No se pudo actualizar la prioridad', 'danger');
+          return;
+        }
+
+        // Actualizar el badge de prioridad del propio card
+        const badgeHost = document.getElementById(`prio-badge-${id}`);
+        if (badgeHost) {
+          badgeHost.innerHTML = prioridadBadge(prio);
+        }
+
+          // ✅ Actualizar también el badge del encabezado (Prioridad: ...)
+        const headerHost = document.getElementById(`prio-header-${id}`);
+        if (headerHost) {
+          headerHost.innerHTML = prioridadBadge(prio);
+        }
+
+
+        mostrarMensaje("✅ Prioridad actualizada", "success");
+
+        // 🔁 Recargar tarjetas para que prioridad y KPIs se refresquen
+        await cargarTickets();
       }
 
-      const badgeHost = document.getElementById(`prio-badge-${id}`);
-      if (badgeHost) badgeHost.innerHTML = prioridadBadge(prio);
-
-      mostrarMensaje("✅ Prioridad actualizada", "success");
-    }
 
                            //prueba
     async function guardarComentarios(id){
@@ -352,6 +411,7 @@
       mostrarMensaje('📝 Comentario guardado', 'success');
       // si quieres limpiar el textarea:
       // document.getElementById(`coment-${id}`).value = '';
+      await cargarTickets();
     }
                    //prueba
 

@@ -216,7 +216,7 @@
     </section>
   </div>
 
-  <!-- ========== MODAL COMENTARIOS (nuevo) ========== -->
+  <!-- ========== MODAL COMENTARIOS (ya con listado) ========== -->
   <div class="modal fade" id="modalComentarios" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-lg modal-dialog-scrollable">
       <div class="modal-content">
@@ -252,7 +252,6 @@
     const token = localStorage.getItem("token");
     if (!token) window.location.href = "login.html";
 
-    /* SOLO cambio de colores (misma lógica de antes) */
     const ESTILOS = {
       "Abierto":               { border: "0", bg: "card-estatus-Abierto",               text: "" },
       "En proceso":            { border: "0", bg: "card-estatus-En-proceso",            text: "" },
@@ -405,7 +404,6 @@
         const esC = t.estatus === "Cerrado";
         const e   = ESTILOS[t.estatus] || { border:"0", bg:"bg-light", text:"" };
 
-        // Opciones de estatus (ambos ven "En espera de material")
         const ops = admin
           ? ["Abierto","En proceso","En espera de material","Resuelto","Cerrado"]
           : ["Abierto","En proceso","En espera de material","Resuelto"];
@@ -486,6 +484,13 @@
                 <label class="form-label">Resolución del problema:</label>
                 <textarea class="form-control mb-3" id="resolucion-${t._id}" rows="2" placeholder="Describe cómo se resolvió" ${esC ? "disabled" : ""}>${t.resolucion || ''}</textarea>
 
+                <!-- NUEVO: Comentario interno -->
+                <label class="form-label">Comentario interno:</label>
+                <textarea class="form-control mb-3"
+                          id="comentario-${t._id}"
+                          rows="2"
+                          placeholder="Agrega notas internas, avances, etc."></textarea>
+
                 <!-- Botones -->
                 <div class="d-flex flex-wrap gap-2">
                   <button class="btn btn-primary flex-fill"
@@ -501,9 +506,15 @@
                           onclick="asignarmeTicket('${t._id}')"
                           ${(esC || t.asignadoA) ? "disabled" : ""}>Asignarme</button>
 
-                  <!-- Botón nuevo: ver comentarios -->
+                  <button class="btn btn-outline-light flex-fill"
+                          onclick="guardarComentario('${t._id}', '${t.folio || ''}', '${t.tipo || ''}')">
+                    Guardar comentario
+                  </button>
+
                   <button class="btn btn-dark flex-fill"
-                          onclick="verComentarios('${t._id}', '${t.folio || ''}', '${t.tipo || ''}')">Comentarios</button>
+                          onclick="verComentarios('${t._id}', '${t.folio || ''}', '${t.tipo || ''}')">
+                    Comentarios
+                  </button>
                 </div>
 
               </div>
@@ -524,7 +535,6 @@
       edit.classList.toggle('d-none', !enEspera);
       ta.disabled = !enEspera;
 
-      // Si ya había material, al salir de "En espera" se muestra en solo lectura
       const tieneMaterial = !!(ta.value && ta.value.trim());
       read.classList.toggle('d-none', enEspera || !tieneMaterial);
     }
@@ -575,7 +585,40 @@
       const d=await r.json();alert(d.mensaje||"Asignado");cargar();
     }
 
-    // ======= NUEVO: Ver comentarios admin en modal =======
+    // ======= NUEVO: guardar comentario interno (usa el mismo array comentariosAdmin) =======
+    async function guardarComentario(id, folio='', tipo=''){
+      const ta = document.getElementById(`comentario-${id}`);
+      if (!ta) return;
+      const texto = (ta.value || '').trim();
+      if (!texto){
+        alert('Escribe un comentario antes de guardar.');
+        return;
+      }
+
+      try{
+        const r = await fetch(`/api/tickets/${id}/comentarios-admin`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`
+          },
+          body: JSON.stringify({ texto })
+        });
+        const d = await r.json().catch(()=>({}));
+        if (!r.ok){
+          alert(d.mensaje || d.error || 'No se pudo guardar el comentario');
+          return;
+        }
+        ta.value = '';
+        // Abrir/actualizar modal de comentarios con el nuevo registro
+        verComentarios(id, folio, tipo);
+      }catch(err){
+        console.error(err);
+        alert('Error al guardar el comentario');
+      }
+    }
+
+    // ======= Ver comentarios en modal =======
     async function verComentarios(id, folio='', tipo=''){
       try{
         const r = await fetch(`/api/tickets/${id}`, { headers:{Authorization:`Bearer ${token}`} });
@@ -656,25 +699,20 @@
       const soporte = todosTickets.filter(t=>t.tipo==="Sistemas");
       const mant    = todosTickets.filter(t=>t.tipo==="Mantenimiento");
 
-      // KPIs globales
       kpiGlobal.S = calcKPIs(soporte);
       kpiGlobal.M = calcKPIs(mant);
 
-      // Cargar estado de sync y filtros guardados
       loadSync();
       loadFilters('S');
       loadFilters('M');
 
-      // Listas visibles (aplican filtros)
       const listaS = filtrarLista('S', todosTickets);
       const listaM = filtrarLista('M', todosTickets);
 
-      // KPIs
       const usarFiltros = document.getElementById('sync-kpi').checked;
       renderKPIs(usarFiltros ? calcKPIs(listaS) : kpiGlobal.S, 'kpiS');
       renderKPIs(usarFiltros ? calcKPIs(listaM) : kpiGlobal.M, 'kpiM');
 
-      // Render tarjetas
       renderTarjetas(listaS, 'tickets-soporte');
       renderTarjetas(listaM, 'tickets-mantenimiento');
     }
@@ -698,7 +736,6 @@
     document.getElementById('filtroM-estatus').addEventListener('change', ()=>{ saveFilters('M'); aplicarFiltros('M'); });
     document.getElementById('filtroM-busqueda').addEventListener('input', ()=>{ saveFilters('M'); });
 
-    // Botones públicos
     function aplicarFiltros(pref){ saveFilters(pref); refrescar(); }
     function resetFiltros(pref){
       document.getElementById(`filtro${pref}-estatus`).value = '';
