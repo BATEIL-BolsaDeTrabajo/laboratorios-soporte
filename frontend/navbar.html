@@ -1,49 +1,77 @@
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-4">
+
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-4 shadow-sm">
   <div class="container-fluid">
-    <a class="navbar-brand fw-bold text-warning" href="#">Portal BATEIL</a>
+    <!-- BRAND -->
+    <a class="navbar-brand fw-bold text-warning" href="index.html">
+      Portal BATEIL
+    </a>
+
+    <!-- BOTÓN HAMBURGUESA -->
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent">
       <span class="navbar-toggler-icon"></span>
     </button>
 
-    <div class="collapse navbar-collapse justify-content-end" id="navbarContent">
-      <ul class="navbar-nav">
+    <!-- CONTENIDO -->
+    <div class="collapse navbar-collapse" id="navbarContent">
+      <ul class="navbar-nav ms-auto align-items-lg-center">
+
+        <!-- Mostrar nombre y rol del usuario -->
+        <li class="nav-item d-flex align-items-center me-3" id="user-info-nav" style="display:none;">
+          <div class="d-flex align-items-center gap-2">
+            <!-- CÍRCULO CON INICIAL -->
+            <div id="nav-user-avatar"
+                 class="rounded-circle bg-warning text-dark fw-bold d-flex justify-content-center align-items-center"
+                 style="width:34px; height:34px; font-size:18px;">
+            </div>
+
+            <!-- NOMBRE -->
+            <span class="text-light small fw-bold" id="nav-username"></span>
+          </div>
+        </li>
 
         <!-- Menú desplegable por roles -->
         <li class="nav-item dropdown d-none" id="menu-roles-dropdown">
           <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
             Mis Áreas
           </a>
-          <ul class="dropdown-menu dropdown-menu-end" id="dropdown-items">
+
+          <!-- Hacemos el menú oscuro y con scroll si está muy largo -->
+          <ul class="dropdown-menu dropdown-menu-end dropdown-menu-dark" id="dropdown-items" style="max-height: 60vh; overflow-y:auto;">
+
             <!-- DOCENTE y TALLERES -->
             <li class="dropdown-header d-none" id="item-docente-header">🎓 Panel Docente</li>
             <li class="d-none" id="item-docente-crear"><a class="dropdown-item" href="crear-ticket.html">🛠️ Crear Ticket</a></li>
             <li class="d-none" id="item-docente-reservar"><a class="dropdown-item" href="reservar.html">📅 Reservar Laboratorio</a></li>
             <li class="d-none" id="item-docente-mis"><a class="dropdown-item" href="mis-reservas.html">📋 Mis Reservas</a></li>
-           <!-- <li class="d-none" id="item-docente-falla"><a class="dropdown-item" href="reportar-falla.html">💻 Reportar Falla</a></li>
+            <!--
+            <li class="d-none" id="item-docente-falla"><a class="dropdown-item" href="reportar-falla.html">💻 Reportar Falla</a></li>
             <li class="d-none" id="item-docente-vacaciones"><a class="dropdown-item" href="solicitar-vacaciones.html">🗓 Solicitar Vacaciones</a></li>
-            <li class="d-none" id="item-docente-historial"><a class="dropdown-item" href="historial-vacaciones.html">📋 Mi Historial</a></li>-->
-
+            <li class="d-none" id="item-docente-historial"><a class="dropdown-item" href="historial-vacaciones.html">📋 Mi Historial</a></li>
+            -->
             <li class="d-none" id="item-docente-divider"><hr class="dropdown-divider"></li>
 
             <!-- SOPORTE -->
-            <li class="dropdown-header d-none" id="item-soporte-header">🛠️ Panel Soporte</li>
+            <li class="dropdown-header d-none" id="item-soporte-header">🖥️ Panel Soporte</li>
             <li class="d-none" id="item-soporte-tickets"><a class="dropdown-item" href="panel-soporte.html">📁 Tickets de Soporte</a></li>
             <li class="d-none" id="item-soporte-labs"><a class="dropdown-item" href="tickets-laboratorio.html">🧪 Tickets Laboratorio</a></li>
             <li class="d-none" id="item-soporte-divider"><hr class="dropdown-divider"></li>
 
             <!-- MANTENIMIENTO -->
-            <li class="dropdown-header d-none" id="item-mantenimiento-header">🛠️ Panel Soporte</li>
-            <li class="d-none" id="item-mantenimiento-tickets"><a class="dropdown-item" href="panel-soporte.html">📁 Tickets de Soporte</a></li>
+            <li class="dropdown-header d-none" id="item-mantenimiento-header">🔧 Panel Mantenimiento</li>
+            <li class="d-none" id="item-mantenimiento-tickets"><a class="dropdown-item" href="panel-soporte.html">📁 Tickets de Mantenimiento</a></li>
             <li class="d-none" id="item-mantenimiento-divider"><hr class="dropdown-divider"></li>
-
-
 
             <!-- ADMIN -->
             <li class="dropdown-header d-none" id="item-admin-header">👨‍💼 Panel Admin</li>
             <li class="d-none" id="item-admin-dashboard"><a class="dropdown-item" href="dashboard.html">📊 Dashboard</a></li>
             <li class="d-none" id="item-admin-usuarios"><a class="dropdown-item" href="usuarios.html">👥 Usuarios</a></li>
             <li class="d-none" id="item-admin-tickets"><a class="dropdown-item" href="panel-admin.html">📁 Ver Tickets</a></li>
-            <li class="d-none" id="item-admin-asignables"><a class="dropdown-item" href="tickets-asignables.html">📝 Tickets Asignables <span class="badge bg-danger ms-2" id="badge-asignables">0</span></a></li>
+            <li class="d-none" id="item-admin-asignables">
+              <a class="dropdown-item" href="tickets-asignables.html">
+                📝 Tickets Asignables <span class="badge bg-danger ms-2" id="badge-asignables">0</span>
+              </a>
+            </li>
             <li class="d-none" id="item-admin-divider"><hr class="dropdown-divider"></li>
 
             <!-- RRHH -->
@@ -51,18 +79,17 @@
             <li class="d-none" id="item-rrhh-solicitudes"><a class="dropdown-item" href="vacaciones-rrhh.html">📄 Solicitudes Recibidas</a></li>
             <li class="d-none" id="item-rrhh-ticketsoporte"><a class="dropdown-item" href="crear-ticket.html">🛠️ Crear Ticket</a></li>
             <li class="d-none" id="item-rrhh-gestiondias"><a class="dropdown-item" href="usuarios-rrhh.html">🗓️ Gestionar Fechas</a></li>
-            <li class="d-none" id="item-rrhh-histDiasyTiempo"><a class="dropdown-item" href="historial-usuario.html">📘  HistorialDiasyTiempo</a></li>
+            <li class="d-none" id="item-rrhh-histDiasyTiempo"><a class="dropdown-item" href="historial-usuario.html">📘 Historial Días y Tiempo</a></li>
             <li class="d-none" id="item-rrhh-RegistrarUsuario"><a class="dropdown-item" href="registrar-usuarios.html">👥 Registrar usuario</a></li>
             <li class="d-none" id="item-rrhh-divider"><hr class="dropdown-divider"></li>
 
             <!-- DIRECCIÓN -->
-            <li class="dropdown-header d-none" id="item-direccion-header">📘 Panel Dirección</li>
+            <li class="dropdown-header d-none" id="item-direccion-header">🏫 Panel Dirección</li>
             <li class="d-none" id="item-direccion-crear"><a class="dropdown-item" href="crear-ticket.html">🛠️ Crear Ticket</a></li>
             <li class="d-none" id="item-direccion-panelCalificaciones"><a class="dropdown-item" href="panel-calificaciones.html">📊 Panel de Calificaciones</a></li>
             <li class="d-none" id="item-direccion-subirCalificaciones"><a class="dropdown-item" href="subir-calificaciones.html">📤 Subir Calificaciones</a></li>
-            <li id="item-direccion-historial" class="d-none"><a class="dropdown-item" href="historial-tickets.html">Historial de Tickets</a></li>
+            <li id="item-direccion-historial" class="d-none"><a class="dropdown-item" href="historial-tickets.html">📚 Historial de Tickets</a></li>
             <li class="d-none" id="item-direccion-divider"><hr class="dropdown-divider"></li>
-
 
             <!-- SUBDIRECCIÓN -->
             <li class="dropdown-header d-none" id="item-subdireccion-header">📘 Panel Subdirección</li>
@@ -72,7 +99,7 @@
             <li class="d-none" id="item-subdireccion-soltxt"><a class="dropdown-item" href="tiempo-revision-subdireccion.html">⏱ Solicitudes TxT</a></li>
             <li class="d-none" id="item-subdireccion-panelCalificaciones"><a class="dropdown-item" href="panel-calificaciones.html">📊 Panel de Calificaciones</a></li>
             <li class="d-none" id="item-subdireccion-subirCalificaciones"><a class="dropdown-item" href="subir-calificaciones.html">📤 Subir Calificaciones</a></li>
-            <li id="item-subdireccion-historial" class="d-none"><a class="dropdown-item" href="historial-tickets.html">Historial de Tickets</a></li>
+            <li id="item-subdireccion-historial" class="d-none"><a class="dropdown-item" href="historial-tickets.html">📚 Historial de Tickets</a></li>
             <li class="d-none" id="item-subdireccion-divider"><hr class="dropdown-divider"></li>
 
             <!-- FINANZAS -->
@@ -83,20 +110,23 @@
             <li class="d-none" id="item-finanzas-revision"><a class="dropdown-item" href="vacaciones-revision.html">📄 Revisar Vacaciones</a></li>
             <li class="d-none" id="item-finanzas-tiempo"><a class="dropdown-item" href="tiempo-crear.html">⏱ Registrar Tiempo por Tiempo</a></li>
             <li class="d-none" id="item-finanzas-revisiontiempo"><a class="dropdown-item" href="tiempo-revision.html">📝 Aprobar Tiempo por Tiempo</a></li>
+            <li id="item-finanzas-historial" class="d-none"><a class="dropdown-item" href="historial-tickets.html">📚 Historial de Tickets</a></li>
             <li class="d-none" id="item-finanzas-divider"><hr class="dropdown-divider"></li>
 
             <!-- COORDINACIÓN D -->
             <li class="dropdown-header d-none" id="item-coordinacionD-header">📘 Panel Coordinación D</li>
             <li class="d-none" id="item-coordinacionD-crear"><a class="dropdown-item" href="crear-ticket.html">🛠️ Crear Ticket</a></li>
             <li class="d-none" id="item-coordinacionD-reservas"><a class="dropdown-item" href="coordinacion-reservas.html">📅 Reservas de Laboratorios</a></li>
-            <li id="item-finanzas-historial" class="d-none"><a class="dropdown-item" href="historial-tickets.html">Historial de Tickets</a></li>
             <li class="d-none" id="item-coordinacionD-divider"><hr class="dropdown-divider"></li>
 
           </ul>
         </li>
 
-        <li class="nav-item">
-          <a class="nav-link text-danger" href="#" onclick="logout()">🚪 Cerrar sesión</a>
+        <!-- BOTÓN CERRAR SESIÓN -->
+        <li class="nav-item ms-lg-3 mt-2 mt-lg-0">
+          <button class="btn btn-sm btn-outline-danger" type="button" onclick="logout()">
+             Cerrar sesión
+          </button>
         </li>
       </ul>
     </div>

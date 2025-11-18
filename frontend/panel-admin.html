@@ -13,10 +13,13 @@
     .kpi-total    { background:#1E73FF; color:#fff; }
     .kpi-abiertos { background:#FF9800; color:#fff; }
     .kpi-proceso  { background:#FFC107; color:#111; }
-    .kpi-espera   { background:#9E9E9E; color:#fff; }
+    .kpi-espera   { background:#9E9E9E !important; color:#fff !important; }
     .kpi-resueltos{ background:#03A9F4; color:#fff; }
     .kpi-cerrados { background:#4CAF50; color:#fff; }
     .kpi-excedido { background:#E53935; color:#fff; }
+
+    /* 🔹 Para indicar que las tarjetas son clickeables */
+    .kpi-filter { cursor: pointer; }
 
     /* ======= COLORES TARJETAS POR ESTATUS ======= */
     .bg-ticket-abierto  { background-color:#FF9800 !important; color:#fff !important; }
@@ -66,15 +69,56 @@
       </div>
     </div>
 
-    <!-- KPIs -->
+    <!-- KPIs (MODIFICADOS PARA FILTRAR AL HACER CLICK) -->
     <div class="row g-3 mb-4" id="kpis">
-      <div class="col-6 col-md-2"><div class="kpi kpi-total"><div class="label">Total</div><div id="kpi-total" class="value">0</div></div></div>
-      <div class="col-6 col-md-2"><div class="kpi kpi-abiertos"><div class="label">Abiertos</div><div id="kpi-abiertos" class="value">0</div></div></div>
-      <div class="col-6 col-md-2"><div class="kpi kpi-proceso"><div class="label">En proceso</div><div id="kpi-proceso" class="value">0</div></div></div>
-      <div class="col-6 col-md-2"><div class="kpi kpi-espera"><div class="label">En espera</div><div id="kpi-espera" class="value">0</div></div></div>
-      <div class="col-6 col-md-2"><div class="kpi kpi-resueltos"><div class="label">Resueltos</div><div id="kpi-resueltos" class="value">0</div></div></div>
-      <div class="col-6 col-md-2"><div class="kpi kpi-cerrados"><div class="label">Cerrados</div><div id="kpi-cerrados" class="value">0</div></div></div>
-      <div class="col-6 col-md-2"><div class="kpi kpi-excedido"><div class="label">Tiempo excedido</div><div id="kpi-excedido" class="value">0</div></div></div>
+      <div class="col-6 col-md-2">
+        <div class="kpi kpi-total kpi-filter" data-estado="">
+          <div class="label">Total</div>
+          <div id="kpi-total" class="value">0</div>
+        </div>
+      </div>
+
+      <div class="col-6 col-md-2">
+        <div class="kpi kpi-abiertos kpi-filter" data-estado="Abierto">
+          <div class="label">Abiertos</div>
+          <div id="kpi-abiertos" class="value">0</div>
+        </div>
+      </div>
+
+      <div class="col-6 col-md-2">
+        <div class="kpi kpi-proceso kpi-filter" data-estado="En proceso">
+          <div class="label">En proceso</div>
+          <div id="kpi-proceso" class="value">0</div>
+        </div>
+      </div>
+
+      <div class="col-6 col-md-2">
+        <div class="kpi kpi-espera kpi-filter" data-estado="En espera de material">
+          <div class="label">En espera</div>
+          <div id="kpi-espera" class="value">0</div>
+        </div>
+      </div>
+
+      <div class="col-6 col-md-2">
+        <div class="kpi kpi-resueltos kpi-filter" data-estado="Resuelto">
+          <div class="label">Resueltos</div>
+          <div id="kpi-resueltos" class="value">0</div>
+        </div>
+      </div>
+
+      <div class="col-6 col-md-2">
+        <div class="kpi kpi-cerrados kpi-filter" data-estado="Cerrado">
+          <div class="label">Cerrados</div>
+          <div id="kpi-cerrados" class="value">0</div>
+        </div>
+      </div>
+
+      <div class="col-6 col-md-2">
+        <div class="kpi kpi-excedido kpi-filter" data-estado="Tiempo excedido">
+          <div class="label">Tiempo excedido</div>
+          <div id="kpi-excedido" class="value">0</div>
+        </div>
+      </div>
     </div>
 
     <div id="mensaje-estado" class="mb-3"></div>
@@ -147,7 +191,6 @@
         const div = document.createElement("div");
         div.className = "col-md-6";
 
-        // 👉 ahora permitimos reasignar (mientras no esté Cerrado)
         const puedeAsignarOReasignar = ticket.estatus !== "Cerrado";
         const puedeCerrar  = ticket.estatus !== "Cerrado";
         const puedePonerEnProceso = ticket.estatus !== "En proceso" && ticket.estatus !== "Cerrado";
@@ -261,51 +304,44 @@
     }
 
     // Asignar / reasignar
-      async function asignarTicket(id) {
-        const select = document.getElementById(`select-${id}`);
-        if (!select) return;
+    async function asignarTicket(id) {
+      const select = document.getElementById(`select-${id}`);
+      if (!select) return;
 
-        const userId   = select.value;
-        const userName = select.options[select.selectedIndex].textContent;
+      const userId   = select.value;
+      const userName = select.options[select.selectedIndex].textContent;
 
-        const res = await fetch(`/api/tickets/${id}`, {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`
-          },
-          body: JSON.stringify({ asignadoA: userId })
-        });
+      const res = await fetch(`/api/tickets/${id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`
+        },
+        body: JSON.stringify({ asignadoA: userId })
+      });
 
-        const data = await res.json().catch(() => ({}));
+      const data = await res.json().catch(() => ({}));
 
-        if (!res.ok) {
-          mostrarMensaje(data.mensaje || "❌ No se pudo asignar el ticket", "danger");
-          return;
-        }
-
-        // ✅ Actualizar texto "Asignado a" en el card
-        const spanAsignado = document.getElementById(`asignado-${id}`);
-        if (spanAsignado) {
-          spanAsignado.textContent = userName;
-        }
-
-        // ✅ Habilitar selector y botón de prioridad en este ticket
-        const selPrio = document.getElementById(`prio-${id}`);
-        if (selPrio) selPrio.disabled = false;
-
-        // el botón "Guardar" está en el mismo input-group que el select
-        if (selPrio && selPrio.parentElement) {
-          const btnPrio = selPrio.parentElement.querySelector('button');
-          if (btnPrio) btnPrio.disabled = false;
-        }
-
-        mostrarMensaje(data.mensaje || "✅ Ticket asignado / reasignado", "success");
-        // Ya no es necesario recargar todos los tickets aquí
-        // (si quieres, puedes dejar cargarTickets(); pero ya no hace falta)
+      if (!res.ok) {
+        mostrarMensaje(data.mensaje || "❌ No se pudo asignar el ticket", "danger");
+        return;
       }
 
+      const spanAsignado = document.getElementById(`asignado-${id}`);
+      if (spanAsignado) {
+        spanAsignado.textContent = userName;
+      }
 
+      const selPrio = document.getElementById(`prio-${id}`);
+      if (selPrio) selPrio.disabled = false;
+
+      if (selPrio && selPrio.parentElement) {
+        const btnPrio = selPrio.parentElement.querySelector('button');
+        if (btnPrio) btnPrio.disabled = false;
+      }
+
+      mostrarMensaje(data.mensaje || "✅ Ticket asignado / reasignado", "success");
+    }
 
     async function cerrarTicket(id) {
       const res = await fetch(`/api/tickets/${id}`, {
@@ -354,48 +390,40 @@
       cargarTickets();
     }
 
-    // Cambiar prioridad
-      async function guardarPrioridad(id){
-        const sel  = document.getElementById(`prio-${id}`);
-        const prio = sel.value || null; // null si quedó en placeholder
+    async function guardarPrioridad(id){
+      const sel  = document.getElementById(`prio-${id}`);
+      const prio = sel.value || null;
 
-        const res = await fetch(`/api/tickets/${id}`, {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`
-          },
-          body: JSON.stringify({ prioridad: prio })
-        });
+      const res = await fetch(`/api/tickets/${id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`
+        },
+        body: JSON.stringify({ prioridad: prio })
+      });
 
-        const data = await res.json().catch(() => ({}));
+      const data = await res.json().catch(() => ({}));
 
-        if (!res.ok){
-          mostrarMensaje(data.mensaje || '❌ No se pudo actualizar la prioridad', 'danger');
-          return;
-        }
-
-        // Actualizar el badge de prioridad del propio card
-        const badgeHost = document.getElementById(`prio-badge-${id}`);
-        if (badgeHost) {
-          badgeHost.innerHTML = prioridadBadge(prio);
-        }
-
-          // ✅ Actualizar también el badge del encabezado (Prioridad: ...)
-        const headerHost = document.getElementById(`prio-header-${id}`);
-        if (headerHost) {
-          headerHost.innerHTML = prioridadBadge(prio);
-        }
-
-
-        mostrarMensaje("✅ Prioridad actualizada", "success");
-
-        // 🔁 Recargar tarjetas para que prioridad y KPIs se refresquen
-        await cargarTickets();
+      if (!res.ok){
+        mostrarMensaje(data.mensaje || '❌ No se pudo actualizar la prioridad', 'danger');
+        return;
       }
 
+      const badgeHost = document.getElementById(`prio-badge-${id}`);
+      if (badgeHost) {
+        badgeHost.innerHTML = prioridadBadge(prio);
+      }
 
-                           //prueba
+      const headerHost = document.getElementById(`prio-header-${id}`);
+      if (headerHost) {
+        headerHost.innerHTML = prioridadBadge(prio);
+      }
+
+      mostrarMensaje("✅ Prioridad actualizada", "success");
+      await cargarTickets();
+    }
+
     async function guardarComentarios(id){
       const txt = (document.getElementById(`coment-${id}`).value || '').trim();
       if (!txt){ mostrarMensaje('Escribe un comentario', 'warning'); return; }
@@ -409,11 +437,25 @@
 
       if (!res.ok){ mostrarMensaje(data.mensaje || 'No se pudieron guardar los comentarios', 'danger'); return; }
       mostrarMensaje('📝 Comentario guardado', 'success');
-      // si quieres limpiar el textarea:
-      // document.getElementById(`coment-${id}`).value = '';
       await cargarTickets();
     }
-                   //prueba
+
+    /* 🔹 CLICK EN LAS TARJETAS KPI PARA APLICAR FILTRO DE ESTATUS */
+    (function(){
+      const selectEstatus = document.getElementById('filtroEstatus');
+      const kpiCards = document.querySelectorAll('.kpi-filter');
+
+      kpiCards.forEach(card => {
+        card.addEventListener('click', () => {
+          if (!selectEstatus) return;
+          const estado = card.dataset.estado || '';
+          // Cambiamos el select al estado de la tarjeta
+          selectEstatus.value = estado;
+          // Volvemos a cargar los tickets con los filtros actuales + este estatus
+          cargarTickets();
+        });
+      });
+    })();
 
     cargarTickets();
   </script>

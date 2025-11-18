@@ -60,10 +60,18 @@
             <option>Cerrado</option>
           </select>
         </div>
-        <div class="col-md-5">
+        <div class="col-md-4">
           <input id="filtroS-busqueda" type="text" class="form-control" placeholder="Buscar por descripción o solicitante...">
         </div>
         <div class="col-md-2">
+          <div class="form-check">
+            <input class="form-check-input" type="checkbox" id="filtroS-mios">
+            <label class="form-check-label" for="filtroS-mios">
+              Solo asignados a mí
+            </label>
+          </div>
+        </div>
+        <div class="col-md-1">
           <button class="btn btn-secondary w-100" onclick="aplicarFiltros('S')">Filtrar</button>
         </div>
         <div class="col-md-2">
@@ -80,46 +88,46 @@
 
       <div class="row g-3 mb-4">
         <div class="col-6 col-md-2">
-          <div class="p-3 text-center rounded-3 bg-primary text-white">
+          <div class="p-3 text-center rounded-3 bg-primary text-white kpiS-filter" data-estado="">
             <div class="fw-semibold">Total</div>
             <div id="kpiS-total" class="fs-2">0</div>
           </div>
         </div>
         <div class="col-6 col-md-2">
-          <div class="p-3 text-center rounded-3 bg-orange text-white">
+          <div class="p-3 text-center rounded-3 bg-orange text-white kpiS-filter" data-estado="Abierto">
             <div class="fw-semibold">Abiertos</div>
             <div id="kpiS-abiertos" class="fs-2">0</div>
           </div>
         </div>
         <div class="col-6 col-md-2">
-          <div class="p-3 text-center rounded-3 bg-warning text-dark">
+          <div class="p-3 text-center rounded-3 bg-warning text-dark kpiS-filter" data-estado="En proceso">
             <div class="fw-semibold">En proceso</div>
             <div id="kpiS-proceso" class="fs-2">0</div>
           </div>
         </div>
         <!-- KPI: En espera -->
         <div class="col-6 col-md-2">
-          <div class="p-3 text-center rounded-3 bg-secondary text-white">
+          <div class="p-3 text-center rounded-3 bg-secondary text-white kpiS-filter" data-estado="En espera de material">
             <div class="fw-semibold">En espera</div>
             <div id="kpiS-espera" class="fs-2">0</div>
           </div>
         </div>
         <div class="col-6 col-md-2">
           <!-- Azul cielo con texto blanco -->
-          <div class="p-3 text-center rounded-3 bg-info kpi-info-white">
+          <div class="p-3 text-center rounded-3 bg-info kpi-info-white kpiS-filter" data-estado="Resuelto">
             <div class="fw-semibold">Resueltos</div>
             <div id="kpiS-resueltos" class="fs-2">0</div>
           </div>
         </div>
         <!-- Rojo con texto blanco -->
         <div class="col-6 col-md-2">
-          <div class="p-3 text-center rounded-3" style="background:#E53935;color:#fff;">
+          <div class="p-3 text-center rounded-3 kpiS-filter" style="background:#E53935;color:#fff;" data-estado="Tiempo excedido">
             <div class="fw-semibold">Excedido</div>
             <div id="kpiS-excedido" class="fs-2">0</div>
           </div>
         </div>
         <div class="col-6 col-md-2">
-          <div class="p-3 text-center rounded-3 bg-success text-white">
+          <div class="p-3 text-center rounded-3 bg-success text-white kpiS-filter" data-estado="Cerrado">
             <div class="fw-semibold">Cerrados</div>
             <div id="kpiS-cerrados" class="fs-2">0</div>
           </div>
@@ -148,10 +156,18 @@
             <option>Cerrado</option>
           </select>
         </div>
-        <div class="col-md-5">
+        <div class="col-md-4">
           <input id="filtroM-busqueda" type="text" class="form-control" placeholder="Buscar por descripción o solicitante...">
         </div>
         <div class="col-md-2">
+          <div class="form-check">
+            <input class="form-check-input" type="checkbox" id="filtroM-mios">
+            <label class="form-check-label" for="filtroM-mios">
+              Solo asignados a mí
+            </label>
+          </div>
+        </div>
+        <div class="col-md-1">
           <button class="btn btn-secondary w-100" onclick="aplicarFiltros('M')">Filtrar</button>
         </div>
         <div class="col-md-2">
@@ -167,45 +183,45 @@
 
       <div class="row g-3 mb-4">
         <div class="col-6 col-md-2">
-          <div class="p-3 text-center rounded-3 bg-primary text-white">
+          <div class="p-3 text-center rounded-3 bg-primary text-white kpiM-filter" data-estado="">
             <div class="fw-semibold">Total</div>
             <div id="kpiM-total" class="fs-2">0</div>
           </div>
         </div>
         <div class="col-6 col-md-2">
-          <div class="p-3 text-center rounded-3 bg-orange text-white">
+          <div class="p-3 text-center rounded-3 bg-orange text-white kpiM-filter" data-estado="Abierto">
             <div class="fw-semibold">Abiertos</div>
             <div id="kpiM-abiertos" class="fs-2">0</div>
           </div>
         </div>
         <div class="col-6 col-md-2">
-          <div class="p-3 text-center rounded-3 bg-warning text-dark">
+          <div class="p-3 text-center rounded-3 bg-warning text-dark kpiM-filter" data-estado="En proceso">
             <div class="fw-semibold">En proceso</div>
             <div id="kpiM-proceso" class="fs-2">0</div>
           </div>
         </div>
         <!-- KPI: En espera -->
         <div class="col-6 col-md-2">
-          <div class="p-3 text-center rounded-3 bg-secondary text-white">
+          <div class="p-3 text-center rounded-3 bg-secondary text-white kpiM-filter" data-estado="En espera de material">
             <div class="fw-semibold">En espera</div>
             <div id="kpiM-espera" class="fs-2">0</div>
           </div>
         </div>
         <div class="col-6 col-md-2">
-          <div class="p-3 text-center rounded-3 bg-info kpi-info-white">
+          <div class="p-3 text-center rounded-3 bg-info kpi-info-white kpiM-filter" data-estado="Resuelto">
             <div class="fw-semibold">Resueltos</div>
             <div id="kpiM-resueltos" class="fs-2">0</div>
           </div>
         </div>
         <!-- Rojo con texto blanco -->
         <div class="col-6 col-md-2">
-          <div class="p-3 text-center rounded-3" style="background:#E53935;color:#fff;">
+          <div class="p-3 text-center rounded-3 kpiM-filter" style="background:#E53935;color:#fff;" data-estado="Tiempo excedido">
             <div class="fw-semibold">Excedido</div>
             <div id="kpiM-excedido" class="fs-2">0</div>
           </div>
         </div>
         <div class="col-6 col-md-2">
-          <div class="p-3 text-center rounded-3 bg-success text-white">
+          <div class="p-3 text-center rounded-3 bg-success text-white kpiM-filter" data-estado="Cerrado">
             <div class="fw-semibold">Cerrados</div>
             <div id="kpiM-cerrados" class="fs-2">0</div>
           </div>
@@ -277,6 +293,21 @@
       } catch { return []; }
     }
     function esAdminActual() { return rolesActuales().includes('admin'); }
+
+    // 🆕 Obtener el ID del usuario actual
+    function idUsuarioActual() {
+      try {
+        const u = JSON.parse(localStorage.getItem('usuario') || '{}');
+        if (u._id) return String(u._id);
+        const t = localStorage.getItem('token');
+        if (t && t.split('.').length === 3) {
+          const p = JSON.parse(atob(t.split('.')[1]));
+          if (p.id || p._id || p.uid) return String(p.id || p._id || p.uid);
+        }
+      } catch {}
+      return null;
+    }
+    const USUARIO_ID = idUsuarioActual();
 
     // Visibilidad de paneles + persistencia
     const PANEL_KEY = 'panel_visible'; // 'S' | 'M'
@@ -658,19 +689,30 @@
 
     const STORAGE_KEYS = {
       sync: 'panel_syncKPI',
-      S: { est:'filtroS_estatus', q:'filtroS_busqueda' },
-      M: { est:'filtroM_estatus', q:'filtroM_busqueda' }
+      S: { est:'filtroS_estatus', q:'filtroS_busqueda', m:'filtroS_mios' },
+      M: { est:'filtroM_estatus', q:'filtroM_busqueda', m:'filtroM_mios' }
     };
 
     function saveFilters(pref){
-      localStorage.setItem(STORAGE_KEYS[pref].est, document.getElementById(`filtro${pref}-estatus`).value);
-      localStorage.setItem(STORAGE_KEYS[pref].q,   document.getElementById(`filtro${pref}-busqueda`).value);
+      const k = STORAGE_KEYS[pref];
+      localStorage.setItem(k.est, document.getElementById(`filtro${pref}-estatus`).value);
+      localStorage.setItem(k.q,   document.getElementById(`filtro${pref}-busqueda`).value);
+      if (k.m) {
+        const chk = document.getElementById(`filtro${pref}-mios`);
+        if (chk) localStorage.setItem(k.m, chk.checked ? '1' : '0');
+      }
     }
     function loadFilters(pref){
-      const est = localStorage.getItem(STORAGE_KEYS[pref].est) ?? '';
-      const q   = localStorage.getItem(STORAGE_KEYS[pref].q)   ?? '';
+      const k = STORAGE_KEYS[pref];
+      const est = localStorage.getItem(k.est) ?? '';
+      const q   = localStorage.getItem(k.q)   ?? '';
       document.getElementById(`filtro${pref}-estatus`).value = est;
       document.getElementById(`filtro${pref}-busqueda`).value = q;
+      if (k.m) {
+        const v = localStorage.getItem(k.m);
+        const chk = document.getElementById(`filtro${pref}-mios`);
+        if (chk) chk.checked = (v === '1');
+      }
     }
     function saveSync(){
       localStorage.setItem(STORAGE_KEYS.sync, document.getElementById('sync-kpi').checked ? '1' : '0');
@@ -684,9 +726,17 @@
       const tipo = pref==="S"?"Sistemas":"Mantenimiento";
       const estado = document.getElementById(`filtro${pref}-estatus`).value.trim();
       const q = document.getElementById(`filtro${pref}-busqueda`).value.toLowerCase();
+      const soloMios = document.getElementById(`filtro${pref}-mios`)?.checked;
       return base.filter(t=>{
         if(t.tipo!==tipo) return false;
         if(estado && t.estatus!==estado) return false;
+
+        // 🆕 Solo los tickets asignados al usuario actual
+        if (soloMios && USUARIO_ID) {
+          const asignado = (t.asignadoA && (t.asignadoA._id || t.asignadoA.id)) || t.asignadoA || '';
+          if (String(asignado) !== USUARIO_ID) return false;
+        }
+
         if(q){
           const txt = `${t.descripcion||''} ${t.creadoPor?.nombre||''} ${t.folio||''}`.toLowerCase();
           if (!txt.includes(q)) return false;
@@ -729,20 +779,56 @@
       refrescar();
     }
 
+    // 🔹 CLICK EN TARJETAS KPI PARA FILTRAR (Soporte y Mantenimiento)
+    function initKpiClicks() {
+      // Soporte (S)
+      document.querySelectorAll('.kpiS-filter').forEach(card => {
+        card.style.cursor = 'pointer';
+        card.addEventListener('click', () => {
+          const estado = card.dataset.estado || '';
+          const sel = document.getElementById('filtroS-estatus');
+          if (!sel) return;
+          sel.value = estado;
+          saveFilters('S');
+          aplicarFiltros('S');
+        });
+      });
+
+      // Mantenimiento (M)
+      document.querySelectorAll('.kpiM-filter').forEach(card => {
+        card.style.cursor = 'pointer';
+        card.addEventListener('click', () => {
+          const estado = card.dataset.estado || '';
+          const sel = document.getElementById('filtroM-estatus');
+          if (!sel) return;
+          sel.value = estado;
+          saveFilters('M');
+          aplicarFiltros('M');
+        });
+      });
+    }
+
     // Eventos
     document.getElementById('sync-kpi').addEventListener('change', ()=>{ saveSync(); refrescar(); });
     document.getElementById('filtroS-estatus').addEventListener('change', ()=>{ saveFilters('S'); aplicarFiltros('S'); });
     document.getElementById('filtroS-busqueda').addEventListener('input', ()=>{ saveFilters('S'); });
+    document.getElementById('filtroS-mios').addEventListener('change', ()=>{ saveFilters('S'); aplicarFiltros('S'); });
+
     document.getElementById('filtroM-estatus').addEventListener('change', ()=>{ saveFilters('M'); aplicarFiltros('M'); });
     document.getElementById('filtroM-busqueda').addEventListener('input', ()=>{ saveFilters('M'); });
+    document.getElementById('filtroM-mios').addEventListener('change', ()=>{ saveFilters('M'); aplicarFiltros('M'); });
 
     function aplicarFiltros(pref){ saveFilters(pref); refrescar(); }
     function resetFiltros(pref){
       document.getElementById(`filtro${pref}-estatus`).value = '';
       document.getElementById(`filtro${pref}-busqueda`).value = '';
+      const chk = document.getElementById(`filtro${pref}-mios`);
+      if (chk) chk.checked = false;
       saveFilters(pref); refrescar();
     }
 
+    // Inicializar
+    initKpiClicks();
     cargar();
   </script>
 
