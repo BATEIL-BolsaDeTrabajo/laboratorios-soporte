@@ -1,7 +1,7 @@
 // js/navbar.js
 
 // ================== CARGAR NAVBAR ==================
-fetch("/navbar.html?v=10")
+fetch("/navbar.html?v=11")   // subí la v para evitar caché
   .then((res) => res.text())
   .then((html) => {
     const cont =
@@ -16,6 +16,7 @@ fetch("/navbar.html?v=10")
     // Después de inyectar el HTML:
     configurarMenuPorRoles();
     mostrarUsuarioNavbar();
+    inicializarNotificaciones();
   })
   .catch((err) => console.error("Error cargando navbar:", err));
 
@@ -76,9 +77,6 @@ function configurarMenuPorRoles() {
       "item-docente-crear",
       "item-docente-reservar",
       "item-docente-mis",
-      // "item-docente-falla",
-      // "item-docente-vacaciones",
-      // "item-docente-historial",
       "item-docente-divider",
     ]);
     visible = true;
@@ -96,7 +94,6 @@ function configurarMenuPorRoles() {
     ]);
     visible = true;
 
-    // badge de tickets asignables
     const token = localStorage.getItem("token");
     fetch("/api/tickets/asignables", {
       headers: { Authorization: `Bearer ${token}` },
@@ -200,7 +197,6 @@ function configurarMenuPorRoles() {
     visible = true;
   }
 
-  // si hay algo que mostrar, quitamos d-none al dropdown
   if (visible) {
     const dd = document.getElementById("menu-roles-dropdown");
     if (dd) dd.classList.remove("d-none");
@@ -208,19 +204,37 @@ function configurarMenuPorRoles() {
 }
 
 // ================== OBTENER USUARIO ==================
+// ================== OBTENER USUARIO ==================
 function obtenerUsuarioActual() {
-  // 1) Intentar de localStorage.usuario
+  // 1) Intentar leer desde localStorage.usuario
   try {
     const u = JSON.parse(localStorage.getItem("usuario") || "null");
-    if (u && u.nombre) return u;
-  } catch {}
+    if (u && u.nombre) {
+      // Si ya viene con _id o id, lo usamos tal cual
+      if (!u._id && u.id) {
+        u._id = u.id;
+      }
+      return u;
+    }
+  } catch (e) {
+    console.error("Error leyendo usuario desde localStorage:", e);
+  }
 
-  // 2) Intentar desde el token
+  // 2) Si no hay usuario en localStorage, intentar desde el token
   const t = localStorage.getItem("token");
   if (t && t.split(".").length === 3) {
     try {
       const payload = JSON.parse(atob(t.split(".")[1]));
+
+      const id =
+        payload._id ||
+        payload.id ||
+        payload.userId ||
+        payload.sub ||
+        null;
+
       return {
+        _id: id,  // 👈 IMPORTANTE para WebSocket
         nombre:
           payload.nombre ||
           payload.name ||
@@ -228,6 +242,7 @@ function obtenerUsuarioActual() {
           payload.email ||
           "Usuario",
         roles: payload.roles || (payload.rol ? [payload.rol] : []),
+        email: payload.email || null,
       };
     } catch (e) {
       console.error("Error decodificando token para usuario:", e);
@@ -237,34 +252,372 @@ function obtenerUsuarioActual() {
   return null;
 }
 
-// ================== MOSTRAR NOMBRE EN NAVBAR ==================
+
 // ================== MOSTRAR NOMBRE + INICIAL EN NAVBAR ==================
 function mostrarUsuarioNavbar() {
-  const usuario = obtenerUsuarioActual();   // 👈 usamos la función que ya tenías
-
-  console.log("Usuario navbar:", usuario);  // te sirve para verlo en la consola
+  const usuario = obtenerUsuarioActual();
+  console.log("Usuario navbar:", usuario);
 
   if (!usuario || !usuario.nombre) return;
 
   const nombre = String(usuario.nombre).trim();
-  const inicial = nombre && nombre.charAt(0)
-    ? nombre.charAt(0).toUpperCase()
-    : "?";
+  const inicial =
+    nombre && nombre.charAt(0) ? nombre.charAt(0).toUpperCase() : "?";
 
-  // Elementos del DOM
   const spanNombre = document.getElementById("nav-username");
-  const avatar     = document.getElementById("nav-user-avatar");
-  const liCont     = document.getElementById("user-info-nav");
+  const avatar = document.getElementById("nav-user-avatar");
+  const liCont = document.getElementById("user-info-nav");
 
   if (!spanNombre || !avatar || !liCont) return;
 
-  // Asignar valores visibles
-  spanNombre.textContent = nombre;   // 👉 nombre a la derecha del círculo
-  avatar.textContent     = inicial;  // 👉 letra dentro del círculo
-
-  // Mostrar el bloque
+  spanNombre.textContent = nombre;
+  avatar.textContent = inicial;
   liCont.style.display = "flex";
+
+
+  console.log("🔎 Usuario antes de iniciar socket:", usuario);
+  initSocket(usuario);
 }
 
+// ================== NOTIFICACIONES TICKETS ==================
+let notifTicketsPrev = null;
+let notifLista = [];
+let notifInterval = null;
+let notifSound = null;
+let socket = null;
 
+// Inicializar campanita
+function inicializarNotificaciones() {
+  const li = document.getElementById("nav-notifications");
+  if (!li) return;
 
+  li.style.display = "block";
+
+  cargarSonidoNotificacion();
+  cargarNotificacionesServidor();
+  refrescarNotificaciones();
+
+  if (notifInterval) clearInterval(notifInterval);
+  notifInterval = setInterval(refrescarNotificaciones, 30000);
+}
+
+// Pedir tickets al backend y detectar cambios
+async function refrescarNotificaciones() {
+  const token = localStorage.getItem("token");
+  if (!token) return;
+
+  try {
+    const res = await fetch("/api/tickets", {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+
+    if (!res.ok) {
+      if (res.status === 401 || res.status === 403) {
+        if (notifInterval) clearInterval(notifInterval);
+      }
+      return;
+    }
+
+    const lista = await res.json();
+    if (!Array.isArray(lista)) return;
+
+    procesarCambiosTickets(lista);
+  } catch (e) {
+    console.error("Error cargando tickets para notificaciones:", e);
+  }
+}
+
+// Cargar notificaciones ya guardadas en el servidor
+async function cargarNotificacionesServidor() {
+  const token = localStorage.getItem("token");
+  if (!token) return;
+
+  try {
+    const res = await fetch("/api/notifications", {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    if (!res.ok) {
+      console.warn("No se pudieron cargar las notificaciones del servidor");
+      return;
+    }
+
+    const data = await res.json();
+
+    notifLista = data.map((n) => {
+      const fechaTxt = new Date(n.fecha).toLocaleString("es-MX", {
+        year: "2-digit",
+        month: "2-digit",
+        day: "2-digit",
+        hour: "2-digit",
+        minute: "2-digit",
+      });
+
+      return {
+        titulo: n.titulo,
+        fecha: fechaTxt,
+        tipo: n.tipo || "general",
+        leida: !!n.leida,
+      };
+    });
+
+    renderNotificaciones();
+  } catch (err) {
+    console.error("Error al cargar notificaciones del servidor", err);
+  }
+}
+
+// Detectar nuevos tickets o cambios de prioridad
+function procesarCambiosTickets(lista) {
+  const nuevaFoto = lista.map((t) => ({
+    id: String(t._id),
+    prioridad: t.prioridad || "Sin prioridad",
+  }));
+
+  if (!notifTicketsPrev) {
+    notifTicketsPrev = nuevaFoto;
+    return;
+  }
+
+  const mapaPrev = {};
+  notifTicketsPrev.forEach((t) => {
+    mapaPrev[t.id] = t;
+  });
+
+  const nuevasNotifs = [];
+
+  lista.forEach((t) => {
+    const id = String(t._id);
+    const prev = mapaPrev[id];
+    const prioridadActual = t.prioridad || "Sin prioridad";
+
+    if (!prev) {
+      const titulo = `Nuevo ticket (${t.tipo || "—"}) - ${
+        (t.folio || t.descripcion || "Sin folio").toString().slice(0, 60)
+      }`;
+      nuevasNotifs.push(crearNotificacion(titulo, "nuevo"));
+      return;
+    }
+
+    if (prev.prioridad !== prioridadActual) {
+      const titulo = `Prioridad cambiada a ${prioridadActual} – ${
+        (t.folio || t.descripcion || "Ticket").toString().slice(0, 60)
+      }`;
+      nuevasNotifs.push(crearNotificacion(titulo, "prioridad"));
+    }
+  });
+
+  notifTicketsPrev = nuevaFoto;
+
+  if (!nuevasNotifs.length) return;
+
+  reproducirSonidoNotificacion();
+  animarCampanita();
+
+  const token = localStorage.getItem("token");
+
+  nuevasNotifs.forEach((n) => {
+    if (!token) return;
+    fetch("/api/notifications", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({
+        titulo: n.titulo,
+        tipo: n.tipo || "general",
+      }),
+    }).catch((err) => {
+      console.debug("Error al enviar notificación al servidor", err);
+    });
+  });
+
+  notifLista = [...nuevasNotifs, ...notifLista];
+  renderNotificaciones();
+}
+
+// Crear objeto notificación
+function crearNotificacion(titulo, tipo = "general") {
+  const fecha = new Date();
+  const fechaTxt = fecha.toLocaleString("es-MX", {
+    year: "2-digit",
+    month: "2-digit",
+    day: "2-digit",
+    hour: "2-digit",
+    minute: "2-digit",
+  });
+  return {
+    titulo,
+    fecha: fechaTxt,
+    tipo,
+    leida: false,
+  };
+}
+
+// Pintar notificaciones en la campanita
+function renderNotificaciones() {
+  const li = document.getElementById("nav-notifications");
+  const badge = document.getElementById("nav-notif-count");
+  const lista = document.getElementById("nav-notif-list");
+
+  if (!li || !badge || !lista) return;
+
+  const total = notifLista.length;
+  const sinLeer = notifLista.filter((n) => !n.leida).length;
+
+  if (sinLeer === 0) {
+    badge.style.display = "none";
+  } else {
+    badge.style.display = "inline-block";
+    badge.textContent = sinLeer > 9 ? "9+" : String(sinLeer);
+  }
+
+  let html = '<li class="dropdown-header">Notificaciones</li>';
+
+  if (total === 0) {
+    html += `
+      <li>
+        <span class="dropdown-item-text text-muted small">
+          Sin notificaciones.
+        </span>
+      </li>`;
+  } else {
+    notifLista.forEach((n) => {
+      let icono = "🔔";
+      if (n.tipo === "nuevo") icono = "🆕";
+      else if (n.tipo === "prioridad") icono = "⚠️";
+
+      html += `
+        <li>
+          <div class="dropdown-item small text-wrap">
+            <div class="fw-semibold">
+              ${icono} ${n.titulo}
+            </div>
+            <div class="small text-white-50">${n.fecha}</div>
+          </div>
+        </li>`;
+    });
+  }
+
+  lista.innerHTML = html;
+  li.style.display = "block";
+}
+
+// 🔹 AHORA SÍ ES ASYNC
+async function marcarNotificacionesLeidas() {
+  if (!Array.isArray(notifLista) || !notifLista.length) return;
+
+  notifLista = notifLista.map((n) => ({
+    ...n,
+    leida: true,
+  }));
+
+  renderNotificaciones();
+
+  const token = localStorage.getItem("token");
+  if (!token) return;
+
+  try {
+    await fetch("/api/notifications/marcar-leidas", {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+  } catch (err) {
+    console.error(
+      "Error al marcar notificaciones como leídas en servidor",
+      err
+    );
+  }
+}
+
+// ================== SONIDO DE NOTIFICACIÓN ==================
+function cargarSonidoNotificacion() {
+  try {
+    notifSound = new Audio("/notification.mp3");
+    notifSound.volume = 0.5;
+  } catch (e) {
+    console.warn("No se pudo cargar el sonido de notificación:", e);
+  }
+}
+
+function reproducirSonidoNotificacion() {
+  if (!notifSound) return;
+  try {
+    notifSound.currentTime = 0;
+    notifSound.play().catch((err) => {
+      console.debug("No se pudo reproducir el sonido de notificación:", err);
+    });
+  } catch (e) {
+    console.debug("Error al reproducir sonido de notificación:", e);
+  }
+}
+
+function animarCampanita() {
+  const bell = document.querySelector("#nav-notifications a");
+  if (!bell) return;
+
+  bell.classList.add("bell-anim");
+  setTimeout(() => {
+    bell.classList.remove("bell-anim");
+  }, 900);
+}
+
+function initSocket(usuario) {
+  if (!window.io) {
+    console.warn("Socket.IO client no disponible");
+    return;
+  }
+
+  if (!usuario || (!usuario._id && !usuario.id)) {
+    console.warn("Usuario inválido para WebSocket");
+    return;
+  }
+
+  const userId = usuario._id || usuario.id;
+  socket = io(); // misma URL del servidor (local o Render)
+
+  socket.on("connect", () => {
+    console.log("✅ WebSocket conectado");
+    socket.emit("registrarUsuario", userId);
+  });
+
+  socket.on("disconnect", () => {
+    console.log("❌ WebSocket desconectado");
+  });
+
+  // Cuando llegue una notificación nueva en vivo desde el backend
+  socket.on("nuevaNotificacion", (notif) => {
+    console.log("🔔 Notificación en vivo:", notif);
+
+    // Normalizar al mismo formato que usas en notifLista
+    const fechaTxt = new Date(notif.fecha).toLocaleString("es-MX", {
+      year: "2-digit",
+      month: "2-digit",
+      day: "2-digit",
+      hour: "2-digit",
+      minute: "2-digit",
+    });
+
+    const normalizada = {
+      titulo: notif.titulo,
+      fecha: fechaTxt,
+      tipo: notif.tipo || "general",
+      leida: !!notif.leida,
+    };
+
+    // Insertar al inicio
+    notifLista.unshift(normalizada);
+    // Si quieres limitar a las últimas 50:
+    // notifLista = notifLista.slice(0, 50);
+
+    // Actualizar UI y efectos
+    renderNotificaciones();
+    reproducirSonidoNotificacion();
+    animarCampanita();
+  });
+}

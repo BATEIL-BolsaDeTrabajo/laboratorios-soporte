@@ -1,3 +1,18 @@
+<style>
+  /* Animación de la campanita */
+  @keyframes bell-shake {
+    0%   { transform: rotate(0deg); }
+    20%  { transform: rotate(-12deg); }
+    40%  { transform: rotate(12deg); }
+    60%  { transform: rotate(-8deg); }
+    80%  { transform: rotate(8deg); }
+    100% { transform: rotate(0deg); }
+  }
+
+  .bell-anim {
+    animation: bell-shake 0.9s ease-in-out;
+  }
+</style>
 
 
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-4 shadow-sm">
@@ -29,6 +44,32 @@
             <span class="text-light small fw-bold" id="nav-username"></span>
           </div>
         </li>
+
+
+                <!-- NOTIFICACIONES -->
+        <li class="nav-item dropdown me-2" id="nav-notifications" style="display:none;">
+          <a class="nav-link position-relative" href="#" role="button" data-bs-toggle="dropdown" onclick="marcarNotificacionesLeidas()">
+            🔔
+            <span id="nav-notif-count"
+                  class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+                  style="font-size:0.65rem; display:none;">
+              0
+            </span>
+          </a>
+          <ul class="dropdown-menu dropdown-menu-end dropdown-menu-dark small"
+              id="nav-notif-list"
+              style="min-width:280px; max-height:320px; overflow-y:auto;">
+            <li class="dropdown-header">Notificaciones</li>
+            <li>
+              <span class="dropdown-item-text text-muted small">
+                Sin notificaciones.
+              </span>
+            </li>
+          </ul>
+        </li>
+
+
+
 
         <!-- Menú desplegable por roles -->
         <li class="nav-item dropdown d-none" id="menu-roles-dropdown">

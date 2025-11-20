@@ -114,7 +114,7 @@ router.post('/', verifyToken, async (req, res) => {
 });
 
 /* ========= Listar según rol ========= */
-router.get('/', verifyToken, async (req, res) => {
+/*router.get('/', verifyToken, async (req, res) => {
   const roles = (req.usuario.roles || [req.usuario.rol]).filter(Boolean).map(r => String(r).toLowerCase());
   const filtro = {};
   if (roles.includes('soporte')) filtro.tipo = 'Sistemas';
@@ -125,7 +125,7 @@ router.get('/', verifyToken, async (req, res) => {
     .populate('asignadoA', 'nombre');
 
   res.json(tickets);
-});
+});*/
 
 /* ========= Tickets asignables (admin/finanzas) ========= */
 router.get('/asignables', verifyToken, verifyRole(['admin', 'finanzas']), async (req, res) => {
@@ -418,5 +418,54 @@ router.get('/:id/historial', verifyToken, async (req, res) => {
     res.status(500).json({ mensaje:'Error al obtener historial' });
   }
 });
+
+
+// ==============================================
+//   Listar tickets según rol y usuario
+// ==============================================
+router.get('/', verifyToken, async (req, res) => {
+  try {
+    const rolesRaw = req.usuario?.roles || [req.usuario?.rol || ''];
+    const roles = rolesRaw
+      .filter(Boolean)
+      .map(r => String(r).toLowerCase());
+
+    const userId = req.usuario?.id;
+    const filtro = {};
+
+    // Roles que SÍ deben ver TODO
+    const esAdminLike = roles.some(r =>
+      ['admin', 'direccion', 'subdireccion', 'finanzas'].includes(r)
+    );
+
+    if (!esAdminLike) {
+      if (roles.includes('soporte')) {
+        // 👨‍💻 Soporte: solo tickets de Sistemas asignados a él
+        filtro.tipo = 'Sistemas';
+        filtro.asignadoA = userId;
+      } else if (roles.includes('mantenimiento')) {
+        // 🔧 Mantenimiento: solo tickets de Mantenimiento asignados a él
+        filtro.tipo = 'Mantenimiento';
+        filtro.asignadoA = userId;
+      } else {
+        // Otros roles (docente, coordinación, etc.): solo los que él creó
+        filtro.creadoPor = userId;
+      }
+    }
+    // Si es admin/dirección/subdirección/finanzas ⇒ filtro vacío: ve todos
+
+    const tickets = await Ticket.find(filtro)
+      .populate('creadoPor', 'nombre')
+      .populate('asignadoA', 'nombre');
+
+    res.json(tickets);
+  } catch (err) {
+    console.error('GET /tickets error:', err);
+    res.status(500).json({ mensaje: 'Error al obtener tickets' });
+  }
+});
+
+
+
 
 module.exports = router;

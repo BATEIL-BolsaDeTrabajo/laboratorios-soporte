@@ -5,6 +5,9 @@ const dotenv = require('dotenv');
 const cors = require('cors');
 const path = require('path');
 const cron = require('node-cron');
+const notificationsRoutes = require('./routes/notifications');
+const http = require('http');
+const { Server } = require('socket.io');
 
 dotenv.config();
 
@@ -23,6 +26,7 @@ app.use('/api/users', require('./routes/users'));
 app.use('/api/vacaciones', require('./routes/vacacionesroutes.js'));
 app.use('/api/tiempo', require('./routes/tiempoRoutes'));
 app.use('/api/calificaciones', require('./routes/calificaciones'));
+app.use('/api/notifications', notificationsRoutes);
 
 // ===== Frontend estático =====
 app.use(express.static(path.join(__dirname, '..', 'frontend')));
@@ -167,7 +171,7 @@ async function actualizarDiasVacacionesAutomatica() {
 }
 
 // ===== Conexión a Mongo y arranque =====
-const PORT = process.env.PORT || 3000;
+/*const PORT = process.env.PORT || 3000;
 
 mongoose.connect(process.env.MONGODB_URI)
   .then(() => {
@@ -188,4 +192,60 @@ mongoose.connect(process.env.MONGODB_URI)
   .catch(err => {
     console.error('🔴 Error en MongoDB:', err);
     process.exit(1);
+  });*/
+
+
+// ===== Conexión a Mongo y arranque =====
+const PORT = process.env.PORT || 3000;
+
+mongoose.connect(process.env.MONGODB_URI)
+  .then(() => {
+    console.log('🟢 Conectado a MongoDB');
+
+    // 🔌 Crear servidor HTTP manualmente (usando los require de arriba)
+    const server = http.createServer(app);
+
+    // 🔔 Iniciar Socket.IO en el mismo servidor
+    const io = new Server(server, {
+      cors: {
+        origin: "*",   // Para Render / local
+      },
+    });
+
+    // 🔥 Hacer io accesible desde todas las rutas (req.app.get('io'))
+    app.set('io', io);
+
+    // 🟡 Manejo de conexiones Socket.IO
+    io.on('connection', (socket) => {
+      console.log('🔌 Cliente WebSocket conectado');
+
+      socket.on('registrarUsuario', (userId) => {
+        if (!userId) return;
+        const room = `user:${userId}`;
+        socket.join(room);
+        console.log(`👤 Usuario unido a sala ${room}`);
+      });
+
+      socket.on('disconnect', () => {
+        console.log('❌ Cliente WebSocket desconectado');
+      });
+    });
+
+    // 🚀 Levantar servidor HTTP + Socket.IO
+    server.listen(PORT, () => {
+      console.log(`🚀 Servidor con WebSockets en http://localhost:${PORT}`);
+    });
+
+    // 📅 Ejecutar funciones automáticas
+    cargarHorariosDeLaSemana();
+    actualizarDiasVacacionesAutomatica();
+
+    // ⏱️ Schedulers
+    cron.schedule('0 0 * * 0', cargarHorariosDeLaSemana);          // Cada domingo
+    cron.schedule('10 0 * * *', actualizarDiasVacacionesAutomatica); // Diario 00:10
+  })
+  .catch((err) => {
+    console.error('🔴 Error en MongoDB:', err);
+    process.exit(1);
   });
+
