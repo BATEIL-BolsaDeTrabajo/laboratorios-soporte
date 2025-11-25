@@ -14,8 +14,8 @@ const notificationSchema = new mongoose.Schema(
     },
     tipo: {
       type: String,
-      enum: ['nuevo', 'prioridad', 'general'],
-      default: 'general'
+      enum: ['nuevo', 'prioridad', 'general','asignado','resuelto'],
+      default: 'asignado'
     },
     ticket: {
       type: mongoose.Schema.Types.ObjectId,

@@ -4,6 +4,7 @@ const router = express.Router();
 const Ticket = require('../models/Ticket');
 const { verifyToken, verifyRole } = require('../middlewares/auth');
 const Notification = require('../models/Notification');
+const User = require('../models/User');
 
 /* ========= Helpers ========= */
 function validarNuevoPayload(body) {
@@ -61,6 +62,55 @@ function pushHistorial(ticket, {
   });
 }
 
+/**
+ * Notificar a TODOS los usuarios con rol admin / finanzas
+ * tipo: 'nuevo' | 'resuelto' | ...
+ */
+async function notificarAdminsFinanzas(io, titulo, tipo = 'general') {
+  try {
+    const admins = await User.find(
+      {
+        $or: [
+          { roles: { $in: ['admin', 'Admin', 'ADMIN', 'finanzas', 'Finanzas', 'FINANZAS'] } },
+          { rol:   { $in: ['admin', 'Admin', 'ADMIN', 'finanzas', 'Finanzas', 'FINANZAS'] } }
+        ]
+      },
+      '_id'
+    );
+
+    if (!admins.length) return;
+
+    const docsData = admins.map(u => ({
+      usuario: u._id,
+      titulo,
+      tipo
+    }));
+
+    const creadas = await Notification.insertMany(docsData);
+
+    if (io) {
+      creadas.forEach(notifDoc => {
+        const fechaTxt = new Date(notifDoc.fecha).toLocaleString('es-MX', {
+          year: '2-digit',
+          month: '2-digit',
+          day: '2-digit',
+          hour: '2-digit',
+          minute: '2-digit'
+        });
+
+        io.to(`user:${notifDoc.usuario.toString()}`).emit('nuevaNotificacion', {
+          titulo: notifDoc.titulo,
+          fecha: fechaTxt,
+          tipo: notifDoc.tipo || tipo || 'general',
+          leida: !!notifDoc.leida
+        });
+      });
+    }
+  } catch (e) {
+    console.error('Error creando notificación para admin/finanzas:', e);
+  }
+}
+
 /* ========= Crear ========= */
 router.post('/', verifyToken, async (req, res) => {
   try {
@@ -88,7 +138,6 @@ router.post('/', verifyToken, async (req, res) => {
         estatus: 'Abierto',
         requiereMaterial: '',
         resolucion: ''
-        // ...(body.prioridad && ['Alta','Media','Baja'].includes(body.prioridad) ? { prioridad: body.prioridad } : {})
       };
     } else {
       // formato “viejo”
@@ -102,11 +151,16 @@ router.post('/', verifyToken, async (req, res) => {
         tipo: body.tipo,
         creadoPor: userId,
         estatus: 'Abierto'
-        // ...(body.prioridad && ['Alta','Media','Baja'].includes(body.prioridad) ? { prioridad: body.prioridad } : {})
       };
     }
 
     const nuevo = await Ticket.create(doc);
+
+    // 🔔 Notificar a admin / finanzas: NUEVO TICKET
+    const io = req.app.get('io');
+    const tituloNotif = `Nuevo ticket (${nuevo.tipo || '—'}) - ${nuevo.folio || nuevo.descripcion || 'Sin folio'}`;
+    await notificarAdminsFinanzas(io, tituloNotif, 'nuevo');
+
     res.status(201).json({ ok: true, mensaje: 'Ticket creado', ticket: nuevo });
   } catch (err) {
     console.error('POST /tickets error:', err);
@@ -142,6 +196,8 @@ router.put('/:id', verifyToken, async (req, res) => {
     const ticket = await Ticket.findById(req.params.id);
     if (!ticket) return res.status(404).json({ mensaje: 'Ticket no encontrado' });
 
+    const io = req.app.get('io');
+
     // Guardar asignado ANTES para detectar cambios
     const asignadoAntes = ticket.asignadoA ? ticket.asignadoA.toString() : null;
 
@@ -149,6 +205,19 @@ router.put('/:id', verifyToken, async (req, res) => {
     const ahora = new Date();
     const usuarioId = req.usuario?.id;
     const usuarioNombre = req.usuario?.nombre || req.usuario?.email || 'Usuario';
+
+    const roles = (req.usuario.roles || [req.usuario.rol])
+      .filter(Boolean)
+      .map(r => String(r).toLowerCase());
+
+    const esSoporteOMantenimiento = roles.some(r => ['soporte', 'mantenimiento'].includes(r));
+    const puedeTrabajar = roles.some(r => ['soporte', 'mantenimiento', 'admin'].includes(r));
+
+    let cambioAResuelto = false;
+
+    // 🔹 Para saber si cambió la prioridad
+    let cambioDePrioridad = false;
+    const prioridadAntes = ticket.prioridad || 'Sin prioridad';
 
     // === Manejo de estatus y fechas ===
     if (estatus) {
@@ -184,6 +253,8 @@ router.put('/:id', verifyToken, async (req, res) => {
       }
 
       if (estatus !== anterior) {
+        if (estatus === 'Resuelto') cambioAResuelto = true;
+
         pushHistorial(ticket, {
           usuarioId, usuarioNombre,
           de: anterior, a: estatus,
@@ -197,10 +268,11 @@ router.put('/:id', verifyToken, async (req, res) => {
 
     // === Prioridad ===
     if (typeof prioridad !== 'undefined') {
-      const ok = ['Alta', 'Media', 'Baja'].includes(prioridad);
+      const ok = ['Alta', 'Media', 'Baja', 'Sin prioridad'].includes(prioridad);
       if (!ok) return res.status(400).json({ mensaje: 'Prioridad inválida' });
 
       if (ticket.prioridad !== prioridad) {
+        cambioDePrioridad = true;
         pushHistorial(ticket, {
           usuarioId, usuarioNombre,
           de: ticket.estatus, a: ticket.estatus,
@@ -211,9 +283,6 @@ router.put('/:id', verifyToken, async (req, res) => {
     }
 
     // === Campos de trabajo (material/resolución/asignarme) ===
-    const roles = (req.usuario.roles || [req.usuario.rol]).filter(Boolean).map(r => String(r).toLowerCase());
-    const puedeTrabajar = roles.some(r => ['soporte', 'mantenimiento', 'admin'].includes(r));
-
     if (puedeTrabajar) {
       if (typeof requiereMaterial !== 'undefined' && requiereMaterial !== ticket.requiereMaterial) {
         pushHistorial(ticket, {
@@ -272,21 +341,66 @@ router.put('/:id', verifyToken, async (req, res) => {
     // Guardar cambios en el ticket
     await ticket.save();
 
+    // 🔔 Notificar a admin / finanzas si un ticket se marca como RESUELTO
+    if (cambioAResuelto && esSoporteOMantenimiento) {
+      const tituloNotif = `Ticket resuelto (${ticket.tipo || '—'}) - ${ticket.folio || ticket.descripcion || 'Sin folio'}`;
+      await notificarAdminsFinanzas(io, tituloNotif, 'resuelto');
+    }
+
+    // 🔔 Notificación de cambio de prioridad SOLO a soporte/mantenimiento asignado
+    if (cambioDePrioridad && ticket.asignadoA) {
+      try {
+        const tecnico = await User.findById(ticket.asignadoA, 'roles rol');
+        const rolesTec = [
+          ...(tecnico?.roles || []),
+          tecnico?.rol
+        ]
+          .filter(Boolean)
+          .map(r => String(r).toLowerCase());
+
+        const esTecSoporteOMant = rolesTec.some(r => ['soporte', 'mantenimiento'].includes(r));
+
+        if (esTecSoporteOMant) {
+          const notifDoc = await Notification.create({
+            usuario: ticket.asignadoA,
+            titulo: `Prioridad cambiada a ${ticket.prioridad} – ${ticket.folio || ticket.descripcion || 'Ticket'}`,
+            tipo: 'prioridad'
+          });
+
+          if (io) {
+            const fechaTxt = new Date(notifDoc.fecha).toLocaleString('es-MX', {
+              year: '2-digit',
+              month: '2-digit',
+              day: '2-digit',
+              hour: '2-digit',
+              minute: '2-digit'
+            });
+
+            io.to(`user:${ticket.asignadoA.toString()}`).emit('nuevaNotificacion', {
+              titulo: notifDoc.titulo,
+              fecha: fechaTxt,
+              tipo: notifDoc.tipo || 'prioridad',
+              leida: false
+            });
+          }
+        }
+      } catch (e) {
+        console.error('Error creando notificación de cambio de prioridad:', e);
+      }
+    }
+
     // ============================
-    //   NOTIFICACIÓN POR ASIGNACIÓN
+    //   NOTIFICACIÓN POR ASIGNACIÓN (para el asignado)
     // ============================
     const asignadoNuevo = ticket.asignadoA ? ticket.asignadoA.toString() : null;
 
     if (asignadoNuevo && asignadoNuevo !== asignadoAntes) {
-      // 1) Guardar notificación en Mongo
       const notifDoc = await Notification.create({
         usuario: asignadoNuevo,
         titulo: `Se te asignó un ticket (${ticket.tipo || '—'}) - ${ticket.folio || ticket.descripcion || 'Sin folio'}`,
         tipo: 'asignado'
       });
 
-      // 2) Enviar notificación en vivo por WebSocket
-      const io = req.app.get('io');
       if (io) {
         const fechaTxt = new Date(notifDoc.fecha).toLocaleString('es-MX', {
           year: '2-digit',
@@ -303,7 +417,6 @@ router.put('/:id', verifyToken, async (req, res) => {
           leida: false
         };
 
-        // Solo al usuario asignado
         io.to(`user:${asignadoNuevo}`).emit('nuevaNotificacion', payload);
       }
     }
@@ -467,26 +580,21 @@ router.get('/', verifyToken, async (req, res) => {
     const userId = req.usuario?.id;
     const filtro = {};
 
-    // Roles que SÍ deben ver TODO
     const esAdminLike = roles.some(r =>
       ['admin', 'direccion', 'subdireccion', 'finanzas'].includes(r)
     );
 
     if (!esAdminLike) {
       if (roles.includes('soporte')) {
-        // Soporte: solo tickets de Sistemas asignados a él
         filtro.tipo = 'Sistemas';
         filtro.asignadoA = userId;
       } else if (roles.includes('mantenimiento')) {
-        // Mantenimiento: solo tickets de Mantenimiento asignados a él
         filtro.tipo = 'Mantenimiento';
         filtro.asignadoA = userId;
       } else {
-        // Otros roles (docente, coordinación, etc.): solo los que él creó
         filtro.creadoPor = userId;
       }
     }
-    // Si es admin/dirección/subdirección/finanzas ⇒ filtro vacío: ve todos
 
     const tickets = await Ticket.find(filtro)
       .populate('creadoPor', 'nombre')

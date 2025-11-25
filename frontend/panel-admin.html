@@ -5,7 +5,6 @@
   <title>Panel de Administración</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
   <style>
-    /* ======= BLOQUE KPI ======= */
     .kpi { border-radius:14px; padding:16px; text-align:center; }
     .kpi .label { font-weight:600; opacity:.9; }
     .kpi .value { font-size:2rem; font-weight:700; line-height:1; }
@@ -18,10 +17,8 @@
     .kpi-cerrados { background:#4CAF50; color:#fff; }
     .kpi-excedido { background:#E53935; color:#fff; }
 
-    /* 🔹 Para indicar que las tarjetas son clickeables */
     .kpi-filter { cursor: pointer; }
 
-    /* ======= COLORES TARJETAS POR ESTATUS ======= */
     .bg-ticket-abierto  { background-color:#FF9800 !important; color:#fff !important; }
     .bg-ticket-proceso  { background-color:#FFC107 !important; color:#111 !important; }
     .bg-ticket-espera   { background-color:#9E9E9E !important; color:#fff !important; }
@@ -69,7 +66,6 @@
       </div>
     </div>
 
-    <!-- KPIs (MODIFICADOS PARA FILTRAR AL HACER CLICK) -->
     <div class="row g-3 mb-4" id="kpis">
       <div class="col-6 col-md-2">
         <div class="kpi kpi-total kpi-filter" data-estado="">
@@ -125,344 +121,518 @@
     <div id="tickets" class="row g-3"></div>
   </div>
 
-  <script>
-    const token = localStorage.getItem("token");
-    if (!token) window.location.href = "login.html";
+ <script>
+  const token = localStorage.getItem("token");
+  if (!token) window.location.href = "login.html";
 
-    const estatusColor = {
-      "Abierto":               { border: "light", bg: "bg-ticket-abierto",  text: "" },
-      "En proceso":            { border: "light", bg: "bg-ticket-proceso",  text: "" },
-      "En espera de material": { border: "light", bg: "bg-ticket-espera",   text: "" },
-      "Resuelto":              { border: "light", bg: "bg-ticket-resuelto", text: "" },
-      "Cerrado":               { border: "light", bg: "bg-ticket-cerrado",  text: "" },
-      "Tiempo excedido":       { border: "light", bg: "bg-ticket-excedido", text: "" }
-    };
+  // ===== Colores por estatus =====
+  const estatusColor = {
+    "Abierto":               { border: "light", bg: "bg-ticket-abierto",  text: "" },
+    "En proceso":            { border: "light", bg: "bg-ticket-proceso",  text: "" },
+    "En espera de material": { border: "light", bg: "bg-ticket-espera",   text: "" },
+    "Resuelto":              { border: "light", bg: "bg-ticket-resuelto", text: "" },
+    "Cerrado":               { border: "light", bg: "bg-ticket-cerrado",  text: "" },
+    "Tiempo excedido":       { border: "light", bg: "bg-ticket-excedido", text: "" }
+  };
 
-    const prioridadBadge = (p) => {
-      if (!p || p === 'Sin prioridad') return `<span class="badge bg-secondary">Sin prioridad</span>`;
-      const map = { 'Alta':'danger', 'Media':'warning', 'Baja':'primary' };
-      return `<span class="badge bg-${map[p] || 'secondary'}">${p}</span>`;
-    };
-
-    let usuarios = [];
-
-    async function obtenerUsuarios() {
-      try {
-        const res = await fetch("/api/users", { headers: { Authorization: `Bearer ${token}` } });
-        const data = await res.json();
-        if (!Array.isArray(data)) { mostrarMensaje("❌ No se pudieron cargar los usuarios", "danger"); return false; }
-        usuarios = data;
-        return true;
-      } catch (e) { mostrarMensaje("❌ Error al conectar con el servidor", "danger"); return false; }
+  // ===== Badge de prioridad =====
+  const prioridadBadge = (p) => {
+    if (!p || p === "Sin prioridad") {
+      return `<span class="badge bg-secondary">Sin prioridad</span>`;
     }
+    const map = { Alta: "danger", Media: "warning", Baja: "primary" };
+    return `<span class="badge bg-${map[p] || "secondary"}">${p}</span>`;
+  };
 
-    function actualizarKPIs(lista){
-      const by = (st) => lista.filter(t => t.estatus === st).length;
-      document.getElementById('kpi-total').textContent     = lista.length;
-      document.getElementById('kpi-abiertos').textContent  = by('Abierto');
-      document.getElementById('kpi-proceso').textContent   = by('En proceso');
-      document.getElementById('kpi-espera').textContent    = by('En espera de material');
-      document.getElementById('kpi-resueltos').textContent = by('Resuelto');
-      document.getElementById('kpi-cerrados').textContent  = by('Cerrado');
-      document.getElementById('kpi-excedido').textContent  = by('Tiempo excedido');
-    }
+  // ===== Estado global =====
+  let usuarios = [];
+  let todosTickets = [];
 
-    async function cargarTickets() {
-      const usuariosOK = await obtenerUsuarios();
-      if (!usuariosOK) return;
+  // ===== Alertas arriba de la lista =====
+  function mostrarMensaje(texto, tipo = "info") {
+    const cont = document.getElementById("mensaje-estado");
+    if (!cont) return;
+    cont.innerHTML = `
+      <div class="alert alert-${tipo} alert-dismissible fade show" role="alert">
+        ${texto}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>
+    `;
+  }
 
-      const tipo      = document.getElementById("filtroTipo").value;
-      const estatus   = document.getElementById("filtroEstatus").value;
-      const prioridad = document.getElementById("filtroPrioridad").value;
-
-      const res = await fetch("/api/tickets", { headers: { Authorization: `Bearer ${token}` } });
-      const datos = await res.json();
-      const contenedor = document.getElementById("tickets");
-      contenedor.innerHTML = "";
-
-      let filtrados = datos;
-      if (tipo)      filtrados = filtrados.filter(t => t.tipo === tipo);
-      if (estatus)   filtrados = filtrados.filter(t => t.estatus === estatus);
-      if (prioridad) filtrados = filtrados.filter(t => (t.prioridad || 'Sin prioridad') === prioridad);
-
-      actualizarKPIs(filtrados);
-
-      filtrados.forEach(ticket => {
-        const div = document.createElement("div");
-        div.className = "col-md-6";
-
-        const puedeAsignarOReasignar = ticket.estatus !== "Cerrado";
-        const puedeCerrar  = ticket.estatus !== "Cerrado";
-        const puedePonerEnProceso = ticket.estatus !== "En proceso" && ticket.estatus !== "Cerrado";
-
-        const candidatos = usuarios.filter(u =>
-          (ticket.tipo === "Sistemas" && (u.roles || []).includes("soporte")) ||
-          (ticket.tipo === "Mantenimiento" && (u.roles || []).includes("mantenimiento"))
-        );
-
-        let asignarHTML = "";
-        if (puedeAsignarOReasignar && candidatos.length) {
-          const actualId = ticket.asignadoA?._id || ticket.asignadoA || "";
-          const btnTxt = ticket.asignadoA ? "Reasignar" : "Asignar";
-          asignarHTML = `
-            <label class="form-label mt-2">Asignar/Reasignar a:</label>
-            <div class="input-group">
-              <select class="form-select" id="select-${ticket._id}">
-                ${candidatos.map(u => `
-                  <option value="${u._id}" ${String(u._id)===String(actualId)?'selected':''}>
-                    ${u.nombre}
-                  </option>`).join("")}
-              </select>
-              <button class="btn btn-success" onclick="asignarTicket('${ticket._id}')">${btnTxt}</button>
-            </div>
-          `;
-        }
-
-        let cerrarHTML = "";
-        if (puedeCerrar) {
-          cerrarHTML = `<button class="btn btn-danger mt-2 w-100" onclick="cerrarTicket('${ticket._id}')">Cerrar ticket</button>`;
-        }
-
-        const estaAsignado = !!ticket.asignadoA;
-        const selectorPrioridad = `
-          <label class="form-label mt-2">Prioridad:</label>
-          <div class="input-group">
-            <select class="form-select" id="prio-${ticket._id}" ${!estaAsignado ? 'disabled' : ''}>
-              <option value="Sin prioridad" ${(ticket.prioridad??'Sin prioridad')==='Sin prioridad'?'selected':''}>Sin prioridad</option>
-              ${['Alta','Media','Baja'].map(p =>
-                `<option value="${p}" ${(ticket.prioridad===p)?'selected':''}>${p}</option>`).join('')}
-            </select>
-            <button class="btn btn-outline-primary" type="button"
-                    onclick="guardarPrioridad('${ticket._id}')" ${!estaAsignado ? 'disabled' : ''}>
-              Guardar
-            </button>
-            <span class="input-group-text" id="prio-badge-${ticket._id}">
-              ${prioridadBadge(ticket.prioridad || 'Sin prioridad')}
-            </span>
-          </div>
-          ${!estaAsignado ? '<div class="form-text text-muted">Asigna el ticket para habilitar la prioridad.</div>' : ''}
-        `;
-
-        const comentariosHTML = `
-          <label class="form-label mt-3">Comentarios (internos):</label>
-          <textarea id="coment-${ticket._id}" class="form-control" rows="2" placeholder="Agrega notas, avances o cualquier comentario">${ticket.resolucion || ''}</textarea>
-          <button class="btn btn-outline-secondary mt-2 w-100" onclick="guardarComentarios('${ticket._id}')">Guardar comentarios</button>
-        `;
-
-        const btnExcedido = (ticket.estatus !== 'Cerrado')
-          ? `<button class="btn btn-outline-danger mt-2 w-100" onclick="marcarExcedido('${ticket._id}')" ${ticket.estatus==='Tiempo excedido'?'disabled':''}>Marcar tiempo excedido</button>`
-          : '';
-
-        const btnReabrir = (ticket.estatus === 'Cerrado' || ticket.estatus === 'Tiempo excedido')
-          ? `<button class="btn btn-outline-dark mt-2 w-100" onclick="reabrirTicket('${ticket._id}')">Reabrir ticket</button>`
-          : '';
-
-        const btnEnProceso = puedePonerEnProceso
-          ? `<button class="btn btn-warning mt-2 w-100 text-dark" onclick="ponerEnProceso('${ticket._id}')">Poner en proceso</button>`
-          : '';
-
-        const estilo = estatusColor[ticket.estatus] || { border: 'light', bg: 'bg-light', text: 'text-dark' };
-
-        div.innerHTML = `
-          <div class="card border-${estilo.border} ${estilo.bg} ${estilo.text}">
-            <div class="card-body">
-              <div class="d-flex justify-content-between align-items-start">
-                <h5 class="card-title mb-1">${ticket.tipo}</h5>
-                <div class="text-end small">
-                  <div>Estatus: <strong>${ticket.estatus}</strong></div>
-                  <div>Prioridad: 
-                    <span id="prio-header-${ticket._id}">
-                      ${prioridadBadge(ticket.prioridad || 'Sin prioridad')}
-                    </span>
-                  </div>
-                </div>
-              </div>
-
-              <p class="card-text mb-2">
-                <span class="text-muted">Folio:</span> <strong>${ticket.folio || '—'}</strong><br>
-                Descripción: ${ticket.descripcion}<br>
-                Material requerido: ${ticket.requiereMaterial || 'Ninguno'}<br>
-                Creado por: ${ticket.creadoPor?.nombre || "N/A"}<br>
-                Asignado a: <span id="asignado-${ticket._id}">
-                  ${ticket.asignadoA?.nombre || "Sin asignar"}
-                </span><br>
-                Fecha: ${new Date(ticket.fechaCreacion || ticket.createdAt).toLocaleString()}
-              </p>
-
-              ${selectorPrioridad}
-              ${asignarHTML}
-              ${comentariosHTML}
-              ${btnEnProceso}
-              ${btnExcedido}
-              ${btnReabrir}
-              ${cerrarHTML}
-            </div>
-          </div>
-        `;
-        contenedor.appendChild(div);
-      });
-    }
-
-    // Asignar / reasignar
-    async function asignarTicket(id) {
-      const select = document.getElementById(`select-${id}`);
-      if (!select) return;
-
-      const userId   = select.value;
-      const userName = select.options[select.selectedIndex].textContent;
-
-      const res = await fetch(`/api/tickets/${id}`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`
-        },
-        body: JSON.stringify({ asignadoA: userId })
-      });
-
-      const data = await res.json().catch(() => ({}));
-
-      if (!res.ok) {
-        mostrarMensaje(data.mensaje || "❌ No se pudo asignar el ticket", "danger");
-        return;
-      }
-
-      const spanAsignado = document.getElementById(`asignado-${id}`);
-      if (spanAsignado) {
-        spanAsignado.textContent = userName;
-      }
-
-      const selPrio = document.getElementById(`prio-${id}`);
-      if (selPrio) selPrio.disabled = false;
-
-      if (selPrio && selPrio.parentElement) {
-        const btnPrio = selPrio.parentElement.querySelector('button');
-        if (btnPrio) btnPrio.disabled = false;
-      }
-
-      mostrarMensaje(data.mensaje || "✅ Ticket asignado / reasignado", "success");
-    }
-
-    async function cerrarTicket(id) {
-      const res = await fetch(`/api/tickets/${id}`, {
-        method: "PUT",
-        headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
-        body: JSON.stringify({ estatus: "Cerrado" })
+  // ===== Cargar usuarios (para combos de asignación) =====
+  async function obtenerUsuarios() {
+    try {
+      const res = await fetch("/api/users", {
+        headers: { Authorization: `Bearer ${token}` },
       });
       const data = await res.json();
-      mostrarMensaje(data.mensaje || "✅ Ticket cerrado", "success");
-      cargarTickets();
+      if (!Array.isArray(data)) {
+        mostrarMensaje("❌ No se pudieron cargar los usuarios.", "danger");
+        return false;
+      }
+      usuarios = data;
+      return true;
+    } catch (e) {
+      console.error(e);
+      mostrarMensaje("❌ Error al conectar con el servidor de usuarios.", "danger");
+      return false;
     }
+  }
 
-    async function reabrirTicket(id){
-      const res = await fetch(`/api/tickets/${id}`, {
-        method: "PUT",
-        headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
-        body: JSON.stringify({ estatus: "Abierto" })
+  // ===== KPIs (siempre con TODOS los tickets) =====
+  function actualizarKPIs(lista) {
+    const by = (st) => lista.filter((t) => t.estatus === st).length;
+    document.getElementById("kpi-total").textContent = lista.length;
+    document.getElementById("kpi-abiertos").textContent = by("Abierto");
+    document.getElementById("kpi-proceso").textContent = by("En proceso");
+    document.getElementById("kpi-espera").textContent = by("En espera de material");
+    document.getElementById("kpi-resueltos").textContent = by("Resuelto");
+    document.getElementById("kpi-cerrados").textContent = by("Cerrado");
+    document.getElementById("kpi-excedido").textContent = by("Tiempo excedido");
+  }
+
+  // ===== Cargar + pintar tickets =====
+  async function cargarTickets() {
+    const usuariosOK = await obtenerUsuarios();
+    if (!usuariosOK) return;
+
+    const tipoSel = document.getElementById("filtroTipo").value;
+    const estatusSel = document.getElementById("filtroEstatus").value;
+    const prioridadSel = document.getElementById("filtroPrioridad").value;
+
+    let datos = [];
+    try {
+      const res = await fetch("/api/tickets", {
+        headers: { Authorization: `Bearer ${token}` },
       });
-      const data = await res.json().catch(()=>({}));
-      if (!res.ok){ mostrarMensaje(data.mensaje || 'No se pudo reabrir el ticket', 'danger'); return; }
-      mostrarMensaje('🔓 Ticket reabierto', 'success');
-      cargarTickets();
+      if (!res.ok) {
+        mostrarMensaje("❌ No se pudieron cargar los tickets.", "danger");
+        return;
+      }
+      datos = await res.json();
+      if (!Array.isArray(datos)) datos = [];
+    } catch (e) {
+      console.error(e);
+      mostrarMensaje("❌ Error al cargar tickets.", "danger");
+      return;
     }
 
-    async function ponerEnProceso(id){
-      const res = await fetch(`/api/tickets/${id}`, {
-        method: "PUT",
-        headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
-        body: JSON.stringify({ estatus: "En proceso" })
-      });
-      const data = await res.json().catch(()=>({}));
-      if (!res.ok){ mostrarMensaje(data.mensaje || 'No se pudo poner en proceso', 'danger'); return; }
-      mostrarMensaje('▶️ Ticket puesto en proceso', 'success');
-      cargarTickets();
+    // Guardamos TODOS los tickets para KPIs
+    todosTickets = datos;
+    // KPIs SIEMPRE con todos
+    actualizarKPIs(todosTickets);
+
+    // Aplico filtros solo para las tarjetas
+    let filtrados = [...todosTickets];
+    if (tipoSel) {
+      filtrados = filtrados.filter((t) => t.tipo === tipoSel);
+    }
+    if (estatusSel) {
+      filtrados = filtrados.filter((t) => t.estatus === estatusSel);
+    }
+    if (prioridadSel) {
+      filtrados = filtrados.filter(
+        (t) => (t.prioridad || "Sin prioridad") === prioridadSel
+      );
     }
 
-    async function marcarExcedido(id){
-      const res = await fetch(`/api/tickets/${id}`, {
-        method: "PUT",
-        headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
-        body: JSON.stringify({ estatus: "Tiempo excedido" })
-      });
-      const data = await res.json().catch(()=>({}));
-      if (!res.ok){ mostrarMensaje(data.mensaje || 'No se pudo marcar como excedido', 'danger'); return; }
-      mostrarMensaje('⏰ Ticket marcado como tiempo excedido', 'warning');
-      cargarTickets();
-    }
+    const contenedor = document.getElementById("tickets");
+    contenedor.innerHTML = "";
 
-    async function guardarPrioridad(id){
-      const sel  = document.getElementById(`prio-${id}`);
-      const prio = sel.value || null;
+    // Pintar tarjetas
+    filtrados.forEach((ticket) => {
+      const div = document.createElement("div");
+      div.className = "col-md-6";
 
+      const puedeAsignarOReasignar = ticket.estatus !== "Cerrado";
+      const puedeCerrar = ticket.estatus !== "Cerrado";
+      const puedePonerEnProceso =
+        ticket.estatus !== "En proceso" && ticket.estatus !== "Cerrado";
+
+      // Solo soporte ve tickets de Sistemas, y mantenimiento los de Mantenimiento
+      const candidatos = usuarios.filter(
+        (u) =>
+          (ticket.tipo === "Sistemas" &&
+            (u.roles || []).includes("soporte")) ||
+          (ticket.tipo === "Mantenimiento" &&
+            (u.roles || []).includes("mantenimiento"))
+      );
+
+      // ---- bloque Asignar / Reasignar ----
+      let asignarHTML = "";
+      if (puedeAsignarOReasignar && candidatos.length) {
+        const actualId = ticket.asignadoA?._id || ticket.asignadoA || "";
+        const btnTxt = ticket.asignadoA ? "Reasignar" : "Asignar";
+        asignarHTML = `
+          <label class="form-label mt-2">Asignar/Reasignar a:</label>
+          <div class="input-group">
+            <select class="form-select" id="select-${ticket._id}">
+              ${candidatos
+                .map(
+                  (u) => `
+                <option value="${u._id}" ${
+                    String(u._id) === String(actualId) ? "selected" : ""
+                  }>
+                  ${u.nombre}
+                </option>`
+                )
+                .join("")}
+            </select>
+            <button type="button" class="btn btn-success" onclick="asignarTicket('${ticket._id}')">
+              ${btnTxt}
+            </button>
+          </div>
+        `;
+      }
+
+      // ---- Cerrar ticket ----
+      let cerrarHTML = "";
+      if (puedeCerrar) {
+        cerrarHTML = `
+          <button class="btn btn-danger mt-2 w-100" onclick="cerrarTicket('${ticket._id}')">
+            Cerrar ticket
+          </button>`;
+      }
+
+      // ---- Prioridad ----
+      const estaAsignado = !!ticket.asignadoA;
+      const selectorPrioridad = `
+        <label class="form-label mt-2">Prioridad:</label>
+        <div class="input-group">
+          <select class="form-select" id="prio-${ticket._id}" ${
+        !estaAsignado ? "disabled" : ""
+      }>
+            <option value="Sin prioridad" ${
+              (ticket.prioridad ?? "Sin prioridad") === "Sin prioridad"
+                ? "selected"
+                : ""
+            }>Sin prioridad</option>
+            ${["Alta", "Media", "Baja"]
+              .map(
+                (p) => `
+              <option value="${p}" ${
+                  ticket.prioridad === p ? "selected" : ""
+                }>${p}</option>`
+              )
+              .join("")}
+          </select>
+          <button class="btn btn-outline-primary" type="button"
+                  onclick="guardarPrioridad('${ticket._id}')" ${
+        !estaAsignado ? "disabled" : ""
+      }>
+            Guardar
+          </button>
+          <span class="input-group-text" id="prio-badge-${ticket._id}">
+            ${prioridadBadge(ticket.prioridad || "Sin prioridad")}
+          </span>
+        </div>
+        ${
+          !estaAsignado
+            ? '<div class="form-text text-muted">Asigna el ticket para habilitar la prioridad.</div>'
+            : ""
+        }
+      `;
+
+      // ---- Comentarios internos (resolución) ----
+      const comentariosHTML = `
+        <label class="form-label mt-3">Comentarios (internos):</label>
+        <textarea id="coment-${ticket._id}" class="form-control" rows="2"
+                  placeholder="Agrega notas, avances o cualquier comentario">${ticket.resolucion || ""}</textarea>
+        <button class="btn btn-outline-secondary mt-2 w-100"
+                onclick="guardarComentarios('${ticket._id}')">
+          Guardar comentarios
+        </button>
+      `;
+
+      // ---- Botones extra ----
+      const btnExcedido =
+        ticket.estatus !== "Cerrado"
+          ? `<button class="btn btn-outline-danger mt-2 w-100"
+                     onclick="marcarExcedido('${ticket._id}')"
+                     ${ticket.estatus === "Tiempo excedido" ? "disabled" : ""}>
+               Marcar tiempo excedido
+             </button>`
+          : "";
+
+      const btnReabrir =
+        ticket.estatus === "Cerrado" ||
+        ticket.estatus === "Tiempo excedido"
+          ? `<button class="btn btn-outline-dark mt-2 w-100"
+                     onclick="reabrirTicket('${ticket._id}')">
+               Reabrir ticket
+             </button>`
+          : "";
+
+      const btnEnProceso = puedePonerEnProceso
+        ? `<button class="btn btn-warning mt-2 w-100 text-dark"
+                   onclick="ponerEnProceso('${ticket._id}')">
+             Poner en proceso
+           </button>`
+        : "";
+
+      const estilo = estatusColor[ticket.estatus] || {
+        border: "light",
+        bg: "bg-light",
+        text: "text-dark",
+      };
+
+      div.innerHTML = `
+        <div class="card border-${estilo.border} ${estilo.bg} ${estilo.text}">
+          <div class="card-body">
+            <div class="d-flex justify-content-between align-items-start">
+              <h5 class="card-title mb-1">${ticket.tipo}</h5>
+              <div class="text-end small">
+                <div>Estatus: <strong>${ticket.estatus}</strong></div>
+                <div>Prioridad:
+                  <span id="prio-header-${ticket._id}">
+                    ${prioridadBadge(ticket.prioridad || "Sin prioridad")}
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            <p class="card-text mb-2">
+              <span class="text-muted">Folio:</span>
+              <strong>${ticket.folio || "—"}</strong><br>
+              Descripción: ${ticket.descripcion}<br>
+              Material requerido: ${ticket.requiereMaterial || "Ninguno"}<br>
+              Creado por: ${ticket.creadoPor?.nombre || "N/A"}<br>
+              Asignado a: <span id="asignado-${ticket._id}">
+                ${ticket.asignadoA?.nombre || "Sin asignar"}
+              </span><br>
+              Fecha: ${new Date(
+                ticket.fechaCreacion || ticket.createdAt
+              ).toLocaleString()}
+            </p>
+
+            ${selectorPrioridad}
+            ${asignarHTML}
+            ${comentariosHTML}
+            ${btnEnProceso}
+            ${btnExcedido}
+            ${btnReabrir}
+            ${cerrarHTML}
+          </div>
+        </div>
+      `;
+      contenedor.appendChild(div);
+    });
+  }
+
+  // ===== ASIGNAR / REASIGNAR =====
+  async function asignarTicket(id) {
+    const select = document.getElementById(`select-${id}`);
+    if (!select) return;
+
+    const boton = select.parentElement.querySelector("button");
+    if (boton) boton.disabled = true;
+
+    const userId = select.value;
+    const userName = select.options[select.selectedIndex].textContent;
+
+    try {
       const res = await fetch(`/api/tickets/${id}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`
+          Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify({ prioridad: prio })
+        body: JSON.stringify({ asignadoA: userId }),
       });
 
       const data = await res.json().catch(() => ({}));
-
-      if (!res.ok){
-        mostrarMensaje(data.mensaje || '❌ No se pudo actualizar la prioridad', 'danger');
+      if (!res.ok) {
+        mostrarMensaje(
+          data.mensaje || "❌ No se pudo asignar el ticket",
+          "danger"
+        );
         return;
       }
 
-      const badgeHost = document.getElementById(`prio-badge-${id}`);
-      if (badgeHost) {
-        badgeHost.innerHTML = prioridadBadge(prio);
-      }
+      mostrarMensaje(
+        data.mensaje || `✅ Ticket asignado / reasignado a ${userName}`,
+        "success"
+      );
 
-      const headerHost = document.getElementById(`prio-header-${id}`);
-      if (headerHost) {
-        headerHost.innerHTML = prioridadBadge(prio);
-      }
-
-      mostrarMensaje("✅ Prioridad actualizada", "success");
       await cargarTickets();
+    } catch (e) {
+      console.error(e);
+      mostrarMensaje("❌ Error al asignar el ticket", "danger");
+    } finally {
+      if (boton) boton.disabled = false;
     }
+  }
 
-    async function guardarComentarios(id){
-      const txt = (document.getElementById(`coment-${id}`).value || '').trim();
-      if (!txt){ mostrarMensaje('Escribe un comentario', 'warning'); return; }
-
-      const res = await fetch(`/api/tickets/${id}/comentarios-admin`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
-        body: JSON.stringify({ texto: txt })
-      });
-      const data = await res.json().catch(()=>({}));
-
-      if (!res.ok){ mostrarMensaje(data.mensaje || 'No se pudieron guardar los comentarios', 'danger'); return; }
-      mostrarMensaje('📝 Comentario guardado', 'success');
-      await cargarTickets();
+  // ===== Cambiar estatus: Cerrar / Reabrir / En proceso / Excedido =====
+  async function cerrarTicket(id) {
+    const res = await fetch(`/api/tickets/${id}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({ estatus: "Cerrado" }),
+    });
+    const data = await res.json().catch(() => ({}));
+    if (!res.ok) {
+      mostrarMensaje(data.mensaje || "No se pudo cerrar el ticket", "danger");
+      return;
     }
-
-    /* 🔹 CLICK EN LAS TARJETAS KPI PARA APLICAR FILTRO DE ESTATUS */
-    (function(){
-      const selectEstatus = document.getElementById('filtroEstatus');
-      const kpiCards = document.querySelectorAll('.kpi-filter');
-
-      kpiCards.forEach(card => {
-        card.addEventListener('click', () => {
-          if (!selectEstatus) return;
-          const estado = card.dataset.estado || '';
-          // Cambiamos el select al estado de la tarjeta
-          selectEstatus.value = estado;
-          // Volvemos a cargar los tickets con los filtros actuales + este estatus
-          cargarTickets();
-        });
-      });
-    })();
-
+    mostrarMensaje(data.mensaje || "✅ Ticket cerrado", "success");
     cargarTickets();
-  </script>
+  }
+
+  async function reabrirTicket(id) {
+    const res = await fetch(`/api/tickets/${id}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({ estatus: "Abierto" }),
+    });
+    const data = await res.json().catch(() => ({}));
+    if (!res.ok) {
+      mostrarMensaje(
+        data.mensaje || "No se pudo reabrir el ticket",
+        "danger"
+      );
+      return;
+    }
+    mostrarMensaje("🔓 Ticket reabierto", "success");
+    cargarTickets();
+  }
+
+  async function ponerEnProceso(id) {
+    const res = await fetch(`/api/tickets/${id}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({ estatus: "En proceso" }),
+    });
+    const data = await res.json().catch(() => ({}));
+    if (!res.ok) {
+      mostrarMensaje(
+        data.mensaje || "No se pudo poner en proceso",
+        "danger"
+      );
+      return;
+    }
+    mostrarMensaje("▶️ Ticket puesto en proceso", "success");
+    cargarTickets();
+  }
+
+  async function marcarExcedido(id) {
+    const res = await fetch(`/api/tickets/${id}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({ estatus: "Tiempo excedido" }),
+    });
+    const data = await res.json().catch(() => ({}));
+    if (!res.ok) {
+      mostrarMensaje(
+        data.mensaje || "No se pudo marcar como excedido",
+        "danger"
+      );
+      return;
+    }
+    mostrarMensaje("⏰ Ticket marcado como tiempo excedido", "warning");
+    cargarTickets();
+  }
+
+  // ===== Prioridad =====
+  async function guardarPrioridad(id) {
+    const sel = document.getElementById(`prio-${id}`);
+    const prio = sel.value || null;
+
+    const res = await fetch(`/api/tickets/${id}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({ prioridad: prio }),
+    });
+
+    const data = await res.json().catch(() => ({}));
+    if (!res.ok) {
+      mostrarMensaje(
+        data.mensaje || "❌ No se pudo actualizar la prioridad",
+        "danger"
+      );
+      return;
+    }
+
+    // Actualizamos visual (aunque luego recargamos todo)
+    const badgeHost = document.getElementById(`prio-badge-${id}`);
+    if (badgeHost) {
+      badgeHost.innerHTML = prioridadBadge(prio);
+    }
+    const headerHost = document.getElementById(`prio-header-${id}`);
+    if (headerHost) {
+      headerHost.innerHTML = prioridadBadge(prio);
+    }
+
+    mostrarMensaje("✅ Prioridad actualizada", "success");
+    await cargarTickets();
+  }
+
+  // ===== Comentarios internos (resolución) =====
+  async function guardarComentarios(id) {
+    const txt = (document.getElementById(`coment-${id}`).value || "").trim();
+    if (!txt) {
+      mostrarMensaje("Escribe un comentario", "warning");
+      return;
+    }
+
+    const res = await fetch(`/api/tickets/${id}/comentarios-admin`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({ texto: txt }),
+    });
+    const data = await res.json().catch(() => ({}));
+    if (!res.ok) {
+      mostrarMensaje(
+        data.mensaje || "No se pudieron guardar los comentarios",
+        "danger"
+      );
+      return;
+    }
+    mostrarMensaje("📝 Comentario guardado", "success");
+    await cargarTickets();
+  }
+
+  // ===== Click en tarjetas KPI para filtrar por estatus =====
+  (function () {
+    const selectEstatus = document.getElementById("filtroEstatus");
+    const kpiCards = document.querySelectorAll(".kpi-filter");
+
+    kpiCards.forEach((card) => {
+      card.style.cursor = "pointer";
+      card.addEventListener("click", () => {
+        if (!selectEstatus) return;
+        const estado = card.dataset.estado || "";
+        selectEstatus.value = estado;
+        cargarTickets();
+      });
+    });
+  })();
+
+  // ===== Carga inicial =====
+  cargarTickets();
+</script>
 
   <script src="/socket.io/socket.io.js"></script>
   <script src="js/navbar.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
-

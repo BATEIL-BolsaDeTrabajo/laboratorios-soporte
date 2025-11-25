@@ -204,13 +204,11 @@ function configurarMenuPorRoles() {
 }
 
 // ================== OBTENER USUARIO ==================
-// ================== OBTENER USUARIO ==================
 function obtenerUsuarioActual() {
   // 1) Intentar leer desde localStorage.usuario
   try {
     const u = JSON.parse(localStorage.getItem("usuario") || "null");
     if (u && u.nombre) {
-      // Si ya viene con _id o id, lo usamos tal cual
       if (!u._id && u.id) {
         u._id = u.id;
       }
@@ -234,7 +232,7 @@ function obtenerUsuarioActual() {
         null;
 
       return {
-        _id: id,  // 👈 IMPORTANTE para WebSocket
+        _id: id,
         nombre:
           payload.nombre ||
           payload.name ||
@@ -251,7 +249,6 @@ function obtenerUsuarioActual() {
 
   return null;
 }
-
 
 // ================== MOSTRAR NOMBRE + INICIAL EN NAVBAR ==================
 function mostrarUsuarioNavbar() {
@@ -274,7 +271,6 @@ function mostrarUsuarioNavbar() {
   avatar.textContent = inicial;
   liCont.style.display = "flex";
 
-
   console.log("🔎 Usuario antes de iniciar socket:", usuario);
   initSocket(usuario);
 }
@@ -295,14 +291,14 @@ function inicializarNotificaciones() {
 
   cargarSonidoNotificacion();
   cargarNotificacionesServidor();
-  refrescarNotificaciones();
+ // refrescarNotificaciones();
 
-  if (notifInterval) clearInterval(notifInterval);
-  notifInterval = setInterval(refrescarNotificaciones, 30000);
+/*  if (notifInterval) clearInterval(notifInterval);
+  notifInterval = setInterval(refrescarNotificaciones, 30000);*/
 }
 
 // Pedir tickets al backend y detectar cambios
-async function refrescarNotificaciones() {
+/*async function refrescarNotificaciones() {
   const token = localStorage.getItem("token");
   if (!token) return;
 
@@ -325,7 +321,7 @@ async function refrescarNotificaciones() {
   } catch (e) {
     console.error("Error cargando tickets para notificaciones:", e);
   }
-}
+}*/
 
 // Cargar notificaciones ya guardadas en el servidor
 async function cargarNotificacionesServidor() {
@@ -346,22 +342,25 @@ async function cargarNotificacionesServidor() {
 
     const data = await res.json();
 
-    notifLista = data.map((n) => {
-      const fechaTxt = new Date(n.fecha).toLocaleString("es-MX", {
-        year: "2-digit",
-        month: "2-digit",
-        day: "2-digit",
-        hour: "2-digit",
-        minute: "2-digit",
-      });
+    // 👇 Solo mostrar asignado o prioridad
+    notifLista = data
+      .filter((n) => n.tipo === "asignado" || n.tipo === "prioridad")
+      .map((n) => {
+        const fechaTxt = new Date(n.fecha).toLocaleString("es-MX", {
+          year: "2-digit",
+          month: "2-digit",
+          day: "2-digit",
+          hour: "2-digit",
+          minute: "2-digit",
+        });
 
-      return {
-        titulo: n.titulo,
-        fecha: fechaTxt,
-        tipo: n.tipo || "general",
-        leida: !!n.leida,
-      };
-    });
+        return {
+          titulo: n.titulo,
+          fecha: fechaTxt,
+          tipo: n.tipo || "general",
+          leida: !!n.leida,
+        };
+      });
 
     renderNotificaciones();
   } catch (err) {
@@ -370,7 +369,21 @@ async function cargarNotificacionesServidor() {
 }
 
 // Detectar nuevos tickets o cambios de prioridad
+
 function procesarCambiosTickets(lista) {
+  const nuevaFoto = lista.map((t) => ({
+    id: String(t._id),
+    prioridad: t.prioridad || "Sin prioridad",
+  }));
+
+  // Solo actualizamos el snapshot para futuras comparaciones si quieres
+  notifTicketsPrev = nuevaFoto;
+}
+
+
+
+
+/*function procesarCambiosTickets(lista) {
   const nuevaFoto = lista.map((t) => ({
     id: String(t._id),
     prioridad: t.prioridad || "Sin prioridad",
@@ -394,6 +407,7 @@ function procesarCambiosTickets(lista) {
     const prioridadActual = t.prioridad || "Sin prioridad";
 
     if (!prev) {
+      // Nuevo ticket: se crea notificación tipo "nuevo" (no se mostrará en la UI)
       const titulo = `Nuevo ticket (${t.tipo || "—"}) - ${
         (t.folio || t.descripcion || "Sin folio").toString().slice(0, 60)
       }`;
@@ -402,6 +416,7 @@ function procesarCambiosTickets(lista) {
     }
 
     if (prev.prioridad !== prioridadActual) {
+      // Cambio de prioridad: SÍ se mostrará
       const titulo = `Prioridad cambiada a ${prioridadActual} – ${
         (t.folio || t.descripcion || "Ticket").toString().slice(0, 60)
       }`;
@@ -435,9 +450,16 @@ function procesarCambiosTickets(lista) {
     });
   });
 
+  // Insertar nuevas notificaciones en la lista
   notifLista = [...nuevasNotifs, ...notifLista];
+
+  // 👇 Solo mantener asignado y prioridad en la UI
+  notifLista = notifLista.filter(
+    (n) => n.tipo === "asignado" || n.tipo === "prioridad"
+  );
+
   renderNotificaciones();
-}
+}*/
 
 // Crear objeto notificación
 function crearNotificacion(titulo, tipo = "general") {
@@ -489,6 +511,8 @@ function renderNotificaciones() {
       let icono = "🔔";
       if (n.tipo === "nuevo") icono = "🆕";
       else if (n.tipo === "prioridad") icono = "⚠️";
+      else if (n.tipo === "asignado") icono = "📌";
+      else if (n.tipo === "resuelto") icono = "✅";
 
       html += `
         <li>
@@ -594,7 +618,6 @@ function initSocket(usuario) {
   socket.on("nuevaNotificacion", (notif) => {
     console.log("🔔 Notificación en vivo:", notif);
 
-    // Normalizar al mismo formato que usas en notifLista
     const fechaTxt = new Date(notif.fecha).toLocaleString("es-MX", {
       year: "2-digit",
       month: "2-digit",
@@ -612,8 +635,11 @@ function initSocket(usuario) {
 
     // Insertar al inicio
     notifLista.unshift(normalizada);
-    // Si quieres limitar a las últimas 50:
-    // notifLista = notifLista.slice(0, 50);
+
+    // 👇 Solo mantener asignado y prioridad
+    /*notifLista = notifLista.filter(
+      (n) => n.tipo === "asignado" || n.tipo === "prioridad"
+    );*/
 
     // Actualizar UI y efectos
     renderNotificaciones();
