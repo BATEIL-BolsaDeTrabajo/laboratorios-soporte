@@ -189,8 +189,13 @@ router.get('/asignables', verifyToken, verifyRole(['admin', 'finanzas']), async 
 router.put('/:id', verifyToken, async (req, res) => {
   try {
     const {
-      estatus, requiereMaterial, resolucion,
-      asignar, asignadoA, prioridad, comentario
+      estatus,
+      requiereMaterial,
+      resolucion,
+      asignar,
+      asignadoA,
+      prioridad,
+      comentario
     } = req.body;
 
     const ticket = await Ticket.findById(req.params.id);
@@ -198,8 +203,9 @@ router.put('/:id', verifyToken, async (req, res) => {
 
     const io = req.app.get('io');
 
-    // Guardar asignado ANTES para detectar cambios
+    // Guardar asignado ANTES para detectar cambios de asignación
     const asignadoAntes = ticket.asignadoA ? ticket.asignadoA.toString() : null;
+    const prioridadAntes = ticket.prioridad || 'Sin prioridad';
 
     const anterior = ticket.estatus;
     const ahora = new Date();
@@ -214,14 +220,18 @@ router.put('/:id', verifyToken, async (req, res) => {
     const puedeTrabajar = roles.some(r => ['soporte', 'mantenimiento', 'admin'].includes(r));
 
     let cambioAResuelto = false;
-
-    // 🔹 Para saber si cambió la prioridad
     let cambioDePrioridad = false;
-    const prioridadAntes = ticket.prioridad || 'Sin prioridad';
 
     // === Manejo de estatus y fechas ===
     if (estatus) {
-      const estatusValidos = ['Abierto', 'En proceso', 'En espera de material', 'Resuelto', 'Tiempo excedido', 'Cerrado'];
+      const estatusValidos = [
+        'Abierto',
+        'En proceso',
+        'En espera de material',
+        'Resuelto',
+        'Tiempo excedido',
+        'Cerrado'
+      ];
       if (!estatusValidos.includes(estatus)) {
         return res.status(400).json({ mensaje: 'Estatus inválido.' });
       }
@@ -231,7 +241,9 @@ router.put('/:id', verifyToken, async (req, res) => {
       }
       if (estatus === 'En espera de material') {
         if (!requiereMaterial || !String(requiereMaterial).trim()) {
-          return res.status(400).json({ mensaje: 'Debes indicar el material requerido para poner el ticket en espera.' });
+          return res.status(400).json({
+            mensaje: 'Debes indicar el material requerido para poner el ticket en espera.'
+          });
         }
         ticket.fechaPausa = ahora;
       }
@@ -256,12 +268,17 @@ router.put('/:id', verifyToken, async (req, res) => {
         if (estatus === 'Resuelto') cambioAResuelto = true;
 
         pushHistorial(ticket, {
-          usuarioId, usuarioNombre,
-          de: anterior, a: estatus,
+          usuarioId,
+          usuarioNombre,
+          de: anterior,
+          a: estatus,
           comentario: comentario || undefined,
-          requiereMaterial: estatus === 'En espera de material' ? (requiereMaterial || '') : undefined,
-          resolucion: (estatus === 'Resuelto' || estatus === 'Cerrado') ? (resolucion || '') : undefined
+          requiereMaterial:
+            estatus === 'En espera de material' ? (requiereMaterial || '') : undefined,
+          resolucion:
+            estatus === 'Resuelto' || estatus === 'Cerrado' ? (resolucion || '') : undefined
         });
+
         ticket.estatus = estatus;
       }
     }
@@ -271,13 +288,17 @@ router.put('/:id', verifyToken, async (req, res) => {
       const ok = ['Alta', 'Media', 'Baja', 'Sin prioridad'].includes(prioridad);
       if (!ok) return res.status(400).json({ mensaje: 'Prioridad inválida' });
 
-      if (ticket.prioridad !== prioridad) {
+      if ((ticket.prioridad || 'Sin prioridad') !== prioridad) {
         cambioDePrioridad = true;
+
         pushHistorial(ticket, {
-          usuarioId, usuarioNombre,
-          de: ticket.estatus, a: ticket.estatus,
-          comentario: `Cambio de prioridad: ${ticket.prioridad || 'N/D'} → ${prioridad}`
+          usuarioId,
+          usuarioNombre,
+          de: ticket.estatus,
+          a: ticket.estatus,
+          comentario: `Cambio de prioridad: ${prioridadAntes} → ${prioridad}`
         });
+
         ticket.prioridad = prioridad;
       }
     }
@@ -286,30 +307,41 @@ router.put('/:id', verifyToken, async (req, res) => {
     if (puedeTrabajar) {
       if (typeof requiereMaterial !== 'undefined' && requiereMaterial !== ticket.requiereMaterial) {
         pushHistorial(ticket, {
-          usuarioId, usuarioNombre,
-          de: ticket.estatus, a: ticket.estatus,
+          usuarioId,
+          usuarioNombre,
+          de: ticket.estatus,
+          a: ticket.estatus,
           comentario: 'Actualización de material requerido',
           requiereMaterial
         });
         ticket.requiereMaterial = requiereMaterial;
       }
+
       if (typeof resolucion !== 'undefined' && resolucion !== ticket.resolucion) {
         pushHistorial(ticket, {
-          usuarioId, usuarioNombre,
-          de: ticket.estatus, a: ticket.estatus,
+          usuarioId,
+          usuarioNombre,
+          de: ticket.estatus,
+          a: ticket.estatus,
           comentario: 'Actualización de resolución',
           resolucion
         });
         ticket.resolucion = resolucion;
       }
+
+      // Auto-asignarse (soporte/mant/admin)
       if (asignar) {
         if (['Cerrado', 'Resuelto'].includes(ticket.estatus)) {
-          return res.status(400).json({ mensaje: 'No puedes asignarte un ticket cerrado o resuelto.' });
+          return res.status(400).json({
+            mensaje: 'No puedes asignarte un ticket cerrado o resuelto.'
+          });
         }
         if (!ticket.asignadoA || String(ticket.asignadoA) !== String(usuarioId)) {
           pushHistorial(ticket, {
-            usuarioId, usuarioNombre,
-            de: ticket.estatus, a: ticket.estatus,
+            usuarioId,
+            usuarioNombre,
+            de: ticket.estatus,
+            a: ticket.estatus,
             comentario: 'Auto-asignación al usuario'
           });
         }
@@ -317,23 +349,33 @@ router.put('/:id', verifyToken, async (req, res) => {
       }
     }
 
-    // === Asignación directa (panel admin) ===
+    // === Asignación directa (panel admin: admin / finanzas) ===
     if (asignadoA && String(asignadoA) !== String(ticket.asignadoA || '')) {
       pushHistorial(ticket, {
-        usuarioId, usuarioNombre,
-        de: ticket.estatus, a: ticket.estatus,
+        usuarioId,
+        usuarioNombre,
+        de: ticket.estatus,
+        a: ticket.estatus,
         comentario: `Asignado a usuario ${asignadoA}`
       });
       ticket.asignadoA = asignadoA;
     }
 
     // === Comentario “solo” (sin otros cambios) ===
-    if (comentario && !estatus && typeof prioridad === 'undefined'
-      && typeof requiereMaterial === 'undefined' && typeof resolucion === 'undefined'
-      && !asignar && !asignadoA) {
+    const noHayCambiosExtra =
+      !estatus &&
+      typeof prioridad === 'undefined' &&
+      typeof requiereMaterial === 'undefined' &&
+      typeof resolucion === 'undefined' &&
+      !asignar &&
+      !asignadoA;
+
+    if (comentario && noHayCambiosExtra) {
       pushHistorial(ticket, {
-        usuarioId, usuarioNombre,
-        de: ticket.estatus, a: ticket.estatus,
+        usuarioId,
+        usuarioNombre,
+        de: ticket.estatus,
+        a: ticket.estatus,
         comentario
       });
     }
@@ -341,13 +383,20 @@ router.put('/:id', verifyToken, async (req, res) => {
     // Guardar cambios en el ticket
     await ticket.save();
 
-    // 🔔 Notificar a admin / finanzas si un ticket se marca como RESUELTO
+    // ==========================================
+    //   Notificación a admin / finanzas si RESUELTO
+    // ==========================================
     if (cambioAResuelto && esSoporteOMantenimiento) {
-      const tituloNotif = `Ticket resuelto (${ticket.tipo || '—'}) - ${ticket.folio || ticket.descripcion || 'Sin folio'}`;
+      const tituloNotif = `Ticket resuelto (${ticket.tipo || '—'}) - ${
+        ticket.folio || ticket.descripcion || 'Sin folio'
+      }`;
       await notificarAdminsFinanzas(io, tituloNotif, 'resuelto');
     }
 
-    // 🔔 Notificación de cambio de prioridad SOLO a soporte/mantenimiento asignado
+    // ==========================================
+    //   Notificación de cambio de prioridad
+    //   (solo al técnico asignado con rol soporte/mantenimiento)
+    // ==========================================
     if (cambioDePrioridad && ticket.asignadoA) {
       try {
         const tecnico = await User.findById(ticket.asignadoA, 'roles rol');
@@ -358,12 +407,16 @@ router.put('/:id', verifyToken, async (req, res) => {
           .filter(Boolean)
           .map(r => String(r).toLowerCase());
 
-        const esTecSoporteOMant = rolesTec.some(r => ['soporte', 'mantenimiento'].includes(r));
+        const esTecSoporteOMant = rolesTec.some(r =>
+          ['soporte', 'mantenimiento'].includes(r)
+        );
 
         if (esTecSoporteOMant) {
           const notifDoc = await Notification.create({
             usuario: ticket.asignadoA,
-            titulo: `Prioridad cambiada a ${ticket.prioridad} – ${ticket.folio || ticket.descripcion || 'Ticket'}`,
+            titulo: `Prioridad cambiada a ${ticket.prioridad} – ${
+              (ticket.folio || ticket.descripcion || 'Ticket').toString().slice(0, 60)
+            }`,
             tipo: 'prioridad'
           });
 
@@ -389,35 +442,41 @@ router.put('/:id', verifyToken, async (req, res) => {
       }
     }
 
-    // ============================
-    //   NOTIFICACIÓN POR ASIGNACIÓN (para el asignado)
-    // ============================
+    // ==========================================
+    //   Notificación por ASIGNACIÓN al usuario asignado
+    // ==========================================
     const asignadoNuevo = ticket.asignadoA ? ticket.asignadoA.toString() : null;
 
     if (asignadoNuevo && asignadoNuevo !== asignadoAntes) {
-      const notifDoc = await Notification.create({
-        usuario: asignadoNuevo,
-        titulo: `Se te asignó un ticket (${ticket.tipo || '—'}) - ${ticket.folio || ticket.descripcion || 'Sin folio'}`,
-        tipo: 'asignado'
-      });
-
-      if (io) {
-        const fechaTxt = new Date(notifDoc.fecha).toLocaleString('es-MX', {
-          year: '2-digit',
-          month: '2-digit',
-          day: '2-digit',
-          hour: '2-digit',
-          minute: '2-digit'
+      try {
+        const notifDoc = await Notification.create({
+          usuario: asignadoNuevo,
+          titulo: `Se te asignó un ticket (${ticket.tipo || '—'}) - ${
+            ticket.folio || ticket.descripcion || 'Sin folio'
+          }`,
+          tipo: 'asignado'
         });
 
-        const payload = {
-          titulo: notifDoc.titulo,
-          fecha: fechaTxt,
-          tipo: notifDoc.tipo || 'asignado',
-          leida: false
-        };
+        if (io) {
+          const fechaTxt = new Date(notifDoc.fecha).toLocaleString('es-MX', {
+            year: '2-digit',
+            month: '2-digit',
+            day: '2-digit',
+            hour: '2-digit',
+            minute: '2-digit'
+          });
 
-        io.to(`user:${asignadoNuevo}`).emit('nuevaNotificacion', payload);
+          const payload = {
+            titulo: notifDoc.titulo,
+            fecha: fechaTxt,
+            tipo: notifDoc.tipo || 'asignado',
+            leida: false
+          };
+
+          io.to(`user:${asignadoNuevo}`).emit('nuevaNotificacion', payload);
+        }
+      } catch (e) {
+        console.error('Error creando notificación de asignación:', e);
       }
     }
 

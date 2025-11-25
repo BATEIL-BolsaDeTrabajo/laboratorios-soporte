@@ -276,8 +276,8 @@ function mostrarUsuarioNavbar() {
 }
 
 // ================== NOTIFICACIONES TICKETS ==================
-let notifTicketsPrev = null;
 let notifLista = [];
+let notifTicketsPrev = null;
 let notifInterval = null;
 let notifSound = null;
 let socket = null;
@@ -291,37 +291,11 @@ function inicializarNotificaciones() {
 
   cargarSonidoNotificacion();
   cargarNotificacionesServidor();
- // refrescarNotificaciones();
 
-/*  if (notifInterval) clearInterval(notifInterval);
-  notifInterval = setInterval(refrescarNotificaciones, 30000);*/
-}
-
-// Pedir tickets al backend y detectar cambios
-/*async function refrescarNotificaciones() {
-  const token = localStorage.getItem("token");
-  if (!token) return;
-
-  try {
-    const res = await fetch("/api/tickets", {
-      headers: { Authorization: `Bearer ${token}` },
-    });
-
-    if (!res.ok) {
-      if (res.status === 401 || res.status === 403) {
-        if (notifInterval) clearInterval(notifInterval);
-      }
-      return;
-    }
-
-    const lista = await res.json();
-    if (!Array.isArray(lista)) return;
-
-    procesarCambiosTickets(lista);
-  } catch (e) {
-    console.error("Error cargando tickets para notificaciones:", e);
-  }
-}*/
+  // 🔁 Refrescar cada 30 segundos para cargar notificaciones guardadas
+  if (notifInterval) clearInterval(notifInterval);
+  notifInterval = setInterval(cargarNotificacionesServidor, 30000);
+}   // 👈 ESTA LLAVE FALTABA
 
 // Cargar notificaciones ya guardadas en el servidor
 async function cargarNotificacionesServidor() {
@@ -342,25 +316,48 @@ async function cargarNotificacionesServidor() {
 
     const data = await res.json();
 
-    // 👇 Solo mostrar asignado o prioridad
-    notifLista = data
-      .filter((n) => n.tipo === "asignado" || n.tipo === "prioridad")
-      .map((n) => {
-        const fechaTxt = new Date(n.fecha).toLocaleString("es-MX", {
-          year: "2-digit",
-          month: "2-digit",
-          day: "2-digit",
-          hour: "2-digit",
-          minute: "2-digit",
-        });
+    // 👇 Sacamos roles del usuario actual
+    const roles = obtenerRolesDesdeStorageOToken();
+    const esAdminLike =
+      roles.includes("admin") || roles.includes("finanzas");
+    const esTecLike =
+      roles.includes("soporte") || roles.includes("mantenimiento");
 
-        return {
-          titulo: n.titulo,
-          fecha: fechaTxt,
-          tipo: n.tipo || "general",
-          leida: !!n.leida,
-        };
-      });
+    let tiposPermitidos = [];
+
+    // Admin / Finanzas → nuevo + resuelto
+    if (esAdminLike) {
+      tiposPermitidos.push("nuevo", "resuelto");
+    }
+
+    // Soporte / Mantenimiento → asignado + prioridad
+    if (esTecLike) {
+      tiposPermitidos.push("asignado", "prioridad");
+    }
+
+    // Si por alguna razón no tiene ninguno de esos roles
+    if (!tiposPermitidos.length) {
+      notifLista = [];
+    } else {
+      notifLista = data
+        .filter((n) => tiposPermitidos.includes(n.tipo))
+        .map((n) => {
+          const fechaTxt = new Date(n.fecha).toLocaleString("es-MX", {
+            year: "2-digit",
+            month: "2-digit",
+            day: "2-digit",
+            hour: "2-digit",
+            minute: "2-digit",
+          });
+
+          return {
+            titulo: n.titulo,
+            fecha: fechaTxt,
+            tipo: n.tipo || "general",
+            leida: !!n.leida,
+          };
+        });
+    }
 
     renderNotificaciones();
   } catch (err) {
@@ -381,85 +378,6 @@ function procesarCambiosTickets(lista) {
 }
 
 
-
-
-/*function procesarCambiosTickets(lista) {
-  const nuevaFoto = lista.map((t) => ({
-    id: String(t._id),
-    prioridad: t.prioridad || "Sin prioridad",
-  }));
-
-  if (!notifTicketsPrev) {
-    notifTicketsPrev = nuevaFoto;
-    return;
-  }
-
-  const mapaPrev = {};
-  notifTicketsPrev.forEach((t) => {
-    mapaPrev[t.id] = t;
-  });
-
-  const nuevasNotifs = [];
-
-  lista.forEach((t) => {
-    const id = String(t._id);
-    const prev = mapaPrev[id];
-    const prioridadActual = t.prioridad || "Sin prioridad";
-
-    if (!prev) {
-      // Nuevo ticket: se crea notificación tipo "nuevo" (no se mostrará en la UI)
-      const titulo = `Nuevo ticket (${t.tipo || "—"}) - ${
-        (t.folio || t.descripcion || "Sin folio").toString().slice(0, 60)
-      }`;
-      nuevasNotifs.push(crearNotificacion(titulo, "nuevo"));
-      return;
-    }
-
-    if (prev.prioridad !== prioridadActual) {
-      // Cambio de prioridad: SÍ se mostrará
-      const titulo = `Prioridad cambiada a ${prioridadActual} – ${
-        (t.folio || t.descripcion || "Ticket").toString().slice(0, 60)
-      }`;
-      nuevasNotifs.push(crearNotificacion(titulo, "prioridad"));
-    }
-  });
-
-  notifTicketsPrev = nuevaFoto;
-
-  if (!nuevasNotifs.length) return;
-
-  reproducirSonidoNotificacion();
-  animarCampanita();
-
-  const token = localStorage.getItem("token");
-
-  nuevasNotifs.forEach((n) => {
-    if (!token) return;
-    fetch("/api/notifications", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-      body: JSON.stringify({
-        titulo: n.titulo,
-        tipo: n.tipo || "general",
-      }),
-    }).catch((err) => {
-      console.debug("Error al enviar notificación al servidor", err);
-    });
-  });
-
-  // Insertar nuevas notificaciones en la lista
-  notifLista = [...nuevasNotifs, ...notifLista];
-
-  // 👇 Solo mantener asignado y prioridad en la UI
-  notifLista = notifLista.filter(
-    (n) => n.tipo === "asignado" || n.tipo === "prioridad"
-  );
-
-  renderNotificaciones();
-}*/
 
 // Crear objeto notificación
 function crearNotificacion(titulo, tipo = "general") {
