@@ -76,6 +76,7 @@ function configurarMenuPorRoles() {
       "item-docente-header",
       "item-docente-crear",
       "item-docente-reservar",
+      "item-docente-mistickets",
       "item-docente-mis",
       "item-docente-divider",
     ]);
@@ -133,6 +134,8 @@ function configurarMenuPorRoles() {
       "item-rrhh-header",
       "item-rrhh-solicitudes",
       "item-rrhh-ticketsoporte",
+      "item-direccion-mistickets",  
+      "item-rrhh-mistickets", 
       "item-rrhh-gestiondias",
       "item-rrhh-histDiasyTiempo",
       "item-rrhh-RegistrarUsuario",
@@ -146,6 +149,7 @@ function configurarMenuPorRoles() {
     show([
       "item-direccion-header",
       "item-direccion-crear",
+      "item-direccion-mistickets",
       "item-direccion-panelCalificaciones",
       "item-direccion-subirCalificaciones",
       "item-direccion-historial",
@@ -159,6 +163,7 @@ function configurarMenuPorRoles() {
     show([
       "item-subdireccion-header",
       "item-subdireccion-crear",
+      "item-subdireccion-mistickets",  
       "item-subdireccion-revision",
       "item-subdireccion-tiempo",
       "item-subdireccion-soltxt",
@@ -176,6 +181,7 @@ function configurarMenuPorRoles() {
       "item-finanzas-header",
       "item-finanzas-dashboard",
       "item-finanzas-crear",
+      "item-finanzas-mistickets", 
       "item-finanzas-tickets",
       "item-finanzas-revision",
       "item-finanzas-tiempo",
@@ -191,6 +197,7 @@ function configurarMenuPorRoles() {
     show([
       "item-coordinacionD-header",
       "item-coordinacionD-crear",
+      "item-coordinacionD-mistickets",
       "item-coordinacionD-reservas",
       "item-coordinacionD-divider",
     ]);

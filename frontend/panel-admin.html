@@ -121,6 +121,39 @@
     <div id="tickets" class="row g-3"></div>
   </div>
 
+
+  <!-- Modal comentarios admin -->
+<div class="modal fade" id="modalComentarios" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="comentarios-titulo">Comentarios</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+      </div>
+      <div class="modal-body">
+        <div class="table-responsive">
+          <table class="table table-sm table-bordered">
+            <thead class="table-light">
+              <tr>
+                <th style="width:180px">Fecha</th>
+                <th style="width:220px">Usuario</th>
+                <th>Comentario</th>
+              </tr>
+            </thead>
+            <tbody id="comentarios-tbody">
+              <tr><td colspan="3" class="text-center text-muted">Sin comentarios.</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
  <script>
   const token = localStorage.getItem("token");
   if (!token) window.location.href = "login.html";
@@ -143,6 +176,27 @@
     const map = { Alta: "danger", Media: "warning", Baja: "primary" };
     return `<span class="badge bg-${map[p] || "secondary"}">${p}</span>`;
   };
+
+  // ===== Texto de ubicación (igual que en panel-soporte) =====
+  function textoUbicacion(ticket) {
+    const tipo = (ticket.tipo || "").toLowerCase();
+    const subtipo = (ticket.subtipo || "").toLowerCase();
+
+    if (tipo === "sistemas") {
+      if (subtipo === "laboratorio") {
+        const eq = ticket.equipo ? ` • Equipo: ${ticket.equipo}` : "";
+        return `Laboratorio: ${ticket.laboratorio || "—"}${eq}`;
+      }
+      return `Ubicación: ${ticket.ubicacion || "—"}`;
+    }
+
+    if (tipo === "mantenimiento") {
+      return `Salón/Área: ${ticket.salon || "—"}`;
+    }
+
+    return "";
+  }
+
 
   // ===== Estado global =====
   let usuarios = [];
@@ -286,14 +340,6 @@
         `;
       }
 
-      // ---- Cerrar ticket ----
-      let cerrarHTML = "";
-      if (puedeCerrar) {
-        cerrarHTML = `
-          <button class="btn btn-danger mt-2 w-100" onclick="cerrarTicket('${ticket._id}')">
-            Cerrar ticket
-          </button>`;
-      }
 
       // ---- Prioridad ----
       const estaAsignado = !!ticket.asignadoA;
@@ -339,16 +385,35 @@
         <label class="form-label mt-3">Comentarios (internos):</label>
         <textarea id="coment-${ticket._id}" class="form-control" rows="2"
                   placeholder="Agrega notas, avances o cualquier comentario">${ticket.resolucion || ""}</textarea>
-        <button class="btn btn-outline-secondary mt-2 w-100"
+      `;
+
+
+      // ---- Botones extra (estilo panel-soporte) ----
+      const btnGuardarComentarios = `
+        <button class="btn btn-outline-secondary flex-fill"
                 onclick="guardarComentarios('${ticket._id}')">
           Guardar comentarios
         </button>
       `;
 
-      // ---- Botones extra ----
+      const btnVerComentarios = `
+        <button class="btn btn-dark flex-fill"
+                onclick="verComentarios('${ticket._id}', '${ticket.folio || ""}', '${ticket.tipo || ""}')">
+          Comentarios
+        </button>
+      `;
+
+
+      const btnEnProceso = puedePonerEnProceso
+        ? `<button class="btn btn-warning flex-fill text-dark"
+                   onclick="ponerEnProceso('${ticket._id}')">
+             Poner en proceso
+           </button>`
+        : "";
+
       const btnExcedido =
         ticket.estatus !== "Cerrado"
-          ? `<button class="btn btn-outline-danger mt-2 w-100"
+          ? `<button class="btn btn-outline-danger flex-fill"
                      onclick="marcarExcedido('${ticket._id}')"
                      ${ticket.estatus === "Tiempo excedido" ? "disabled" : ""}>
                Marcar tiempo excedido
@@ -358,24 +423,39 @@
       const btnReabrir =
         ticket.estatus === "Cerrado" ||
         ticket.estatus === "Tiempo excedido"
-          ? `<button class="btn btn-outline-dark mt-2 w-100"
+          ? `<button class="btn btn-outline-dark flex-fill"
                      onclick="reabrirTicket('${ticket._id}')">
                Reabrir ticket
              </button>`
           : "";
 
-      const btnEnProceso = puedePonerEnProceso
-        ? `<button class="btn btn-warning mt-2 w-100 text-dark"
-                   onclick="ponerEnProceso('${ticket._id}')">
-             Poner en proceso
-           </button>`
-        : "";
+      let btnCerrar = "";
+      if (puedeCerrar) {
+        btnCerrar = `
+          <button class="btn btn-danger flex-fill"
+                  onclick="cerrarTicket('${ticket._id}')">
+            Cerrar ticket
+          </button>`;
+      }
+
+      // 🔴 NUEVO: botón eliminar
+      const btnEliminar = `
+        <button class="btn btn-outline-light flex-fill"
+                onclick="eliminarTicket('${ticket._id}')">
+          Eliminar ticket
+        </button>
+      `;
+
 
       const estilo = estatusColor[ticket.estatus] || {
         border: "light",
         bg: "bg-light",
         text: "text-dark",
       };
+
+
+       const ubicacionTexto = textoUbicacion(ticket);
+
 
       div.innerHTML = `
         <div class="card border-${estilo.border} ${estilo.bg} ${estilo.text}">
@@ -395,6 +475,7 @@
             <p class="card-text mb-2">
               <span class="text-muted">Folio:</span>
               <strong>${ticket.folio || "—"}</strong><br>
+              ${ubicacionTexto ? `${ubicacionTexto}<br>` : ""}
               Descripción: ${ticket.descripcion}<br>
               Material requerido: ${ticket.requiereMaterial || "Ninguno"}<br>
               Creado por: ${ticket.creadoPor?.nombre || "N/A"}<br>
@@ -406,13 +487,20 @@
               ).toLocaleString()}
             </p>
 
+
             ${selectorPrioridad}
             ${asignarHTML}
             ${comentariosHTML}
-            ${btnEnProceso}
-            ${btnExcedido}
-            ${btnReabrir}
-            ${cerrarHTML}
+
+            <div class="d-flex flex-wrap gap-2 mt-3">
+              ${btnGuardarComentarios}
+              ${btnEnProceso}
+              ${btnExcedido}
+              ${btnReabrir}
+              ${btnCerrar}
+              ${btnEliminar}
+              ${btnVerComentarios}
+            </div>
           </div>
         </div>
       `;
@@ -546,6 +634,42 @@
     cargarTickets();
   }
 
+
+  // ===== Eliminar ticket =====
+async function eliminarTicket(id) {
+  if (!confirm("¿Seguro que deseas eliminar este ticket? Esta acción no se puede deshacer.")) {
+    return;
+  }
+
+  try {
+    const res = await fetch(`/api/tickets/${id}`, {
+      method: "DELETE",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    const data = await res.json().catch(() => ({}));
+
+    if (!res.ok) {
+      mostrarMensaje(
+        data.mensaje || data.error || "No se pudo eliminar el ticket",
+        "danger"
+      );
+      return;
+    }
+
+    mostrarMensaje(data.mensaje || "🗑️ Ticket eliminado", "success");
+    cargarTickets();
+  } catch (e) {
+    console.error(e);
+    mostrarMensaje("❌ Error al eliminar el ticket", "danger");
+  }
+}
+
+
+
+
   // ===== Prioridad =====
   async function guardarPrioridad(id) {
     const sel = document.getElementById(`prio-${id}`);
@@ -626,6 +750,63 @@
       });
     });
   })();
+
+  function fmtFecha(dt) {
+  if (!dt) return "—";
+  const d = new Date(dt);
+  return d.toLocaleString("es-MX", {
+    year: "2-digit",
+    month: "2-digit",
+    day: "2-digit",
+    hour: "2-digit",
+    minute: "2-digit",
+  });
+}
+
+// ===== Ver comentarios (internos) en modal =====
+async function verComentarios(id, folio = "", tipo = "") {
+  try {
+    const res = await fetch(`/api/tickets/${id}/comentarios-admin`, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+
+    if (!res.ok) {
+      mostrarMensaje("No se pudieron cargar los comentarios", "danger");
+      return;
+    }
+
+    const rows = await res.json();
+
+    const titulo = document.getElementById("comentarios-titulo");
+    if (titulo) {
+      titulo.textContent = `Comentarios – ${folio || "Folio —"} (${tipo || "—"})`;
+    }
+
+    const tb = document.getElementById("comentarios-tbody");
+    if (!rows.length) {
+      tb.innerHTML = `<tr><td colspan="3" class="text-center text-muted">Sin comentarios.</td></tr>`;
+    } else {
+      tb.innerHTML = rows
+        .map(
+          (c) => `
+        <tr>
+          <td>${fmtFecha(c.fecha)}</td>
+          <td>${c.usuarioNombre || "—"}</td>
+          <td style="white-space:pre-wrap">${(c.texto || "").trim()}</td>
+        </tr>`
+        )
+        .join("");
+    }
+
+    const el = document.getElementById("modalComentarios");
+    const modal = new bootstrap.Modal(el);
+    modal.show();
+  } catch (e) {
+    console.error(e);
+    mostrarMensaje("Error al cargar comentarios", "danger");
+  }
+}
+
 
   // ===== Carga inicial =====
   cargarTickets();

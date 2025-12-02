@@ -580,6 +580,36 @@ router.get('/historial', verifyToken, async (req, res) => {
   }
 });
 
+
+//-------------------------------------------------------------
+//  MIS TICKETS (usuario ve solo los suyos)
+//-------------------------------------------------------------
+router.get('/mis-tickets', verifyToken, async (req, res) => {
+  try {
+    const userId = req.usuario.id; // viene del token
+
+    const tickets = await Ticket.find(
+      { creadoPor: userId },    // SOLO los tickets creados por el usuario
+      {
+        folio: 1,
+        tipo: 1,    
+        estatus: 1,
+        fechaCreacion: 1,
+        fechaInicio: 1,
+        fechaCierre: 1,
+        descripcion: 1
+      }
+    ).sort({ fechaCreacion: -1 });
+
+    return res.json({ ok: true, tickets });
+  } catch (error) {
+    console.error('GET /mis-tickets error:', error);
+    res.status(500).json({ ok: false, mensaje: 'Error al obtener tus tickets.' });
+  }
+});
+
+
+
 /* ========= Get ticket para encabezado del modal ========= */
 router.get('/:id', verifyToken, async (req, res) => {
   try {
@@ -665,5 +695,35 @@ router.get('/', verifyToken, async (req, res) => {
     res.status(500).json({ mensaje: 'Error al obtener tickets' });
   }
 });
+
+// Eliminar ticket
+// Eliminar ticket (solo admin / finanzas)
+router.delete('/:id', verifyToken, verifyRole(['admin', 'finanzas']), async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const ticket = await Ticket.findById(id);
+    if (!ticket) {
+      return res.status(404).json({ mensaje: 'Ticket no encontrado' });
+    }
+
+    // Guardamos info para la notificación ANTES de borrar
+    const tipoTicket  = ticket.tipo || '—';
+    const folioTicket = ticket.folio || ticket.descripcion || 'Sin folio';
+
+    await ticket.deleteOne();
+
+    // 🔔 Notificar a admins/finanzas que se eliminó un ticket
+    const io = req.app.get('io');
+    const tituloNotif = `Ticket eliminado (${tipoTicket}) - ${folioTicket}`;
+    await notificarAdminsFinanzas(io, tituloNotif, 'eliminado');
+
+    return res.json({ mensaje: 'Ticket eliminado correctamente' });
+  } catch (err) {
+    console.error('Error al eliminar ticket:', err);
+    return res.status(500).json({ mensaje: 'Error interno al eliminar el ticket' });
+  }
+});
+
 
 module.exports = router;

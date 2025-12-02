@@ -355,16 +355,22 @@
     const fmtPromedio = (ms)=>{ if(!ms||!isFinite(ms))return"--";const m=Math.round(ms/60000);return `${Math.floor(m/60)}h ${m%60}m`;};
 
     function calcKPIs(tickets){
-      const by = s => tickets.filter(t=>t.estatus===s).length;
+      const by = s => tickets.filter(t => esMismoEstatus(t.estatus, s)).length;
+
       const total     = tickets.length;
       const abiertos  = by("Abierto");
       const proceso   = by("En proceso");
       const espera    = by("En espera de material");
       const resueltos = by("Resuelto");
-      const excedido  = by("Tiempo excedido");
+      const excedido  = tickets.filter(t => esTicketExcedido(t)).length;
       const cerrados  = by("Cerrado");
 
-      const term = tickets.filter(t => t.fechaCierre || t.estatus==="Cerrado" || t.estatus==="Resuelto");
+      const term = tickets.filter(t =>
+        t.fechaCierre ||
+        esMismoEstatus(t.estatus,"Cerrado") ||
+        esMismoEstatus(t.estatus,"Resuelto")
+      );
+
       let prom = 0;
       if (term.length){
         prom = term.reduce((a,t)=>
@@ -373,6 +379,7 @@
       }
       return { total, abiertos, proceso, espera, resueltos, cerrados, excedido, prom };
     }
+
 
     function renderKPIs(kpi, prefijo){
       document.getElementById(`${prefijo}-total`).textContent     = kpi.total;
@@ -729,7 +736,16 @@
       const soloMios = document.getElementById(`filtro${pref}-mios`)?.checked;
       return base.filter(t=>{
         if(t.tipo!==tipo) return false;
-        if(estado && t.estatus!==estado) return false;
+        if (estado) {
+          // Si el filtro es "Tiempo excedido", usamos la lógica del ticket excedido
+          if (esTiempoExcedido(estado)) {
+            if (!esTicketExcedido(t)) return false;
+          } else {
+            // Para los demás estados, comparación normal tolerante
+            if (!esMismoEstatus(t.estatus, estado)) return false;
+          }
+        }
+
 
         // 🆕 Solo los tickets asignados al usuario actual
         if (soloMios && USUARIO_ID) {
@@ -826,6 +842,38 @@
       if (chk) chk.checked = false;
       saveFilters(pref); refrescar();
     }
+
+    // Normaliza cualquier texto de estatus
+    function normEstatus(s) {
+      return (s || '').toString().trim().toLowerCase();
+    }
+
+    // Detecta si es "tiempo excedido" aunque venga escrito diferente
+    function esTiempoExcedido(s) {
+      const n = normEstatus(s);
+      return n === 'tiempo excedido' || n === 'excedido';
+    }
+
+    // Compara dos estatus de forma tolerante
+    function esMismoEstatus(a, b) {
+      if (esTiempoExcedido(a) && esTiempoExcedido(b)) return true;
+      return normEstatus(a) === normEstatus(b);
+    }
+    // Devuelve true si el ticket está en tiempo excedido
+    function esTicketExcedido(t) {
+      if (!t) return false;
+
+      // 1) Por texto de estatus
+      if (esTiempoExcedido(t.estatus)) return true;
+
+      // 2) Por flags booleanos que pueda mandar el backend
+      if (t.tiempoExcedido === true) return true;
+      if (t.tiempo_excedido === true) return true;
+      if (t.excedido === true) return true;
+
+      return false;
+    }
+
 
     // Inicializar
     initKpiClicks();
