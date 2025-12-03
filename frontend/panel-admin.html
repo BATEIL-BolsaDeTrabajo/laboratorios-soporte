@@ -813,6 +813,30 @@ async function verComentarios(id, folio = "", tipo = "") {
 </script>
 
   <script src="/socket.io/socket.io.js"></script>
+  <script>
+    // Conexión Socket.IO para refrescar tickets en tiempo real
+  (function () {
+    try {
+      const socket = io();
+
+      socket.on('connect', () => {
+        console.log('✅ Socket conectado en panel-admin');
+      });
+
+      socket.on('ticketsActualizados', (payload) => {
+        console.log('🔄 ticketsActualizados (admin):', payload);
+
+        // Volvemos a cargar los tickets y KPIs
+        if (typeof cargarTickets === 'function') {
+          cargarTickets();
+        }
+      });
+    } catch (e) {
+      console.error('Error inicializando Socket.IO en panel-admin:', e);
+    }
+  })();
+  </script>
+
   <script src="js/navbar.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>

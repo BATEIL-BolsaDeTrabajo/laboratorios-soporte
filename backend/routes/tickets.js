@@ -161,6 +161,18 @@ router.post('/', verifyToken, async (req, res) => {
     const tituloNotif = `Nuevo ticket (${nuevo.tipo || '—'}) - ${nuevo.folio || nuevo.descripcion || 'Sin folio'}`;
     await notificarAdminsFinanzas(io, tituloNotif, 'nuevo');
 
+
+    // 🆕 Emitir actualización en tiempo real
+    if (io) {
+      io.emit('ticketsActualizados', {
+        accion: 'creado',
+        ticketId: nuevo._id.toString(),
+        estatus: nuevo.estatus,
+        tipo: nuevo.tipo,
+      });
+    }
+
+
     res.status(201).json({ ok: true, mensaje: 'Ticket creado', ticket: nuevo });
   } catch (err) {
     console.error('POST /tickets error:', err);
@@ -383,6 +395,16 @@ router.put('/:id', verifyToken, async (req, res) => {
     // Guardar cambios en el ticket
     await ticket.save();
 
+     // 🆕 Emitir actualización en tiempo real
+    if (io) {
+      io.emit('ticketsActualizados', {
+        accion: 'actualizado',
+        ticketId: ticket._id.toString(),
+        estatus: ticket.estatus,
+        tipo: ticket.tipo,
+      });
+    }
+
     // ==========================================
     //   Notificación a admin / finanzas si RESUELTO
     // ==========================================
@@ -508,6 +530,18 @@ router.post('/:id/comentarios-admin', verifyToken, async (req, res) => {
     });
 
     await t.save();
+
+
+    // 🆕 Emitir actualización en tiempo real
+    const io = req.app.get('io');
+    if (io) {
+      io.emit('ticketsActualizados', {
+        accion: 'comentario-admin',
+        ticketId: t._id.toString()
+      });
+    }
+
+
     return res.json({ ok: true, mensaje: 'Comentario guardado' });
   } catch (e) {
     console.error('POST /comentarios-admin', e);
@@ -551,6 +585,17 @@ router.post('/:id/comentarios', verifyToken, async (req, res) => {
     });
 
     await ticket.save();
+
+    // 🆕 Emitir actualización en tiempo real
+    const io = req.app.get('io');
+    if (io) {
+      io.emit('ticketsActualizados', {
+        accion: 'comentario',
+        ticketId: ticket._id.toString()
+      });
+    }
+
+
     res.json({ mensaje: 'Comentario agregado' });
   } catch (err) {
     console.error('POST /tickets/:id/comentarios error:', err);
@@ -717,6 +762,14 @@ router.delete('/:id', verifyToken, verifyRole(['admin', 'finanzas']), async (req
     const io = req.app.get('io');
     const tituloNotif = `Ticket eliminado (${tipoTicket}) - ${folioTicket}`;
     await notificarAdminsFinanzas(io, tituloNotif, 'eliminado');
+
+    // 🆕 Emitir actualización en tiempo real
+    if (io) {
+      io.emit('ticketsActualizados', {
+        accion: 'eliminado',
+        ticketId: id
+      });
+    }
 
     return res.json({ mensaje: 'Ticket eliminado correctamente' });
   } catch (err) {
