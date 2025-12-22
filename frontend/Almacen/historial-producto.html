@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Historial del Producto - Almacén</title>
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+</head>
+
+<body class="bg-light">
+
+  <!-- NAVBAR -->
+  <div id="navbar-container"></div>
+
+  <div class="container py-4">
+
+    <a href="/almacen/productos.html" class="btn btn-secondary mb-3">← Regresar</a>
+
+    <h2 class="mb-4">Historial del Producto</h2>
+
+    <!-- INFO DEL PRODUCTO -->
+    <div class="card mb-4">
+      <div class="card-body">
+        <h4 id="prodNombre" class="mb-3"></h4>
+
+        <div class="row">
+          <div class="col-md-4"><strong>Categoría:</strong> <span id="prodCategoria"></span></div>
+          <div class="col-md-4"><strong>Unidad:</strong> <span id="prodUnidad"></span></div>
+          <div class="col-md-4"><strong>Código:</strong> <span id="prodCodigo"></span></div>
+        </div>
+
+        <div class="row mt-3">
+          <div class="col-md-4"><strong>Stock actual:</strong> <span id="prodStock"></span></div>
+          <div class="col-md-4"><strong>Stock mínimo:</strong> <span id="prodMin"></span></div>
+          <div class="col-md-4"><strong>Estado:</strong> <span id="prodEstado"></span></div>
+        </div>
+
+        <div class="mt-3">
+          <strong>Descripción:</strong>
+          <p id="prodDesc" class="mb-0"></p>
+        </div>
+      </div>
+    </div>
+
+    <!-- TABS -->
+    <ul class="nav nav-tabs mb-3" id="historialTabs" role="tablist">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tabEntradas">Entradas</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tabSalidas">Salidas</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tabAjustes">Ajustes</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tabAuditoria">Auditoría</button>
+      </li>
+    </ul>
+
+    <!-- CONTENIDO TABS -->
+    <div class="tab-content">
+
+      <!-- TAB ENTRADAS -->
+      <div class="tab-pane fade show active" id="tabEntradas">
+        <div class="table-responsive">
+          <table class="table table-bordered align-middle">
+            <thead class="table-light">
+              <tr>
+                <th>Cantidad</th>
+                <th>Proveedor</th>
+                <th>Folio</th>
+                <th>Fecha</th>
+                <th>Registrado por</th>
+              </tr>
+            </thead>
+            <tbody id="tbodyEntradas">
+              <tr><td colspan="5" class="text-center text-muted">Cargando...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- TAB SALIDAS -->
+      <div class="tab-pane fade" id="tabSalidas">
+        <div class="table-responsive">
+          <table class="table table-bordered align-middle">
+            <thead class="table-light">
+              <tr>
+                <th>Cantidad</th>
+                <th>Entregado a</th>
+                <th>Departamento</th>
+                <th>Comentarios</th>
+                <th>Fecha</th>
+                <th>Realizado por</th>
+              </tr>
+            </thead>
+            <tbody id="tbodySalidas">
+              <tr><td colspan="6" class="text-center text-muted">Cargando...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- TAB AJUSTES -->
+      <div class="tab-pane fade" id="tabAjustes">
+        <div class="table-responsive">
+          <table class="table table-bordered align-middle">
+            <thead class="table-light">
+              <tr>
+                <th>Tipo</th>
+                <th>Cantidad</th>
+                <th>Motivo</th>
+                <th>Fecha</th>
+                <th>Realizado por</th>
+              </tr>
+            </thead>
+            <tbody id="tbodyAjustes">
+              <tr><td colspan="5" class="text-center text-muted">Cargando...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- TAB AUDITORÍA -->
+      <div class="tab-pane fade" id="tabAuditoria">
+        <div class="table-responsive">
+          <table class="table table-bordered align-middle">
+            <thead class="table-light">
+              <tr>
+                <th>Acción</th>
+                <th>Cantidad antes</th>
+                <th>Cantidad después</th>
+                <th>Detalle</th>
+                <th>Fecha</th>
+                <th>Usuario</th>
+              </tr>
+            </thead>
+            <tbody id="tbodyAuditoria">
+              <tr><td colspan="6" class="text-center text-muted">Cargando...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- JS -->
+  <script src="../js/navbar.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+  <script>
+    const token = localStorage.getItem("token");
+    if (!token) window.location.href = "../login.html";
+
+    const params = new URLSearchParams(window.location.search);
+    const productoId = params.get("id");
+
+    if (!productoId) {
+      alert("No se recibió el ID del producto.");
+      window.location.href = "/almacen/productos.html";
+    }
+
+    function fmtFecha(dt) {
+      const d = new Date(dt);
+      const pad = n => String(n).padStart(2, "0");
+      return `${pad(d.getDate())}/${pad(d.getMonth()+1)}/${d.getFullYear()} ${pad(d.getHours())}:${pad(d.getMinutes())}`;
+    }
+
+    async function cargarHistorial() {
+      const res = await fetch(`/api/almacen/productos/${productoId}/historial`, {
+        headers: { "Authorization": "Bearer " + token }
+      });
+
+      if (res.status === 401) {
+        window.location.href = "../login.html";
+        return;
+      }
+
+      const data = await res.json();
+
+      const p = data.producto;
+
+      // Mostrar datos
+      document.getElementById("prodNombre").textContent = p.nombre;
+      document.getElementById("prodCategoria").textContent = p.categoria;
+      document.getElementById("prodUnidad").textContent = p.unidadMedida;
+      document.getElementById("prodCodigo").textContent = p.codigo;
+      document.getElementById("prodStock").textContent = p.stockActual;
+      document.getElementById("prodMin").textContent = p.stockMinimo;
+      document.getElementById("prodEstado").textContent = p.estado;
+      document.getElementById("prodDesc").textContent = p.descripcion || "—";
+
+      // Entradas
+      const tbodyE = document.getElementById("tbodyEntradas");
+      tbodyE.innerHTML = "";
+      if (!data.entradas.length) {
+        tbodyE.innerHTML = `<tr><td colspan="5" class="text-center text-muted">Sin entradas.</td></tr>`;
+      } else {
+        data.entradas.forEach(e => {
+          tbodyE.innerHTML += `
+            <tr>
+              <td>${e.cantidad}</td>
+              <td>${e.proveedor || "-"}</td>
+              <td>${e.folio || "-"}</td>
+              <td>${fmtFecha(e.fecha)}</td>
+              <td>${e.registradoPor?.nombre || "-"}</td>
+            </tr>
+          `;
+        });
+      }
+
+      // Salidas
+      const tbodyS = document.getElementById("tbodySalidas");
+      tbodyS.innerHTML = "";
+      if (!data.salidas.length) {
+        tbodyS.innerHTML = `<tr><td colspan="6" class="text-center text-muted">Sin salidas.</td></tr>`;
+      } else {
+        data.salidas.forEach(s => {
+          tbodyS.innerHTML += `
+            <tr>
+              <td>${s.cantidad}</td>
+              <td>${s.entregadoA}</td>
+              <td>${s.departamento}</td>
+              <td>${s.comentarios || "-"}</td>
+              <td>${fmtFecha(s.fecha)}</td>
+              <td>${s.realizadoPor?.nombre || "-"}</td>
+            </tr>
+          `;
+        });
+      }
+
+      // Ajustes
+      const tbodyA = document.getElementById("tbodyAjustes");
+      tbodyA.innerHTML = "";
+      if (!data.ajustes.length) {
+        tbodyA.innerHTML = `<tr><td colspan="5" class="text-center text-muted">Sin ajustes.</td></tr>`;
+      } else {
+        data.ajustes.forEach(a => {
+          tbodyA.innerHTML += `
+            <tr>
+              <td>${a.tipo}</td>
+              <td>${a.cantidad}</td>
+              <td>${a.motivo}</td>
+              <td>${fmtFecha(a.fecha)}</td>
+              <td>${a.realizadoPor?.nombre || "-"}</td>
+            </tr>
+          `;
+        });
+      }
+
+      // Auditoría
+      const tbodyAu = document.getElementById("tbodyAuditoria");
+      tbodyAu.innerHTML = "";
+      if (!data.auditoria.length) {
+        tbodyAu.innerHTML = `<tr><td colspan="6" class="text-center text-muted">Sin auditoría.</td></tr>`;
+      } else {
+        data.auditoria.forEach(a => {
+          tbodyAu.innerHTML += `
+            <tr>
+              <td>${a.accion}</td>
+              <td>${a.cantidadAntes}</td>
+              <td>${a.cantidadDespues}</td>
+              <td>${a.detalle}</td>
+              <td>${fmtFecha(a.fecha)}</td>
+              <td>${a.usuario?.nombre || "-"}</td>
+            </tr>
+          `;
+        });
+      }
+
+    }
+
+    document.addEventListener("DOMContentLoaded", cargarHistorial);
+  </script>
+
+</body>
+</html>

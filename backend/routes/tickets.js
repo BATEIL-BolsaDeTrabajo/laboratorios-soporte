@@ -5,6 +5,11 @@ const Ticket = require('../models/Ticket');
 const { verifyToken, verifyRole } = require('../middlewares/auth');
 const Notification = require('../models/Notification');
 const User = require('../models/User');
+//const { ensureTicketFolder } = require('../utils/googleDrive');
+const { ensureTicketFolder, uploadTicketEvidence } = require('../utils/googleDrive');
+const uploadEvidence = require('../middlewares/uploadEvidence');
+const fs = require('fs');
+
 
 /* ========= Helpers ========= */
 function validarNuevoPayload(body) {
@@ -155,6 +160,22 @@ router.post('/', verifyToken, async (req, res) => {
     }
 
     const nuevo = await Ticket.create(doc);
+
+    // 🗂️ Crear carpeta en Google Drive para evidencias del ticket
+    try {
+      const folder = await ensureTicketFolder(nuevo);
+
+      if (folder && folder.id) {
+        nuevo.driveFolderId = folder.id;
+        nuevo.driveFolderLink = folder.webViewLink || null;
+        await nuevo.save();
+      }
+    } catch (error) {
+      console.error("Error creando carpeta de Drive:", error.message || error);
+      // No detenemos la creación del ticket si falla Drive
+    }
+
+
 
     // 🔔 Notificar a admin / finanzas: NUEVO TICKET
     const io = req.app.get('io');
@@ -777,6 +798,71 @@ router.delete('/:id', verifyToken, verifyRole(['admin', 'finanzas']), async (req
     return res.status(500).json({ mensaje: 'Error interno al eliminar el ticket' });
   }
 });
+
+// =========================
+// SUBIR EVIDENCIA (FOTO) A UN TICKET  (PRUEBA SIN TOKEN)
+// =========================
+router.post('/:id/evidencias',
+  uploadEvidence.single('file'), // 👈 OJO: aquí ya NO está verifyToken
+  async (req, res) => {
+    try {
+      const ticketId = req.params.id;
+      const file = req.file;
+
+      if (!file) {
+        return res.status(400).json({
+          ok: false,
+          mensaje: 'No se recibió archivo de evidencia',
+        });
+      }
+
+      const ticket = await Ticket.findById(ticketId);
+      if (!ticket) {
+        // Si el ticket no existe, borramos el archivo temporal
+        try { fs.unlinkSync(file.path); } catch (e) {}
+        return res.status(404).json({
+          ok: false,
+          mensaje: 'Ticket no encontrado',
+        });
+      }
+
+      // Subir archivo a la carpeta de Drive del ticket (creándola si no existe)
+      const info = await uploadTicketEvidence(ticket, file);
+
+      // Actualizar datos de carpeta en el ticket
+      ticket.driveFolderId   = info.folderId;
+      ticket.driveFolderLink = info.webViewLink || ticket.driveFolderLink;
+
+      // Guardar la evidencia en el arreglo
+      ticket.evidencias.push({
+        fileId:         info.fileId,
+        fileName:       info.fileName,
+        webViewLink:    info.webViewLink,
+        webContentLink: info.webContentLink,
+      });
+
+      await ticket.save();
+
+      // Borrar el archivo local (ya está en Drive)
+      try { fs.unlinkSync(file.path); } catch (e) {}
+
+      return res.status(201).json({
+        ok: true,
+        mensaje: 'Evidencia subida correctamente',
+        evidencia: ticket.evidencias[ticket.evidencias.length - 1],
+      });
+    } catch (error) {
+      console.error('Error subiendo evidencia:', error.message || error);
+
+      return res.status(500).json({
+        ok: false,
+        mensaje: 'Error al subir la evidencia',
+      });
+    }
+  }
+);
+
+
 
 
 module.exports = router;

@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Productos - Almacén</title>
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+</head>
+
+<body class="bg-light">
+
+  <!-- NAVBAR -->
+  <div id="navbar-container"></div>
+
+  <div class="container py-4">
+
+    <div class="d-flex justify-content-between align-items-center mb-3">
+      <h2>Productos</h2>
+      <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalProducto">
+        + Nuevo Producto
+      </button>
+    </div>
+
+    <!-- Filtros -->
+    <div class="card mb-3">
+      <div class="card-body">
+        <div class="row g-3">
+          <div class="col-md-4">
+            <input type="text" id="filtroNombre" class="form-control" placeholder="Buscar por nombre...">
+          </div>
+          <div class="col-md-3">
+            <input type="text" id="filtroCategoria" class="form-control" placeholder="Categoría...">
+          </div>
+          <div class="col-md-3">
+            <select id="filtroEstado" class="form-select">
+              <option value="">Todos</option>
+              <option value="activo">Activos</option>
+              <option value="inactivo">Inactivos</option>
+            </select>
+          </div>
+          <div class="col-md-2">
+            <button class="btn btn-dark w-100" onclick="cargarProductos()">Filtrar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tabla -->
+    <div class="table-responsive">
+      <table class="table table-bordered table-hover align-middle" id="tablaProductos">
+        <thead class="table-light">
+          <tr>
+            <th>Nombre</th>
+            <th>Categoría</th>
+            <th>Unidad</th>
+            <th>Código</th>
+            <th>Stock</th>
+            <th>Mínimo</th>
+            <th>Estado</th>
+            <th width="150">Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td colspan="8" class="text-center text-muted">Cargando...</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+
+  <!-- Modal Crear / Editar Producto -->
+  <div class="modal fade" id="modalProducto" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <form id="formProducto">
+          <div class="modal-header">
+            <h5 class="modal-title">Nuevo Producto</h5>
+            <button class="btn-close" data-bs-dismiss="modal"></button>
+          </div>
+
+          <div class="modal-body">
+
+            <input type="hidden" id="productoId">
+
+            <div class="row g-3">
+
+              <div class="col-md-6">
+                <label class="form-label">Nombre</label>
+                <input type="text" id="productoNombre" class="form-control" required>
+              </div>
+
+              <div class="col-md-6">
+                <label class="form-label">Categoría</label>
+                <input type="text" id="productoCategoria" class="form-control" required>
+              </div>
+
+              <div class="col-md-4">
+                <label class="form-label">Unidad de medida</label>
+                <input type="text" id="productoUnidad" class="form-control" required>
+              </div>
+
+              <div class="col-md-4">
+                <label class="form-label">Código</label>
+                <input type="text" id="productoCodigo" class="form-control" required>
+              </div>
+
+              <div class="col-md-4">
+                <label class="form-label">Stock mínimo</label>
+                <input type="number" id="productoMin" class="form-control" value="0">
+              </div>
+
+              <div class="col-md-12">
+                <label class="form-label">Descripción</label>
+                <textarea id="productoDesc" class="form-control"></textarea>
+              </div>
+
+            </div>
+
+          </div>
+
+          <div class="modal-footer">
+            <button class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+            <button class="btn btn-primary" type="submit">Guardar</button>
+          </div>
+
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- JS -->
+  <script src="../js/navbar.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+  <script>
+    const token = localStorage.getItem("token");
+    if (!token) window.location.href = "../login.html";
+
+    const tablaBody = document.querySelector("#tablaProductos tbody");
+
+    function filaProducto(p) {
+      return `
+        <tr>
+          <td>${p.nombre}</td>
+          <td>${p.categoria}</td>
+          <td>${p.unidadMedida}</td>
+          <td>${p.codigo}</td>
+          <td>${p.stockActual}</td>
+          <td>${p.stockMinimo}</td>
+          <td>${p.estado}</td>
+          <td class="d-flex gap-1">
+            <button class="btn btn-sm btn-warning" onclick="editarProducto('${p._id}')">Editar</button>
+            <button class="btn btn-sm btn-danger" onclick="inactivarProducto('${p._id}')">Inactivar</button>
+
+            <a class="btn btn-sm btn-info"
+               href="/almacen/historial-producto.html?id=${p._id}">
+               Historial
+            </a>
+          </td>
+        </tr>
+      `;
+    }
+
+
+    async function cargarProductos() {
+      const nombre = document.getElementById("filtroNombre").value;
+      const categoria = document.getElementById("filtroCategoria").value;
+      const estado = document.getElementById("filtroEstado").value;
+
+      const params = new URLSearchParams();
+      if (nombre) params.append("nombre", nombre);
+      if (categoria) params.append("categoria", categoria);
+      if (estado) params.append("estado", estado);
+
+      const res = await fetch("/api/almacen/productos?" + params.toString(), {
+        headers: { "Authorization": "Bearer " + token }
+      });
+
+      const data = await res.json();
+
+      tablaBody.innerHTML = "";
+
+      if (!data.productos.length) {
+        tablaBody.innerHTML = `<tr><td colspan="8" class="text-center text-muted">Sin datos.</td></tr>`;
+        return;
+      }
+
+      data.productos.forEach(p => {
+        tablaBody.innerHTML += filaProducto(p);
+      });
+    }
+
+    // Abrir modal en modo nuevo
+    function nuevoProducto() {
+      document.getElementById("productoId").value = "";
+      document.querySelector(".modal-title").textContent = "Nuevo Producto";
+      document.getElementById("formProducto").reset();
+    }
+
+    // Editar producto
+    async function editarProducto(id) {
+      nuevoProducto();
+
+      const res = await fetch("/api/almacen/productos/" + id, {
+        headers: { "Authorization": "Bearer " + token }
+      });
+
+      const data = await res.json();
+      const p = data.producto;
+
+      document.querySelector(".modal-title").textContent = "Editar Producto";
+      document.getElementById("productoId").value = p._id;
+      document.getElementById("productoNombre").value = p.nombre;
+      document.getElementById("productoCategoria").value = p.categoria;
+      document.getElementById("productoUnidad").value = p.unidadMedida;
+      document.getElementById("productoCodigo").value = p.codigo;
+      document.getElementById("productoMin").value = p.stockMinimo;
+      document.getElementById("productoDesc").value = p.descripcion;
+
+      const modal = new bootstrap.Modal(document.getElementById("modalProducto"));
+      modal.show();
+    }
+
+    // Guardar producto (crear o actualizar)
+    document.getElementById("formProducto").addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      const id = document.getElementById("productoId").value;
+
+      const payload = {
+        nombre: document.getElementById("productoNombre").value,
+        categoria: document.getElementById("productoCategoria").value,
+        unidadMedida: document.getElementById("productoUnidad").value,
+        codigo: document.getElementById("productoCodigo").value,
+        stockMinimo: Number(document.getElementById("productoMin").value),
+        descripcion: document.getElementById("productoDesc").value
+      };
+
+      const url = id
+        ? "/api/almacen/productos/" + id
+        : "/api/almacen/productos";
+
+      const method = id ? "PUT" : "POST";
+
+      const res = await fetch(url, {
+        method,
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": "Bearer " + token
+        },
+        body: JSON.stringify(payload)
+      });
+
+      if (res.ok) {
+        alert("Producto guardado.");
+        cargarProductos();
+        bootstrap.Modal.getInstance(document.getElementById("modalProducto")).hide();
+      } else {
+        alert("Error al guardar.");
+      }
+    });
+
+    // Inactivar producto
+    async function inactivarProducto(id) {
+      if (!confirm("¿Marcar como inactivo?")) return;
+
+      const res = await fetch("/api/almacen/productos/" + id, {
+        method: "DELETE",
+        headers: { "Authorization": "Bearer " + token }
+      });
+
+      if (res.ok) {
+        alert("Producto inactivado.");
+        cargarProductos();
+      } else {
+        alert("Error al inactivar.");
+      }
+    }
+
+    document.addEventListener("DOMContentLoaded", cargarProductos);
+  </script>
+
+</body>
+</html>

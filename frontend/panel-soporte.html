@@ -433,133 +433,151 @@
     }
 
     // ================== Render de tarjetas ==================
-    function renderTarjetas(tickets, contId){
-      const c = document.getElementById(contId);
-      c.innerHTML = "";
-      const admin = esAdminActual();
+function renderTarjetas(tickets, contId){
+  const c = document.getElementById(contId);
+  c.innerHTML = "";
+  const admin = esAdminActual();
 
-      tickets.forEach(t => {
-        const esC = t.estatus === "Cerrado";
-        const e   = ESTILOS[t.estatus] || { border:"0", bg:"bg-light", text:"" };
+  tickets.forEach(t => {
+    const esC = t.estatus === "Cerrado";
+    const e   = ESTILOS[t.estatus] || { border:"0", bg:"bg-light", text:"" };
 
-        const ops = admin
-          ? ["Abierto","En proceso","En espera de material","Resuelto","Cerrado"]
-          : ["Abierto","En proceso","En espera de material","Resuelto"];
+    const ops = admin
+      ? ["Abierto","En proceso","En espera de material","Resuelto","Cerrado"]
+      : ["Abierto","En proceso","En espera de material","Resuelto"];
 
-        const enEspera = t.estatus === 'En espera de material';
-        const tieneMaterial = !!(t.requiereMaterial && t.requiereMaterial.trim());
+    const enEspera = t.estatus === 'En espera de material';
+    const tieneMaterial = !!(t.requiereMaterial && t.requiereMaterial.trim());
 
-        c.innerHTML += `
-          <div class="col-md-6">
-            <div class="card border-${e.border} ${e.bg} ${e.text}">
-              <div class="card-body">
+    c.innerHTML += `
+      <div class="col-md-6">
+        <div class="card border-${e.border} ${e.bg} ${e.text}">
+          <div class="card-body">
 
-                <!-- Encabezado -->
-                <div class="d-flex justify-content-between align-items-start mb-1">
-                  <h5 class="card-title mb-0">Área: ${t.tipo}</h5>
-                  <div class="small text-muted">Folio: <span class="fw-semibold">${t.folio || '—'}</span></div>
-                  <div class="text-end small">
-                    <div><strong>Estado:</strong> ${badgeEstatus(t.estatus)}</div>
-                    <div><strong>Prioridad:</strong> <span class="badge ${
-                      (t.prioridad==='Alta') ? 'bg-danger' :
-                      (t.prioridad==='Media') ? 'bg-warning' :
-                      (t.prioridad==='Baja')  ? 'bg-primary' : 'bg-secondary'
-                    }">${t.prioridad || 'Sin prioridad'}</span></div>
-                    <div><strong>Creado por:</strong> ${t.creadoPor?.nombre || "—"}</div>
-                    <div><strong>Asignado a:</strong> ${t.asignadoA?.nombre || "Sin asignar"}</div>
-                  </div>
-                </div>
-
-                <!-- Fechas -->
-                <div class="row g-2 small text-muted mb-2">
-                  <div class="col-12 col-md-4"><strong>Solicitado:</strong> ${fmtFecha(t.fechaCreacion || t.createdAt)}</div>
-                  <div class="col-12 col-md-4"><strong>Inicio:</strong> ${fmtFecha(t.fechaInicio)}</div>
-                  <div class="col-12 col-md-4"><strong>Finalización:</strong> ${fmtFecha(t.fechaCierre)}</div>
-                </div>
-
-                <!-- Ubicación -->
-                <div class="text-muted small mb-3">${textoUbicacion(t)}</div>
-
-                <!-- Descripción -->
-                <label class="form-label">Descripción detallada:</label>
-                <div class="form-control mb-3" style="min-height:72px; white-space:pre-wrap;">${t.descripcion || '—'}</div>
-
-                <!-- Fila: Estatus / Material -->
-                <div class="row g-2 align-items-start mb-2">
-                  <div class="col-12 col-md-6">
-                    <label class="form-label">Estatus:</label>
-                    <select class="form-select"
-                            id="estatus-${t._id}"
-                            onchange="onChangeEstatus('${t._id}')"
-                            ${esC ? "disabled" : ""}>
-                      ${ops.map(o => `<option ${t.estatus===o?"selected":""}>${o}</option>`).join("")}
-                    </select>
-                  </div>
-
-                  <div class="col-12 col-md-6">
-                    <!-- EDITABLE: solo cuando está En espera de material -->
-                    <div id="wrap-material-edit-${t._id}" class="${enEspera ? '' : 'd-none'}">
-                      <label class="form-label">Requiere material:</label>
-                      <textarea class="form-control"
-                                id="material-${t._id}"
-                                placeholder="Material requerido"
-                                rows="1"
-                                ${enEspera ? '' : 'disabled'}>${t.requiereMaterial || ''}</textarea>
-                      <div class="form-text">Editable únicamente cuando el estatus está en espera.</div>
-                    </div>
-
-                    <!-- SOLO LECTURA: cuando NO está en espera pero hay material capturado -->
-                    <div id="wrap-material-read-${t._id}" class="${(!enEspera && tieneMaterial) ? '' : 'd-none'}">
-                      <label class="form-label">Material requerido (histórico):</label>
-                      <div class="form-control" style="min-height: 38px; white-space:pre-wrap;" aria-readonly="true">
-                        ${t.requiereMaterial || ''}
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                <!-- Resolución -->
-                <label class="form-label">Resolución del problema:</label>
-                <textarea class="form-control mb-3" id="resolucion-${t._id}" rows="2" placeholder="Describe cómo se resolvió" ${esC ? "disabled" : ""}>${t.resolucion || ''}</textarea>
-
-                <!-- NUEVO: Comentario interno -->
-                <label class="form-label">Comentario interno:</label>
-                <textarea class="form-control mb-3"
-                          id="comentario-${t._id}"
-                          rows="2"
-                          placeholder="Agrega notas internas, avances, etc."></textarea>
-
-                <!-- Botones -->
-                <div class="d-flex flex-wrap gap-2">
-                  <button class="btn btn-primary flex-fill"
-                          onclick="actualizarTicket('${t._id}')"
-                          ${esC ? "disabled" : ""}>Guardar cambios</button>
-
-                  ${ (t.estatus === 'En espera de material' && !esC)
-                      ? `<button class="btn btn-outline-success flex-fill"
-                                 onclick="reanudarTicket('${t._id}')">Reanudar (material recibido)</button>`
-                      : '' }
-
-                  <button class="btn btn-success flex-fill"
-                          onclick="asignarmeTicket('${t._id}')"
-                          ${(esC || t.asignadoA) ? "disabled" : ""}>Asignarme</button>
-
-                  <button class="btn btn-outline-light flex-fill"
-                          onclick="guardarComentario('${t._id}', '${t.folio || ''}', '${t.tipo || ''}')">
-                    Guardar comentario
-                  </button>
-
-                  <button class="btn btn-dark flex-fill"
-                          onclick="verComentarios('${t._id}', '${t.folio || ''}', '${t.tipo || ''}')">
-                    Comentarios
-                  </button>
-                </div>
-
+            <!-- Encabezado -->
+            <div class="d-flex justify-content-between align-items-start mb-1">
+              <h5 class="card-title mb-0">Área: ${t.tipo}</h5>
+              <div class="small text-muted">Folio: <span class="fw-semibold">${t.folio || '—'}</span></div>
+              <div class="text-end small">
+                <div><strong>Estado:</strong> ${badgeEstatus(t.estatus)}</div>
+                <div><strong>Prioridad:</strong> <span class="badge ${
+                  (t.prioridad==='Alta') ? 'bg-danger' :
+                  (t.prioridad==='Media') ? 'bg-warning' :
+                  (t.prioridad==='Baja')  ? 'bg-primary' : 'bg-secondary'
+                }">${t.prioridad || 'Sin prioridad'}</span></div>
+                <div><strong>Creado por:</strong> ${t.creadoPor?.nombre || "—"}</div>
+                <div><strong>Asignado a:</strong> ${t.asignadoA?.nombre || "Sin asignar"}</div>
               </div>
             </div>
-          </div>`;
-      });
-    }
+
+            <!-- Fechas -->
+            <div class="row g-2 small text-muted mb-2">
+              <div class="col-12 col-md-4"><strong>Solicitado:</strong> ${fmtFecha(t.fechaCreacion || t.createdAt)}</div>
+              <div class="col-12 col-md-4"><strong>Inicio:</strong> ${fmtFecha(t.fechaInicio)}</div>
+              <div class="col-12 col-md-4"><strong>Finalización:</strong> ${fmtFecha(t.fechaCierre)}</div>
+            </div>
+
+            <!-- Ubicación -->
+            <div class="text-muted small mb-3">${textoUbicacion(t)}</div>
+
+            <!-- Descripción -->
+            <label class="form-label">Descripción detallada:</label>
+            <div class="form-control mb-3" style="min-height:72px; white-space:pre-wrap;">${t.descripcion || '—'}</div>
+
+            <!-- Fila: Estatus / Material -->
+            <div class="row g-2 align-items-start mb-2">
+              <div class="col-12 col-md-6">
+                <label class="form-label">Estatus:</label>
+                <select class="form-select"
+                        id="estatus-${t._id}"
+                        onchange="onChangeEstatus('${t._id}')"
+                        ${esC ? "disabled" : ""}>
+                  ${ops.map(o => `<option ${t.estatus===o?"selected":""}>${o}</option>`).join("")}
+                </select>
+              </div>
+
+              <div class="col-12 col-md-6">
+                <!-- EDITABLE: solo cuando está En espera de material -->
+                <div id="wrap-material-edit-${t._id}" class="${enEspera ? '' : 'd-none'}">
+                  <label class="form-label">Requiere material:</label>
+                  <textarea class="form-control"
+                            id="material-${t._id}"
+                            placeholder="Material requerido"
+                            rows="1"
+                            ${enEspera ? '' : 'disabled'}>${t.requiereMaterial || ''}</textarea>
+                  <div class="form-text">Editable únicamente cuando el estatus está en espera.</div>
+                </div>
+
+                <!-- SOLO LECTURA: cuando NO está en espera pero hay material capturado -->
+                <div id="wrap-material-read-${t._id}" class="${(!enEspera && tieneMaterial) ? '' : 'd-none'}">
+                  <label class="form-label">Material requerido (histórico):</label>
+                  <div class="form-control" style="min-height: 38px; white-space:pre-wrap;" aria-readonly="true">
+                    ${t.requiereMaterial || ''}
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Resolución -->
+            <label class="form-label">Resolución del problema:</label>
+            <textarea class="form-control mb-3" id="resolucion-${t._id}" rows="2" placeholder="Describe cómo se resolvió" ${esC ? "disabled" : ""}>${t.resolucion || ''}</textarea>
+
+            <!-- NUEVO: Comentario interno -->
+            <label class="form-label">Comentario interno:</label>
+            <textarea class="form-control mb-3"
+                      id="comentario-${t._id}"
+                      rows="2"
+                      placeholder="Agrega notas internas, avances, etc."></textarea>
+
+            <!-- 🆕 BLOQUE PARA SUBIR EVIDENCIA -->
+            <div class="mb-3">
+              <label class="form-label">Evidencia del trabajo realizado (foto):</label>
+              <input type="file"
+                     class="form-control"
+                     id="file-evidencia-${t._id}"
+                     accept="image/*"
+                     ${esC ? 'disabled' : ''}>
+              <div class="form-text">Sube imágenes JPG, PNG, etc. (se guardan en la carpeta del ticket en Drive).</div>
+            </div>
+
+            <!-- Botones -->
+            <div class="d-flex flex-wrap gap-2">
+              <button class="btn btn-primary flex-fill"
+                      onclick="actualizarTicket('${t._id}')"
+                      ${esC ? "disabled" : ""}>Guardar cambios</button>
+
+              ${ (t.estatus === 'En espera de material' && !esC)
+                  ? `<button class="btn btn-outline-success flex-fill"
+                             onclick="reanudarTicket('${t._id}')">Reanudar (material recibido)</button>`
+                  : '' }
+
+              <button class="btn btn-success flex-fill"
+                      onclick="asignarmeTicket('${t._id}')"
+                      ${(esC || t.asignadoA) ? "disabled" : ""}>Asignarme</button>
+
+              <button class="btn btn-outline-light flex-fill"
+                      onclick="guardarComentario('${t._id}', '${t.folio || ''}', '${t.tipo || ''}')">
+                Guardar comentario
+              </button>
+
+              <button class="btn btn-dark flex-fill"
+                      onclick="verComentarios('${t._id}', '${t.folio || ''}', '${t.tipo || ''}')">
+                Comentarios
+              </button>
+
+              <!-- 🆕 BOTÓN SUBIR EVIDENCIA -->
+              <button class="btn btn-outline-secondary flex-fill"
+                      onclick="subirEvidencia('${t._id}')"
+                      ${esC ? "disabled" : ""}>
+                Subir evidencia
+              </button>
+            </div>
+
+          </div>
+        </div>
+      </div>`;
+  });
+}
 
     // Mostrar/ocultar material según estatus
     function onChangeEstatus(id){
@@ -689,6 +707,60 @@
         alert('Error al cargar comentarios');
       }
     }
+
+    // ========= SUBIR EVIDENCIA (foto) A GOOGLE DRIVE =========
+async function subirEvidencia(id){
+  const input = document.getElementById(`file-evidencia-${id}`);
+  if (!input) {
+    alert('No se encontró el control de archivo.');
+    return;
+  }
+
+  if (!input.files || !input.files[0]) {
+    alert('Selecciona una imagen antes de subir la evidencia.');
+    return;
+  }
+
+  const archivo = input.files[0];
+  const formData = new FormData();
+  formData.append('file', archivo);
+
+  try {
+    const resp = await fetch(`/api/tickets/${id}/evidencias`, {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${token}`   // NO pongas Content-Type, fetch lo hace con FormData
+      },
+      body: formData
+    });
+
+    const data = await resp.json().catch(() => ({}));
+
+    if (!resp.ok || data.ok === false) {
+      console.error('Error al subir evidencia:', data);
+      alert(data.mensaje || data.error || 'No se pudo subir la evidencia.');
+      return;
+    }
+
+    // Limpia el input
+    input.value = '';
+
+    alert('Evidencia subida correctamente.');
+
+    // Opcional: recargar los tickets para reflejar cambios en evidencias/historial
+    if (typeof cargar === 'function') {
+      cargar();
+    }
+  } catch (err) {
+    console.error('Error de red al subir evidencia:', err);
+    alert('Ocurrió un error al subir la evidencia.');
+  }
+}
+
+
+
+
+
 
     // ================== Carga y memoria de filtros ==================
     let todosTickets = [];

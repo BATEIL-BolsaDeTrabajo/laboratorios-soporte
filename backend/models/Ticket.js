@@ -29,6 +29,18 @@ const HistorySchema = new Schema({
   tiempoSolucionMin:{ type: Number }         // minutos, calculado cuando cierra/resuelve
 }, { _id: false });
 
+
+// Evidencias (archivos / fotos en Drive)
+const EvidenciaSchema = new Schema({
+  fileId:         { type: String, required: true },   // ID del archivo en Drive
+  fileName:       { type: String, required: true },   // Nombre del archivo
+  webViewLink:    { type: String },                   // Link para ver en Drive
+  webContentLink: { type: String },                   // Link de descarga directa
+  uploadedAt:     { type: Date, default: Date.now }   // Cuándo se subió
+}, { _id: false });
+
+
+
 /* ==== Esquema principal ==== */
 const ticketSchema = new Schema({
   // Descripción
@@ -72,6 +84,13 @@ const ticketSchema = new Schema({
   fechaReanudacion: { type: Date, default: null },
   fechaExcedido:    { type: Date, default: null },
   fechaCierre:      { type: Date, default: null },
+
+  // Carpeta en Google Drive para evidencias
+  driveFolderId:   { type: String, default: null },
+  driveFolderLink: { type: String, default: null },
+
+  // Evidencias (archivos subidos a la carpeta del ticket)
+  evidencias: { type: [EvidenciaSchema], default: [] },
 
   // Folio único
   folio: { type: String, unique: true, index: true },

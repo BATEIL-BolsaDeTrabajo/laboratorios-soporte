@@ -192,6 +192,21 @@ function configurarMenuPorRoles() {
     visible = true;
   }
 
+    // ALMACÉN (rol almacen o finanzas)
+  if (has("almacen") || has("finanzas")) {
+    show([
+      "item-almacen-header",
+      "item-almacen-dashboard",
+      "item-almacen-productos",
+      "item-almacen-entradas",
+      "item-almacen-salidas",
+      "item-almacen-ajustes",
+      "item-almacen-divider",
+    ]);
+    visible = true;
+  }
+
+
   // COORDINACIÓN D
   if (has("coordinacion") || has("coordinaciond")) {
     show([

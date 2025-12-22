@@ -27,6 +27,8 @@ app.use('/api/vacaciones', require('./routes/vacacionesroutes.js'));
 app.use('/api/tiempo', require('./routes/tiempoRoutes'));
 app.use('/api/calificaciones', require('./routes/calificaciones'));
 app.use('/api/notifications', notificationsRoutes);
+app.use('/api/almacen', require('./routes/almacen'));
+
 
 // ===== Frontend estático =====
 app.use(express.static(path.join(__dirname, '..', 'frontend')));
