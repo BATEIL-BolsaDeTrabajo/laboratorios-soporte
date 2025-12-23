@@ -10,9 +10,31 @@ if (!rootFolderId) {
   console.warn('⚠️ [GoogleDrive] Falta GOOGLE_DRIVE_ROOT_FOLDER_ID en .env');
 }
 
-// Ruta al JSON de la service account
-const KEYFILEPATH = path.join(__dirname, '../credentials/service-account.json');
-const key = require(KEYFILEPATH);
+// ======= Cargar Service Account (Render Secret File / Local) =======
+function loadServiceAccount() {
+  // 1) Render Secret File
+  const renderSecretPath = '/etc/secrets/service-account.json';
+  if (fs.existsSync(renderSecretPath)) {
+    const json = JSON.parse(fs.readFileSync(renderSecretPath, 'utf8'));
+    if (json.private_key) json.private_key = json.private_key.replace(/\\n/g, '\n');
+    return json;
+  }
+
+  // 2) Local (tu PC). Este archivo NO se sube a GitHub.
+  const localPath = path.join(__dirname, '../credentials/service-account.json');
+  if (fs.existsSync(localPath)) {
+    const json = JSON.parse(fs.readFileSync(localPath, 'utf8'));
+    if (json.private_key) json.private_key = json.private_key.replace(/\\n/g, '\n');
+    return json;
+  }
+
+  throw new Error(
+    '❌ [GoogleDrive] No se encontró service-account.json. ' +
+    'En Render debe existir en /etc/secrets/service-account.json (Secret File).'
+  );
+}
+
+const key = loadServiceAccount();
 
 // 👇 Usuario real de tu dominio que será el dueño de los archivos
 const IMPERSONATED_USER = 'tickets@bateil.edu.mx';
@@ -58,7 +80,7 @@ async function compartirConDominio(fileId) {
     await drive.permissions.create({
       fileId,
       requestBody: {
-        role: 'reader',         
+        role: 'reader',
         type: 'anyone',         // 👈 Público con enlace (no pide permisos)
         allowFileDiscovery: false
       }
@@ -156,3 +178,4 @@ module.exports = {
   ensureTicketFolder,
   uploadTicketEvidence,
 };
+
