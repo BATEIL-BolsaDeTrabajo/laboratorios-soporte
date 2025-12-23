@@ -30,11 +30,20 @@ app.use('/api/notifications', notificationsRoutes);
 app.use('/api/almacen', require('./routes/almacen'));
 
 
+
 // ===== Frontend estático =====
-app.use(express.static(path.join(__dirname, '..', 'frontend')));
-app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
-app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, '..', 'frontend', 'login.html'));
+const FRONTEND_DIR = path.join(__dirname, "..", "frontend");
+app.use(express.static(FRONTEND_DIR));
+
+// ✅ ALIAS para que /almacen/* funcione aunque la carpeta sea /Almacen
+app.use("/almacen", express.static(path.join(FRONTEND_DIR, "Almacen")));
+
+// ===== Upload de archivos =====
+app.use("/uploads", express.static(path.join(__dirname, "uploads")));
+
+// ===== Ruta raíz =====
+app.get("/", (req, res) => {
+  res.sendFile(path.join(FRONTEND_DIR, "login.html"));
 });
 
 // ===== Modelos y utilidades de negocio =====
