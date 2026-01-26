@@ -14,6 +14,23 @@ const { verifyToken, verifyRole } = require('../middlewares/auth');
 // 🔐 Solo pueden usar este módulo: almacen y finanzas
 const allowAlmacen = ['almacen', 'finanzas'];
 
+// 🚫 Restricción especial por correo
+const RESTRICTED_ALMACEN_EMAIL = 'almacen@bateil.edu.mx';
+
+function bloquearEntradasYProductosParaCorreo(req, res, next) {
+  const email = (req.usuario?.email || '').toLowerCase();
+
+  if (email === RESTRICTED_ALMACEN_EMAIL) {
+    return res.status(403).json({
+      mensaje: 'Acceso denegado: tu cuenta no tiene permiso para usar este módulo.'
+    });
+  }
+
+  next();
+}
+
+
+
 /* ===========================
    Helpers
 =========================== */
@@ -75,6 +92,7 @@ router.get(
   '/productos',
   verifyToken,
   verifyRole(allowAlmacen),
+   bloquearEntradasYProductosParaCorreo,
   async (req, res) => {
     try {
       const { nombre, categoria, estado } = req.query;
@@ -111,6 +129,7 @@ router.get(
   '/productos/:id',
   verifyToken,
   verifyRole(allowAlmacen),
+  bloquearEntradasYProductosParaCorreo,
   async (req, res) => {
     try {
       const producto = await Producto.findById(req.params.id);
@@ -133,6 +152,7 @@ router.post(
   '/productos',
   verifyToken,
   verifyRole(allowAlmacen),
+  bloquearEntradasYProductosParaCorreo,
   async (req, res) => {
     try {
       const errores = validarProducto(req.body);
@@ -187,6 +207,7 @@ router.put(
   '/productos/:id',
   verifyToken,
   verifyRole(allowAlmacen),
+  bloquearEntradasYProductosParaCorreo,
   async (req, res) => {
     try {
       const producto = await Producto.findById(req.params.id);
@@ -246,6 +267,7 @@ router.delete(
   '/productos/:id',
   verifyToken,
   verifyRole(allowAlmacen),
+  bloquearEntradasYProductosParaCorreo,
   async (req, res) => {
     try {
       const producto = await Producto.findById(req.params.id);
@@ -329,6 +351,7 @@ router.post(
   '/entradas',
   verifyToken,
   verifyRole(allowAlmacen),
+  bloquearEntradasYProductosParaCorreo,
   async (req, res) => {
     try {
       const { productoId, cantidad, proveedor, folio, fecha } = req.body;
@@ -396,6 +419,7 @@ router.get(
   '/entradas',
   verifyToken,
   verifyRole(allowAlmacen),
+  bloquearEntradasYProductosParaCorreo,
   async (req, res) => {
     try {
       const { productoId, proveedor, fechaInicio, fechaFin } = req.query;

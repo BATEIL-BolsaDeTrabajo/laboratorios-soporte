@@ -134,8 +134,8 @@ function configurarMenuPorRoles() {
       "item-rrhh-header",
       "item-rrhh-solicitudes",
       "item-rrhh-ticketsoporte",
-      "item-direccion-mistickets",  
-      "item-rrhh-mistickets", 
+      "item-direccion-mistickets",
+      "item-rrhh-mistickets",
       "item-rrhh-gestiondias",
       "item-rrhh-histDiasyTiempo",
       "item-rrhh-RegistrarUsuario",
@@ -163,7 +163,7 @@ function configurarMenuPorRoles() {
     show([
       "item-subdireccion-header",
       "item-subdireccion-crear",
-      "item-subdireccion-mistickets",  
+      "item-subdireccion-mistickets",
       "item-subdireccion-revision",
       "item-subdireccion-tiempo",
       "item-subdireccion-soltxt",
@@ -181,7 +181,7 @@ function configurarMenuPorRoles() {
       "item-finanzas-header",
       "item-finanzas-dashboard",
       "item-finanzas-crear",
-      "item-finanzas-mistickets", 
+      "item-finanzas-mistickets",
       "item-finanzas-tickets",
       "item-finanzas-revision",
       "item-finanzas-tiempo",
@@ -192,7 +192,7 @@ function configurarMenuPorRoles() {
     visible = true;
   }
 
-    // ALMACÉN (rol almacen o finanzas)
+  // ALMACÉN (rol almacen o finanzas)
   if (has("almacen") || has("finanzas")) {
     show([
       "item-almacen-header",
@@ -205,7 +205,6 @@ function configurarMenuPorRoles() {
     ]);
     visible = true;
   }
-
 
   // COORDINACIÓN D
   if (has("coordinacion") || has("coordinaciond")) {
@@ -223,6 +222,9 @@ function configurarMenuPorRoles() {
     const dd = document.getElementById("menu-roles-dropdown");
     if (dd) dd.classList.remove("d-none");
   }
+
+  // ✅ PASO 3: Restricción visual por correo (ocultar módulos)
+  aplicarRestriccionAlmacenMenuYRedireccion();
 }
 
 // ================== OBTENER USUARIO ==================
@@ -270,6 +272,31 @@ function obtenerUsuarioActual() {
   }
 
   return null;
+}
+
+// ================== PASO 3: OCULTAR + REDIRIGIR EN ALMACÉN ==================
+function aplicarRestriccionAlmacenMenuYRedireccion() {
+  const usuario = obtenerUsuarioActual();
+  if (!usuario) return;
+
+  const email = (usuario.email || "").toLowerCase();
+  const restrictedEmail = "almacen@bateil.edu.mx";
+  const isRestricted = email === restrictedEmail;
+
+  if (!isRestricted) return;
+
+  // 1) Ocultar opciones del menú
+  document.getElementById("item-almacen-entradas")?.classList.add("d-none");
+  document.getElementById("item-almacen-productos")?.classList.add("d-none");
+
+  // 2) Si intenta entrar por URL, redirigir
+  const path = (window.location.pathname || "").toLowerCase();
+
+  if (path.includes("entradas") || path.includes("productos")) {
+    alert("Tu cuenta no tiene permiso para acceder a este módulo.");
+    // ✅ ajusta si tu dashboard tiene otro nombre/ruta
+    window.location.href = "/almacen/dashboard.html";
+  }
 }
 
 // ================== MOSTRAR NOMBRE + INICIAL EN NAVBAR ==================
@@ -388,7 +415,6 @@ async function cargarNotificacionesServidor() {
 }
 
 // Detectar nuevos tickets o cambios de prioridad
-
 function procesarCambiosTickets(lista) {
   const nuevaFoto = lista.map((t) => ({
     id: String(t._id),
@@ -398,8 +424,6 @@ function procesarCambiosTickets(lista) {
   // Solo actualizamos el snapshot para futuras comparaciones si quieres
   notifTicketsPrev = nuevaFoto;
 }
-
-
 
 // Crear objeto notificación
 function crearNotificacion(titulo, tipo = "general") {
@@ -575,11 +599,6 @@ function initSocket(usuario) {
 
     // Insertar al inicio
     notifLista.unshift(normalizada);
-
-    // 👇 Solo mantener asignado y prioridad
-    /*notifLista = notifLista.filter(
-      (n) => n.tipo === "asignado" || n.tipo === "prioridad"
-    );*/
 
     // Actualizar UI y efectos
     renderNotificaciones();
