@@ -154,13 +154,26 @@
      *  Cargar productos
      =========================== */
     async function cargarProductosSelect() {
-      const res = await fetch("/api/almacen/productos", {
+      const res = await fetch("/api/almacen/productos-select", {
         headers: { "Authorization": "Bearer " + token }
       });
 
-      if (res.status === 401) return window.location.href = "../login.html";
+      if (res.status === 401) {
+        window.location.href = "../login.html";
+        return;
+      }
 
-      const data = await res.json();
+      if (res.status === 403) {
+        alert("No tienes permiso para cargar productos.");
+        return;
+      }
+
+      if (!res.ok) {
+        console.error("Error al cargar productos:", res.status);
+        return;
+      }
+
+      const data = await res.json(); // ✅ data ES un array
 
       const filtro = document.getElementById("filtroProducto");
       const selectAjuste = document.getElementById("ajusteProducto");
@@ -168,9 +181,13 @@
       filtro.innerHTML = `<option value="">Todos</option>`;
       selectAjuste.innerHTML = `<option value="" disabled selected>Seleccione...</option>`;
 
-      data.productos.forEach(p => {
-        filtro.innerHTML += `<option value="${p._id}">${p.nombre}</option>`;
-        selectAjuste.innerHTML += `<option value="${p._id}">${p.nombre}</option>`;
+      // ✅ Mostrar stock y evitar errores si viene vacío
+      (data || []).forEach(p => {
+        const stock = (p.stockActual ?? 0);
+        const txt = `${p.nombre} (Stock: ${stock})`;
+
+        filtro.innerHTML += `<option value="${p._id}">${txt}</option>`;
+        selectAjuste.innerHTML += `<option value="${p._id}">${txt}</option>`;
       });
     }
 

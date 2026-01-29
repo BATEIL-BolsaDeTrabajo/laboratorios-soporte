@@ -78,6 +78,36 @@ async function registrarAuditoriaMovimiento({
 }
 
 /* ===========================
+   RUTA SOLO PARA SELECTS
+   (Permite cargar productos para Salidas/Ajustes,
+   sin dar acceso al CRUD de Productos)
+=========================== */
+
+/**
+ * GET /api/almacen/productos-select
+ * Lista mínima de productos activos para llenar selects
+ */
+router.get(
+  '/productos-select',
+  verifyToken,
+  verifyRole(allowAlmacen),
+  async (req, res) => {
+    try {
+      const productos = await Producto.find({ estado: 'activo', stockActual: { $gt: 0 } })
+        .select('_id nombre codigo unidadMedida stockActual')
+        .sort({ nombre: 1 });
+
+      return res.json(productos);
+    } catch (err) {
+      console.error('Error en /productos-select:', err);
+      return res.status(500).json({ mensaje: 'Error al cargar productos' });
+    }
+  }
+);
+
+
+
+/* ===========================
    RUTAS DE PRODUCTOS
 =========================== */
 
