@@ -68,24 +68,25 @@
             <th>Folio</th>
             <th>Fecha</th>
             <th>Registrado por</th>
+            <th style="width: 120px;">Acciones</th>
           </tr>
         </thead>
         <tbody>
-          <tr><td colspan="6" class="text-center text-muted">Cargando...</td></tr>
+          <tr><td colspan="7" class="text-center text-muted">Cargando...</td></tr>
         </tbody>
       </table>
     </div>
 
   </div>
 
-  <!-- MODAL NUEVA ENTRADA -->
+  <!-- MODAL NUEVA ENTRADA / AGREGAR STOCK -->
   <div class="modal fade" id="modalEntrada" tabindex="-1">
     <div class="modal-dialog">
       <div class="modal-content">
 
         <form id="formEntrada">
           <div class="modal-header">
-            <h5 class="modal-title">Registrar entrada</h5>
+            <h5 class="modal-title" id="modalEntradaTitulo">Registrar entrada</h5>
             <button class="btn-close" data-bs-dismiss="modal"></button>
           </div>
 
@@ -94,6 +95,9 @@
             <div class="mb-3">
               <label class="form-label">Producto</label>
               <select id="entradaProducto" class="form-select" required></select>
+              <div class="form-text" id="entradaHint" style="display:none;">
+                Estás agregando más cantidad a este producto (se sumará al stock).
+              </div>
             </div>
 
             <div class="mb-3">
@@ -115,7 +119,7 @@
 
           <div class="modal-footer">
             <button class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-            <button class="btn btn-primary" type="submit">Guardar</button>
+            <button class="btn btn-primary" type="submit" id="btnGuardarEntrada">Guardar</button>
           </div>
         </form>
 
@@ -133,6 +137,10 @@
 
     const tablaBody = document.querySelector("#tablaEntradas tbody");
 
+    // Modo del modal: "nueva" o "agregar"
+    let modalModo = "nueva";
+    let productoBloqueado = false;
+
     function fmtFecha(dt) {
       const d = new Date(dt);
       const pad = n => String(n).padStart(2, "0");
@@ -141,15 +149,16 @@
 
     /** ===========================
      *  CARGAR PRODUCTOS EN SELECTS
+     *  (Usa /productos-select para no depender del CRUD)
      =========================== */
     async function cargarProductosSelect() {
-      const res = await fetch("/api/almacen/productos", {
+      const res = await fetch("/api/almacen/productos-select", {
         headers: { "Authorization": "Bearer " + token }
       });
 
-      if (res.status === 401) return window.location.href = "../login.html";
+      if (res.status === 401) { window.location.href = "../login.html"; return; }
 
-      const data = await res.json();
+      const data = await res.json(); // ✅ array
 
       const filtro = document.getElementById("filtroProducto");
       const selectEntrada = document.getElementById("entradaProducto");
@@ -157,9 +166,12 @@
       filtro.innerHTML = `<option value="">Todos</option>`;
       selectEntrada.innerHTML = `<option value="" disabled selected>Seleccione...</option>`;
 
-      data.productos.forEach(p => {
-        filtro.innerHTML += `<option value="${p._id}">${p.nombre}</option>`;
-        selectEntrada.innerHTML += `<option value="${p._id}">${p.nombre}</option>`;
+      (data || []).forEach(p => {
+        const stock = (p.stockActual ?? 0);
+        const txt = `${p.nombre} (Stock: ${stock})`;
+
+        filtro.innerHTML += `<option value="${p._id}">${txt}</option>`;
+        selectEntrada.innerHTML += `<option value="${p._id}">${txt}</option>`;
       });
     }
 
@@ -183,27 +195,38 @@
         headers: { "Authorization": "Bearer " + token }
       });
 
-      if (res.status === 401) return window.location.href = "../login.html";
+      if (res.status === 401) { window.location.href = "../login.html"; return; }
 
       const data = await res.json();
 
       tablaBody.innerHTML = "";
 
-      if (!data.entradas.length) {
+      if (!data.entradas?.length) {
         tablaBody.innerHTML =
-          `<tr><td colspan="6" class="text-center text-muted">Sin datos.</td></tr>`;
+          `<tr><td colspan="7" class="text-center text-muted">Sin datos.</td></tr>`;
         return;
       }
 
       data.entradas.forEach(e => {
+        const prodId = e.producto?._id || "";
+        const prodNombre = e.producto?.nombre || "-";
+
         tablaBody.innerHTML += `
           <tr>
-            <td>${e.producto?.nombre || "-"}</td>
+            <td>${prodNombre}</td>
             <td>${e.cantidad}</td>
             <td>${e.proveedor || "-"}</td>
             <td>${e.folio || "-"}</td>
             <td>${fmtFecha(e.fecha)}</td>
             <td>${e.registradoPor?.nombre || "-"}</td>
+            <td class="text-center">
+              <button class="btn btn-sm btn-success"
+                data-bs-toggle="modal"
+                data-bs-target="#modalEntrada"
+                onclick="abrirModalAgregarStock('${prodId}', '${escapeHtml(prodNombre)}')">
+                + Agregar
+              </button>
+            </td>
           </tr>
         `;
       });
@@ -213,18 +236,63 @@
      *  NUEVA ENTRADA
      =========================== */
     function prepararNuevaEntrada() {
+      modalModo = "nueva";
+      productoBloqueado = false;
+
+      document.getElementById("modalEntradaTitulo").textContent = "Registrar entrada";
+      document.getElementById("entradaHint").style.display = "none";
+      document.getElementById("btnGuardarEntrada").textContent = "Guardar";
+
       document.getElementById("formEntrada").reset();
+
+      // permitir seleccionar producto
+      const sel = document.getElementById("entradaProducto");
+      sel.disabled = false;
+    }
+
+    /** ===========================
+     *  ABRIR MODAL PARA AGREGAR STOCK
+     *  (producto fijo)
+     =========================== */
+    function abrirModalAgregarStock(productoId, productoNombre) {
+      modalModo = "agregar";
+      productoBloqueado = true;
+
+      document.getElementById("modalEntradaTitulo").textContent = "Agregar cantidad a producto";
+      document.getElementById("entradaHint").style.display = "block";
+      document.getElementById("btnGuardarEntrada").textContent = "Sumar";
+
+      // Reset parcial
+      document.getElementById("formEntrada").reset();
+
+      // Seleccionar y bloquear producto
+      const sel = document.getElementById("entradaProducto");
+      sel.value = productoId;
+      sel.disabled = true;
+
+      // Opcional: poner proveedor/folio vacíos, cantidad obligatoria
+      document.getElementById("entradaCantidad").focus();
     }
 
     document.getElementById("formEntrada").addEventListener("submit", async (e) => {
       e.preventDefault();
 
+      const sel = document.getElementById("entradaProducto");
+      const productoId = sel.value;
+
+      if (!productoId) { alert("Selecciona un producto"); return; }
+
       const payload = {
-        productoId: document.getElementById("entradaProducto").value,
+        productoId,
         cantidad: Number(document.getElementById("entradaCantidad").value),
         proveedor: document.getElementById("entradaProveedor").value,
         folio: document.getElementById("entradaFolio").value
       };
+
+      if (!payload.cantidad || payload.cantidad < 1) {
+        alert("La cantidad debe ser mayor a 0");
+        return;
+      }
 
       const res = await fetch("/api/almacen/entradas", {
         method: "POST",
@@ -235,16 +303,31 @@
         body: JSON.stringify(payload)
       });
 
-      if (res.status === 401) return window.location.href = "../login.html";
+      if (res.status === 401) { window.location.href = "../login.html"; return; }
 
       if (res.ok) {
-        alert("Entrada registrada");
-        cargarEntradas();
+        alert(modalModo === "agregar" ? "Cantidad agregada ✅" : "Entrada registrada ✅");
+        await cargarEntradas();
+
+        // cerrar modal
         bootstrap.Modal.getInstance(document.getElementById("modalEntrada")).hide();
+
+        // si quedó bloqueado, re-habilitar para la próxima vez
+        sel.disabled = false;
       } else {
-        alert("Error al registrar la entrada");
+        const err = await res.json().catch(() => ({}));
+        alert(err.mensaje || "Error al registrar la entrada");
       }
     });
+
+    function escapeHtml(str) {
+      return String(str || "")
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
+    }
 
     /** ===========================
      *  INICIALIZACIÓN
