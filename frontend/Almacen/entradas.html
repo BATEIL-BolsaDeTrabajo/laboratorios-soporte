@@ -152,7 +152,7 @@
      *  (Usa /productos-select para no depender del CRUD)
      =========================== */
     async function cargarProductosSelect() {
-      const res = await fetch("/api/almacen/productos-select", {
+      fetch("/api/almacen/productos-select-entrada", {
         headers: { "Authorization": "Bearer " + token }
       });
 

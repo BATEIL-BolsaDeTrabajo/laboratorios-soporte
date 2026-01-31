@@ -105,6 +105,24 @@ router.get(
   }
 );
 
+// ✅ Productos para Entradas (incluye stock 0)
+router.get(
+  "/productos-select-entrada",
+  verifyToken,
+  verifyRole(allowAlmacen),
+  async (req, res) => {
+    try {
+      const productos = await Producto.find({ estado: "activo" })
+        .select("_id nombre codigo unidadMedida stockActual")
+        .sort({ nombre: 1 });
+
+      return res.json(productos);
+    } catch (err) {
+      console.error("Error en /productos-select-entrada:", err);
+      return res.status(500).json({ mensaje: "Error al cargar productos" });
+    }
+  }
+);
 
 
 /* ===========================
