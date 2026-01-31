@@ -152,11 +152,20 @@
      *  (Usa /productos-select para no depender del CRUD)
      =========================== */
     async function cargarProductosSelect() {
-      fetch("/api/almacen/productos-select-entrada", {
+      const res = await fetch("/api/almacen/productos-select-entrada", {
         headers: { "Authorization": "Bearer " + token }
       });
 
-      if (res.status === 401) { window.location.href = "../login.html"; return; }
+      if (res.status === 401) {
+        window.location.href = "../login.html";
+        return;
+      }
+
+      if (!res.ok) {
+        const err = await res.json().catch(() => ({}));
+        alert(err.mensaje || "Error al cargar productos");
+        return;
+      }
 
       const data = await res.json(); // ✅ array
 
@@ -174,6 +183,7 @@
         selectEntrada.innerHTML += `<option value="${p._id}">${txt}</option>`;
       });
     }
+
 
     /** ===========================
      *  CARGAR ENTRADAS
