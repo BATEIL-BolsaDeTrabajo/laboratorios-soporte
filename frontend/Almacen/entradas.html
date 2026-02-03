@@ -139,7 +139,9 @@
 
     // Modo del modal: "nueva" o "agregar"
     let modalModo = "nueva";
-    let productoBloqueado = false;
+
+    // 🔒 Candado para evitar doble submit
+    let enviandoEntrada = false;
 
     function fmtFecha(dt) {
       const d = new Date(dt);
@@ -149,17 +151,14 @@
 
     /** ===========================
      *  CARGAR PRODUCTOS EN SELECTS
-     *  (Usa /productos-select para no depender del CRUD)
+     *  Entradas: INCLUYE stock 0
      =========================== */
     async function cargarProductosSelect() {
       const res = await fetch("/api/almacen/productos-select-entrada", {
         headers: { "Authorization": "Bearer " + token }
       });
 
-      if (res.status === 401) {
-        window.location.href = "../login.html";
-        return;
-      }
+      if (res.status === 401) { window.location.href = "../login.html"; return; }
 
       if (!res.ok) {
         const err = await res.json().catch(() => ({}));
@@ -183,7 +182,6 @@
         selectEntrada.innerHTML += `<option value="${p._id}">${txt}</option>`;
       });
     }
-
 
     /** ===========================
      *  CARGAR ENTRADAS
@@ -233,7 +231,7 @@
               <button class="btn btn-sm btn-success"
                 data-bs-toggle="modal"
                 data-bs-target="#modalEntrada"
-                onclick="abrirModalAgregarStock('${prodId}', '${escapeHtml(prodNombre)}')">
+                onclick="abrirModalAgregarStock('${prodId}')">
                 + Agregar
               </button>
             </td>
@@ -247,7 +245,6 @@
      =========================== */
     function prepararNuevaEntrada() {
       modalModo = "nueva";
-      productoBloqueado = false;
 
       document.getElementById("modalEntradaTitulo").textContent = "Registrar entrada";
       document.getElementById("entradaHint").style.display = "none";
@@ -264,9 +261,8 @@
      *  ABRIR MODAL PARA AGREGAR STOCK
      *  (producto fijo)
      =========================== */
-    function abrirModalAgregarStock(productoId, productoNombre) {
+    function abrirModalAgregarStock(productoId) {
       modalModo = "agregar";
-      productoBloqueado = true;
 
       document.getElementById("modalEntradaTitulo").textContent = "Agregar cantidad a producto";
       document.getElementById("entradaHint").style.display = "block";
@@ -280,64 +276,76 @@
       sel.value = productoId;
       sel.disabled = true;
 
-      // Opcional: poner proveedor/folio vacíos, cantidad obligatoria
       document.getElementById("entradaCantidad").focus();
     }
 
+    /** ===========================
+     *  SUBMIT (FIX DUPLICADO ✅)
+     =========================== */
     document.getElementById("formEntrada").addEventListener("submit", async (e) => {
       e.preventDefault();
 
-      const sel = document.getElementById("entradaProducto");
-      const productoId = sel.value;
+      // 🔒 Evitar doble envío
+      if (enviandoEntrada) return;
+      enviandoEntrada = true;
 
-      if (!productoId) { alert("Selecciona un producto"); return; }
+      const btn = document.getElementById("btnGuardarEntrada");
+      btn.disabled = true;
 
-      const payload = {
-        productoId,
-        cantidad: Number(document.getElementById("entradaCantidad").value),
-        proveedor: document.getElementById("entradaProveedor").value,
-        folio: document.getElementById("entradaFolio").value
-      };
+      try {
+        const sel = document.getElementById("entradaProducto");
+        const productoId = sel.value;
 
-      if (!payload.cantidad || payload.cantidad < 1) {
-        alert("La cantidad debe ser mayor a 0");
-        return;
-      }
+        if (!productoId) {
+          alert("Selecciona un producto");
+          return;
+        }
 
-      const res = await fetch("/api/almacen/entradas", {
-        method: "POST",
-        headers: {
-          "Authorization": "Bearer " + token,
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify(payload)
-      });
+        const payload = {
+          productoId,
+          cantidad: Number(document.getElementById("entradaCantidad").value),
+          proveedor: document.getElementById("entradaProveedor").value,
+          folio: document.getElementById("entradaFolio").value
+        };
 
-      if (res.status === 401) { window.location.href = "../login.html"; return; }
+        if (!payload.cantidad || payload.cantidad < 1) {
+          alert("La cantidad debe ser mayor a 0");
+          return;
+        }
 
-      if (res.ok) {
+        const res = await fetch("/api/almacen/entradas", {
+          method: "POST",
+          headers: {
+            "Authorization": "Bearer " + token,
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify(payload)
+        });
+
+        if (res.status === 401) { window.location.href = "../login.html"; return; }
+
+        if (!res.ok) {
+          const err = await res.json().catch(() => ({}));
+          alert(err.mensaje || "Error al registrar la entrada");
+          return;
+        }
+
         alert(modalModo === "agregar" ? "Cantidad agregada ✅" : "Entrada registrada ✅");
         await cargarEntradas();
 
         // cerrar modal
         bootstrap.Modal.getInstance(document.getElementById("modalEntrada")).hide();
 
-        // si quedó bloqueado, re-habilitar para la próxima vez
+      } finally {
+        // 🔓 Liberar candado y botón
+        enviandoEntrada = false;
+        btn.disabled = false;
+
+        // Rehabilitar select para futuros usos
+        const sel = document.getElementById("entradaProducto");
         sel.disabled = false;
-      } else {
-        const err = await res.json().catch(() => ({}));
-        alert(err.mensaje || "Error al registrar la entrada");
       }
     });
-
-    function escapeHtml(str) {
-      return String(str || "")
-        .replaceAll("&", "&amp;")
-        .replaceAll("<", "&lt;")
-        .replaceAll(">", "&gt;")
-        .replaceAll('"', "&quot;")
-        .replaceAll("'", "&#039;");
-    }
 
     /** ===========================
      *  INICIALIZACIÓN
