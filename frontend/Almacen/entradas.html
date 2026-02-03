@@ -68,7 +68,7 @@
             <th>Folio</th>
             <th>Fecha</th>
             <th>Registrado por</th>
-            <th style="width: 120px;">Acciones</th>
+            <th style="width: 160px;">Acciones</th>
           </tr>
         </thead>
         <tbody>
@@ -136,6 +136,10 @@
     if (!token) window.location.href = "../login.html";
 
     const tablaBody = document.querySelector("#tablaEntradas tbody");
+
+    // ✅ Solo Jose puede ver el botón eliminar (visual)
+    const usuarioActual = (typeof obtenerUsuarioActual === "function") ? obtenerUsuarioActual() : null;
+    const puedeEliminar = (usuarioActual?.email || "").toLowerCase() === "jose.garcia@bateil.edu.mx";
 
     // Modo del modal: "nueva" o "agregar"
     let modalModo = "nueva";
@@ -228,12 +232,23 @@
             <td>${fmtFecha(e.fecha)}</td>
             <td>${e.registradoPor?.nombre || "-"}</td>
             <td class="text-center">
-              <button class="btn btn-sm btn-success"
-                data-bs-toggle="modal"
-                data-bs-target="#modalEntrada"
-                onclick="abrirModalAgregarStock('${prodId}')">
-                + Agregar
-              </button>
+              <div class="d-flex gap-2 justify-content-center">
+                <button class="btn btn-sm btn-success"
+                  data-bs-toggle="modal"
+                  data-bs-target="#modalEntrada"
+                  onclick="abrirModalAgregarStock('${prodId}')">
+                  + Agregar
+                </button>
+
+                ${
+                  puedeEliminar
+                    ? `<button class="btn btn-sm btn-danger"
+                         onclick="eliminarEntrada('${e._id}')">
+                         Eliminar
+                       </button>`
+                    : ""
+                }
+              </div>
             </td>
           </tr>
         `;
@@ -277,6 +292,33 @@
       sel.disabled = true;
 
       document.getElementById("entradaCantidad").focus();
+    }
+
+    /** ===========================
+     *  ELIMINAR ENTRADA (solo Jose)
+     =========================== */
+    async function eliminarEntrada(entradaId) {
+      if (!puedeEliminar) return;
+
+      const ok = confirm("¿Seguro que deseas ELIMINAR esta entrada?\nEsto revertirá el stock.");
+      if (!ok) return;
+
+      const res = await fetch("/api/almacen/entradas/" + entradaId, {
+        method: "DELETE",
+        headers: { "Authorization": "Bearer " + token }
+      });
+
+      if (res.status === 401) { window.location.href = "../login.html"; return; }
+
+      const data = await res.json().catch(() => ({}));
+
+      if (!res.ok) {
+        alert(data.mensaje || "No se pudo eliminar la entrada.");
+        return;
+      }
+
+      alert(data.mensaje || "Entrada eliminada ✅");
+      await cargarEntradas();
     }
 
     /** ===========================

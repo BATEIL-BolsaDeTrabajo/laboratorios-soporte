@@ -17,6 +17,9 @@ const allowAlmacen = ['almacen', 'finanzas'];
 // 🚫 Restricción especial por correo
 const RESTRICTED_ALMACEN_EMAIL = 'almacen@bateil.edu.mx';
 
+// ✅ Solo este correo puede eliminar entradas
+const ALLOW_DELETE_ENTRADAS_EMAIL = 'jose.garcia@bateil.edu.mx';
+
 function bloquearEntradasYProductosParaCorreo(req, res, next) {
   const email = (req.usuario?.email || '').toLowerCase();
 
@@ -506,6 +509,79 @@ router.get(
     }
   }
 );
+
+/**
+ * DELETE /api/almacen/entradas/:id
+ * Elimina una entrada y revierte el stock (solo permitido a jose.garcia@bateil.edu.mx)
+ */
+router.delete(
+  "/entradas/:id",
+  verifyToken,
+  verifyRole(allowAlmacen),
+  async (req, res) => {
+    try {
+      // 🔒 Seguridad por correo (no solo visual)
+      const email = (req.usuario?.email || "").toLowerCase();
+      if (email !== ALLOW_DELETE_ENTRADAS_EMAIL) {
+        return res.status(403).json({ mensaje: "Acceso denegado." });
+      }
+
+      const entradaId = req.params.id;
+      if (!mongoose.Types.ObjectId.isValid(entradaId)) {
+        return res.status(400).json({ mensaje: "ID inválido." });
+      }
+
+      const entrada = await EntradaAlmacen.findById(entradaId);
+      if (!entrada) {
+        return res.status(404).json({ mensaje: "Entrada no encontrada." });
+      }
+
+      const producto = await Producto.findById(entrada.producto);
+      if (!producto) {
+        return res.status(404).json({ mensaje: "Producto no encontrado." });
+      }
+
+      const cantidadEntrada = Number(entrada.cantidad || 0);
+      const stockAntes = Number(producto.stockActual || 0);
+      const stockDespues = stockAntes - cantidadEntrada;
+
+      // ✅ Regla de seguridad: no permitir dejar stock negativo
+      // (por ejemplo, si ya hubo salidas posteriores a esa entrada)
+      if (stockDespues < 0) {
+        return res.status(400).json({
+          mensaje:
+            "No se puede eliminar: el stock actual es menor que la cantidad de la entrada (ya se usó en salidas).",
+        });
+      }
+
+      // 1) Revertir stock
+      producto.stockActual = stockDespues;
+      await producto.save();
+
+      // 2) Eliminar entrada
+      await EntradaAlmacen.deleteOne({ _id: entradaId });
+
+      // 3) Auditoría (opcional pero recomendado)
+      await registrarAuditoriaMovimiento({
+        producto,
+        accion: "entrada_eliminada",
+        cantidadAntes: stockAntes,
+        cantidadDespues: stockDespues,
+        usuarioId: req.usuario?.id,
+        detalle: `Se eliminó entrada de ${cantidadEntrada} unidades. Folio: ${entrada.folio || "-"}`,
+      });
+
+      return res.json({
+        mensaje: "Entrada eliminada y stock revertido ✅",
+        productoActualizado: producto,
+      });
+    } catch (err) {
+      console.error("Error al eliminar entrada:", err);
+      return res.status(500).json({ mensaje: "Error al eliminar entrada" });
+    }
+  }
+);
+
 
 /* ===========================
    RUTAS DE SALIDAS
