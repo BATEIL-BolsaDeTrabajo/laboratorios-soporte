@@ -188,6 +188,7 @@ function configurarMenuPorRoles() {
       "item-finanzas-revisiontiempo",
       "item-finanzas-historial",
       "item-finanzas-divider",
+      "item-finanzas-asignables",
     ]);
     visible = true;
   }
