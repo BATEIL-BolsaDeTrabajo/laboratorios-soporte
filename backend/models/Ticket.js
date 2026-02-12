@@ -29,7 +29,6 @@ const HistorySchema = new Schema({
   tiempoSolucionMin:{ type: Number }         // minutos, calculado cuando cierra/resuelve
 }, { _id: false });
 
-
 // Evidencias (archivos / fotos en Drive)
 const EvidenciaSchema = new Schema({
   fileId:         { type: String, required: true },   // ID del archivo en Drive
@@ -38,8 +37,6 @@ const EvidenciaSchema = new Schema({
   webContentLink: { type: String },                   // Link de descarga directa
   uploadedAt:     { type: Date, default: Date.now }   // Cuándo se subió
 }, { _id: false });
-
-
 
 /* ==== Esquema principal ==== */
 const ticketSchema = new Schema({
@@ -66,10 +63,19 @@ const ticketSchema = new Schema({
   // Estado general
   estatus: {
     type: String,
-    enum: ['Abierto','En proceso','En espera de material','Resuelto','Tiempo excedido','Cerrado'],
+    enum: [
+      'Abierto',
+      'En proceso',
+      'En espera de material',
+      'Resuelto',
+      'Tiempo excedido',
+      'Cerrado',
+      'Rechazado' // ✅ agregado
+    ],
     default: 'Abierto',
     index: true
   },
+
   requiereMaterial: { type: String, default: '' },
   resolucion:       { type: String, default: '' },
 
@@ -96,7 +102,12 @@ const ticketSchema = new Schema({
   folio: { type: String, unique: true, index: true },
 
   // Historial de cambios
-  historial: { type: [HistorySchema], default: [] }
+  historial: { type: [HistorySchema], default: [] },
+
+  // Archivado (para ocultar de listados activos)
+  archivado: { type: Boolean, default: false, index: true },
+  fechaArchivado: { type: Date, default: null },
+  archivadoPor: { type: Schema.Types.ObjectId, ref: 'User', default: null }
 }, { timestamps: true });
 
 ticketSchema.index({ createdAt: -1 });
@@ -131,4 +142,3 @@ ticketSchema.pre('save', async function(next){
 
 // Exporta el modelo
 module.exports = mongoose.models.Ticket || mongoose.model('Ticket', ticketSchema);
-

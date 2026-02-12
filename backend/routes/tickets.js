@@ -5,11 +5,9 @@ const Ticket = require('../models/Ticket');
 const { verifyToken, verifyRole } = require('../middlewares/auth');
 const Notification = require('../models/Notification');
 const User = require('../models/User');
-//const { ensureTicketFolder } = require('../utils/googleDrive');
 const { ensureTicketFolder, uploadTicketEvidence } = require('../utils/googleDrive');
 const uploadEvidence = require('../middlewares/uploadEvidence');
 const fs = require('fs');
-
 
 /* ========= Helpers ========= */
 function validarNuevoPayload(body) {
@@ -175,13 +173,10 @@ router.post('/', verifyToken, async (req, res) => {
       // No detenemos la creación del ticket si falla Drive
     }
 
-
-
     // 🔔 Notificar a admin / finanzas: NUEVO TICKET
     const io = req.app.get('io');
     const tituloNotif = `Nuevo ticket (${nuevo.tipo || '—'}) - ${nuevo.folio || nuevo.descripcion || 'Sin folio'}`;
     await notificarAdminsFinanzas(io, tituloNotif, 'nuevo');
-
 
     // 🆕 Emitir actualización en tiempo real
     if (io) {
@@ -192,7 +187,6 @@ router.post('/', verifyToken, async (req, res) => {
         tipo: nuevo.tipo,
       });
     }
-
 
     res.status(201).json({ ok: true, mensaje: 'Ticket creado', ticket: nuevo });
   } catch (err) {
@@ -206,7 +200,8 @@ router.get('/asignables', verifyToken, verifyRole(['admin', 'finanzas']), async 
   try {
     const tickets = await Ticket.find({
       estatus: { $in: ['Abierto', 'En proceso'] },
-      asignadoA: null
+      asignadoA: null,
+      archivado: { $ne: true } // ✅ NO mostrar archivados
     })
       .populate('creadoPor', 'nombre')
       .sort({ fechaCreacion: -1 });
@@ -263,7 +258,8 @@ router.put('/:id', verifyToken, async (req, res) => {
         'En espera de material',
         'Resuelto',
         'Tiempo excedido',
-        'Cerrado'
+        'Cerrado',
+        'Rechazado' 
       ];
       if (!estatusValidos.includes(estatus)) {
         return res.status(400).json({ mensaje: 'Estatus inválido.' });
@@ -416,7 +412,7 @@ router.put('/:id', verifyToken, async (req, res) => {
     // Guardar cambios en el ticket
     await ticket.save();
 
-     // 🆕 Emitir actualización en tiempo real
+    // 🆕 Emitir actualización en tiempo real
     if (io) {
       io.emit('ticketsActualizados', {
         accion: 'actualizado',
@@ -426,9 +422,7 @@ router.put('/:id', verifyToken, async (req, res) => {
       });
     }
 
-    // ==========================================
-    //   Notificación a admin / finanzas si RESUELTO
-    // ==========================================
+    // Notificación a admin / finanzas si RESUELTO
     if (cambioAResuelto && esSoporteOMantenimiento) {
       const tituloNotif = `Ticket resuelto (${ticket.tipo || '—'}) - ${
         ticket.folio || ticket.descripcion || 'Sin folio'
@@ -436,10 +430,7 @@ router.put('/:id', verifyToken, async (req, res) => {
       await notificarAdminsFinanzas(io, tituloNotif, 'resuelto');
     }
 
-    // ==========================================
-    //   Notificación de cambio de prioridad
-    //   (solo al técnico asignado con rol soporte/mantenimiento)
-    // ==========================================
+    // Notificación de cambio de prioridad (solo al técnico asignado)
     if (cambioDePrioridad && ticket.asignadoA) {
       try {
         const tecnico = await User.findById(ticket.asignadoA, 'roles rol');
@@ -485,9 +476,7 @@ router.put('/:id', verifyToken, async (req, res) => {
       }
     }
 
-    // ==========================================
-    //   Notificación por ASIGNACIÓN al usuario asignado
-    // ==========================================
+    // Notificación por ASIGNACIÓN al usuario asignado
     const asignadoNuevo = ticket.asignadoA ? ticket.asignadoA.toString() : null;
 
     if (asignadoNuevo && asignadoNuevo !== asignadoAntes) {
@@ -530,7 +519,6 @@ router.put('/:id', verifyToken, async (req, res) => {
   }
 });
 
-
 // === Comentarios ADMIN: crear ===
 router.post('/:id/comentarios-admin', verifyToken, async (req, res) => {
   try {
@@ -552,7 +540,6 @@ router.post('/:id/comentarios-admin', verifyToken, async (req, res) => {
 
     await t.save();
 
-
     // 🆕 Emitir actualización en tiempo real
     const io = req.app.get('io');
     if (io) {
@@ -562,11 +549,120 @@ router.post('/:id/comentarios-admin', verifyToken, async (req, res) => {
       });
     }
 
-
     return res.json({ ok: true, mensaje: 'Comentario guardado' });
   } catch (e) {
     console.error('POST /comentarios-admin', e);
     res.status(500).json({ mensaje: 'Error al guardar comentario' });
+  }
+});
+
+/* ========= Tickets archivados (admin/finanzas) ========= */
+router.get('/archivados', verifyToken, verifyRole(['admin', 'finanzas']), async (req, res) => {
+  try {
+    const tickets = await Ticket.find({ archivado: true })
+      .populate('creadoPor', 'nombre correo')
+      .populate('asignadoA', 'nombre correo')
+      .sort({ fechaArchivado: -1, updatedAt: -1 });
+
+    return res.json({ ok: true, tickets });
+  } catch (err) {
+    console.error('GET /archivados', err);
+    return res.status(500).json({ ok: false, mensaje: 'Error al obtener tickets archivados' });
+  }
+});
+
+/* ========= Archivar ticket (admin/finanzas) ========= */
+router.put('/:id/archivar', verifyToken, verifyRole(['admin', 'finanzas']), async (req, res) => {
+  try {
+    const ticket = await Ticket.findById(req.params.id);
+    if (!ticket) return res.status(404).json({ ok: false, mensaje: 'Ticket no encontrado' });
+
+    if (ticket.archivado) {
+      return res.json({ ok: true, mensaje: 'El ticket ya estaba archivado' });
+    }
+
+    const usuarioId = req.usuario?.id;
+    const usuarioNombre = req.usuario?.nombre || req.usuario?.email || 'Usuario';
+
+    ticket.archivado = true;
+    ticket.fechaArchivado = new Date();
+    ticket.archivadoPor = usuarioId || null;
+
+    // Registrar en historial
+    pushHistorial(ticket, {
+      usuarioId,
+      usuarioNombre,
+      de: ticket.estatus,
+      a: 'Archivado',
+      comentario: 'Ticket archivado'
+    });
+
+    await ticket.save();
+
+    const io = req.app.get('io');
+    if (io) {
+      io.emit('ticketsActualizados', {
+        accion: 'archivado',
+        ticketId: ticket._id.toString()
+      });
+    }
+
+    return res.json({ ok: true, mensaje: 'Ticket archivado ✅' });
+  } catch (err) {
+    console.error('PUT /:id/archivar', err);
+    return res.status(500).json({ ok: false, mensaje: 'Error al archivar ticket' });
+  }
+});
+
+/* ========= Rechazar ticket (admin/finanzas) ========= */
+router.put('/:id/rechazar', verifyToken, verifyRole(['admin', 'finanzas']), async (req, res) => {
+  try {
+    const { comentario } = req.body;
+
+    // ✅ comentario obligatorio
+    if (!comentario || !String(comentario).trim()) {
+      return res.status(400).json({ ok: false, mensaje: 'Debes escribir un comentario para rechazar.' });
+    }
+
+    const ticket = await Ticket.findById(req.params.id);
+    if (!ticket) return res.status(404).json({ ok: false, mensaje: 'Ticket no encontrado' });
+
+    const usuarioId = req.usuario?.id;
+    const usuarioNombre = req.usuario?.nombre || req.usuario?.email || 'Usuario';
+
+    const estatusAntes = ticket.estatus;
+
+    // Cambiar estatus a Rechazado
+    ticket.estatus = 'Rechazado';
+
+    // Registrar en historial con motivo
+    pushHistorial(ticket, {
+      usuarioId,
+      usuarioNombre,
+      de: estatusAntes,
+      a: 'Rechazado',
+      comentario: `RECHAZADO: ${String(comentario).trim()}`
+    });
+
+    // ✅ Archivar automáticamente
+    ticket.archivado = true;
+    ticket.fechaArchivado = new Date();
+    ticket.archivadoPor = usuarioId || null;
+
+    await ticket.save();
+
+    const io = req.app.get('io');
+    if (io) {
+      io.emit('ticketsActualizados', {
+        accion: 'rechazado',
+        ticketId: ticket._id.toString()
+      });
+    }
+
+    return res.json({ ok: true, mensaje: 'Ticket rechazado y archivado ✅' });
+  } catch (err) {
+    console.error('PUT /:id/rechazar', err);
+    return res.status(500).json({ ok: false, mensaje: 'Error al rechazar ticket' });
   }
 });
 
@@ -616,7 +712,6 @@ router.post('/:id/comentarios', verifyToken, async (req, res) => {
       });
     }
 
-
     res.json({ mensaje: 'Comentario agregado' });
   } catch (err) {
     console.error('POST /tickets/:id/comentarios error:', err);
@@ -634,7 +729,11 @@ router.get('/historial', verifyToken, async (req, res) => {
     const puede = ['admin', 'direccion', 'subdireccion', 'finanzas'].some(r => roles.includes(r));
     if (!puede) return res.status(403).json({ mensaje: 'No autorizado' });
 
-    const tickets = await Ticket.find({}, { descripcion: 0, resolucion: 0 })
+    // ✅ NO mostrar archivados en historial normal
+    const tickets = await Ticket.find(
+      { archivado: { $ne: true } },
+      { descripcion: 0, resolucion: 0 }
+    )
       .populate('asignadoA', 'nombre correo')
       .populate('creadoPor', 'nombre correo')
       .sort({ fechaCierre: -1, createdAt: -1 });
@@ -646,19 +745,18 @@ router.get('/historial', verifyToken, async (req, res) => {
   }
 });
 
-
 //-------------------------------------------------------------
 //  MIS TICKETS (usuario ve solo los suyos)
 //-------------------------------------------------------------
 router.get('/mis-tickets', verifyToken, async (req, res) => {
   try {
-    const userId = req.usuario.id; // viene del token
+    const userId = req.usuario.id;
 
     const tickets = await Ticket.find(
-      { creadoPor: userId },    // SOLO los tickets creados por el usuario
+      { creadoPor: userId, archivado: { $ne: true } },
       {
         folio: 1,
-        tipo: 1,    
+        tipo: 1,
         estatus: 1,
         fechaCreacion: 1,
         fechaInicio: 1,
@@ -673,8 +771,6 @@ router.get('/mis-tickets', verifyToken, async (req, res) => {
     res.status(500).json({ ok: false, mensaje: 'Error al obtener tus tickets.' });
   }
 });
-
-
 
 /* ========= Get ticket para encabezado del modal ========= */
 router.get('/:id', verifyToken, async (req, res) => {
@@ -723,7 +819,7 @@ router.get('/:id/historial', verifyToken, async (req, res) => {
 });
 
 // ==============================================
-//   Listar tickets según rol y usuario
+//   Listar tickets según rol y usuario (LISTADO PRINCIPAL)
 // ==============================================
 router.get('/', verifyToken, async (req, res) => {
   try {
@@ -733,7 +829,9 @@ router.get('/', verifyToken, async (req, res) => {
       .map(r => String(r).toLowerCase());
 
     const userId = req.usuario?.id;
-    const filtro = {};
+
+    // ✅ Base: NO mostrar archivados en listados normales
+    const filtro = { archivado: { $ne: true } };
 
     const esAdminLike = roles.some(r =>
       ['admin', 'direccion', 'subdireccion', 'finanzas'].includes(r)
@@ -762,7 +860,6 @@ router.get('/', verifyToken, async (req, res) => {
   }
 });
 
-// Eliminar ticket
 // Eliminar ticket (solo admin / finanzas)
 router.delete('/:id', verifyToken, verifyRole(['admin', 'finanzas']), async (req, res) => {
   try {
@@ -773,7 +870,6 @@ router.delete('/:id', verifyToken, verifyRole(['admin', 'finanzas']), async (req
       return res.status(404).json({ mensaje: 'Ticket no encontrado' });
     }
 
-    // Guardamos info para la notificación ANTES de borrar
     const tipoTicket  = ticket.tipo || '—';
     const folioTicket = ticket.folio || ticket.descripcion || 'Sin folio';
 
@@ -803,7 +899,7 @@ router.delete('/:id', verifyToken, verifyRole(['admin', 'finanzas']), async (req
 // SUBIR EVIDENCIA (FOTO) A UN TICKET  (PRUEBA SIN TOKEN)
 // =========================
 router.post('/:id/evidencias',
-  uploadEvidence.single('file'), // 👈 OJO: aquí ya NO está verifyToken
+  uploadEvidence.single('file'),
   async (req, res) => {
     try {
       const ticketId = req.params.id;
@@ -818,7 +914,6 @@ router.post('/:id/evidencias',
 
       const ticket = await Ticket.findById(ticketId);
       if (!ticket) {
-        // Si el ticket no existe, borramos el archivo temporal
         try { fs.unlinkSync(file.path); } catch (e) {}
         return res.status(404).json({
           ok: false,
@@ -826,14 +921,11 @@ router.post('/:id/evidencias',
         });
       }
 
-      // Subir archivo a la carpeta de Drive del ticket (creándola si no existe)
       const info = await uploadTicketEvidence(ticket, file);
 
-      // Actualizar datos de carpeta en el ticket
       ticket.driveFolderId   = info.folderId;
       ticket.driveFolderLink = info.webViewLink || ticket.driveFolderLink;
 
-      // Guardar la evidencia en el arreglo
       ticket.evidencias.push({
         fileId:         info.fileId,
         fileName:       info.fileName,
@@ -843,7 +935,6 @@ router.post('/:id/evidencias',
 
       await ticket.save();
 
-      // Borrar el archivo local (ya está en Drive)
       try { fs.unlinkSync(file.path); } catch (e) {}
 
       return res.status(201).json({
@@ -861,8 +952,5 @@ router.post('/:id/evidencias',
     }
   }
 );
-
-
-
 
 module.exports = router;

@@ -123,857 +123,759 @@
 
 
   <!-- Modal comentarios admin -->
-<div class="modal fade" id="modalComentarios" tabindex="-1" aria-hidden="true">
-  <div class="modal-dialog modal-lg modal-dialog-scrollable">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="comentarios-titulo">Comentarios</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
-      </div>
-      <div class="modal-body">
-        <div class="table-responsive">
-          <table class="table table-sm table-bordered">
-            <thead class="table-light">
-              <tr>
-                <th style="width:180px">Fecha</th>
-                <th style="width:220px">Usuario</th>
-                <th>Comentario</th>
-              </tr>
-            </thead>
-            <tbody id="comentarios-tbody">
-              <tr><td colspan="3" class="text-center text-muted">Sin comentarios.</td></tr>
-            </tbody>
-          </table>
+  <div class="modal fade" id="modalComentarios" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-scrollable">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="comentarios-titulo">Comentarios</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
         </div>
-      </div>
-      <div class="modal-footer">
-        <button class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+        <div class="modal-body">
+          <div class="table-responsive">
+            <table class="table table-sm table-bordered">
+              <thead class="table-light">
+                <tr>
+                  <th style="width:180px">Fecha</th>
+                  <th style="width:220px">Usuario</th>
+                  <th>Comentario</th>
+                </tr>
+              </thead>
+              <tbody id="comentarios-tbody">
+                <tr><td colspan="3" class="text-center text-muted">Sin comentarios.</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+        </div>
       </div>
     </div>
   </div>
-</div>
 
-<!-- Modal evidencias -->
-<div class="modal fade" id="modalEvidencias" tabindex="-1" aria-hidden="true">
-  <div class="modal-dialog modal-xl modal-dialog-scrollable">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="evidencias-titulo">Evidencias</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
-      </div>
-      <div class="modal-body">
-        <div id="evidencias-body" class="row g-3">
-          <!-- Aquí se cargan las tarjetas de evidencias -->
+  <!-- Modal evidencias -->
+  <div class="modal fade" id="modalEvidencias" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-xl modal-dialog-scrollable">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="evidencias-titulo">Evidencias</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
         </div>
-      </div>
-      <div class="modal-footer">
-        <a id="evidencias-carpeta"
-           href="#"
-           target="_blank"
-           class="btn btn-outline-primary d-none">
-          Abrir carpeta en Drive
-        </a>
-        <button class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+        <div class="modal-body">
+          <div id="evidencias-body" class="row g-3"></div>
+        </div>
+        <div class="modal-footer">
+          <a id="evidencias-carpeta"
+             href="#"
+             target="_blank"
+             class="btn btn-outline-primary d-none">
+            Abrir carpeta en Drive
+          </a>
+          <button class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+        </div>
       </div>
     </div>
   </div>
-</div>
 
+  <script>
+    const token = localStorage.getItem("token");
+    if (!token) window.location.href = "login.html";
 
+    // ===== Colores por estatus =====
+    const estatusColor = {
+      "Abierto":               { border: "light", bg: "bg-ticket-abierto",  text: "" },
+      "En proceso":            { border: "light", bg: "bg-ticket-proceso",  text: "" },
+      "En espera de material": { border: "light", bg: "bg-ticket-espera",   text: "" },
+      "Resuelto":              { border: "light", bg: "bg-ticket-resuelto", text: "" },
+      "Cerrado":               { border: "light", bg: "bg-ticket-cerrado",  text: "" },
+      "Tiempo excedido":       { border: "light", bg: "bg-ticket-excedido", text: "" }
+    };
 
- <script>
-  const token = localStorage.getItem("token");
-  if (!token) window.location.href = "login.html";
-
-  // ===== Colores por estatus =====
-  const estatusColor = {
-    "Abierto":               { border: "light", bg: "bg-ticket-abierto",  text: "" },
-    "En proceso":            { border: "light", bg: "bg-ticket-proceso",  text: "" },
-    "En espera de material": { border: "light", bg: "bg-ticket-espera",   text: "" },
-    "Resuelto":              { border: "light", bg: "bg-ticket-resuelto", text: "" },
-    "Cerrado":               { border: "light", bg: "bg-ticket-cerrado",  text: "" },
-    "Tiempo excedido":       { border: "light", bg: "bg-ticket-excedido", text: "" }
-  };
-
-  // ===== Badge de prioridad =====
-  const prioridadBadge = (p) => {
-    if (!p || p === "Sin prioridad") {
-      return `<span class="badge bg-secondary">Sin prioridad</span>`;
-    }
-    const map = { Alta: "danger", Media: "warning", Baja: "primary" };
-    return `<span class="badge bg-${map[p] || "secondary"}">${p}</span>`;
-  };
-
-  // ===== Texto de ubicación (igual que en panel-soporte) =====
-  function textoUbicacion(ticket) {
-    const tipo = (ticket.tipo || "").toLowerCase();
-    const subtipo = (ticket.subtipo || "").toLowerCase();
-
-    if (tipo === "sistemas") {
-      if (subtipo === "laboratorio") {
-        const eq = ticket.equipo ? ` • Equipo: ${ticket.equipo}` : "";
-        return `Laboratorio: ${ticket.laboratorio || "—"}${eq}`;
+    // ===== Badge de prioridad =====
+    const prioridadBadge = (p) => {
+      if (!p || p === "Sin prioridad") {
+        return `<span class="badge bg-secondary">Sin prioridad</span>`;
       }
-      return `Ubicación: ${ticket.ubicacion || "—"}`;
+      const map = { Alta: "danger", Media: "warning", Baja: "primary" };
+      return `<span class="badge bg-${map[p] || "secondary"}">${p}</span>`;
+    };
+
+    // ===== Texto de ubicación =====
+    function textoUbicacion(ticket) {
+      const tipo = (ticket.tipo || "").toLowerCase();
+      const subtipo = (ticket.subtipo || "").toLowerCase();
+
+      if (tipo === "sistemas") {
+        if (subtipo === "laboratorio") {
+          const eq = ticket.equipo ? ` • Equipo: ${ticket.equipo}` : "";
+          return `Laboratorio: ${ticket.laboratorio || "—"}${eq}`;
+        }
+        return `Ubicación: ${ticket.ubicacion || "—"}`;
+      }
+
+      if (tipo === "mantenimiento") {
+        return `Salón/Área: ${ticket.salon || "—"}`;
+      }
+
+      return "";
     }
 
-    if (tipo === "mantenimiento") {
-      return `Salón/Área: ${ticket.salon || "—"}`;
+    // ===== Estado global =====
+    let usuarios = [];
+    let usuariosCargados = false;
+    let todosTickets = [];
+
+    // ✅ LOCK para evitar cargas simultáneas (bug de “desaparecen tickets”)
+    let cargandoTickets = false;
+
+    function mostrarMensaje(texto, tipo = "info") {
+      const cont = document.getElementById("mensaje-estado");
+      if (!cont) return;
+      cont.innerHTML = `
+        <div class="alert alert-${tipo} alert-dismissible fade show" role="alert">
+          ${texto}
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+      `;
     }
 
-    return "";
-  }
+    // ✅ Cargar usuarios UNA sola vez (cache)
+    async function obtenerUsuarios() {
+      if (usuariosCargados && Array.isArray(usuarios) && usuarios.length) return true;
 
-
-  // ===== Estado global =====
-  let usuarios = [];
-  let todosTickets = [];
-
-  // ===== Alertas arriba de la lista =====
-  function mostrarMensaje(texto, tipo = "info") {
-    const cont = document.getElementById("mensaje-estado");
-    if (!cont) return;
-    cont.innerHTML = `
-      <div class="alert alert-${tipo} alert-dismissible fade show" role="alert">
-        ${texto}
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-      </div>
-    `;
-  }
-
-  // ===== Cargar usuarios (para combos de asignación) =====
-  async function obtenerUsuarios() {
-    try {
-      const res = await fetch("/api/users", {
-        headers: { Authorization: `Bearer ${token}` },
-      });
-      const data = await res.json();
-      if (!Array.isArray(data)) {
-        mostrarMensaje("❌ No se pudieron cargar los usuarios.", "danger");
+      try {
+        const res = await fetch("/api/users", {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+        const data = await res.json();
+        if (!Array.isArray(data)) {
+          mostrarMensaje("❌ No se pudieron cargar los usuarios.", "danger");
+          return false;
+        }
+        usuarios = data;
+        usuariosCargados = true;
+        return true;
+      } catch (e) {
+        console.error(e);
+        mostrarMensaje("❌ Error al conectar con el servidor de usuarios.", "danger");
         return false;
       }
-      usuarios = data;
-      return true;
-    } catch (e) {
-      console.error(e);
-      mostrarMensaje("❌ Error al conectar con el servidor de usuarios.", "danger");
-      return false;
-    }
-  }
-
-  // ===== KPIs (siempre con TODOS los tickets) =====
-  function actualizarKPIs(lista) {
-    const by = (st) => lista.filter((t) => t.estatus === st).length;
-    document.getElementById("kpi-total").textContent = lista.length;
-    document.getElementById("kpi-abiertos").textContent = by("Abierto");
-    document.getElementById("kpi-proceso").textContent = by("En proceso");
-    document.getElementById("kpi-espera").textContent = by("En espera de material");
-    document.getElementById("kpi-resueltos").textContent = by("Resuelto");
-    document.getElementById("kpi-cerrados").textContent = by("Cerrado");
-    document.getElementById("kpi-excedido").textContent = by("Tiempo excedido");
-  }
-
-  // ===== Cargar + pintar tickets =====
-  async function cargarTickets() {
-    const usuariosOK = await obtenerUsuarios();
-    if (!usuariosOK) return;
-
-    const tipoSel = document.getElementById("filtroTipo").value;
-    const estatusSel = document.getElementById("filtroEstatus").value;
-    const prioridadSel = document.getElementById("filtroPrioridad").value;
-
-    let datos = [];
-    try {
-      const res = await fetch("/api/tickets", {
-        headers: { Authorization: `Bearer ${token}` },
-      });
-      if (!res.ok) {
-        mostrarMensaje("❌ No se pudieron cargar los tickets.", "danger");
-        return;
-      }
-      datos = await res.json();
-      if (!Array.isArray(datos)) datos = [];
-    } catch (e) {
-      console.error(e);
-      mostrarMensaje("❌ Error al cargar tickets.", "danger");
-      return;
     }
 
-    // Guardamos TODOS los tickets para KPIs
-    todosTickets = datos;
-    // KPIs SIEMPRE con todos
-    actualizarKPIs(todosTickets);
-
-    // Aplico filtros solo para las tarjetas
-    let filtrados = [...todosTickets];
-    if (tipoSel) {
-      filtrados = filtrados.filter((t) => t.tipo === tipoSel);
-    }
-    if (estatusSel) {
-      filtrados = filtrados.filter((t) => t.estatus === estatusSel);
-    }
-    if (prioridadSel) {
-      filtrados = filtrados.filter(
-        (t) => (t.prioridad || "Sin prioridad") === prioridadSel
-      );
+    function actualizarKPIs(lista) {
+      const by = (st) => lista.filter((t) => t.estatus === st).length;
+      document.getElementById("kpi-total").textContent = lista.length;
+      document.getElementById("kpi-abiertos").textContent = by("Abierto");
+      document.getElementById("kpi-proceso").textContent = by("En proceso");
+      document.getElementById("kpi-espera").textContent = by("En espera de material");
+      document.getElementById("kpi-resueltos").textContent = by("Resuelto");
+      document.getElementById("kpi-cerrados").textContent = by("Cerrado");
+      document.getElementById("kpi-excedido").textContent = by("Tiempo excedido");
     }
 
-    const contenedor = document.getElementById("tickets");
-    contenedor.innerHTML = "";
+    // ✅ Cargar tickets con lock
+    async function cargarTickets() {
+      if (cargandoTickets) return;
+      cargandoTickets = true;
 
-    // Pintar tarjetas
-    filtrados.forEach((ticket) => {
-      const div = document.createElement("div");
-      div.className = "col-md-6";
-
-      const puedeAsignarOReasignar = ticket.estatus !== "Cerrado";
-      const puedeCerrar = ticket.estatus !== "Cerrado";
-      const puedePonerEnProceso =
-        ticket.estatus !== "En proceso" && ticket.estatus !== "Cerrado";
-
-      // Solo soporte ve tickets de Sistemas, y mantenimiento los de Mantenimiento
-      const candidatos = usuarios.filter(
-        (u) =>
-          (ticket.tipo === "Sistemas" &&
-            (u.roles || []).includes("soporte")) ||
-          (ticket.tipo === "Mantenimiento" &&
-            (u.roles || []).includes("mantenimiento"))
-      );
-
-      // ---- bloque Asignar / Reasignar ----
-      let asignarHTML = "";
-      if (puedeAsignarOReasignar && candidatos.length) {
-        const actualId = ticket.asignadoA?._id || ticket.asignadoA || "";
-        const btnTxt = ticket.asignadoA ? "Reasignar" : "Asignar";
-        asignarHTML = `
-          <label class="form-label mt-2">Asignar/Reasignar a:</label>
-          <div class="input-group">
-            <select class="form-select" id="select-${ticket._id}">
-              ${candidatos
-                .map(
-                  (u) => `
-                <option value="${u._id}" ${
-                    String(u._id) === String(actualId) ? "selected" : ""
-                  }>
-                  ${u.nombre}
-                </option>`
-                )
-                .join("")}
-            </select>
-            <button type="button" class="btn btn-success" onclick="asignarTicket('${ticket._id}')">
-              ${btnTxt}
-            </button>
-          </div>
-        `;
-      }
-
-
-      // ---- Prioridad ----
-      const estaAsignado = !!ticket.asignadoA;
-      const selectorPrioridad = `
-        <label class="form-label mt-2">Prioridad:</label>
-        <div class="input-group">
-          <select class="form-select" id="prio-${ticket._id}" ${
-        !estaAsignado ? "disabled" : ""
-      }>
-            <option value="Sin prioridad" ${
-              (ticket.prioridad ?? "Sin prioridad") === "Sin prioridad"
-                ? "selected"
-                : ""
-            }>Sin prioridad</option>
-            ${["Alta", "Media", "Baja"]
-              .map(
-                (p) => `
-              <option value="${p}" ${
-                  ticket.prioridad === p ? "selected" : ""
-                }>${p}</option>`
-              )
-              .join("")}
-          </select>
-          <button class="btn btn-outline-primary" type="button"
-                  onclick="guardarPrioridad('${ticket._id}')" ${
-        !estaAsignado ? "disabled" : ""
-      }>
-            Guardar
-          </button>
-          <span class="input-group-text" id="prio-badge-${ticket._id}">
-            ${prioridadBadge(ticket.prioridad || "Sin prioridad")}
-          </span>
-        </div>
-        ${
-          !estaAsignado
-            ? '<div class="form-text text-muted">Asigna el ticket para habilitar la prioridad.</div>'
-            : ""
+      try {
+        const usuariosOK = await obtenerUsuarios();
+        if (!usuariosOK) {
+          // Si falla usuarios, no bloqueamos toda la pantalla (pero sí evita acciones de asignación)
+          // Aún así intentamos cargar tickets.
+          console.warn("Usuarios no disponibles, continúo cargando tickets...");
         }
-      `;
 
-      // ---- Comentarios internos (resolución) ----
-      const comentariosHTML = `
-        <label class="form-label mt-3">Comentarios (internos):</label>
-        <textarea id="coment-${ticket._id}" class="form-control" rows="2"
-                  placeholder="Agrega notas, avances o cualquier comentario">${ticket.resolucion || ""}</textarea>
-      `;
+        const tipoSel = document.getElementById("filtroTipo").value;
+        const estatusSel = document.getElementById("filtroEstatus").value;
+        const prioridadSel = document.getElementById("filtroPrioridad").value;
 
+        let datos = [];
+        try {
+          const res = await fetch("/api/tickets", {
+            headers: { Authorization: `Bearer ${token}` },
+          });
+          if (!res.ok) {
+            mostrarMensaje("❌ No se pudieron cargar los tickets.", "danger");
+            return;
+          }
+          datos = await res.json();
+          if (!Array.isArray(datos)) datos = [];
+        } catch (e) {
+          console.error(e);
+          mostrarMensaje("❌ Error al cargar tickets.", "danger");
+          return;
+        }
 
-      // ---- Botones extra (estilo panel-soporte) ----
-      const btnGuardarComentarios = `
-        <button class="btn btn-outline-secondary flex-fill"
-                onclick="guardarComentarios('${ticket._id}')">
-          Guardar comentarios
-        </button>
-      `;
+        todosTickets = datos;
+        actualizarKPIs(todosTickets);
 
-      const btnVerComentarios = `
-        <button class="btn btn-dark flex-fill"
-                onclick="verComentarios('${ticket._id}', '${ticket.folio || ""}', '${ticket.tipo || ""}')">
-          Comentarios
-        </button>
-      `;
+        let filtrados = [...todosTickets];
+        if (tipoSel) filtrados = filtrados.filter((t) => t.tipo === tipoSel);
+        if (estatusSel) filtrados = filtrados.filter((t) => t.estatus === estatusSel);
+        if (prioridadSel) {
+          filtrados = filtrados.filter((t) => (t.prioridad || "Sin prioridad") === prioridadSel);
+        }
 
-      const btnEvidencias = `
-        <button class="btn btn-info flex-fill text-white"
-                onclick="verEvidencias('${ticket._id}')">
-          Evidencias
-        </button>
-      `;
+        const contenedor = document.getElementById("tickets");
+        contenedor.innerHTML = "";
 
+        filtrados.forEach((ticket) => {
+          const div = document.createElement("div");
+          div.className = "col-md-6";
 
-      const btnEnProceso = puedePonerEnProceso
-        ? `<button class="btn btn-warning flex-fill text-dark"
-                   onclick="ponerEnProceso('${ticket._id}')">
-             Poner en proceso
-           </button>`
-        : "";
+          const puedeAsignarOReasignar = ticket.estatus !== "Cerrado";
+          const puedeCerrar = ticket.estatus !== "Cerrado";
+          const puedePonerEnProceso = ticket.estatus !== "En proceso" && ticket.estatus !== "Cerrado";
 
-      const btnExcedido =
-        ticket.estatus !== "Cerrado"
-          ? `<button class="btn btn-outline-danger flex-fill"
-                     onclick="marcarExcedido('${ticket._id}')"
-                     ${ticket.estatus === "Tiempo excedido" ? "disabled" : ""}>
-               Marcar tiempo excedido
-             </button>`
-          : "";
+          const candidatos = usuariosCargados
+            ? usuarios.filter((u) =>
+                (ticket.tipo === "Sistemas" && (u.roles || []).includes("soporte")) ||
+                (ticket.tipo === "Mantenimiento" && (u.roles || []).includes("mantenimiento"))
+              )
+            : [];
 
-      const btnReabrir =
-        ticket.estatus === "Cerrado" ||
-        ticket.estatus === "Tiempo excedido"
-          ? `<button class="btn btn-outline-dark flex-fill"
-                     onclick="reabrirTicket('${ticket._id}')">
-               Reabrir ticket
-             </button>`
-          : "";
+          let asignarHTML = "";
+          if (puedeAsignarOReasignar && candidatos.length) {
+            const actualId = ticket.asignadoA?._id || ticket.asignadoA || "";
+            const btnTxt = ticket.asignadoA ? "Reasignar" : "Asignar";
+            asignarHTML = `
+              <label class="form-label mt-2">Asignar/Reasignar a:</label>
+              <div class="input-group">
+                <select class="form-select" id="select-${ticket._id}">
+                  ${candidatos.map((u) => `
+                    <option value="${u._id}" ${String(u._id) === String(actualId) ? "selected" : ""}>
+                      ${u.nombre}
+                    </option>`).join("")}
+                </select>
+                <button type="button" class="btn btn-success" onclick="asignarTicket('${ticket._id}')">
+                  ${btnTxt}
+                </button>
+              </div>
+            `;
+          }
 
-      let btnCerrar = "";
-      if (puedeCerrar) {
-        btnCerrar = `
-          <button class="btn btn-danger flex-fill"
-                  onclick="cerrarTicket('${ticket._id}')">
-            Cerrar ticket
-          </button>`;
-      }
+          const estaAsignado = !!ticket.asignadoA;
+          const selectorPrioridad = `
+            <label class="form-label mt-2">Prioridad:</label>
+            <div class="input-group">
+              <select class="form-select" id="prio-${ticket._id}" ${!estaAsignado ? "disabled" : ""}>
+                <option value="Sin prioridad" ${(ticket.prioridad ?? "Sin prioridad") === "Sin prioridad" ? "selected" : ""}>Sin prioridad</option>
+                ${["Alta", "Media", "Baja"].map((p) => `
+                  <option value="${p}" ${ticket.prioridad === p ? "selected" : ""}>${p}</option>`).join("")}
+              </select>
+              <button class="btn btn-outline-primary" type="button"
+                      onclick="guardarPrioridad('${ticket._id}')" ${!estaAsignado ? "disabled" : ""}>
+                Guardar
+              </button>
+              <span class="input-group-text" id="prio-badge-${ticket._id}">
+                ${prioridadBadge(ticket.prioridad || "Sin prioridad")}
+              </span>
+            </div>
+            ${!estaAsignado ? '<div class="form-text text-muted">Asigna el ticket para habilitar la prioridad.</div>' : ""}
+          `;
 
-      // 🔴 NUEVO: botón eliminar
-      const btnEliminar = `
-        <button class="btn btn-outline-light flex-fill"
-                onclick="eliminarTicket('${ticket._id}')">
-          Eliminar ticket
-        </button>
-      `;
+          const comentariosHTML = `
+            <label class="form-label mt-3">Comentarios (internos):</label>
+            <textarea id="coment-${ticket._id}" class="form-control" rows="2"
+                      placeholder="Agrega notas, avances o cualquier comentario">${ticket.resolucion || ""}</textarea>
+          `;
 
+          const btnGuardarComentarios = `
+            <button class="btn btn-outline-secondary flex-fill"
+                    onclick="guardarComentarios('${ticket._id}')">
+              Guardar comentarios
+            </button>
+          `;
 
-      const estilo = estatusColor[ticket.estatus] || {
-        border: "light",
-        bg: "bg-light",
-        text: "text-dark",
-      };
+          const btnVerComentarios = `
+            <button class="btn btn-dark flex-fill"
+                    onclick="verComentarios('${ticket._id}', '${ticket.folio || ""}', '${ticket.tipo || ""}')">
+              Comentarios
+            </button>
+          `;
 
+          const btnEvidencias = `
+            <button class="btn btn-info flex-fill text-white"
+                    onclick="verEvidencias('${ticket._id}')">
+              Evidencias
+            </button>
+          `;
 
-       const ubicacionTexto = textoUbicacion(ticket);
+          const btnEnProceso = puedePonerEnProceso
+            ? `<button class="btn btn-warning flex-fill text-dark" onclick="ponerEnProceso('${ticket._id}')">
+                 Poner en proceso
+               </button>`
+            : "";
 
+          const btnExcedido =
+            ticket.estatus !== "Cerrado"
+              ? `<button class="btn btn-outline-danger flex-fill"
+                         onclick="marcarExcedido('${ticket._id}')"
+                         ${ticket.estatus === "Tiempo excedido" ? "disabled" : ""}>
+                   Marcar tiempo excedido
+                 </button>`
+              : "";
 
-      div.innerHTML = `
-        <div class="card border-${estilo.border} ${estilo.bg} ${estilo.text}">
-          <div class="card-body">
-            <div class="d-flex justify-content-between align-items-start">
-              <h5 class="card-title mb-1">${ticket.tipo}</h5>
-              <div class="text-end small">
-                <div>Estatus: <strong>${ticket.estatus}</strong></div>
-                <div>Prioridad:
-                  <span id="prio-header-${ticket._id}">
-                    ${prioridadBadge(ticket.prioridad || "Sin prioridad")}
-                  </span>
+          const btnReabrir =
+            ticket.estatus === "Cerrado" || ticket.estatus === "Tiempo excedido"
+              ? `<button class="btn btn-outline-dark flex-fill" onclick="reabrirTicket('${ticket._id}')">
+                   Reabrir ticket
+                 </button>`
+              : "";
+
+          let btnCerrar = "";
+          if (puedeCerrar) {
+            btnCerrar = `<button class="btn btn-danger flex-fill" onclick="cerrarTicket('${ticket._id}')">
+                          Cerrar ticket
+                        </button>`;
+          }
+
+          const btnEliminar = `
+            <button class="btn btn-outline-light flex-fill" onclick="eliminarTicket('${ticket._id}')">
+              Eliminar ticket
+            </button>
+          `;
+
+          const btnArchivar = `
+            <button class="btn btn-outline-secondary flex-fill" onclick="archivarTicket('${ticket._id}')">
+              Archivar ticket
+            </button>
+          `;
+
+          const btnRechazar = `
+            <button class="btn btn-outline-warning flex-fill" onclick="rechazarTicket('${ticket._id}')">
+              Rechazar
+            </button>
+          `;
+
+          const estilo = estatusColor[ticket.estatus] || { border: "light", bg: "bg-light", text: "text-dark" };
+          const ubicacionTexto = textoUbicacion(ticket);
+
+          div.innerHTML = `
+            <div class="card border-${estilo.border} ${estilo.bg} ${estilo.text}">
+              <div class="card-body">
+                <div class="d-flex justify-content-between align-items-start">
+                  <h5 class="card-title mb-1">${ticket.tipo}</h5>
+                  <div class="text-end small">
+                    <div>Estatus: <strong>${ticket.estatus}</strong></div>
+                    <div>Prioridad:
+                      <span id="prio-header-${ticket._id}">
+                        ${prioridadBadge(ticket.prioridad || "Sin prioridad")}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+
+                <p class="card-text mb-2">
+                  <span class="text-muted">Folio:</span>
+                  <strong>${ticket.folio || "—"}</strong><br>
+                  ${ubicacionTexto ? `${ubicacionTexto}<br>` : ""}
+                  Descripción: ${ticket.descripcion}<br>
+                  Material requerido: ${ticket.requiereMaterial || "Ninguno"}<br>
+                  Creado por: ${ticket.creadoPor?.nombre || "N/A"}<br>
+                  Asignado a: <span id="asignado-${ticket._id}">
+                    ${ticket.asignadoA?.nombre || "Sin asignar"}
+                  </span><br>
+                  Fecha: ${new Date(ticket.fechaCreacion || ticket.createdAt).toLocaleString()}
+                </p>
+
+                ${selectorPrioridad}
+                ${asignarHTML}
+                ${comentariosHTML}
+
+                <div class="d-flex flex-wrap gap-2 mt-3">
+                  ${btnGuardarComentarios}
+                  ${btnEnProceso}
+                  ${btnExcedido}
+                  ${btnReabrir}
+                  ${btnCerrar}
+                  ${btnArchivar}
+                  ${btnRechazar}
+                  ${btnEliminar}
+                  ${btnVerComentarios}
+                  ${btnEvidencias}
                 </div>
               </div>
             </div>
+          `;
+          contenedor.appendChild(div);
+        });
+      } finally {
+        cargandoTickets = false;
+      }
+    }
 
-            <p class="card-text mb-2">
-              <span class="text-muted">Folio:</span>
-              <strong>${ticket.folio || "—"}</strong><br>
-              ${ubicacionTexto ? `${ubicacionTexto}<br>` : ""}
-              Descripción: ${ticket.descripcion}<br>
-              Material requerido: ${ticket.requiereMaterial || "Ninguno"}<br>
-              Creado por: ${ticket.creadoPor?.nombre || "N/A"}<br>
-              Asignado a: <span id="asignado-${ticket._id}">
-                ${ticket.asignadoA?.nombre || "Sin asignar"}
-              </span><br>
-              Fecha: ${new Date(
-                ticket.fechaCreacion || ticket.createdAt
-              ).toLocaleString()}
-            </p>
+    async function asignarTicket(id) {
+      const select = document.getElementById(`select-${id}`);
+      if (!select) return;
 
+      const boton = select.parentElement.querySelector("button");
+      if (boton) boton.disabled = true;
 
-            ${selectorPrioridad}
-            ${asignarHTML}
-            ${comentariosHTML}
+      const userId = select.value;
+      const userName = select.options[select.selectedIndex].textContent;
 
-            <div class="d-flex flex-wrap gap-2 mt-3">
-              ${btnGuardarComentarios}
-              ${btnEnProceso}
-              ${btnExcedido}
-              ${btnReabrir}
-              ${btnCerrar}
-              ${btnEliminar}
-              ${btnVerComentarios}
-              ${btnEvidencias}
-            </div>
-          </div>
-        </div>
-      `;
-      contenedor.appendChild(div);
-    });
-  }
+      try {
+        const res = await fetch(`/api/tickets/${id}`, {
+          method: "PUT",
+          headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
+          body: JSON.stringify({ asignadoA: userId }),
+        });
 
-  // ===== ASIGNAR / REASIGNAR =====
-  async function asignarTicket(id) {
-    const select = document.getElementById(`select-${id}`);
-    if (!select) return;
+        const data = await res.json().catch(() => ({}));
+        if (!res.ok) {
+          mostrarMensaje(data.mensaje || "❌ No se pudo asignar el ticket", "danger");
+          return;
+        }
 
-    const boton = select.parentElement.querySelector("button");
-    if (boton) boton.disabled = true;
+        mostrarMensaje(data.mensaje || `✅ Ticket asignado / reasignado a ${userName}`, "success");
+        await cargarTickets();
+      } catch (e) {
+        console.error(e);
+        mostrarMensaje("❌ Error al asignar el ticket", "danger");
+      } finally {
+        if (boton) boton.disabled = false;
+      }
+    }
 
-    const userId = select.value;
-    const userName = select.options[select.selectedIndex].textContent;
+    async function archivarTicket(id) {
+      if (!confirm("¿Archivar este ticket? Ya no aparecerá en los listados activos.")) return;
 
-    try {
+      try {
+        const res = await fetch(`/api/tickets/${id}/archivar`, {
+          method: "PUT",
+          headers: { Authorization: `Bearer ${token}` },
+        });
+
+        const data = await res.json().catch(() => ({}));
+        if (!res.ok) {
+          mostrarMensaje(data.mensaje || "❌ No se pudo archivar el ticket", "danger");
+          return;
+        }
+
+        mostrarMensaje(data.mensaje || "📦 Ticket archivado ✅", "success");
+        cargarTickets();
+      } catch (e) {
+        console.error(e);
+        mostrarMensaje("❌ Error al archivar el ticket", "danger");
+      }
+    }
+
+    async function rechazarTicket(id) {
+      const txt = (document.getElementById(`coment-${id}`).value || "").trim();
+      if (!txt) {
+        mostrarMensaje("❗ Para rechazar debes escribir un comentario (motivo) en el campo de comentarios.", "warning");
+        return;
+      }
+
+      if (!confirm("¿Rechazar este ticket? Se archivará y ya no aparecerá en listados activos.")) return;
+
+      try {
+        const res = await fetch(`/api/tickets/${id}/rechazar`, {
+          method: "PUT",
+          headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
+          body: JSON.stringify({ comentario: txt }),
+        });
+
+        const data = await res.json().catch(() => ({}));
+        if (!res.ok) {
+          mostrarMensaje(data.mensaje || "❌ No se pudo rechazar el ticket", "danger");
+          return;
+        }
+
+        mostrarMensaje(data.mensaje || "🚫 Ticket rechazado y archivado ✅", "success");
+        cargarTickets();
+      } catch (e) {
+        console.error(e);
+        mostrarMensaje("❌ Error al rechazar el ticket", "danger");
+      }
+    }
+
+    async function cerrarTicket(id) {
       const res = await fetch(`/api/tickets/${id}`, {
         method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({ asignadoA: userId }),
+        headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
+        body: JSON.stringify({ estatus: "Cerrado" }),
+      });
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) {
+        mostrarMensaje(data.mensaje || "No se pudo cerrar el ticket", "danger");
+        return;
+      }
+      mostrarMensaje(data.mensaje || "✅ Ticket cerrado", "success");
+      cargarTickets();
+    }
+
+    async function reabrirTicket(id) {
+      const res = await fetch(`/api/tickets/${id}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
+        body: JSON.stringify({ estatus: "Abierto" }),
+      });
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) {
+        mostrarMensaje(data.mensaje || "No se pudo reabrir el ticket", "danger");
+        return;
+      }
+      mostrarMensaje("🔓 Ticket reabierto", "success");
+      cargarTickets();
+    }
+
+    async function ponerEnProceso(id) {
+      const res = await fetch(`/api/tickets/${id}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
+        body: JSON.stringify({ estatus: "En proceso" }),
+      });
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) {
+        mostrarMensaje(data.mensaje || "No se pudo poner en proceso", "danger");
+        return;
+      }
+      mostrarMensaje("▶️ Ticket puesto en proceso", "success");
+      cargarTickets();
+    }
+
+    async function marcarExcedido(id) {
+      const res = await fetch(`/api/tickets/${id}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
+        body: JSON.stringify({ estatus: "Tiempo excedido" }),
+      });
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) {
+        mostrarMensaje(data.mensaje || "No se pudo marcar como excedido", "danger");
+        return;
+      }
+      mostrarMensaje("⏰ Ticket marcado como tiempo excedido", "warning");
+      cargarTickets();
+    }
+
+    async function eliminarTicket(id) {
+      if (!confirm("¿Seguro que deseas eliminar este ticket? Esta acción no se puede deshacer.")) return;
+
+      try {
+        const res = await fetch(`/api/tickets/${id}`, {
+          method: "DELETE",
+          headers: { Authorization: `Bearer ${token}` },
+        });
+
+        const data = await res.json().catch(() => ({}));
+
+        if (!res.ok) {
+          mostrarMensaje(data.mensaje || data.error || "No se pudo eliminar el ticket", "danger");
+          return;
+        }
+
+        mostrarMensaje(data.mensaje || "🗑️ Ticket eliminado", "success");
+        cargarTickets();
+      } catch (e) {
+        console.error(e);
+        mostrarMensaje("❌ Error al eliminar el ticket", "danger");
+      }
+    }
+
+    async function guardarPrioridad(id) {
+      const sel = document.getElementById(`prio-${id}`);
+      const prio = sel.value || null;
+
+      const res = await fetch(`/api/tickets/${id}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
+        body: JSON.stringify({ prioridad: prio }),
       });
 
       const data = await res.json().catch(() => ({}));
       if (!res.ok) {
-        mostrarMensaje(
-          data.mensaje || "❌ No se pudo asignar el ticket",
-          "danger"
-        );
+        mostrarMensaje(data.mensaje || "❌ No se pudo actualizar la prioridad", "danger");
         return;
       }
 
-      mostrarMensaje(
-        data.mensaje || `✅ Ticket asignado / reasignado a ${userName}`,
-        "success"
-      );
+      const badgeHost = document.getElementById(`prio-badge-${id}`);
+      if (badgeHost) badgeHost.innerHTML = prioridadBadge(prio);
 
+      const headerHost = document.getElementById(`prio-header-${id}`);
+      if (headerHost) headerHost.innerHTML = prioridadBadge(prio);
+
+      mostrarMensaje("✅ Prioridad actualizada", "success");
       await cargarTickets();
-    } catch (e) {
-      console.error(e);
-      mostrarMensaje("❌ Error al asignar el ticket", "danger");
-    } finally {
-      if (boton) boton.disabled = false;
-    }
-  }
-
-  // ===== Cambiar estatus: Cerrar / Reabrir / En proceso / Excedido =====
-  async function cerrarTicket(id) {
-    const res = await fetch(`/api/tickets/${id}`, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-      body: JSON.stringify({ estatus: "Cerrado" }),
-    });
-    const data = await res.json().catch(() => ({}));
-    if (!res.ok) {
-      mostrarMensaje(data.mensaje || "No se pudo cerrar el ticket", "danger");
-      return;
-    }
-    mostrarMensaje(data.mensaje || "✅ Ticket cerrado", "success");
-    cargarTickets();
-  }
-
-  async function reabrirTicket(id) {
-    const res = await fetch(`/api/tickets/${id}`, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-      body: JSON.stringify({ estatus: "Abierto" }),
-    });
-    const data = await res.json().catch(() => ({}));
-    if (!res.ok) {
-      mostrarMensaje(
-        data.mensaje || "No se pudo reabrir el ticket",
-        "danger"
-      );
-      return;
-    }
-    mostrarMensaje("🔓 Ticket reabierto", "success");
-    cargarTickets();
-  }
-
-  async function ponerEnProceso(id) {
-    const res = await fetch(`/api/tickets/${id}`, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-      body: JSON.stringify({ estatus: "En proceso" }),
-    });
-    const data = await res.json().catch(() => ({}));
-    if (!res.ok) {
-      mostrarMensaje(
-        data.mensaje || "No se pudo poner en proceso",
-        "danger"
-      );
-      return;
-    }
-    mostrarMensaje("▶️ Ticket puesto en proceso", "success");
-    cargarTickets();
-  }
-
-  async function marcarExcedido(id) {
-    const res = await fetch(`/api/tickets/${id}`, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-      body: JSON.stringify({ estatus: "Tiempo excedido" }),
-    });
-    const data = await res.json().catch(() => ({}));
-    if (!res.ok) {
-      mostrarMensaje(
-        data.mensaje || "No se pudo marcar como excedido",
-        "danger"
-      );
-      return;
-    }
-    mostrarMensaje("⏰ Ticket marcado como tiempo excedido", "warning");
-    cargarTickets();
-  }
-
-
-  // ===== Eliminar ticket =====
-async function eliminarTicket(id) {
-  if (!confirm("¿Seguro que deseas eliminar este ticket? Esta acción no se puede deshacer.")) {
-    return;
-  }
-
-  try {
-    const res = await fetch(`/api/tickets/${id}`, {
-      method: "DELETE",
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-
-    const data = await res.json().catch(() => ({}));
-
-    if (!res.ok) {
-      mostrarMensaje(
-        data.mensaje || data.error || "No se pudo eliminar el ticket",
-        "danger"
-      );
-      return;
     }
 
-    mostrarMensaje(data.mensaje || "🗑️ Ticket eliminado", "success");
-    cargarTickets();
-  } catch (e) {
-    console.error(e);
-    mostrarMensaje("❌ Error al eliminar el ticket", "danger");
-  }
-}
+    async function guardarComentarios(id) {
+      const txt = (document.getElementById(`coment-${id}`).value || "").trim();
+      if (!txt) {
+        mostrarMensaje("Escribe un comentario", "warning");
+        return;
+      }
 
-
-
-
-  // ===== Prioridad =====
-  async function guardarPrioridad(id) {
-    const sel = document.getElementById(`prio-${id}`);
-    const prio = sel.value || null;
-
-    const res = await fetch(`/api/tickets/${id}`, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-      body: JSON.stringify({ prioridad: prio }),
-    });
-
-    const data = await res.json().catch(() => ({}));
-    if (!res.ok) {
-      mostrarMensaje(
-        data.mensaje || "❌ No se pudo actualizar la prioridad",
-        "danger"
-      );
-      return;
-    }
-
-    // Actualizamos visual (aunque luego recargamos todo)
-    const badgeHost = document.getElementById(`prio-badge-${id}`);
-    if (badgeHost) {
-      badgeHost.innerHTML = prioridadBadge(prio);
-    }
-    const headerHost = document.getElementById(`prio-header-${id}`);
-    if (headerHost) {
-      headerHost.innerHTML = prioridadBadge(prio);
-    }
-
-    mostrarMensaje("✅ Prioridad actualizada", "success");
-    await cargarTickets();
-  }
-
-  // ===== Comentarios internos (resolución) =====
-  async function guardarComentarios(id) {
-    const txt = (document.getElementById(`coment-${id}`).value || "").trim();
-    if (!txt) {
-      mostrarMensaje("Escribe un comentario", "warning");
-      return;
-    }
-
-    const res = await fetch(`/api/tickets/${id}/comentarios-admin`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-      body: JSON.stringify({ texto: txt }),
-    });
-    const data = await res.json().catch(() => ({}));
-    if (!res.ok) {
-      mostrarMensaje(
-        data.mensaje || "No se pudieron guardar los comentarios",
-        "danger"
-      );
-      return;
-    }
-    mostrarMensaje("📝 Comentario guardado", "success");
-    await cargarTickets();
-  }
-
-  // ===== Click en tarjetas KPI para filtrar por estatus =====
-  (function () {
-    const selectEstatus = document.getElementById("filtroEstatus");
-    const kpiCards = document.querySelectorAll(".kpi-filter");
-
-    kpiCards.forEach((card) => {
-      card.style.cursor = "pointer";
-      card.addEventListener("click", () => {
-        if (!selectEstatus) return;
-        const estado = card.dataset.estado || "";
-        selectEstatus.value = estado;
-        cargarTickets();
+      const res = await fetch(`/api/tickets/${id}/comentarios-admin`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
+        body: JSON.stringify({ texto: txt }),
       });
-    });
-  })();
 
-  function fmtFecha(dt) {
-  if (!dt) return "—";
-  const d = new Date(dt);
-  return d.toLocaleString("es-MX", {
-    year: "2-digit",
-    month: "2-digit",
-    day: "2-digit",
-    hour: "2-digit",
-    minute: "2-digit",
-  });
-}
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) {
+        mostrarMensaje(data.mensaje || "No se pudieron guardar los comentarios", "danger");
+        return;
+      }
 
-// ===== Ver comentarios (internos) en modal =====
-async function verComentarios(id, folio = "", tipo = "") {
-  try {
-    const res = await fetch(`/api/tickets/${id}/comentarios-admin`, {
-      headers: { Authorization: `Bearer ${token}` },
-    });
-
-    if (!res.ok) {
-      mostrarMensaje("No se pudieron cargar los comentarios", "danger");
-      return;
+      mostrarMensaje("📝 Comentario guardado", "success");
+      await cargarTickets();
     }
 
-    const rows = await res.json();
+    (function () {
+      const selectEstatus = document.getElementById("filtroEstatus");
+      const kpiCards = document.querySelectorAll(".kpi-filter");
 
-    const titulo = document.getElementById("comentarios-titulo");
-    if (titulo) {
-      titulo.textContent = `Comentarios – ${folio || "Folio —"} (${tipo || "—"})`;
+      kpiCards.forEach((card) => {
+        card.style.cursor = "pointer";
+        card.addEventListener("click", () => {
+          if (!selectEstatus) return;
+          const estado = card.dataset.estado || "";
+          selectEstatus.value = estado;
+          cargarTickets();
+        });
+      });
+    })();
+
+    function fmtFecha(dt) {
+      if (!dt) return "—";
+      const d = new Date(dt);
+      return d.toLocaleString("es-MX", {
+        year: "2-digit",
+        month: "2-digit",
+        day: "2-digit",
+        hour: "2-digit",
+        minute: "2-digit",
+      });
     }
 
-    const tb = document.getElementById("comentarios-tbody");
-    if (!rows.length) {
-      tb.innerHTML = `<tr><td colspan="3" class="text-center text-muted">Sin comentarios.</td></tr>`;
-    } else {
-      tb.innerHTML = rows
-        .map(
-          (c) => `
-        <tr>
-          <td>${fmtFecha(c.fecha)}</td>
-          <td>${c.usuarioNombre || "—"}</td>
-          <td style="white-space:pre-wrap">${(c.texto || "").trim()}</td>
-        </tr>`
-        )
-        .join("");
-    }
+    async function verComentarios(id, folio = "", tipo = "") {
+      try {
+        const res = await fetch(`/api/tickets/${id}/comentarios-admin`, {
+          headers: { Authorization: `Bearer ${token}` },
+        });
 
-    const el = document.getElementById("modalComentarios");
-    const modal = new bootstrap.Modal(el);
-    modal.show();
-  } catch (e) {
-    console.error(e);
-    mostrarMensaje("Error al cargar comentarios", "danger");
-  }
-}
-
-// ===== Ver evidencias en modal =====
-function verEvidencias(id) {
-  // Buscamos el ticket en la lista global
-  const ticket = todosTickets.find((t) => String(t._id) === String(id));
-  if (!ticket) {
-    mostrarMensaje("No se encontró el ticket para mostrar evidencias.", "danger");
-    return;
-  }
-
-  const evidencias = Array.isArray(ticket.evidencias) ? ticket.evidencias : [];
-
-  // Título del modal
-  const titulo = document.getElementById("evidencias-titulo");
-  if (titulo) {
-    titulo.textContent = `Evidencias – ${ticket.folio || "Folio —"} (${ticket.tipo || "—"})`;
-  }
-
-  // Botón de carpeta en Drive
-  const btnCarpeta = document.getElementById("evidencias-carpeta");
-  if (btnCarpeta) {
-    if (ticket.driveFolderLink) {
-      btnCarpeta.href = ticket.driveFolderLink;
-      btnCarpeta.classList.remove("d-none");
-    } else {
-      btnCarpeta.classList.add("d-none");
-      btnCarpeta.href = "#";
-    }
-  }
-
-  const cont = document.getElementById("evidencias-body");
-
-  if (!evidencias.length) {
-    cont.innerHTML = `
-      <div class="col-12 text-center text-muted">
-        Sin evidencias para este ticket.
-      </div>`;
-  } else {
-    cont.innerHTML = evidencias
-      .map((ev) => {
-        // Prioridad: usar webContentLink (descarga directa),
-        // y si no existe, intentamos con fileId o webViewLink
-        let imgSrc = '';
-
-        if (ev.webContentLink) {
-          // Link de descarga funciona bien como <img src>
-          imgSrc = ev.webContentLink;
-        } else if (ev.fileId) {
-          imgSrc = `https://drive.google.com/uc?export=view&id=${ev.fileId}`;
-        } else if (ev.webViewLink) {
-          imgSrc = ev.webViewLink;
+        if (!res.ok) {
+          mostrarMensaje("No se pudieron cargar los comentarios", "danger");
+          return;
         }
 
+        const rows = await res.json();
 
-        const nombre = ev.fileName || "Evidencia";
-        const fecha = ev.uploadedAt ? fmtFecha(ev.uploadedAt) : "";
+        const titulo = document.getElementById("comentarios-titulo");
+        if (titulo) titulo.textContent = `Comentarios – ${folio || "Folio —"} (${tipo || "—"})`;
 
-        return `
-          <div class="col-sm-6 col-md-4 col-lg-3">
-            <div class="card h-100">
-              ${
-                imgSrc
-                  ? `<img src="${imgSrc}" class="card-img-top" alt="${nombre}">`
-                  : ""
-              }
-              <div class="card-body p-2">
-                <div class="small fw-semibold text-truncate" title="${nombre}">
-                  ${nombre}
+        const tb = document.getElementById("comentarios-tbody");
+        if (!rows.length) {
+          tb.innerHTML = `<tr><td colspan="3" class="text-center text-muted">Sin comentarios.</td></tr>`;
+        } else {
+          tb.innerHTML = rows.map((c) => `
+            <tr>
+              <td>${fmtFecha(c.fecha)}</td>
+              <td>${c.usuarioNombre || "—"}</td>
+              <td style="white-space:pre-wrap">${(c.texto || "").trim()}</td>
+            </tr>`).join("");
+        }
+
+        const el = document.getElementById("modalComentarios");
+        const modal = new bootstrap.Modal(el);
+        modal.show();
+      } catch (e) {
+        console.error(e);
+        mostrarMensaje("Error al cargar comentarios", "danger");
+      }
+    }
+
+    function verEvidencias(id) {
+      const ticket = todosTickets.find((t) => String(t._id) === String(id));
+      if (!ticket) {
+        mostrarMensaje("No se encontró el ticket para mostrar evidencias.", "danger");
+        return;
+      }
+
+      const evidencias = Array.isArray(ticket.evidencias) ? ticket.evidencias : [];
+
+      const titulo = document.getElementById("evidencias-titulo");
+      if (titulo) titulo.textContent = `Evidencias – ${ticket.folio || "Folio —"} (${ticket.tipo || "—"})`;
+
+      const btnCarpeta = document.getElementById("evidencias-carpeta");
+      if (btnCarpeta) {
+        if (ticket.driveFolderLink) {
+          btnCarpeta.href = ticket.driveFolderLink;
+          btnCarpeta.classList.remove("d-none");
+        } else {
+          btnCarpeta.classList.add("d-none");
+          btnCarpeta.href = "#";
+        }
+      }
+
+      const cont = document.getElementById("evidencias-body");
+
+      if (!evidencias.length) {
+        cont.innerHTML = `<div class="col-12 text-center text-muted">Sin evidencias para este ticket.</div>`;
+      } else {
+        cont.innerHTML = evidencias.map((ev) => {
+          let imgSrc = '';
+
+          if (ev.webContentLink) imgSrc = ev.webContentLink;
+          else if (ev.fileId) imgSrc = `https://drive.google.com/uc?export=view&id=${ev.fileId}`;
+          else if (ev.webViewLink) imgSrc = ev.webViewLink;
+
+          const nombre = ev.fileName || "Evidencia";
+          const fecha = ev.uploadedAt ? fmtFecha(ev.uploadedAt) : "";
+
+          return `
+            <div class="col-sm-6 col-md-4 col-lg-3">
+              <div class="card h-100">
+                ${imgSrc ? `<img src="${imgSrc}" class="card-img-top" alt="${nombre}">` : ""}
+                <div class="card-body p-2">
+                  <div class="small fw-semibold text-truncate" title="${nombre}">${nombre}</div>
+                  <div class="small text-muted">${fecha}</div>
                 </div>
-                <div class="small text-muted">${fecha}</div>
-              </div>
-              <div class="card-footer d-flex gap-1 p-2">
-                ${
-                  ev.webViewLink
-                    ? `<a href="${ev.webViewLink}" target="_blank"
-                           class="btn btn-sm btn-outline-primary flex-fill">
-                         Ver
-                       </a>`
-                    : ""
-                }
-                ${
-                  ev.webContentLink
-                    ? `<a href="${ev.webContentLink}" target="_blank"
-                           class="btn btn-sm btn-outline-secondary flex-fill">
-                         Descargar
-                       </a>`
-                    : ""
-                }
+                <div class="card-footer d-flex gap-1 p-2">
+                  ${ev.webViewLink ? `<a href="${ev.webViewLink}" target="_blank" class="btn btn-sm btn-outline-primary flex-fill">Ver</a>` : ""}
+                  ${ev.webContentLink ? `<a href="${ev.webContentLink}" target="_blank" class="btn btn-sm btn-outline-secondary flex-fill">Descargar</a>` : ""}
+                </div>
               </div>
             </div>
-          </div>
-        `;
-      })
-      .join("");
-  }
+          `;
+        }).join("");
+      }
 
-  const el = document.getElementById("modalEvidencias");
-  const modal = new bootstrap.Modal(el);
-  modal.show();
-}
+      const el = document.getElementById("modalEvidencias");
+      const modal = new bootstrap.Modal(el);
+      modal.show();
+    }
 
-
-
-  // ===== Carga inicial =====
-  cargarTickets();
-</script>
+    cargarTickets();
+  </script>
 
   <script src="/socket.io/socket.io.js"></script>
   <script>
-    // Conexión Socket.IO para refrescar tickets en tiempo real
-  (function () {
-    try {
-      const socket = io();
+    (function () {
+      try {
+        const socket = io();
 
-      socket.on('connect', () => {
-        console.log('✅ Socket conectado en panel-admin');
-      });
+        socket.on('connect', () => {
+          console.log('✅ Socket conectado en panel-admin');
+        });
 
-      socket.on('ticketsActualizados', (payload) => {
-        console.log('🔄 ticketsActualizados (admin):', payload);
-
-        // Volvemos a cargar los tickets y KPIs
-        if (typeof cargarTickets === 'function') {
-          cargarTickets();
-        }
-      });
-    } catch (e) {
-      console.error('Error inicializando Socket.IO en panel-admin:', e);
-    }
-  })();
+        socket.on('ticketsActualizados', (payload) => {
+          console.log('🔄 ticketsActualizados (admin):', payload);
+          if (typeof cargarTickets === 'function') cargarTickets();
+        });
+      } catch (e) {
+        console.error('Error inicializando Socket.IO en panel-admin:', e);
+      }
+    })();
   </script>
 
   <script src="js/navbar.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
+
+

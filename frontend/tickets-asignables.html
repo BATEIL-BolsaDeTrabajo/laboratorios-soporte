@@ -82,11 +82,30 @@
                 Fecha: ${new Date(ticket.fechaCreacion).toLocaleString()}
               </p>
               ${asignarHTML}
+
+              <div class="d-flex gap-2 mt-3">
+                <button class="btn btn-outline-secondary btn-sm" onclick="archivarTicket('${ticket._id}')">Archivar</button>
+              </div>
             </div>
           </div>
         `;
         contenedor.appendChild(div);
       });
+    }
+
+    async function archivarTicket(id) {
+      if (!confirm("¿Archivar este ticket? Ya no aparecerá en listados activos.")) return;
+
+      const res = await fetch(`/api/tickets/${id}/archivar`, {
+        method: "PUT",
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      });
+
+      const data = await res.json();
+      alert(data.mensaje || "Ticket archivado");
+      cargarTicketsAsignables();
     }
 
     async function asignarTicket(id) {
@@ -113,4 +132,3 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
-

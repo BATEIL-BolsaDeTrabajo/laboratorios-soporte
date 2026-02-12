@@ -189,6 +189,7 @@ function configurarMenuPorRoles() {
       "item-finanzas-historial",
       "item-finanzas-divider",
       "item-finanzas-asignables",
+      "item-finanzas-archtickets",
     ]);
     visible = true;
   }

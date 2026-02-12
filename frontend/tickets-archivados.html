@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Tickets Archivados</title>
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+
+  <style>
+    .badge-status { font-size: .85rem; }
+    .card-ticket { border-radius: 14px; }
+    .small-muted { color: #6c757d; font-size: .9rem; }
+  </style>
+</head>
+
+<body class="bg-light">
+  <div id="navbar-container"></div>
+
+  <div class="container py-4">
+    <div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-3">
+      <h2 class="mb-0">Tickets Archivados</h2>
+      <a href="panel-admin.html" class="btn btn-outline-primary">← Volver al panel</a>
+    </div>
+
+    <!-- FILTROS -->
+    <div class="card mb-3">
+      <div class="card-body">
+        <div class="row g-3">
+          <div class="col-md-4">
+            <label class="form-label">Tipo</label>
+            <select id="fTipo" class="form-select">
+              <option value="">Todos</option>
+              <option value="Sistemas">Sistemas</option>
+              <option value="Mantenimiento">Mantenimiento</option>
+            </select>
+          </div>
+
+          <div class="col-md-4">
+            <label class="form-label">Estatus</label>
+            <select id="fEstatus" class="form-select">
+              <option value="">Todos</option>
+              <option value="Archivado">Archivado</option>
+              <option value="Rechazado">Rechazado</option>
+              <option value="Cerrado">Cerrado</option>
+              <option value="Resuelto">Resuelto</option>
+              <option value="En proceso">En proceso</option>
+              <option value="Abierto">Abierto</option>
+              <option value="En espera de material">En espera de material</option>
+              <option value="Tiempo excedido">Tiempo excedido</option>
+            </select>
+          </div>
+
+          <div class="col-md-4">
+            <label class="form-label">Buscar (folio / descripción)</label>
+            <input id="fBuscar" class="form-control" placeholder="Ej. FOL-123 o 'proyector'" />
+          </div>
+        </div>
+
+        <div class="d-flex flex-wrap gap-2 mt-3">
+          <button class="btn btn-primary" onclick="aplicarFiltros()">Aplicar filtros</button>
+          <button class="btn btn-outline-secondary" onclick="limpiarFiltros()">Limpiar</button>
+
+          <div class="ms-auto d-flex align-items-center gap-2">
+            <span class="small text-muted">Total:</span>
+            <span id="lblTotal" class="badge bg-dark">0</span>
+            <span class="small text-muted">Mostrando:</span>
+            <span id="lblMostrando" class="badge bg-secondary">0</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="msg" class="mb-3"></div>
+
+    <!-- LISTA -->
+    <div id="lista" class="row g-3"></div>
+  </div>
+
+  <script>
+    const token = localStorage.getItem("token");
+    if (!token) window.location.href = "login.html";
+
+    let tickets = [];
+    let filtrados = [];
+
+    function showMsg(text, type="info") {
+      document.getElementById("msg").innerHTML = `
+        <div class="alert alert-${type} alert-dismissible fade show" role="alert">
+          ${text}
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Cerrar"></button>
+        </div>`;
+    }
+
+    function badgeEstatus(estatus) {
+      const s = (estatus || "").trim();
+
+      if (s === "Rechazado") return `<span class="badge bg-warning text-dark badge-status">Rechazado</span>`;
+      if (s === "Cerrado") return `<span class="badge bg-success badge-status">Cerrado</span>`;
+      if (s === "Resuelto") return `<span class="badge bg-info text-dark badge-status">Resuelto</span>`;
+      if (s === "Tiempo excedido") return `<span class="badge bg-danger badge-status">Tiempo excedido</span>`;
+      if (s === "En espera de material") return `<span class="badge bg-secondary badge-status">En espera</span>`;
+      if (s === "En proceso") return `<span class="badge bg-warning text-dark badge-status">En proceso</span>`;
+      if (s === "Abierto") return `<span class="badge bg-primary badge-status">Abierto</span>`;
+
+      // default
+      return `<span class="badge bg-dark badge-status">${s || "Archivado"}</span>`;
+    }
+
+    function fmtFecha(dt) {
+      if (!dt) return "—";
+      const d = new Date(dt);
+      return d.toLocaleString("es-MX", {
+        year: "2-digit", month: "2-digit", day: "2-digit",
+        hour: "2-digit", minute: "2-digit"
+      });
+    }
+
+    function textoUbicacion(t) {
+      const tipo = (t.tipo || "").toLowerCase();
+      const subtipo = (t.subtipo || "").toLowerCase();
+
+      if (tipo === "sistemas") {
+        if (subtipo === "laboratorio") {
+          const eq = t.equipo ? ` • Equipo: ${t.equipo}` : "";
+          return `Laboratorio: ${t.laboratorio || "—"}${eq}`;
+        }
+        return `Ubicación: ${t.ubicacion || "—"}`;
+      }
+      if (tipo === "mantenimiento") return `Salón/Área: ${t.salon || "—"}`;
+      return "";
+    }
+
+    async function cargarArchivados() {
+      try {
+        const res = await fetch("/api/tickets/archivados", {
+          headers: { Authorization: `Bearer ${token}` }
+        });
+        const data = await res.json().catch(() => ({}));
+
+        if (!res.ok || !data.ok) {
+          showMsg(data.mensaje || "No se pudieron cargar los tickets archivados.", "danger");
+          return;
+        }
+
+        tickets = Array.isArray(data.tickets) ? data.tickets : [];
+        document.getElementById("lblTotal").textContent = tickets.length;
+
+        filtrados = [...tickets];
+        render();
+        aplicarFiltros(); // aplica con filtros actuales (vacíos)
+      } catch (e) {
+        console.error(e);
+        showMsg("Error al conectar con el servidor.", "danger");
+      }
+    }
+
+    function aplicarFiltros() {
+      const fTipo = document.getElementById("fTipo").value.trim();
+      const fEstatus = document.getElementById("fEstatus").value.trim();
+      const fBuscar = document.getElementById("fBuscar").value.trim().toLowerCase();
+
+      filtrados = [...tickets];
+
+      if (fTipo) filtrados = filtrados.filter(t => (t.tipo || "") === fTipo);
+      if (fEstatus) {
+        // Nota: Algunos tickets archivados podrían traer estatus original.
+        filtrados = filtrados.filter(t => (t.estatus || "") === fEstatus);
+      }
+      if (fBuscar) {
+        filtrados = filtrados.filter(t => {
+          const folio = (t.folio || "").toLowerCase();
+          const desc  = (t.descripcion || "").toLowerCase();
+          return folio.includes(fBuscar) || desc.includes(fBuscar);
+        });
+      }
+
+      document.getElementById("lblMostrando").textContent = filtrados.length;
+      render();
+    }
+
+    function limpiarFiltros() {
+      document.getElementById("fTipo").value = "";
+      document.getElementById("fEstatus").value = "";
+      document.getElementById("fBuscar").value = "";
+      aplicarFiltros();
+    }
+
+    function render() {
+      const cont = document.getElementById("lista");
+      cont.innerHTML = "";
+
+      if (!filtrados.length) {
+        cont.innerHTML = `
+          <div class="col-12">
+            <div class="alert alert-secondary">No hay tickets archivados con esos filtros.</div>
+          </div>`;
+        return;
+      }
+
+      filtrados.forEach(t => {
+        const ubic = textoUbicacion(t);
+        const fechaArch = fmtFecha(t.fechaArchivado || t.updatedAt || t.createdAt);
+
+        // Si quieres mostrar quién lo archivó (si lo tienes poblado después)
+        const archivadoPor = t.archivadoPor?.nombre || t.archivadoPor?.correo || "";
+
+        const col = document.createElement("div");
+        col.className = "col-md-6";
+
+        col.innerHTML = `
+          <div class="card card-ticket shadow-sm">
+            <div class="card-body">
+              <div class="d-flex justify-content-between align-items-start gap-2">
+                <div>
+                  <div class="fw-bold">${t.tipo || "—"} <span class="text-muted">•</span> <span class="text-muted">${t.folio || "—"}</span></div>
+                  <div class="small-muted">${ubic || ""}</div>
+                </div>
+                <div class="text-end">
+                  ${badgeEstatus(t.estatus)}
+                  <div class="small text-muted mt-1">Archivado: ${fechaArch}</div>
+                </div>
+              </div>
+
+              <hr class="my-2"/>
+
+              <div class="small">
+                <div><span class="text-muted">Creado por:</span> ${t.creadoPor?.nombre || t.creadoPor?.correo || "—"}</div>
+                <div><span class="text-muted">Asignado a:</span> ${t.asignadoA?.nombre || t.asignadoA?.correo || "Sin asignar"}</div>
+                ${archivadoPor ? `<div><span class="text-muted">Archivado por:</span> ${archivadoPor}</div>` : ""}
+              </div>
+
+              <div class="mt-2">
+                <div class="text-muted small">Descripción</div>
+                <div style="white-space:pre-wrap">${t.descripcion || "—"}</div>
+              </div>
+            </div>
+          </div>
+        `;
+
+        cont.appendChild(col);
+      });
+    }
+
+    // Enter en buscar
+    document.addEventListener("DOMContentLoaded", () => {
+      document.getElementById("fBuscar").addEventListener("keydown", (e) => {
+        if (e.key === "Enter") aplicarFiltros();
+      });
+    });
+
+    cargarArchivados();
+  </script>
+
+  <script src="js/navbar.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
