@@ -6,6 +6,25 @@
   <title>Productos - Almacén</title>
 
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+
+  <style>
+    /* ✅ Contenedor con scroll vertical para la tabla */
+    .tabla-scroll {
+      max-height: calc(100vh - 320px); /* Ajusta si quieres más/menos altura */
+      overflow: auto;                 /* Scroll vertical y horizontal si hace falta */
+      border: 1px solid rgba(0,0,0,.125);
+      border-radius: .5rem;
+      background: #fff;
+    }
+
+    /* ✅ Encabezado fijo mientras haces scroll */
+    .tabla-scroll thead th {
+      position: sticky;
+      top: 0;
+      z-index: 2;
+      background: #f8f9fa; /* Similar a table-light */
+    }
+  </style>
 </head>
 
 <body class="bg-light">
@@ -17,7 +36,7 @@
 
     <div class="d-flex justify-content-between align-items-center mb-3">
       <h2>Productos</h2>
-      <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalProducto">
+      <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalProducto" onclick="nuevoProducto()">
         + Nuevo Producto
       </button>
     </div>
@@ -46,9 +65,9 @@
       </div>
     </div>
 
-    <!-- Tabla -->
-    <div class="table-responsive">
-      <table class="table table-bordered table-hover align-middle" id="tablaProductos">
+    <!-- ✅ Tabla con scroll -->
+    <div class="tabla-scroll">
+      <table class="table table-bordered table-hover align-middle mb-0" id="tablaProductos">
         <thead class="table-light">
           <tr>
             <th>Nombre</th>
@@ -161,7 +180,6 @@
         </tr>
       `;
     }
-
 
     async function cargarProductos() {
       const nombre = document.getElementById("filtroNombre").value;
