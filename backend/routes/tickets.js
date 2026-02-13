@@ -745,19 +745,22 @@ router.get('/historial', verifyToken, async (req, res) => {
   }
 });
 
+
 //-------------------------------------------------------------
-//  MIS TICKETS (usuario ve solo los suyos)
+//  MIS TICKETS (usuario ve solo los suyos)  ✅ INCLUYE archivados/rechazados
 //-------------------------------------------------------------
 router.get('/mis-tickets', verifyToken, async (req, res) => {
   try {
     const userId = req.usuario.id;
 
     const tickets = await Ticket.find(
-      { creadoPor: userId, archivado: { $ne: true } },
+      { creadoPor: userId }, // ✅ NO filtramos archivado aquí
       {
         folio: 1,
         tipo: 1,
         estatus: 1,
+        archivado: 1,        // ✅ importante para mostrar “Archivado”
+        fechaArchivado: 1,   // opcional
         fechaCreacion: 1,
         fechaInicio: 1,
         fechaCierre: 1,
@@ -771,6 +774,7 @@ router.get('/mis-tickets', verifyToken, async (req, res) => {
     res.status(500).json({ ok: false, mensaje: 'Error al obtener tus tickets.' });
   }
 });
+
 
 /* ========= Get ticket para encabezado del modal ========= */
 router.get('/:id', verifyToken, async (req, res) => {
