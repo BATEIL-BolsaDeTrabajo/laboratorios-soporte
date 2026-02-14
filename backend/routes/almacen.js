@@ -11,6 +11,7 @@ const AuditoriaInventario = require('../models/AuditoriaInventario');
 
 const { verifyToken, verifyRole } = require('../middlewares/auth');
 
+
 // 🔐 Solo pueden usar este módulo: almacen y finanzas
 const allowAlmacen = ['almacen', 'finanzas'];
 
@@ -995,6 +996,56 @@ router.get(
     }
   }
 );
+
+/* ===========================
+   ELIMINAR DEFINITIVAMENTE PRODUCTO
+   Solo jose.garcia y rosario.gonzalez
+=========================== */
+
+router.delete(
+  "/productos/eliminar-definitivo/:id",
+  verifyToken,
+  verifyRole(allowAlmacen),
+  async (req, res) => {
+    try {
+      const email = (req.usuario?.email || "").toLowerCase();
+
+      const correosPermitidos = [
+        "jose.garcia@bateil.edu.mx",
+        "rosario.gonzalez@bateil.edu.mx"
+      ];
+
+      if (!correosPermitidos.includes(email)) {
+        return res.status(403).json({
+          mensaje: "No tienes permiso para eliminar definitivamente."
+        });
+      }
+
+      const { id } = req.params;
+
+      if (!mongoose.Types.ObjectId.isValid(id)) {
+        return res.status(400).json({ mensaje: "ID inválido." });
+      }
+
+      const producto = await Producto.findById(id);
+
+      if (!producto) {
+        return res.status(404).json({ mensaje: "Producto no encontrado." });
+      }
+
+      await Producto.deleteOne({ _id: id });
+
+      return res.json({
+        mensaje: "Producto eliminado definitivamente ✅"
+      });
+
+    } catch (error) {
+      console.error("Error al eliminar definitivo:", error);
+      return res.status(500).json({ mensaje: "Error del servidor." });
+    }
+  }
+);
+
 
 
 module.exports = router;

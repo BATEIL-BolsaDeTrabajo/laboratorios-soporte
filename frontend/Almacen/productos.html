@@ -158,7 +158,30 @@
 
     const tablaBody = document.querySelector("#tablaProductos tbody");
 
+    // ✅ Lee email del JWT de forma segura (Base64URL compatible)
+    function getEmailFromToken(token) {
+      try {
+        const base64Url = token.split(".")[1];
+        const base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
+        const payload = JSON.parse(atob(base64));
+        return (payload.email || "").toLowerCase();
+      } catch (e) {
+        return "";
+      }
+    }
+
     function filaProducto(p) {
+      const userEmail = getEmailFromToken(token);
+
+      const correosPermitidos = [
+        "jose.garcia@bateil.edu.mx",
+        "rosario.gonzalez@bateil.edu.mx"
+      ];
+
+      const botonEliminar = correosPermitidos.includes(userEmail)
+        ? `<button class="btn btn-sm btn-dark" onclick="eliminarDefinitivo('${p._id}')">Eliminar</button>`
+        : "";
+
       return `
         <tr>
           <td>${p.nombre}</td>
@@ -171,11 +194,8 @@
           <td class="d-flex gap-1">
             <button class="btn btn-sm btn-warning" onclick="editarProducto('${p._id}')">Editar</button>
             <button class="btn btn-sm btn-danger" onclick="inactivarProducto('${p._id}')">Inactivar</button>
-
-            <a class="btn btn-sm btn-info"
-               href="/almacen/historial-producto.html?id=${p._id}">
-               Historial
-            </a>
+            <a class="btn btn-sm btn-info" href="/almacen/historial-producto.html?id=${p._id}">Historial</a>
+            ${botonEliminar}
           </td>
         </tr>
       `;
@@ -293,6 +313,25 @@
         cargarProductos();
       } else {
         alert("Error al inactivar.");
+      }
+    }
+
+    // Eliminar definitivo (solo se verá el botón para los correos permitidos)
+    async function eliminarDefinitivo(id) {
+      if (!confirm("⚠️ ¿Seguro que quieres eliminar DEFINITIVAMENTE este producto? Esta acción no se puede deshacer.")) return;
+
+      const res = await fetch("/api/almacen/productos/eliminar-definitivo/" + id, {
+        method: "DELETE",
+        headers: { "Authorization": "Bearer " + token }
+      });
+
+      const data = await res.json();
+
+      if (res.ok) {
+        alert(data.mensaje);
+        cargarProductos();
+      } else {
+        alert(data.mensaje || "Error al eliminar.");
       }
     }
 
