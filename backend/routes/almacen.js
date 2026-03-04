@@ -141,11 +141,7 @@ router.get(
  *  - estado (activo/inactivo)
  */
 router.get(
-  '/productos',
-  verifyToken,
-  verifyRole(allowAlmacen),
-   bloquearEntradasYProductosParaCorreo,
-  async (req, res) => {
+  '/productos', verifyToken, verifyRole(allowAlmacen), async (req, res) => {
     try {
       const { nombre, categoria, estado } = req.query;
 
@@ -177,12 +173,7 @@ router.get(
  * GET /api/almacen/productos/:id
  * Obtener un producto por ID
  */
-router.get(
-  '/productos/:id',
-  verifyToken,
-  verifyRole(allowAlmacen),
-  bloquearEntradasYProductosParaCorreo,
-  async (req, res) => {
+router.get('/productos/:id',verifyToken,verifyRole(allowAlmacen),async (req, res) => {
     try {
       const producto = await Producto.findById(req.params.id);
       if (!producto) {
@@ -200,12 +191,7 @@ router.get(
  * POST /api/almacen/productos
  * Crear nuevo producto
  */
-router.post(
-  '/productos',
-  verifyToken,
-  verifyRole(allowAlmacen),
-  bloquearEntradasYProductosParaCorreo,
-  async (req, res) => {
+router.post('/productos',verifyToken,verifyRole(allowAlmacen),async (req, res) => {
     try {
       const errores = validarProducto(req.body);
       if (errores.length > 0) {
@@ -255,12 +241,7 @@ router.post(
  * PUT /api/almacen/productos/:id
  * Actualizar producto
  */
-router.put(
-  '/productos/:id',
-  verifyToken,
-  verifyRole(allowAlmacen),
-  bloquearEntradasYProductosParaCorreo,
-  async (req, res) => {
+router.put('/productos/:id',verifyToken,verifyRole(allowAlmacen),async (req, res) => {
     try {
       const producto = await Producto.findById(req.params.id);
       if (!producto) {
@@ -315,12 +296,7 @@ router.put(
  * DELETE /api/almacen/productos/:id
  * Baja lógica: marcar como inactivo
  */
-router.delete(
-  '/productos/:id',
-  verifyToken,
-  verifyRole(allowAlmacen),
-  bloquearEntradasYProductosParaCorreo,
-  async (req, res) => {
+router.delete('/productos/:id',verifyToken,verifyRole(allowAlmacen),bloquearEntradasYProductosParaCorreo,async (req, res) => {
     try {
       const producto = await Producto.findById(req.params.id);
       if (!producto) {

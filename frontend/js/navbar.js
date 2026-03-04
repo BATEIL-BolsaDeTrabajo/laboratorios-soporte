@@ -285,18 +285,16 @@ function aplicarRestriccionAlmacenMenuYRedireccion() {
   const restrictedEmail = "almacen@bateil.edu.mx";
   const isRestricted = email === restrictedEmail;
 
+  // Si NO es el correo restringido, no hacemos nada
   if (!isRestricted) return;
 
-  // 1) Ocultar opciones del menú
+  // 1) Ocultar SOLO Entradas (Productos ya se permite)
   document.getElementById("item-almacen-entradas")?.classList.add("d-none");
-  document.getElementById("item-almacen-productos")?.classList.add("d-none");
 
-  // 2) Si intenta entrar por URL, redirigir
+  // 2) Si intenta entrar por URL a Entradas, redirigir
   const path = (window.location.pathname || "").toLowerCase();
-
-  if (path.includes("entradas") || path.includes("productos")) {
-    alert("Tu cuenta no tiene permiso para acceder a este módulo.");
-    // ✅ ajusta si tu dashboard tiene otro nombre/ruta
+  if (path.includes("entradas")) {
+    alert("Tu cuenta no tiene permiso para acceder a Entradas.");
     window.location.href = "/almacen/dashboard.html";
   }
 }
