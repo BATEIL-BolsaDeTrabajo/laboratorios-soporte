@@ -378,6 +378,9 @@
         // cerrar modal
         bootstrap.Modal.getInstance(document.getElementById("modalEntrada")).hide();
 
+        // ✅ Ir a la página de confirmación (Productos recibidos)
+        window.location.href = "/almacen/productos-recibidos.html?focus=1";
+
       } finally {
         // 🔓 Liberar candado y botón
         enviandoEntrada = false;

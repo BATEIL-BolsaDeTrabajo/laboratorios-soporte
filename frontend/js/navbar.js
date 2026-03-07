@@ -201,6 +201,7 @@ function configurarMenuPorRoles() {
       "item-almacen-dashboard",
       "item-almacen-productos",
       "item-almacen-entradas",
+      "item-almacen-recibidos",
       "item-almacen-salidas",
       "item-almacen-ajustes",
       "item-almacen-divider",
@@ -285,17 +286,19 @@ function aplicarRestriccionAlmacenMenuYRedireccion() {
   const restrictedEmail = "almacen@bateil.edu.mx";
   const isRestricted = email === restrictedEmail;
 
-  // Si NO es el correo restringido, no hacemos nada
   if (!isRestricted) return;
 
-  // 1) Ocultar SOLO Entradas (Productos ya se permite)
+  // 1) Ocultar opciones del menú
   document.getElementById("item-almacen-entradas")?.classList.add("d-none");
+  document.getElementById("item-almacen-productos")?.classList.add("d-none");
+  document.getElementById("item-almacen-recibidos")?.classList.add("d-none");
 
-  // 2) Si intenta entrar por URL a Entradas, redirigir
+  // 2) Si intenta entrar por URL, redirigir
   const path = (window.location.pathname || "").toLowerCase();
-  if (path.includes("entradas")) {
-    alert("Tu cuenta no tiene permiso para acceder a Entradas.");
-    window.location.href = "/almacen/dashboard.html";
+
+  if (path.includes("entradas") || path.includes("productos") || path.includes("recibidos")) {
+    alert("Tu cuenta no tiene permiso para acceder a este módulo.");
+    window.location.href = "/almacen/dashboard-almacen.html";
   }
 }
 

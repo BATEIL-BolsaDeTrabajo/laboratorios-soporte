@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Productos recibidos - Almacén</title>
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+</head>
+
+<body class="bg-light">
+
+  <!-- NAVBAR -->
+  <div id="navbar-container"></div>
+
+  <div class="container py-4">
+
+    <div class="d-flex justify-content-between align-items-center mb-3">
+      <h2>Productos recibidos</h2>
+      <a class="btn btn-outline-secondary" href="/almacen/entradas.html">⬅ Volver a Entradas</a>
+    </div>
+
+    <!-- FILTROS (igual que entradas) -->
+    <div class="card mb-3">
+      <div class="card-body">
+        <div class="row g-3">
+
+          <div class="col-md-4">
+            <label class="form-label">Producto</label>
+            <select id="filtroProducto" class="form-select">
+              <option value="">Todos</option>
+            </select>
+          </div>
+
+          <div class="col-md-3">
+            <label class="form-label">Proveedor</label>
+            <input type="text" id="filtroProveedor" class="form-control">
+          </div>
+
+          <div class="col-md-2">
+            <label class="form-label">Desde</label>
+            <input type="date" id="filtroDesde" class="form-control">
+          </div>
+
+          <div class="col-md-2">
+            <label class="form-label">Hasta</label>
+            <input type="date" id="filtroHasta" class="form-control">
+          </div>
+
+          <div class="col-md-1 d-flex align-items-end">
+            <button class="btn btn-dark w-100" id="btnFiltrar">Filtrar</button>
+          </div>
+
+          <div class="col-12">
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" id="chkMostrarRecibidos">
+              <label class="form-check-label" for="chkMostrarRecibidos">
+                Mostrar también los ya recibidos
+              </label>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- TABLA -->
+    <div class="table-responsive">
+      <table class="table table-bordered table-hover align-middle" id="tablaRecibidos">
+        <thead class="table-light">
+          <tr>
+            <th>Producto</th>
+            <th>Cantidad</th>
+            <th>Proveedor</th>
+            <th>Folio</th>
+            <th>Fecha</th>
+            <th>Registrado por</th>
+            <th style="width: 220px;">Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td colspan="7" class="text-center text-muted">Cargando...</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+
+  <!-- MODAL DETALLE -->
+  <div class="modal fade" id="modalDetalle" tabindex="-1">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Detalle de recepción</h5>
+          <button class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <div class="mb-2"><b>Producto:</b> <span id="detProducto">-</span></div>
+          <div class="mb-2"><b>Cantidad:</b> <span id="detCantidad">-</span></div>
+          <hr>
+          <div class="mb-2"><b>Fecha de entrada:</b> <span id="detFechaEntrada">-</span></div>
+          <div class="mb-2"><b>Fecha de recibido:</b> <span id="detFechaRecibido">-</span></div>
+          <div class="mb-2"><b>Recibido por:</b> <span id="detRecibidoPor">-</span></div>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- JS -->
+  <script src="../js/navbar.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+  <script>
+    const token = localStorage.getItem("token");
+    if (!token) window.location.href = "../login.html";
+
+    const tablaBody = document.querySelector("#tablaRecibidos tbody");
+
+    function fmtFecha(dt) {
+      if (!dt) return "-";
+      const d = new Date(dt);
+      const pad = n => String(n).padStart(2, "0");
+      return `${pad(d.getDate())}/${pad(d.getMonth()+1)}/${d.getFullYear()} ${pad(d.getHours())}:${pad(d.getMinutes())}`;
+    }
+
+    async function cargarProductosSelect() {
+      const res = await fetch("/api/almacen/productos-select-entrada", {
+        headers: { "Authorization": "Bearer " + token }
+      });
+
+      if (res.status === 401) { window.location.href = "../login.html"; return; }
+      if (!res.ok) {
+        const err = await res.json().catch(() => ({}));
+        alert(err.mensaje || "Error al cargar productos");
+        return;
+      }
+
+      const data = await res.json();
+      const filtro = document.getElementById("filtroProducto");
+
+      filtro.innerHTML = `<option value="">Todos</option>`;
+      (data || []).forEach(p => {
+        const stock = (p.stockActual ?? 0);
+        filtro.innerHTML += `<option value="${p._id}">${p.nombre} (Stock: ${stock})</option>`;
+      });
+    }
+
+    async function cargarRecibidos() {
+      const params = new URLSearchParams();
+
+      const p = document.getElementById("filtroProducto").value;
+      const prov = document.getElementById("filtroProveedor").value;
+      const d = document.getElementById("filtroDesde").value;
+      const h = document.getElementById("filtroHasta").value;
+      const mostrarRecibidos = document.getElementById("chkMostrarRecibidos").checked;
+
+      if (p) params.append("productoId", p);
+      if (prov) params.append("proveedor", prov);
+      if (d) params.append("fechaInicio", d);
+      if (h) params.append("fechaFin", h);
+
+      // ✅ Por defecto solo pendientes (recibido=false)
+      if (!mostrarRecibidos) params.append("recibido", "false");
+
+      const res = await fetch("/api/almacen/entradas?" + params.toString(), {
+        headers: { "Authorization": "Bearer " + token }
+      });
+
+      if (res.status === 401) { window.location.href = "../login.html"; return; }
+
+      const data = await res.json().catch(() => ({}));
+      tablaBody.innerHTML = "";
+
+      if (!data.entradas?.length) {
+        tablaBody.innerHTML = `<tr><td colspan="7" class="text-center text-muted">Sin datos.</td></tr>`;
+        return;
+      }
+
+      data.entradas.forEach(e => {
+        const prodNombre = e.producto?.nombre || "-";
+        const ya = !!e.recibido;
+
+        tablaBody.innerHTML += `
+          <tr>
+            <td>${prodNombre}</td>
+            <td>${e.cantidad}</td>
+            <td>${e.proveedor || "-"}</td>
+            <td>${e.folio || "-"}</td>
+            <td>${fmtFecha(e.fecha)}</td>
+            <td>${e.registradoPor?.nombre || "-"}</td>
+            <td class="text-center">
+              <div class="d-flex gap-2 justify-content-center">
+                <button class="btn btn-sm btn-success" ${ya ? "disabled" : ""}
+                  onclick="marcarRecibido('${e._id}')">
+                  ${ya ? "Recibido" : "Recibido"}
+                </button>
+                <button class="btn btn-sm btn-outline-primary" ${ya ? "" : "disabled"}
+                  data-bs-toggle="modal" data-bs-target="#modalDetalle"
+                  onclick='abrirDetalle(${JSON.stringify({
+                    producto: prodNombre,
+                    cantidad: e.cantidad,
+                    fechaEntrada: e.fecha,
+                    fechaRecibido: e.fechaRecibido,
+                    recibidoPor: e.recibidoPor?.nombre || "-"
+                  }).replace(/'/g, "&#39;")})'>
+                  Ver
+                </button>
+              </div>
+            </td>
+          </tr>
+        `;
+      });
+    }
+
+    async function marcarRecibido(entradaId) {
+      const ok = confirm("¿Marcar esta entrada como RECIBIDA?\n\nEsto guardará la fecha y ya no se podrá volver a presionar.");
+      if (!ok) return;
+
+      const res = await fetch("/api/almacen/entradas/" + entradaId + "/recibir", {
+        method: "PATCH",
+        headers: { "Authorization": "Bearer " + token }
+      });
+
+      if (res.status === 401) { window.location.href = "../login.html"; return; }
+
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) {
+        alert(data.mensaje || "No se pudo marcar como recibido");
+        return;
+      }
+
+      await cargarRecibidos();
+    }
+
+    function abrirDetalle(info) {
+      // info: { producto, cantidad, fechaEntrada, fechaRecibido, recibidoPor }
+      document.getElementById("detProducto").textContent = info.producto || "-";
+      document.getElementById("detCantidad").textContent = info.cantidad ?? "-";
+      document.getElementById("detFechaEntrada").textContent = fmtFecha(info.fechaEntrada);
+      document.getElementById("detFechaRecibido").textContent = fmtFecha(info.fechaRecibido);
+      document.getElementById("detRecibidoPor").textContent = info.recibidoPor || "-";
+    }
+
+    document.addEventListener("DOMContentLoaded", async () => {
+      await cargarProductosSelect();
+      await cargarRecibidos();
+
+      document.getElementById("btnFiltrar").addEventListener("click", cargarRecibidos);
+      document.getElementById("chkMostrarRecibidos").addEventListener("change", cargarRecibidos);
+
+      // Si llega con ?focus=1, baja a tabla
+      const qs = new URLSearchParams(window.location.search);
+      if (qs.get("focus") === "1") {
+        document.getElementById("tablaRecibidos").scrollIntoView({ behavior: "smooth" });
+      }
+    });
+  </script>
+
+</body>
+</html>

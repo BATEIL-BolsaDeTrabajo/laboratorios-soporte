@@ -42,28 +42,41 @@
     </div>
 
     <!-- Filtros -->
-    <div class="card mb-3">
-      <div class="card-body">
-        <div class="row g-3">
-          <div class="col-md-4">
-            <input type="text" id="filtroNombre" class="form-control" placeholder="Buscar por nombre...">
-          </div>
-          <div class="col-md-3">
-            <input type="text" id="filtroCategoria" class="form-control" placeholder="Categoría...">
-          </div>
-          <div class="col-md-3">
-            <select id="filtroEstado" class="form-select">
-              <option value="">Todos</option>
-              <option value="activo">Activos</option>
-              <option value="inactivo">Inactivos</option>
-            </select>
-          </div>
-          <div class="col-md-2">
-            <button class="btn btn-dark w-100" onclick="cargarProductos()">Filtrar</button>
-          </div>
-        </div>
+<div class="card mb-3">
+  <div class="card-body">
+    <div class="row g-3">
+      <div class="col-md-3">
+        <input type="text" id="filtroNombre" class="form-control" placeholder="Buscar por nombre...">
+      </div>
+
+      <div class="col-md-2">
+        <input type="text" id="filtroCategoria" class="form-control" placeholder="Categoría...">
+      </div>
+
+      <div class="col-md-2">
+        <select id="filtroEstado" class="form-select">
+          <option value="">Todos</option>
+          <option value="activo">Activos</option>
+          <option value="inactivo">Inactivos</option>
+        </select>
+      </div>
+
+      <div class="col-md-2">
+        <label for="filtroFechaInicio" class="form-label mb-1">Fecha inicial</label>
+        <input type="date" id="filtroFechaInicio" class="form-control">
+      </div>
+
+      <div class="col-md-2">
+        <label for="filtroFechaFin" class="form-label mb-1">Fecha final</label>
+        <input type="date" id="filtroFechaFin" class="form-control">
+      </div>
+
+      <div class="col-md-1 d-flex align-items-end">
+        <button class="btn btn-dark w-100" onclick="cargarProductos()">Filtrar</button>
       </div>
     </div>
+  </div>
+</div>
 
     <!-- ✅ Tabla con scroll -->
     <div class="tabla-scroll">
@@ -202,32 +215,42 @@
     }
 
     async function cargarProductos() {
-      const nombre = document.getElementById("filtroNombre").value;
-      const categoria = document.getElementById("filtroCategoria").value;
-      const estado = document.getElementById("filtroEstado").value;
+  const nombre = document.getElementById("filtroNombre").value.trim();
+  const categoria = document.getElementById("filtroCategoria").value.trim();
+  const estado = document.getElementById("filtroEstado").value;
+  const fechaInicio = document.getElementById("filtroFechaInicio").value;
+  const fechaFin = document.getElementById("filtroFechaFin").value;
 
-      const params = new URLSearchParams();
-      if (nombre) params.append("nombre", nombre);
-      if (categoria) params.append("categoria", categoria);
-      if (estado) params.append("estado", estado);
+  if (fechaInicio && fechaFin && fechaInicio > fechaFin) {
+    alert("La fecha inicial no puede ser mayor que la fecha final.");
+    return;
+  }
 
-      const res = await fetch("/api/almacen/productos?" + params.toString(), {
-        headers: { "Authorization": "Bearer " + token }
-      });
+  const params = new URLSearchParams();
 
-      const data = await res.json();
+  if (nombre) params.append("nombre", nombre);
+  if (categoria) params.append("categoria", categoria);
+  if (estado) params.append("estado", estado);
+  if (fechaInicio) params.append("fechaInicio", fechaInicio);
+  if (fechaFin) params.append("fechaFin", fechaFin);
 
-      tablaBody.innerHTML = "";
+  const res = await fetch("/api/almacen/productos?" + params.toString(), {
+    headers: { "Authorization": "Bearer " + token }
+  });
 
-      if (!data.productos.length) {
-        tablaBody.innerHTML = `<tr><td colspan="8" class="text-center text-muted">Sin datos.</td></tr>`;
-        return;
-      }
+  const data = await res.json();
 
-      data.productos.forEach(p => {
-        tablaBody.innerHTML += filaProducto(p);
-      });
-    }
+  tablaBody.innerHTML = "";
+
+  if (!data.productos || !data.productos.length) {
+    tablaBody.innerHTML = `<tr><td colspan="8" class="text-center text-muted">Sin datos.</td></tr>`;
+    return;
+  }
+
+  data.productos.forEach(p => {
+    tablaBody.innerHTML += filaProducto(p);
+  });
+}
 
     // Abrir modal en modo nuevo
     function nuevoProducto() {

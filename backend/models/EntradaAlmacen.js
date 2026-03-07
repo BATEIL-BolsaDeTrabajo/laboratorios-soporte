@@ -28,6 +28,21 @@ const entradaAlmacenSchema = new Schema({
   registradoPor: {
     type: Schema.Types.ObjectId,
     ref: 'User'
+  },
+
+  // ✅ Confirmación de recepción física
+  recibido: {
+    type: Boolean,
+    default: false
+  },
+  fechaRecibido: {
+    type: Date,
+    default: null
+  },
+  recibidoPor: {
+    type: Schema.Types.ObjectId,
+    ref: 'User',
+    default: null
   }
 }, {
   timestamps: true

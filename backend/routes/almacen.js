@@ -141,9 +141,12 @@ router.get(
  *  - estado (activo/inactivo)
  */
 router.get(
-  '/productos', verifyToken, verifyRole(allowAlmacen), async (req, res) => {
+  '/productos',
+  verifyToken,
+  verifyRole(allowAlmacen),
+  async (req, res) => {
     try {
-      const { nombre, categoria, estado } = req.query;
+      const { nombre, categoria, estado, fechaInicio, fechaFin } = req.query;
 
       const filtro = {};
 
@@ -157,6 +160,18 @@ router.get(
 
       if (estado) {
         filtro.estado = estado;
+      }
+
+      if (fechaInicio || fechaFin) {
+        filtro.createdAt = {};
+
+        if (fechaInicio) {
+          filtro.createdAt.$gte = new Date(`${fechaInicio}T00:00:00.000Z`);
+        }
+
+        if (fechaFin) {
+          filtro.createdAt.$lte = new Date(`${fechaFin}T23:59:59.999Z`);
+        }
       }
 
       const productos = await Producto.find(filtro).sort({ nombre: 1 });
@@ -173,7 +188,12 @@ router.get(
  * GET /api/almacen/productos/:id
  * Obtener un producto por ID
  */
-router.get('/productos/:id',verifyToken,verifyRole(allowAlmacen),async (req, res) => {
+router.get(
+  '/productos/:id',
+  verifyToken,
+  verifyRole(allowAlmacen),
+  bloquearEntradasYProductosParaCorreo,
+  async (req, res) => {
     try {
       const producto = await Producto.findById(req.params.id);
       if (!producto) {
@@ -191,7 +211,12 @@ router.get('/productos/:id',verifyToken,verifyRole(allowAlmacen),async (req, res
  * POST /api/almacen/productos
  * Crear nuevo producto
  */
-router.post('/productos',verifyToken,verifyRole(allowAlmacen),async (req, res) => {
+router.post(
+  '/productos',
+  verifyToken,
+  verifyRole(allowAlmacen),
+  bloquearEntradasYProductosParaCorreo,
+  async (req, res) => {
     try {
       const errores = validarProducto(req.body);
       if (errores.length > 0) {
@@ -241,7 +266,12 @@ router.post('/productos',verifyToken,verifyRole(allowAlmacen),async (req, res) =
  * PUT /api/almacen/productos/:id
  * Actualizar producto
  */
-router.put('/productos/:id',verifyToken,verifyRole(allowAlmacen),async (req, res) => {
+router.put(
+  '/productos/:id',
+  verifyToken,
+  verifyRole(allowAlmacen),
+  bloquearEntradasYProductosParaCorreo,
+  async (req, res) => {
     try {
       const producto = await Producto.findById(req.params.id);
       if (!producto) {
@@ -296,7 +326,12 @@ router.put('/productos/:id',verifyToken,verifyRole(allowAlmacen),async (req, res
  * DELETE /api/almacen/productos/:id
  * Baja lógica: marcar como inactivo
  */
-router.delete('/productos/:id',verifyToken,verifyRole(allowAlmacen),bloquearEntradasYProductosParaCorreo,async (req, res) => {
+router.delete(
+  '/productos/:id',
+  verifyToken,
+  verifyRole(allowAlmacen),
+  bloquearEntradasYProductosParaCorreo,
+  async (req, res) => {
     try {
       const producto = await Producto.findById(req.params.id);
       if (!producto) {
@@ -442,6 +477,7 @@ router.post(
  *  - productoId
  *  - proveedor
  *  - fechaInicio, fechaFin (YYYY-MM-DD o ISO)
+ *  - recibido (true/false)
  */
 router.get(
   '/entradas',
@@ -450,7 +486,7 @@ router.get(
   bloquearEntradasYProductosParaCorreo,
   async (req, res) => {
     try {
-      const { productoId, proveedor, fechaInicio, fechaFin } = req.query;
+      const { productoId, proveedor, fechaInicio, fechaFin, recibido } = req.query;
       const filtro = {};
 
       if (productoId) {
@@ -474,15 +510,65 @@ router.get(
         }
       }
 
+      if (typeof recibido !== 'undefined' && recibido !== '') {
+        // recibido=true | recibido=false
+        filtro.recibido = String(recibido).toLowerCase() === 'true';
+      }
+
       const entradas = await EntradaAlmacen.find(filtro)
         .populate('producto', 'nombre codigo categoria unidadMedida')
         .populate('registradoPor', 'nombre email')
+        .populate('recibidoPor', 'nombre email')
         .sort({ fecha: -1, createdAt: -1 });
 
       res.json({ entradas });
     } catch (err) {
       console.error('Error al obtener entradas:', err);
       res.status(500).json({ mensaje: 'Error al obtener entradas' });
+    }
+  }
+);
+
+/**
+ * PATCH /api/almacen/entradas/:id/recibir
+ * Marca una entrada como RECIBIDA y guarda fechaRecibido + recibidoPor
+ */
+router.patch(
+  '/entradas/:id/recibir',
+  verifyToken,
+  verifyRole(allowAlmacen),
+  bloquearEntradasYProductosParaCorreo,
+  async (req, res) => {
+    try {
+      const entradaId = req.params.id;
+      if (!mongoose.Types.ObjectId.isValid(entradaId)) {
+        return res.status(400).json({ mensaje: 'ID inválido.' });
+      }
+
+      const entrada = await EntradaAlmacen.findById(entradaId);
+      if (!entrada) {
+        return res.status(404).json({ mensaje: 'Entrada no encontrada.' });
+      }
+
+      if (entrada.recibido) {
+        return res.json({ mensaje: 'Esta entrada ya estaba marcada como recibida.', entrada });
+      }
+
+      entrada.recibido = true;
+      entrada.fechaRecibido = new Date();
+      entrada.recibidoPor = req.usuario?.id || null;
+
+      await entrada.save();
+
+      const entradaPop = await EntradaAlmacen.findById(entradaId)
+        .populate('producto', 'nombre codigo categoria unidadMedida')
+        .populate('registradoPor', 'nombre email')
+        .populate('recibidoPor', 'nombre email');
+
+      return res.json({ mensaje: 'Entrada marcada como recibida ✅', entrada: entradaPop });
+    } catch (err) {
+      console.error('Error al marcar entrada como recibida:', err);
+      return res.status(500).json({ mensaje: 'Error al marcar como recibida' });
     }
   }
 );
