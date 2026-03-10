@@ -288,15 +288,13 @@ function aplicarRestriccionAlmacenMenuYRedireccion() {
 
   if (!isRestricted) return;
 
-  // 1) Ocultar opciones del menú
+  // ✅ SOLO ocultar Entradas
   document.getElementById("item-almacen-entradas")?.classList.add("d-none");
-  document.getElementById("item-almacen-productos")?.classList.add("d-none");
-  document.getElementById("item-almacen-recibidos")?.classList.add("d-none");
 
-  // 2) Si intenta entrar por URL, redirigir
+  // ✅ SOLO bloquear URL de Entradas
   const path = (window.location.pathname || "").toLowerCase();
 
-  if (path.includes("entradas") || path.includes("productos") || path.includes("recibidos")) {
+  if (path.includes("entradas")) {
     alert("Tu cuenta no tiene permiso para acceder a este módulo.");
     window.location.href = "/almacen/dashboard-almacen.html";
   }
