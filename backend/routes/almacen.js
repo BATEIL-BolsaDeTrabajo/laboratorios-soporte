@@ -192,7 +192,6 @@ router.get(
   '/productos/:id',
   verifyToken,
   verifyRole(allowAlmacen),
-  bloquearEntradasYProductosParaCorreo,
   async (req, res) => {
     try {
       const producto = await Producto.findById(req.params.id);
@@ -215,7 +214,6 @@ router.post(
   '/productos',
   verifyToken,
   verifyRole(allowAlmacen),
-  bloquearEntradasYProductosParaCorreo,
   async (req, res) => {
     try {
       const errores = validarProducto(req.body);
@@ -270,7 +268,6 @@ router.put(
   '/productos/:id',
   verifyToken,
   verifyRole(allowAlmacen),
-  bloquearEntradasYProductosParaCorreo,
   async (req, res) => {
     try {
       const producto = await Producto.findById(req.params.id);
