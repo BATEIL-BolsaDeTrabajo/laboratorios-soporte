@@ -91,6 +91,8 @@ function configurarMenuPorRoles() {
       "item-admin-usuarios",
       "item-admin-tickets",
       "item-admin-asignables",
+      "item-admin-ciclos",
+      "item-admin-colegiatura",
       "item-admin-divider",
     ]);
     visible = true;
