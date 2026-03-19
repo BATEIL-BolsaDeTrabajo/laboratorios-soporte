@@ -28,6 +28,10 @@ app.use('/api/tiempo', require('./routes/tiempoRoutes'));
 app.use('/api/calificaciones', require('./routes/calificaciones'));
 app.use('/api/notifications', notificationsRoutes);
 app.use('/api/almacen', require('./routes/almacen'));
+app.use('/api/cycles', require('./routes/cycles'));
+app.use('/api/student-payment-tracking', require('./routes/studentPaymentTracking'));
+app.use('/api/student-payment-tracking', require('./routes/studentPaymentTrackingImport'));
+app.use('/api/student-payment-tracking', require('./routes/studentPaymentTrackingExport'));
 
 
 

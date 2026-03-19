@@ -221,6 +221,18 @@ function configurarMenuPorRoles() {
     visible = true;
   }
 
+  // Caja
+  if (has("caja")) {
+    show([
+      "item-caja-header",
+      "item-caja-crear",
+      "item-caja-mistickets",
+      "item-caja-colegiatura",
+      "item-caja-divider",
+    ]);
+    visible = true;
+  }
+
   if (visible) {
     const dd = document.getElementById("menu-roles-dropdown");
     if (dd) dd.classList.remove("d-none");

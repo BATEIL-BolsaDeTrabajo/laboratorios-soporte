@@ -6,7 +6,7 @@ const userSchema = new mongoose.Schema({
   contraseña: { type: String, required: true },
   roles: {
     type: [String],
-    enum: ['docente', 'admin', 'soporte', 'mantenimiento', 'direccion', 'subdireccion', 'rrhh', 'finanzas', 'talleres','coordinacionD','almacen'],
+    enum: ['docente', 'admin', 'soporte', 'mantenimiento', 'direccion', 'subdireccion', 'rrhh', 'finanzas', 'talleres','coordinacionD','almacen','coordinador','caja'],
     default: ['docente']
   },
   diasVacacionesDisponibles: {
@@ -26,8 +26,5 @@ const userSchema = new mongoose.Schema({
     type: String
   }
 });
-
-module.exports = mongoose.model('User', userSchema);
-
 
 module.exports = mongoose.model('User', userSchema);
