@@ -155,6 +155,8 @@ function configurarMenuPorRoles() {
       "item-direccion-panelCalificaciones",
       "item-direccion-subirCalificaciones",
       "item-direccion-historial",
+      "item-direccion-colegiatura",
+      "item-direccion-ciclos",
       "item-direccion-divider",
     ]);
     visible = true;
@@ -172,6 +174,8 @@ function configurarMenuPorRoles() {
       "item-subdireccion-panelCalificaciones",
       "item-subdireccion-subirCalificaciones",
       "item-subdireccion-historial",
+      "item-subdireccion-ciclos",
+      "item-subdireccion-colegiatura",
       "item-subdireccion-divider",
     ]);
     visible = true;
@@ -222,6 +226,17 @@ function configurarMenuPorRoles() {
     ]);
     visible = true;
   }
+  // coordinador
+  /*if (has("coordinador")) {
+    show([
+      "item-coordinador-header",
+      "item-coordinador-crear",
+      "item-coordinador-mistickets",
+      "item-coordinador-colegiatura"
+      "item-coordinador-divider",
+    ]);
+    visible = true;
+  }*/
 
   // Caja
   if (has("caja")) {

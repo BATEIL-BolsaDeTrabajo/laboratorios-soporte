@@ -10,7 +10,7 @@ const { verifyToken, verifyRole } = require('../middlewares/auth');
 const upload = multer({ storage: multer.memoryStorage() });
 
 // luego agregamos "caja"
-const allowImport = ['admin', 'direccion', 'subdireccion'];
+const allowImport = ['admin', 'direccion', 'subdireccion', 'caja'];
 
 function normalizeText(value = '') {
   return String(value).trim().replace(/\s+/g, ' ');
