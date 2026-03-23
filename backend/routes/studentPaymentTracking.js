@@ -5,7 +5,7 @@ const StudentPaymentTracking = require('../models/StudentPaymentTracking');
 const Cycle = require('../models/Cycle');
 const { verifyToken, verifyRole } = require('../middlewares/auth');
 
-const allowView = ['admin', 'direccion', 'subdireccion', 'coordinador', 'caja'];
+const allowView = ['admin', 'direccion', 'subdireccion', 'coordinador', 'caja','finanzas'];
 const allowAcademicEdit = ['admin', 'direccion', 'subdireccion', 'coordinador'];
 const allowAdminNotesEdit = ['admin', 'direccion', 'subdireccion', 'caja']; // caja después la agregamos
 const allowManage = ['admin', 'direccion', 'subdireccion'];

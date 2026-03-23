@@ -196,6 +196,7 @@ function configurarMenuPorRoles() {
       "item-finanzas-divider",
       "item-finanzas-asignables",
       "item-finanzas-archtickets",
+      "item-finanzas-colegiatura"
     ]);
     visible = true;
   }
@@ -227,16 +228,16 @@ function configurarMenuPorRoles() {
     visible = true;
   }
   // coordinador
-  /*if (has("coordinador")) {
+  if (has("coordinador")) {
     show([
       "item-coordinador-header",
       "item-coordinador-crear",
       "item-coordinador-mistickets",
-      "item-coordinador-colegiatura"
+      "item-coordinador-colegiatura",
       "item-coordinador-divider",
     ]);
     visible = true;
-  }*/
+  }
 
   // Caja
   if (has("caja")) {
