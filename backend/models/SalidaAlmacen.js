@@ -23,6 +23,11 @@ const salidaAlmacenSchema = new Schema({
     required: true,
     trim: true
   },
+  tipoSalida: {
+    type: String,
+    required: true,
+    trim: true
+  },
   comentarios: {
     type: String, // motivo de uso, reporte, etc.
     default: ''

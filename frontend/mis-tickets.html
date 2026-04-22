@@ -8,156 +8,227 @@
 
   <style>
     body { background-color: #f5f5f5; }
-    .page-title { display: flex; align-items: center; gap: .75rem; }
-    .page-title span.icon {
-      width: 40px; height: 40px; border-radius: 999px;
-      display: inline-flex; align-items: center; justify-content: center;
-      font-size: 1.4rem; background: #ffc10733;
+
+    .page-title {
+      display: flex;
+      align-items: center;
+      gap: .75rem;
     }
-    .badge-estado { font-size: 0.8rem; }
+
+    .page-title span.icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 999px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.4rem;
+      background: #ffc10733;
+    }
+
+    .badge-estado {
+      font-size: 0.8rem;
+    }
+
+    .btn-cerrar-ticket {
+      font-weight: 600;
+    }
+
+    .modal-confirmacion-header {
+      background: linear-gradient(135deg, #fff3cd 0%, #ffe69c 100%);
+      border-bottom: 1px solid #f1d37a;
+    }
+
+    .modal-confirmacion-icon {
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.6rem;
+      background: #212529;
+      color: #ffc107;
+      margin-bottom: 12px;
+    }
+
+    .alerta-ticket {
+      border-radius: 14px;
+      font-weight: 500;
+    }
   </style>
 </head>
 <body>
 
 <div id="navbar-container"></div>
 
-  <!-- CONTENIDO -->
-  <main class="container mb-5">
+<main class="container mb-5">
 
-    <div class="d-flex justify-content-between align-items-center mb-3">
-      <div class="page-title">
-        <span class="icon">🎫</span>
-        <div>
-          <h1 class="h4 mb-0">Mis tickets</h1>
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <div class="page-title">
+      <span class="icon">🎫</span>
+      <div>
+        <h1 class="h4 mb-0">Mis tickets</h1>
+      </div>
+    </div>
+  </div>
+
+  <div id="contenedor-alerta-ticket" class="mb-3"></div>
+
+  <!-- Filtros -->
+  <div class="card shadow-sm mb-3">
+    <div class="card-body">
+      <div class="row g-2 align-items-center">
+        <div class="col-auto">
+          <label for="filtro-estado" class="col-form-label fw-semibold">
+            Filtrar por estado:
+          </label>
+        </div>
+        <div class="col-sm-4 col-md-3">
+          <select id="filtro-estado" class="form-select form-select-sm">
+            <option value="">Todos</option>
+            <option value="Abierto">Abierto</option>
+            <option value="En proceso">En proceso</option>
+            <option value="En espera de material">En espera de material</option>
+            <option value="Resuelto">Resuelto</option>
+            <option value="Tiempo excedido">Tiempo excedido</option>
+            <option value="Cerrado">Cerrado</option>
+            <option value="Archivado">Archivado</option>
+            <option value="Rechazado">Rechazado</option>
+          </select>
         </div>
       </div>
     </div>
+  </div>
 
-    <!-- Filtros -->
-    <div class="card shadow-sm mb-3">
-      <div class="card-body">
-        <div class="row g-2 align-items-center">
-          <div class="col-auto">
-            <label for="filtro-estado" class="col-form-label fw-semibold">
-              Filtrar por estado:
-            </label>
-          </div>
-          <div class="col-sm-4 col-md-3">
-            <select id="filtro-estado" class="form-select form-select-sm">
-              <option value="">Todos</option>
-              <option value="Abierto">Abierto</option>
-              <option value="En proceso">En proceso</option>
-              <option value="En espera de material">En espera de material</option>
-              <option value="Resuelto">Resuelto</option>
-              <option value="Tiempo excedido">Tiempo excedido</option>
-              <option value="Cerrado">Cerrado</option>
-              <!-- ✅ NUEVOS -->
-              <option value="Archivado">Archivado</option>
-              <option value="Rechazado">Rechazado</option>
-            </select>
-          </div>
-        </div>
+  <!-- Tabla -->
+  <div class="card shadow-sm">
+    <div class="card-body">
+      <div class="table-responsive">
+        <table class="table table-hover align-middle mb-0">
+          <thead class="table-dark">
+            <tr>
+              <th>Folio</th>
+              <th>Estado</th>
+              <th>Fecha solicitada</th>
+              <th>Fecha de inicio</th>
+              <th>Fecha de terminado</th>
+              <th>Descripción del problema</th>
+              <th>Comentarios / acciones</th>
+            </tr>
+          </thead>
+          <tbody id="tbody-mis-tickets">
+            <tr>
+              <td colspan="7" class="text-center text-muted py-4">
+                Cargando tickets...
+              </td>
+            </tr>
+          </tbody>
+        </table>
       </div>
     </div>
+  </div>
 
-    <!-- Tabla -->
-    <div class="card shadow-sm">
-      <div class="card-body">
+</main>
+
+<!-- MODAL: VER COMENTARIOS -->
+<div class="modal fade" id="modalComentariosTicket" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalComentariosTitulo">Comentarios</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+      </div>
+      <div class="modal-body">
         <div class="table-responsive">
-          <table class="table table-hover align-middle mb-0">
-            <thead class="table-dark">
+          <table class="table table-sm table-bordered mb-0">
+            <thead class="table-light">
               <tr>
-                <th>Folio</th>
-                <th>Estado</th>
-                <th>Fecha solicitada</th>
-                <th>Fecha de inicio</th>
-                <th>Fecha de terminado</th>
-                <th>Descripción del problema</th>
-                <th>Comentarios</th>
+                <th style="width: 170px;">Fecha</th>
+                <th style="width: 180px;">Usuario</th>
+                <th>Comentario</th>
               </tr>
             </thead>
-            <tbody id="tbody-mis-tickets">
+            <tbody id="tbody-comentarios-ticket">
               <tr>
-                <td colspan="7" class="text-center text-muted py-4">
-                  Cargando tickets...
+                <td colspan="3" class="text-center text-muted py-3">
+                  Cargando comentarios...
                 </td>
               </tr>
             </tbody>
           </table>
         </div>
       </div>
-    </div>
-
-  </main>
-
-  <!-- MODAL: VER COMENTARIOS -->
-  <div class="modal fade" id="modalComentariosTicket" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog modal-lg modal-dialog-centered">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="modalComentariosTitulo">Comentarios</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
-        </div>
-        <div class="modal-body">
-          <div class="table-responsive">
-            <table class="table table-sm table-bordered mb-0">
-              <thead class="table-light">
-                <tr>
-                  <th style="width: 170px;">Fecha</th>
-                  <th style="width: 180px;">Usuario</th>
-                  <th>Comentario</th>
-                </tr>
-              </thead>
-              <tbody id="tbody-comentarios-ticket">
-                <tr>
-                  <td colspan="3" class="text-center text-muted py-3">
-                    Cargando comentarios...
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-        <div class="modal-footer">
-          <button class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-        </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
       </div>
     </div>
   </div>
+</div>
 
-  <!-- MODAL: NUEVO COMENTARIO -->
-  <div class="modal fade" id="modalNuevoComentarioTicket" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog modal-md modal-dialog-centered">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="modalNuevoComentarioTitulo">Agregar comentario</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+<!-- MODAL: NUEVO COMENTARIO -->
+<div class="modal fade" id="modalNuevoComentarioTicket" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-md modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalNuevoComentarioTitulo">Agregar comentario</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+      </div>
+      <div class="modal-body">
+        <div class="mb-3">
+          <label for="txtNuevoComentario" class="form-label fw-semibold">Comentario:</label>
+          <textarea id="txtNuevoComentario" class="form-control" rows="4"
+                    placeholder="Escribe tu comentario sobre este ticket..."></textarea>
         </div>
-        <div class="modal-body">
-          <div class="mb-3">
-            <label for="txtNuevoComentario" class="form-label fw-semibold">Comentario:</label>
-            <textarea id="txtNuevoComentario" class="form-control" rows="4"
-                      placeholder="Escribe tu comentario sobre este ticket..."></textarea>
-          </div>
-          <div id="nuevoComentarioError" class="text-danger small d-none">
-            Debes escribir un comentario.
-          </div>
+        <div id="nuevoComentarioError" class="text-danger small d-none">
+          Debes escribir un comentario.
         </div>
-        <div class="modal-footer">
-          <button class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-          <button class="btn btn-primary" type="button" onclick="guardarNuevoComentarioTicket()">
-            Guardar comentario
-          </button>
-        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+        <button class="btn btn-primary" type="button" onclick="guardarNuevoComentarioTicket()">
+          Guardar comentario
+        </button>
       </div>
     </div>
   </div>
+</div>
+
+<!-- MODAL: CONFIRMAR CIERRE -->
+<div class="modal fade" id="modalCerrarTicket" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-md modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header modal-confirmacion-header">
+        <h5 class="modal-title">Confirmar cierre de ticket</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+      </div>
+      <div class="modal-body text-center">
+        <div class="modal-confirmacion-icon">🔒</div>
+        <h6 class="fw-bold mb-2">¿Deseas cerrar este ticket?</h6>
+        <p class="mb-2 text-muted" id="textoCerrarTicket">
+          Este cambio marcará el ticket como cerrado.
+        </p>
+        <div class="small text-muted">
+          Solo puedes cerrarlo cuando el estatus esté en <strong>Resuelto</strong>.
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+        <button class="btn btn-danger" type="button" id="btnConfirmarCerrarTicket">
+          Sí, cerrar ticket
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
 
 <script>
 let todosLosTickets = [];
 let modalComentarios;
 let modalNuevoComentario;
+let modalCerrarTicket;
 let ticketIdParaNuevoComentario = null;
+let ticketIdParaCerrar = null;
 
 document.addEventListener('DOMContentLoaded', () => {
   const token = localStorage.getItem('token');
@@ -168,20 +239,45 @@ document.addEventListener('DOMContentLoaded', () => {
     return;
   }
 
-  // Instanciar modales Bootstrap
   const modalComentariosEl = document.getElementById('modalComentariosTicket');
   if (modalComentariosEl) modalComentarios = new bootstrap.Modal(modalComentariosEl);
 
   const modalNuevoComentarioEl = document.getElementById('modalNuevoComentarioTicket');
   if (modalNuevoComentarioEl) modalNuevoComentario = new bootstrap.Modal(modalNuevoComentarioEl);
 
-  // Cargar tickets
+  const modalCerrarTicketEl = document.getElementById('modalCerrarTicket');
+  if (modalCerrarTicketEl) modalCerrarTicket = new bootstrap.Modal(modalCerrarTicketEl);
+
+  const btnConfirmarCerrar = document.getElementById('btnConfirmarCerrarTicket');
+  if (btnConfirmarCerrar) {
+    btnConfirmarCerrar.addEventListener('click', confirmarCerrarTicketUsuario);
+  }
+
   cargarMisTickets(token);
 
-  // Filtro
   const selectEstado = document.getElementById('filtro-estado');
   if (selectEstado) selectEstado.addEventListener('change', aplicarFiltro);
 });
+
+function mostrarAlertaTicket(mensaje, tipo = 'success') {
+  const contenedor = document.getElementById('contenedor-alerta-ticket');
+  if (!contenedor) return;
+
+  contenedor.innerHTML = `
+    <div class="alert alert-${tipo} alerta-ticket alert-dismissible fade show" role="alert">
+      ${mensaje}
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Cerrar"></button>
+    </div>
+  `;
+
+  setTimeout(() => {
+    const alerta = contenedor.querySelector('.alert');
+    if (alerta) {
+      const bsAlert = bootstrap.Alert.getOrCreateInstance(alerta);
+      bsAlert.close();
+    }
+  }, 4500);
+}
 
 async function cargarMisTickets(token) {
   const tbody = document.getElementById('tbody-mis-tickets');
@@ -229,11 +325,6 @@ async function cargarMisTickets(token) {
   }
 }
 
-/* ✅ Estado visible para el usuario
-   - Si estatus = Rechazado -> "Rechazado"
-   - Si archivado = true y NO rechazado -> "Archivado"
-   - si no -> estatus normal
-*/
 function getEstadoVisible(t) {
   if ((t.estatus || '') === 'Rechazado') return 'Rechazado';
   if (t.archivado) return 'Archivado';
@@ -246,7 +337,6 @@ function aplicarFiltro() {
   if (!tbody) return;
 
   const estadoSeleccionado = selectEstado ? selectEstado.value : '';
-
   let filtrados = todosLosTickets;
 
   if (estadoSeleccionado) {
@@ -272,6 +362,7 @@ function renderTabla(tickets) {
 
   tickets.forEach(t => {
     const estado = getEstadoVisible(t);
+    const puedeCerrarUsuario = estado === 'Resuelto';
 
     const tr = document.createElement('tr');
     tr.innerHTML = `
@@ -287,10 +378,20 @@ function renderTabla(tickets) {
                   onclick="abrirComentariosTicket('${t._id}')">
             Comentarios
           </button>
+
           <button class="btn btn-sm btn-warning" type="button"
                   onclick="abrirModalNuevoComentarioTicket('${t._id}')">
             Agregar comentario
           </button>
+
+          ${
+            puedeCerrarUsuario
+              ? `<button class="btn btn-sm btn-danger btn-cerrar-ticket" type="button"
+                         onclick="abrirModalCerrarTicket('${t._id}')">
+                   Cerrar ticket
+                 </button>`
+              : ''
+          }
         </div>
       </td>
     `;
@@ -304,11 +405,11 @@ function formatearFecha(fechaIso) {
   const d = new Date(fechaIso);
   if (isNaN(d.getTime())) return '<span class="text-muted">—</span>';
 
-  const dia  = String(d.getDate()).padStart(2, '0');
-  const mes  = String(d.getMonth() + 1).padStart(2, '0');
+  const dia = String(d.getDate()).padStart(2, '0');
+  const mes = String(d.getMonth() + 1).padStart(2, '0');
   const anio = d.getFullYear();
   const horas = String(d.getHours()).padStart(2, '0');
-  const mins  = String(d.getMinutes()).padStart(2, '0');
+  const mins = String(d.getMinutes()).padStart(2, '0');
 
   return `${dia}/${mes}/${anio} ${horas}:${mins}`;
 }
@@ -332,16 +433,15 @@ function renderEstado(estado) {
 }
 
 function escapeHtml(text) {
-  return text
+  return String(text)
     .replace(/&/g, '&amp;')
     .replace(/</g, '&lt;')
     .replace(/>/g, '&gt;');
 }
 
 /* ================================
-   MODAL DE COMENTARIOS (solo lectura)
-   GET /api/tickets/:id/comentarios-admin
-   ================================ */
+   MODAL DE COMENTARIOS
+================================ */
 async function abrirComentariosTicket(ticketId) {
   const ticket = todosLosTickets.find(t => t._id === ticketId);
 
@@ -424,8 +524,7 @@ async function abrirComentariosTicket(ticketId) {
 
 /* ================================
    MODAL NUEVO COMENTARIO
-   POST /api/tickets/:id/comentarios-admin
-   ================================ */
+================================ */
 function abrirModalNuevoComentarioTicket(ticketId) {
   ticketIdParaNuevoComentario = ticketId;
 
@@ -471,7 +570,7 @@ async function guardarNuevoComentarioTicket() {
     });
 
     if (!resp.ok) {
-      alert('No se pudo guardar el comentario.');
+      mostrarAlertaTicket('No se pudo guardar el comentario.', 'danger');
       return;
     }
 
@@ -481,10 +580,83 @@ async function guardarNuevoComentarioTicket() {
       abrirComentariosTicket(ticketIdParaNuevoComentario);
     }
 
-    alert('Comentario guardado correctamente.');
+    mostrarAlertaTicket('Comentario guardado correctamente.', 'success');
   } catch (err) {
     console.error('Error al guardar comentario:', err);
-    alert('Ocurrió un error al guardar el comentario.');
+    mostrarAlertaTicket('Ocurrió un error al guardar el comentario.', 'danger');
+  }
+}
+
+/* ================================
+   CERRAR TICKET USUARIO
+================================ */
+function abrirModalCerrarTicket(ticketId) {
+  const ticket = todosLosTickets.find(t => t._id === ticketId);
+  if (!ticket) return;
+
+  const estado = getEstadoVisible(ticket);
+  if (estado !== 'Resuelto') {
+    mostrarAlertaTicket('Solo puedes cerrar tickets que estén en estatus Resuelto.', 'warning');
+    return;
+  }
+
+  ticketIdParaCerrar = ticketId;
+
+  const texto = document.getElementById('textoCerrarTicket');
+  if (texto) {
+    texto.innerHTML = `
+      Vas a cerrar el ticket <strong>${escapeHtml(ticket.folio || '—')}</strong>.
+    `;
+  }
+
+  if (modalCerrarTicket) modalCerrarTicket.show();
+}
+
+async function confirmarCerrarTicketUsuario() {
+  if (!ticketIdParaCerrar) return;
+
+  const btn = document.getElementById('btnConfirmarCerrarTicket');
+  if (btn) {
+    btn.disabled = true;
+    btn.textContent = 'Cerrando...';
+  }
+
+  try {
+    const token = localStorage.getItem('token');
+
+    const resp = await fetch(`/api/tickets/${ticketIdParaCerrar}`, {
+      method: 'PUT',
+      headers: {
+        'Authorization': 'Bearer ' + token,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        estatus: 'Cerrado',
+        cerradoPorUsuario: true
+      })
+    });
+
+    const data = await resp.json().catch(() => ({}));
+
+    if (!resp.ok) {
+      mostrarAlertaTicket(data.mensaje || 'No se pudo cerrar el ticket.', 'danger');
+      return;
+    }
+
+    if (modalCerrarTicket) modalCerrarTicket.hide();
+
+    mostrarAlertaTicket(data.mensaje || 'Ticket cerrado correctamente.', 'success');
+
+    ticketIdParaCerrar = null;
+    await cargarMisTickets(token);
+  } catch (err) {
+    console.error('Error al cerrar ticket:', err);
+    mostrarAlertaTicket('Ocurrió un error al cerrar el ticket.', 'danger');
+  } finally {
+    if (btn) {
+      btn.disabled = false;
+      btn.textContent = 'Sí, cerrar ticket';
+    }
   }
 }
 </script>
@@ -494,4 +666,3 @@ async function guardarNuevoComentarioTicket() {
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
-

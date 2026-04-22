@@ -1,4 +1,4 @@
-//// backend/routes/almacen.js
+// backend/routes/almacen.js
 const express = require('express');
 const router = express.Router();
 const mongoose = require('mongoose');
@@ -500,7 +500,6 @@ router.get(
           filtro.fecha.$gte = new Date(fechaInicio);
         }
         if (fechaFin) {
-          // incluir todo el día
           const fin = new Date(fechaFin);
           fin.setHours(23, 59, 59, 999);
           filtro.fecha.$lte = fin;
@@ -508,7 +507,6 @@ router.get(
       }
 
       if (typeof recibido !== 'undefined' && recibido !== '') {
-        // recibido=true | recibido=false
         filtro.recibido = String(recibido).toLowerCase() === 'true';
       }
 
@@ -580,7 +578,6 @@ router.delete(
   verifyRole(allowAlmacen),
   async (req, res) => {
     try {
-      // 🔒 Seguridad por correo (no solo visual)
       const email = (req.usuario?.email || "").toLowerCase();
       if (email !== ALLOW_DELETE_ENTRADAS_EMAIL) {
         return res.status(403).json({ mensaje: "Acceso denegado." });
@@ -605,8 +602,6 @@ router.delete(
       const stockAntes = Number(producto.stockActual || 0);
       const stockDespues = stockAntes - cantidadEntrada;
 
-      // ✅ Regla de seguridad: no permitir dejar stock negativo
-      // (por ejemplo, si ya hubo salidas posteriores a esa entrada)
       if (stockDespues < 0) {
         return res.status(400).json({
           mensaje:
@@ -614,14 +609,11 @@ router.delete(
         });
       }
 
-      // 1) Revertir stock
       producto.stockActual = stockDespues;
       await producto.save();
 
-      // 2) Eliminar entrada
       await EntradaAlmacen.deleteOne({ _id: entradaId });
 
-      // 3) Auditoría (opcional pero recomendado)
       await registrarAuditoriaMovimiento({
         producto,
         accion: "entrada_eliminada",
@@ -655,6 +647,7 @@ router.delete(
  *  - cantidad
  *  - entregadoA
  *  - departamento
+ *  - tipoSalida
  *  - comentarios (opcional)
  *  - fecha (opcional)
  */
@@ -669,13 +662,14 @@ router.post(
         cantidad,
         entregadoA,
         departamento,
+        tipoSalida,
         comentarios,
         fecha
       } = req.body;
 
-      if (!productoId || !cantidad || !entregadoA || !departamento) {
+      if (!productoId || !cantidad || !entregadoA || !departamento || !tipoSalida) {
         return res.status(400).json({
-          mensaje: 'productoId, cantidad, entregadoA y departamento son obligatorios.'
+          mensaje: 'productoId, cantidad, entregadoA, departamento y tipoSalida son obligatorios.'
         });
       }
 
@@ -698,29 +692,27 @@ router.post(
 
       const cantidadDespues = cantidadAntes - Number(cantidad);
 
-      // Actualizar stock
       producto.stockActual = cantidadDespues;
       await producto.save();
 
-      // Registrar salida
       const salida = await SalidaAlmacen.create({
         producto: producto._id,
         cantidad,
         entregadoA,
         departamento,
+        tipoSalida,
         comentarios: comentarios || '',
         fecha: fecha ? new Date(fecha) : new Date(),
         realizadoPor: req.usuario?.id || null
       });
 
-      // Auditoría
       await registrarAuditoriaMovimiento({
         producto,
         accion: 'salida',
         cantidadAntes,
         cantidadDespues,
         usuarioId: req.usuario?.id,
-        detalle: `Salida de ${cantidad} unidades para ${entregadoA} (${departamento}).`
+        detalle: `Salida de ${cantidad} unidades para ${entregadoA} (${departamento}) - Tipo: ${tipoSalida}.`
       });
 
       const alertaBajoStock = producto.stockMinimo > 0 &&
@@ -745,6 +737,7 @@ router.post(
  *  - productoId
  *  - entregadoA
  *  - departamento
+ *  - tipoSalida
  *  - fechaInicio, fechaFin
  */
 router.get(
@@ -757,6 +750,7 @@ router.get(
         productoId,
         entregadoA,
         departamento,
+        tipoSalida,
         fechaInicio,
         fechaFin
       } = req.query;
@@ -773,6 +767,10 @@ router.get(
 
       if (departamento) {
         filtro.departamento = { $regex: departamento, $options: 'i' };
+      }
+
+      if (tipoSalida) {
+        filtro.tipoSalida = { $regex: tipoSalida, $options: 'i' };
       }
 
       if (fechaInicio || fechaFin) {
@@ -843,19 +841,6 @@ router.get(
    AJUSTES DE INVENTARIO
 =========================== */
 
-/**
- * POST /api/almacen/ajustes
- * Registrar un ajuste de inventario:
- *  - merma (resta)
- *  - devolucion (suma)
- *  - error (ajuste manual a un valor)
- *
- * Body:
- *  - productoId
- *  - tipo: merma | devolucion | error
- *  - cantidad
- *  - motivo
- */
 router.post(
   '/ajustes',
   verifyToken,
@@ -902,18 +887,16 @@ router.post(
             mensaje: 'El stock no puede ser negativo.'
           });
         }
-        cantidadDespues = cantidad; // Se sobrescribe stockActual
+        cantidadDespues = cantidad;
       }
 
       else {
         return res.status(400).json({ mensaje: 'Tipo de ajuste no válido.' });
       }
 
-      // Guardar nuevo stock
       producto.stockActual = cantidadDespues;
       await producto.save();
 
-      // Registrar ajuste
       const ajuste = await AjusteInventario.create({
         producto: producto._id,
         tipo,
@@ -922,7 +905,6 @@ router.post(
         realizadoPor: req.usuario.id
       });
 
-      // Auditoría
       await registrarAuditoriaMovimiento({
         producto,
         accion: `ajuste_${tipo}`,
@@ -944,13 +926,6 @@ router.post(
   }
 );
 
-/**
- * GET /api/almacen/ajustes
- * Lista de ajustes de inventario con filtros:
- *  - productoId
- *  - tipo (merma | devolucion | error)
- *  - fechaInicio, fechaFin
- */
 router.get(
   '/ajustes',
   verifyToken,
@@ -969,7 +944,6 @@ router.get(
         filtro.tipo = tipo;
       }
 
-      // Filtrar por fecha (si tu esquema tiene campo "fecha")
       if (fechaInicio || fechaFin) {
         filtro.fecha = {};
         if (fechaInicio) {
@@ -1000,15 +974,6 @@ router.get(
    HISTORIAL COMPLETO DE UN PRODUCTO
 =========================== */
 
-/**
- * GET /api/almacen/productos/:id/historial
- * Devuelve:
- *  - Datos del producto
- *  - Entradas
- *  - Salidas
- *  - Ajustes
- *  - Auditoría
- */
 router.get(
   '/productos/:id/historial',
   verifyToken,
@@ -1108,4 +1073,3 @@ router.delete(
 
 
 module.exports = router;
-

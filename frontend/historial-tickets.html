@@ -15,6 +15,7 @@
       border-radius: .5rem;
       background: #fff;
     }
+
     /* ✅ Header fijo mientras haces scroll */
     .tabla-scroll thead th {
       position: sticky;
@@ -43,6 +44,7 @@
           <option>Tiempo excedido</option>
         </select>
       </div>
+
       <div class="col-md-3">
         <select id="filtro-prioridad" class="form-select">
           <option value="">Todas las prioridades</option>
@@ -51,12 +53,15 @@
           <option>Baja</option>
         </select>
       </div>
+
       <div class="col-md-4">
         <input id="filtro-busqueda" class="form-control" placeholder="Buscar por asignado o creador..." />
       </div>
+
       <div class="col-md-1 d-grid">
         <button class="btn btn-secondary" onclick="refrescar()">Filtrar</button>
       </div>
+
       <div class="col-md-1 d-grid">
         <button class="btn btn-outline-secondary" onclick="resetFiltros()">Limpiar</button>
       </div>
@@ -123,7 +128,7 @@
     </div>
   </div>
 
-  <!-- ✅ MODAL DESCRIPCIÓN DEL PROBLEMA -->
+  <!-- MODAL DESCRIPCIÓN DEL PROBLEMA -->
   <div class="modal fade" id="modalDescripcion" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-lg modal-dialog-scrollable">
       <div class="modal-content">
@@ -144,32 +149,37 @@
 
   <script>
     // Navbar
-    fetch("/navbar.html").then(r => r.text()).then(h => {
-      const c = document.getElementById("navbar-container"); if (c) c.innerHTML = h;
-    });
+    fetch("/navbar.html")
+      .then(r => r.text())
+      .then(h => {
+        const c = document.getElementById("navbar-container");
+        if (c) c.innerHTML = h;
+      });
 
     const token = localStorage.getItem("token");
     if (!token) location.href = "login.html";
 
     // Persistencia de filtros
     const FK = {
-      estado: 'hist_est',
-      prioridad: 'hist_pri',
-      busqueda: 'hist_q'
+      estado: "hist_est",
+      prioridad: "hist_pri",
+      busqueda: "hist_q"
     };
 
-    function saveFilters(){
-      localStorage.setItem(FK.estado, document.getElementById('filtro-estado').value);
-      localStorage.setItem(FK.prioridad, document.getElementById('filtro-prioridad').value);
-      localStorage.setItem(FK.busqueda, document.getElementById('filtro-busqueda').value);
+    function saveFilters() {
+      localStorage.setItem(FK.estado, document.getElementById("filtro-estado").value);
+      localStorage.setItem(FK.prioridad, document.getElementById("filtro-prioridad").value);
+      localStorage.setItem(FK.busqueda, document.getElementById("filtro-busqueda").value);
     }
-    function loadFilters(){
-      const e = localStorage.getItem(FK.estado) ?? '';
-      const p = localStorage.getItem(FK.prioridad) ?? '';
-      const q = localStorage.getItem(FK.busqueda) ?? '';
-      document.getElementById('filtro-estado').value = e;
-      document.getElementById('filtro-prioridad').value = p;
-      document.getElementById('filtro-busqueda').value = q;
+
+    function loadFilters() {
+      const e = localStorage.getItem(FK.estado) ?? "";
+      const p = localStorage.getItem(FK.prioridad) ?? "";
+      const q = localStorage.getItem(FK.busqueda) ?? "";
+
+      document.getElementById("filtro-estado").value = e;
+      document.getElementById("filtro-prioridad").value = p;
+      document.getElementById("filtro-busqueda").value = q;
     }
 
     let DATA = [];
@@ -182,19 +192,21 @@
       return `${pad(dt.getDate())}/${pad(dt.getMonth() + 1)}/${dt.getFullYear()} ${pad(dt.getHours())}:${pad(dt.getMinutes())}`;
     }
 
-    // Convierte minutos a "2 días 3 h 15 min" (maneja null/0)
+    // Convierte minutos a "2 días 3 h 15 min"
     function fmtMinutos(min) {
-      if (min === null || min === undefined) return '—';
+      if (min === null || min === undefined) return "—";
+
       const n = Math.max(0, Math.round(min));
       const dias = Math.floor(n / 1440);
       const horas = Math.floor((n % 1440) / 60);
       const minutos = n % 60;
 
       const partes = [];
-      if (dias)   partes.push(`${dias} ${dias === 1 ? 'día' : 'días'}`);
-      if (horas)  partes.push(`${horas} h`);
+      if (dias) partes.push(`${dias} ${dias === 1 ? "día" : "días"}`);
+      if (horas) partes.push(`${horas} h`);
       if (minutos || partes.length === 0) partes.push(`${minutos} min`);
-      return partes.join(' ');
+
+      return partes.join(" ");
     }
 
     function badgeEstado(est) {
@@ -210,32 +222,73 @@
     }
 
     function badgePrioridad(p) {
-      const map = { "Alta": "bg-danger", "Media": "bg-warning text-dark", "Baja": "bg-primary","Sin prioridad": "bg-secondary" };
+      const map = {
+        "Alta": "bg-danger",
+        "Media": "bg-warning text-dark",
+        "Baja": "bg-primary",
+        "Sin prioridad": "bg-secondary"
+      };
       return `<span class="badge ${map[p] || "bg-warning text-dark"}">${p || "Media"}</span>`;
     }
 
-    function showMsg(texto, tipo='info'){
-      const div = document.getElementById('mensaje-estado');
+    // ✅ Obtiene el área real del ticket
+    function obtenerAreaReal(ticket) {
+      const tipo = (ticket.tipo || "").toLowerCase();
+      const subtipo = (ticket.subtipo || "").toLowerCase();
+
+      if (tipo === "sistemas") {
+        if (subtipo === "laboratorio") {
+          const laboratorio = ticket.laboratorio || "—";
+          const equipo = ticket.equipo ? ` • Equipo: ${ticket.equipo}` : "";
+          return `Laboratorio: ${laboratorio}${equipo}`;
+        }
+        return ticket.ubicacion || "—";
+      }
+
+      if (tipo === "mantenimiento") {
+        return ticket.salon || ticket.area || ticket.ubicacion || "—";
+      }
+
+      return ticket.ubicacion || ticket.salon || ticket.area || ticket.laboratorio || "—";
+    }
+
+    function showMsg(texto, tipo = "info") {
+      const div = document.getElementById("mensaje-estado");
       div.innerHTML = `
         <div class="alert alert-${tipo} alert-dismissible fade show" role="alert">
           ${texto}
           <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Cerrar"></button>
-        </div>`;
+        </div>
+      `;
     }
 
     async function cargar() {
       loadFilters();
+
       let r;
-      try{
-        r = await fetch("/api/tickets/historial", { headers: { Authorization: `Bearer ${token}` } });
-      }catch(e){
-        showMsg('No se pudo conectar con el servidor.', 'danger');
+      try {
+        r = await fetch("/api/tickets/historial", {
+          headers: { Authorization: `Bearer ${token}` }
+        });
+      } catch (e) {
+        showMsg("No se pudo conectar con el servidor.", "danger");
         return;
       }
 
-      if (r.status === 401) { showMsg('Sesión expirada. Inicia sesión de nuevo.', 'warning'); return; }
-      if (r.status === 403) { showMsg('No tienes permisos para ver el historial.', 'warning'); return; }
-      if (!r.ok) { showMsg('No se pudo cargar el historial.', 'danger'); return; }
+      if (r.status === 401) {
+        showMsg("Sesión expirada. Inicia sesión de nuevo.", "warning");
+        return;
+      }
+
+      if (r.status === 403) {
+        showMsg("No tienes permisos para ver el historial.", "warning");
+        return;
+      }
+
+      if (!r.ok) {
+        showMsg("No se pudo cargar el historial.", "danger");
+        return;
+      }
 
       DATA = await r.json();
       refrescar();
@@ -254,25 +307,30 @@
         const creador = t.creadoPor?.nombre?.toLowerCase() || "";
         if (!(asignado.includes(q) || creador.includes(q))) return false;
       }
+
       return true;
     }
 
     function refrescar() {
       saveFilters();
+
       const tb = document.getElementById("tbody-historial");
       tb.innerHTML = "";
+
       const rows = DATA.filter(pasaFiltros);
 
-      if (!rows.length){
+      if (!rows.length) {
         tb.innerHTML = `<tr><td colspan="8" class="text-center text-muted py-4">No hay resultados con los filtros actuales.</td></tr>`;
         return;
       }
 
       rows.forEach(t => {
+        const areaReal = obtenerAreaReal(t);
+
         tb.innerHTML += `
           <tr>
             <td>${t.folio || "—"}</td>
-            <td>${t.tipo || "—"}</td>
+            <td>${areaReal}</td>
             <td>${t.asignadoA?.nombre || "—"}</td>
             <td>${fmtFecha(t.fechaCreacion || t.createdAt)}</td>
             <td>${fmtFecha(t.fechaCierre)}</td>
@@ -296,29 +354,33 @@
 
     async function verDetalles(id) {
       const headers = { Authorization: `Bearer ${token}` };
+
       const [tRes, hRes] = await Promise.all([
         fetch(`/api/tickets/${id}`, { headers }),
         fetch(`/api/tickets/${id}/historial`, { headers })
       ]);
 
-      if (!tRes.ok || !hRes.ok){
-        showMsg('No se pudieron cargar los detalles del ticket.', 'danger');
+      if (!tRes.ok || !hRes.ok) {
+        showMsg("No se pudieron cargar los detalles del ticket.", "danger");
         return;
       }
 
       const t = await tRes.json();
       const hist = await hRes.json();
+      const areaReal = obtenerAreaReal(t);
 
       document.getElementById("detalle-meta").innerHTML = `
-        <div><strong>Folio:</strong> ${t.folio || "—"} | <strong>Área:</strong> ${t.tipo || "—"} | <strong>Estado actual:</strong> ${t.estatus || "—"}</div>
+        <div><strong>Folio:</strong> ${t.folio || "—"} | <strong>Área:</strong> ${areaReal} | <strong>Estado actual:</strong> ${t.estatus || "—"}</div>
         <div><strong>Creado por:</strong> ${t.creadoPor?.nombre || "—"} | <strong>Asignado a:</strong> ${t.asignadoA?.nombre || "Sin asignar"}</div>
         <div><strong>Creado:</strong> ${fmtFecha(t.fechaCreacion || t.createdAt)} | <strong>Cierre:</strong> ${fmtFecha(t.fechaCierre)} | <strong>Prioridad:</strong> ${t.prioridad || "Media"}</div>
       `;
 
       const tbody = document.getElementById("tbl-historial");
       tbody.innerHTML = "";
+
       (hist || []).forEach(h => {
         const ts = fmtMinutos(h.tiempoSolucionMin);
+
         tbody.innerHTML += `
           <tr>
             <td>${fmtFecha(h.fecha)}</td>
@@ -329,7 +391,7 @@
             <td>${h.requiereMaterial ? "Sí" : "No"}</td>
             <td>${ts}</td>
             <td style="white-space:pre-wrap">${h.comentario || "—"}</td>
-            <td style="white-space:pre-wrap">${h.requiereMaterial || "—"}</td>
+            <td style="white-space:pre-wrap">${h.materialPedido || "—"}</td>
             <td style="white-space:pre-wrap">${h.resolucion || "—"}</td>
           </tr>
         `;
@@ -339,25 +401,24 @@
       if (window.bootstrap && bootstrap.Modal) {
         new bootstrap.Modal(el).show();
       } else {
-        el.classList.add('show');
-        el.style.display = 'block';
-        el.removeAttribute('aria-hidden');
+        el.classList.add("show");
+        el.style.display = "block";
+        el.removeAttribute("aria-hidden");
       }
     }
 
-    // ✅ NUEVO: Modal con descripción del problema
     async function verDescripcion(id) {
       const headers = { Authorization: `Bearer ${token}` };
       const tRes = await fetch(`/api/tickets/${id}`, { headers });
 
-      if (!tRes.ok){
-        showMsg('No se pudo cargar la descripción del ticket.', 'danger');
+      if (!tRes.ok) {
+        showMsg("No se pudo cargar la descripción del ticket.", "danger");
         return;
       }
 
       const t = await tRes.json();
+      const areaReal = obtenerAreaReal(t);
 
-      // ✅ Intenta varios nombres por si tu modelo usa otro campo
       const descripcion =
         t.descripcionProblema ??
         t.descripcion ??
@@ -367,7 +428,7 @@
         "Sin descripción.";
 
       document.getElementById("desc-meta").innerHTML = `
-        <div><strong>Folio:</strong> ${t.folio || "—"} | <strong>Área:</strong> ${t.tipo || "—"} | <strong>Estado:</strong> ${t.estatus || "—"}</div>
+        <div><strong>Folio:</strong> ${t.folio || "—"} | <strong>Área:</strong> ${areaReal} | <strong>Estado:</strong> ${t.estatus || "—"}</div>
         <div><strong>Creado por:</strong> ${t.creadoPor?.nombre || "—"} | <strong>Asignado a:</strong> ${t.asignadoA?.nombre || "Sin asignar"}</div>
       `;
 
@@ -377,16 +438,16 @@
       if (window.bootstrap && bootstrap.Modal) {
         new bootstrap.Modal(el).show();
       } else {
-        el.classList.add('show');
-        el.style.display = 'block';
-        el.removeAttribute('aria-hidden');
+        el.classList.add("show");
+        el.style.display = "block";
+        el.removeAttribute("aria-hidden");
       }
     }
 
     // Eventos para persistencia inmediata
-    document.getElementById('filtro-estado').addEventListener('change', refrescar);
-    document.getElementById('filtro-prioridad').addEventListener('change', refrescar);
-    document.getElementById('filtro-busqueda').addEventListener('input', ()=> {
+    document.getElementById("filtro-estado").addEventListener("change", refrescar);
+    document.getElementById("filtro-prioridad").addEventListener("change", refrescar);
+    document.getElementById("filtro-busqueda").addEventListener("input", () => {
       clearTimeout(window.__hist_deb);
       window.__hist_deb = setTimeout(refrescar, 250);
     });

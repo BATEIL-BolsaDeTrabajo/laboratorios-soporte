@@ -71,13 +71,14 @@
             <th>Cantidad</th>
             <th>Entregado a</th>
             <th>Departamento</th>
+            <th>Tipo de salida</th>
             <th>Comentarios</th>
             <th>Fecha</th>
             <th>Realizado por</th>
           </tr>
         </thead>
         <tbody>
-          <tr><td colspan="7" class="text-center text-muted">Cargando...</td></tr>
+          <tr><td colspan="8" class="text-center text-muted">Cargando...</td></tr>
         </tbody>
       </table>
     </div>
@@ -118,6 +119,27 @@
             </div>
 
             <div class="mb-3">
+              <label class="form-label">Tipo de salida</label>
+              <select id="salidaTipo" class="form-select" required onchange="toggleOtroTipo()">
+                <option value="" disabled selected>Seleccione...</option>
+                <option value="Venta">Venta</option>
+                <option value="Préstamo">Préstamo</option>
+                <option value="Reemplazo">Reemplazo</option>
+                <option value="Otro">Otro</option>
+              </select>
+            </div>
+
+            <div class="mb-3" id="grupoOtroTipo" style="display:none;">
+              <label class="form-label">Especificar otro tipo de salida</label>
+              <input
+                type="text"
+                id="salidaTipoOtro"
+                class="form-control"
+                placeholder="Ej: reparación, intercambio, resguardo..."
+              >
+            </div>
+
+            <div class="mb-3">
               <label class="form-label">Comentarios</label>
               <textarea id="salidaComentarios" class="form-control"></textarea>
             </div>
@@ -141,7 +163,7 @@
   <script>
 
     const token = localStorage.getItem("token");
-    if (!token) window.location.href = "../login.html";
+    if (!token) window.location.href = "/login.html";
 
     const tablaBody = document.querySelector("#tablaSalidas tbody");
 
@@ -149,6 +171,21 @@
       const d = new Date(dt);
       const pad = n => String(n).padStart(2, "0");
       return `${pad(d.getDate())}/${pad(d.getMonth()+1)}/${d.getFullYear()} ${pad(d.getHours())}:${pad(d.getMinutes())}`;
+    }
+
+    function toggleOtroTipo() {
+      const tipo = document.getElementById("salidaTipo").value;
+      const grupo = document.getElementById("grupoOtroTipo");
+      const inputOtro = document.getElementById("salidaTipoOtro");
+
+      if (tipo === "Otro") {
+        grupo.style.display = "block";
+        inputOtro.required = true;
+      } else {
+        grupo.style.display = "none";
+        inputOtro.required = false;
+        inputOtro.value = "";
+      }
     }
 
     /** ===========================
@@ -171,7 +208,7 @@
         return;
       }
 
-      const data = await res.json(); // 👈 data ES UN ARRAY
+      const data = await res.json();
 
       const filtro = document.getElementById("filtroProducto");
       const selectSalida = document.getElementById("salidaProducto");
@@ -218,7 +255,7 @@
 
       if (!data.salidas.length) {
         tablaBody.innerHTML =
-          `<tr><td colspan="7" class="text-center text-muted">Sin datos.</td></tr>`;
+          `<tr><td colspan="8" class="text-center text-muted">Sin datos.</td></tr>`;
         return;
       }
 
@@ -229,6 +266,7 @@
             <td>${s.cantidad}</td>
             <td>${s.entregadoA}</td>
             <td>${s.departamento}</td>
+            <td>${s.tipoSalida || "-"}</td>
             <td>${s.comentarios || "-"}</td>
             <td>${fmtFecha(s.fecha)}</td>
             <td>${s.realizadoPor?.nombre || "-"}</td>
@@ -242,16 +280,23 @@
      =========================== */
     function prepararNuevaSalida() {
       document.getElementById("formSalida").reset();
+      document.getElementById("grupoOtroTipo").style.display = "none";
+      document.getElementById("salidaTipoOtro").required = false;
+      document.getElementById("salidaTipoOtro").value = "";
     }
 
     document.getElementById("formSalida").addEventListener("submit", async (e) => {
       e.preventDefault();
+
+      const tipoSeleccionado = document.getElementById("salidaTipo").value;
+      const tipoOtro = document.getElementById("salidaTipoOtro").value.trim();
 
       const payload = {
         productoId: document.getElementById("salidaProducto").value,
         cantidad: Number(document.getElementById("salidaCantidad").value),
         entregadoA: document.getElementById("salidaPersona").value,
         departamento: document.getElementById("salidaDepartamento").value,
+        tipoSalida: tipoSeleccionado === "Otro" ? tipoOtro : tipoSeleccionado,
         comentarios: document.getElementById("salidaComentarios").value
       };
 

@@ -1,19 +1,20 @@
 // js/navbar.js
 
 // ================== CARGAR NAVBAR ==================
-fetch("/navbar.html?v=11")   // subí la v para evitar caché
+fetch("/navbar.html?v=12")
   .then((res) => res.text())
   .then((html) => {
     const cont =
       document.getElementById("navbar-container") ||
       document.getElementById("navbar");
+
     if (!cont) {
       console.warn("Falta <div id='navbar-container'></div>");
       return;
     }
+
     cont.innerHTML = html;
 
-    // Después de inyectar el HTML:
     configurarMenuPorRoles();
     mostrarUsuarioNavbar();
     inicializarNotificaciones();
@@ -22,23 +23,34 @@ fetch("/navbar.html?v=11")   // subí la v para evitar caché
 
 // ================== LOGOUT ==================
 function logout() {
+  try {
+    if (socket && typeof socket.disconnect === "function") {
+      socket.disconnect();
+    }
+  } catch (e) {
+    console.warn("No se pudo cerrar socket:", e);
+  }
+
   localStorage.removeItem("token");
   localStorage.removeItem("usuario");
-  window.location.href = "login.html";
+
+  // IMPORTANTE: ruta absoluta
+  window.location.replace("/login.html");
 }
+
+// dejar disponible globalmente
+window.logout = logout;
 
 // ================== OBTENER ROLES ==================
 function obtenerRolesDesdeStorageOToken() {
   let roles = [];
 
-  // 1) Intentar desde localStorage.usuario
   try {
     const u = JSON.parse(localStorage.getItem("usuario") || "{}");
     if (Array.isArray(u.roles)) roles = u.roles;
     else if (u.rol) roles = [u.rol];
   } catch {}
 
-  // 2) Si no hay roles, intentar decodificar el token
   if (!roles.length) {
     const t = localStorage.getItem("token");
     if (t && t.split(".").length === 3) {
@@ -70,7 +82,6 @@ function configurarMenuPorRoles() {
 
   let visible = false;
 
-  // DOCENTE / TALLERES
   if (has("docente") || has("talleres")) {
     show([
       "item-docente-header",
@@ -83,7 +94,6 @@ function configurarMenuPorRoles() {
     visible = true;
   }
 
-  // ADMIN
   if (has("admin")) {
     show([
       "item-admin-header",
@@ -109,7 +119,6 @@ function configurarMenuPorRoles() {
       .catch(() => {});
   }
 
-  // SOPORTE
   if (has("soporte")) {
     show([
       "item-soporte-header",
@@ -120,7 +129,6 @@ function configurarMenuPorRoles() {
     visible = true;
   }
 
-  // MANTENIMIENTO
   if (has("mantenimiento")) {
     show([
       "item-mantenimiento-header",
@@ -130,7 +138,6 @@ function configurarMenuPorRoles() {
     visible = true;
   }
 
-  // RRHH
   if (has("rrhh")) {
     show([
       "item-rrhh-header",
@@ -146,7 +153,6 @@ function configurarMenuPorRoles() {
     visible = true;
   }
 
-  // DIRECCIÓN
   if (has("direccion")) {
     show([
       "item-direccion-header",
@@ -162,7 +168,6 @@ function configurarMenuPorRoles() {
     visible = true;
   }
 
-  // SUBDIRECCIÓN
   if (has("subdireccion")) {
     show([
       "item-subdireccion-header",
@@ -181,7 +186,6 @@ function configurarMenuPorRoles() {
     visible = true;
   }
 
-  // FINANZAS
   if (has("finanzas")) {
     show([
       "item-finanzas-header",
@@ -196,12 +200,11 @@ function configurarMenuPorRoles() {
       "item-finanzas-divider",
       "item-finanzas-asignables",
       "item-finanzas-archtickets",
-      "item-finanzas-colegiatura"
+      "item-finanzas-colegiatura",
     ]);
     visible = true;
   }
 
-  // ALMACÉN (rol almacen o finanzas)
   if (has("almacen") || has("finanzas")) {
     show([
       "item-almacen-header",
@@ -216,7 +219,6 @@ function configurarMenuPorRoles() {
     visible = true;
   }
 
-  // COORDINACIÓN D
   if (has("coordinacion") || has("coordinaciond")) {
     show([
       "item-coordinacionD-header",
@@ -227,7 +229,7 @@ function configurarMenuPorRoles() {
     ]);
     visible = true;
   }
-  // coordinador
+
   if (has("coordinador")) {
     show([
       "item-coordinador-header",
@@ -239,7 +241,6 @@ function configurarMenuPorRoles() {
     visible = true;
   }
 
-  // Caja
   if (has("caja")) {
     show([
       "item-caja-header",
@@ -256,13 +257,11 @@ function configurarMenuPorRoles() {
     if (dd) dd.classList.remove("d-none");
   }
 
-  // ✅ PASO 3: Restricción visual por correo (ocultar módulos)
   aplicarRestriccionAlmacenMenuYRedireccion();
 }
 
 // ================== OBTENER USUARIO ==================
 function obtenerUsuarioActual() {
-  // 1) Intentar leer desde localStorage.usuario
   try {
     const u = JSON.parse(localStorage.getItem("usuario") || "null");
     if (u && u.nombre) {
@@ -275,7 +274,6 @@ function obtenerUsuarioActual() {
     console.error("Error leyendo usuario desde localStorage:", e);
   }
 
-  // 2) Si no hay usuario en localStorage, intentar desde el token
   const t = localStorage.getItem("token");
   if (t && t.split(".").length === 3) {
     try {
@@ -307,7 +305,7 @@ function obtenerUsuarioActual() {
   return null;
 }
 
-// ================== PASO 3: OCULTAR + REDIRIGIR EN ALMACÉN ==================
+// ================== RESTRICCIÓN ALMACÉN ==================
 function aplicarRestriccionAlmacenMenuYRedireccion() {
   const usuario = obtenerUsuarioActual();
   if (!usuario) return;
@@ -318,23 +316,18 @@ function aplicarRestriccionAlmacenMenuYRedireccion() {
 
   if (!isRestricted) return;
 
-  // ✅ SOLO ocultar Entradas
   document.getElementById("item-almacen-entradas")?.classList.add("d-none");
 
-  // ✅ SOLO bloquear URL de Entradas
   const path = (window.location.pathname || "").toLowerCase();
-
   if (path.includes("entradas")) {
     alert("Tu cuenta no tiene permiso para acceder a este módulo.");
     window.location.href = "/almacen/dashboard-almacen.html";
   }
 }
 
-// ================== MOSTRAR NOMBRE + INICIAL EN NAVBAR ==================
+// ================== MOSTRAR USUARIO ==================
 function mostrarUsuarioNavbar() {
   const usuario = obtenerUsuarioActual();
-  console.log("Usuario navbar:", usuario);
-
   if (!usuario || !usuario.nombre) return;
 
   const nombre = String(usuario.nombre).trim();
@@ -351,33 +344,28 @@ function mostrarUsuarioNavbar() {
   avatar.textContent = inicial;
   liCont.style.display = "flex";
 
-  console.log("🔎 Usuario antes de iniciar socket:", usuario);
   initSocket(usuario);
 }
 
-// ================== NOTIFICACIONES TICKETS ==================
+// ================== NOTIFICACIONES ==================
 let notifLista = [];
 let notifTicketsPrev = null;
 let notifInterval = null;
 let notifSound = null;
 let socket = null;
 
-// Inicializar campanita
 function inicializarNotificaciones() {
   const li = document.getElementById("nav-notifications");
   if (!li) return;
 
   li.style.display = "block";
-
   cargarSonidoNotificacion();
   cargarNotificacionesServidor();
 
-  // 🔁 Refrescar cada 30 segundos para cargar notificaciones guardadas
   if (notifInterval) clearInterval(notifInterval);
   notifInterval = setInterval(cargarNotificacionesServidor, 30000);
-}   // 👈 ESTA LLAVE FALTABA
+}
 
-// Cargar notificaciones ya guardadas en el servidor
 async function cargarNotificacionesServidor() {
   const token = localStorage.getItem("token");
   if (!token) return;
@@ -396,7 +384,6 @@ async function cargarNotificacionesServidor() {
 
     const data = await res.json();
 
-    // 👇 Sacamos roles del usuario actual
     const roles = obtenerRolesDesdeStorageOToken();
     const esAdminLike =
       roles.includes("admin") || roles.includes("finanzas");
@@ -405,17 +392,9 @@ async function cargarNotificacionesServidor() {
 
     let tiposPermitidos = [];
 
-    // Admin / Finanzas → nuevo + resuelto
-    if (esAdminLike) {
-      tiposPermitidos.push("nuevo", "resuelto");
-    }
+    if (esAdminLike) tiposPermitidos.push("nuevo", "resuelto");
+    if (esTecLike) tiposPermitidos.push("asignado", "prioridad");
 
-    // Soporte / Mantenimiento → asignado + prioridad
-    if (esTecLike) {
-      tiposPermitidos.push("asignado", "prioridad");
-    }
-
-    // Si por alguna razón no tiene ninguno de esos roles
     if (!tiposPermitidos.length) {
       notifLista = [];
     } else {
@@ -445,18 +424,13 @@ async function cargarNotificacionesServidor() {
   }
 }
 
-// Detectar nuevos tickets o cambios de prioridad
 function procesarCambiosTickets(lista) {
-  const nuevaFoto = lista.map((t) => ({
+  notifTicketsPrev = lista.map((t) => ({
     id: String(t._id),
     prioridad: t.prioridad || "Sin prioridad",
   }));
-
-  // Solo actualizamos el snapshot para futuras comparaciones si quieres
-  notifTicketsPrev = nuevaFoto;
 }
 
-// Crear objeto notificación
 function crearNotificacion(titulo, tipo = "general") {
   const fecha = new Date();
   const fechaTxt = fecha.toLocaleString("es-MX", {
@@ -466,6 +440,7 @@ function crearNotificacion(titulo, tipo = "general") {
     hour: "2-digit",
     minute: "2-digit",
   });
+
   return {
     titulo,
     fecha: fechaTxt,
@@ -474,7 +449,6 @@ function crearNotificacion(titulo, tipo = "general") {
   };
 }
 
-// Pintar notificaciones en la campanita
 function renderNotificaciones() {
   const li = document.getElementById("nav-notifications");
   const badge = document.getElementById("nav-notif-count");
@@ -525,7 +499,6 @@ function renderNotificaciones() {
   li.style.display = "block";
 }
 
-// 🔹 AHORA SÍ ES ASYNC
 async function marcarNotificacionesLeidas() {
   if (!Array.isArray(notifLista) || !notifLista.length) return;
 
@@ -554,7 +527,6 @@ async function marcarNotificacionesLeidas() {
   }
 }
 
-// ================== SONIDO DE NOTIFICACIÓN ==================
 function cargarSonidoNotificacion() {
   try {
     notifSound = new Audio("/notification.mp3");
@@ -598,7 +570,7 @@ function initSocket(usuario) {
   }
 
   const userId = usuario._id || usuario.id;
-  socket = io(); // misma URL del servidor (local o Render)
+  socket = io();
 
   socket.on("connect", () => {
     console.log("✅ WebSocket conectado");
@@ -609,7 +581,6 @@ function initSocket(usuario) {
     console.log("❌ WebSocket desconectado");
   });
 
-  // Cuando llegue una notificación nueva en vivo desde el backend
   socket.on("nuevaNotificacion", (notif) => {
     console.log("🔔 Notificación en vivo:", notif);
 
@@ -628,10 +599,8 @@ function initSocket(usuario) {
       leida: !!notif.leida,
     };
 
-    // Insertar al inicio
     notifLista.unshift(normalizada);
 
-    // Actualizar UI y efectos
     renderNotificaciones();
     reproducirSonidoNotificacion();
     animarCampanita();

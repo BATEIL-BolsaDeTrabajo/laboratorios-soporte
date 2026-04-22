@@ -5,9 +5,47 @@
   <title>Panel de Administración</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
   <style>
-    .kpi { border-radius:14px; padding:16px; text-align:center; }
-    .kpi .label { font-weight:600; opacity:.9; }
-    .kpi .value { font-size:2rem; font-weight:700; line-height:1; }
+    :root{
+      --panel-bg:#f5f7fb;
+      --card-shadow:0 10px 30px rgba(15,23,42,.08);
+      --soft-border:1px solid rgba(15,23,42,.08);
+    }
+
+    body { background:var(--panel-bg) !important; }
+
+    .filters-wrap,
+    .toolbar-wrap,
+    .summary-wrap,
+    .ticket-card {
+      background:#fff;
+      border-radius:18px;
+      box-shadow:var(--card-shadow);
+      border:var(--soft-border);
+    }
+
+    .filters-wrap,
+    .toolbar-wrap,
+    .summary-wrap { padding:16px; }
+
+    .sticky-filters{
+      position:sticky;
+      top:12px;
+      z-index:10;
+      backdrop-filter: blur(8px);
+    }
+
+    .kpi {
+      border-radius:16px;
+      padding:16px;
+      text-align:center;
+      box-shadow:0 8px 20px rgba(0,0,0,.08);
+      transition:transform .18s ease, box-shadow .18s ease, outline-color .18s ease;
+      outline:3px solid transparent;
+    }
+    .kpi:hover { transform:translateY(-2px); }
+    .kpi .label { font-weight:700; opacity:.92; font-size:.92rem; }
+    .kpi .value { font-size:2rem; font-weight:800; line-height:1; }
+    .kpi.active { outline-color:#111827; transform:translateY(-2px); }
 
     .kpi-total    { background:#1E73FF; color:#fff; }
     .kpi-abiertos { background:#FF9800; color:#fff; }
@@ -17,14 +55,160 @@
     .kpi-cerrados { background:#4CAF50; color:#fff; }
     .kpi-excedido { background:#E53935; color:#fff; }
 
-    .kpi-filter { cursor: pointer; }
+    .kpi-filter { cursor:pointer; }
 
-    .bg-ticket-abierto  { background-color:#FF9800 !important; color:#fff !important; }
-    .bg-ticket-proceso  { background-color:#FFC107 !important; color:#111 !important; }
-    .bg-ticket-espera   { background-color:#9E9E9E !important; color:#fff !important; }
-    .bg-ticket-resuelto { background-color:#03A9F4 !important; color:#fff !important; }
-    .bg-ticket-excedido { background-color:#E53935 !important; color:#fff !important; }
-    .bg-ticket-cerrado  { background-color:#4CAF50 !important; color:#fff !important; }
+    .bg-ticket-abierto  { background:linear-gradient(180deg,#fff8ee 0%,#ffffff 100%) !important; color:#111827 !important; }
+    .bg-ticket-proceso  { background:linear-gradient(180deg,#fff8db 0%,#ffffff 100%) !important; color:#111827 !important; }
+    .bg-ticket-espera   { background:linear-gradient(180deg,#f2f4f7 0%,#ffffff 100%) !important; color:#111827 !important; }
+    .bg-ticket-resuelto { background:linear-gradient(180deg,#ebf8ff 0%,#ffffff 100%) !important; color:#111827 !important; }
+    .bg-ticket-excedido { background:linear-gradient(180deg,#fff0ef 0%,#ffffff 100%) !important; color:#111827 !important; }
+    .bg-ticket-cerrado  { background:linear-gradient(180deg,#eefbf0 0%,#ffffff 100%) !important; color:#111827 !important; }
+
+    .ticket-card{
+      overflow:hidden;
+      height:100%;
+      transition:transform .18s ease, box-shadow .18s ease;
+    }
+    .ticket-card:hover{
+      transform:translateY(-3px);
+      box-shadow:0 14px 28px rgba(15,23,42,.12);
+    }
+
+    .ticket-topbar{
+      display:flex;
+      justify-content:space-between;
+      gap:12px;
+      align-items:flex-start;
+      margin-bottom:14px;
+    }
+
+    .ticket-title{
+      font-size:1.15rem;
+      font-weight:800;
+      margin:0;
+    }
+
+    .ticket-folio{
+      font-size:.95rem;
+      font-weight:700;
+      color:#334155;
+    }
+
+    .ticket-status-chip{
+      border-radius:999px;
+      padding:.45rem .7rem;
+      font-size:.8rem;
+      font-weight:800;
+      display:inline-flex;
+      align-items:center;
+      gap:6px;
+      white-space:nowrap;
+    }
+
+    .status-abierto { background:#fff1db; color:#9a5b00; }
+    .status-en-proceso { background:#fff5cc; color:#8a6a00; }
+    .status-en-espera-de-material { background:#eceff3; color:#475569; }
+    .status-resuelto { background:#e0f2fe; color:#075985; }
+    .status-cerrado { background:#dcfce7; color:#166534; }
+    .status-tiempo-excedido { background:#fee2e2; color:#b91c1c; }
+
+    .meta-grid{
+      display:grid;
+      grid-template-columns:repeat(2,minmax(0,1fr));
+      gap:10px 16px;
+      margin-bottom:14px;
+    }
+
+    .meta-item{
+      background:rgba(248,250,252,.9);
+      border:1px solid rgba(148,163,184,.2);
+      border-radius:12px;
+      padding:10px 12px;
+      min-height:56px;
+    }
+    .meta-item .meta-label{
+      display:block;
+      font-size:.78rem;
+      text-transform:uppercase;
+      letter-spacing:.04em;
+      color:#64748b;
+      margin-bottom:3px;
+      font-weight:700;
+    }
+    .meta-item .meta-value{
+      font-size:.95rem;
+      font-weight:600;
+      color:#0f172a;
+      word-break:break-word;
+    }
+
+    .description-box{
+      background:#f8fafc;
+      border:1px solid rgba(148,163,184,.2);
+      border-radius:12px;
+      padding:12px;
+      margin-bottom:14px;
+    }
+
+    .section-label{
+      font-weight:800;
+      font-size:.9rem;
+      color:#334155;
+      margin-bottom:6px;
+    }
+
+    .action-grid{
+      display:grid;
+      grid-template-columns:repeat(2, minmax(0,1fr));
+      gap:8px;
+    }
+
+    .toolbar-stats{
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
+      align-items:center;
+      justify-content:space-between;
+    }
+
+    .chip{
+      display:inline-flex;
+      align-items:center;
+      gap:6px;
+      background:#f8fafc;
+      border:1px solid rgba(148,163,184,.25);
+      border-radius:999px;
+      padding:.45rem .75rem;
+      font-weight:700;
+      color:#334155;
+    }
+
+    .filters-active{
+      display:flex;
+      flex-wrap:wrap;
+      gap:8px;
+      min-height:32px;
+    }
+
+    .loading-box, .empty-box{
+      background:#fff;
+      border-radius:18px;
+      border:2px dashed rgba(148,163,184,.35);
+      padding:30px;
+      text-align:center;
+      color:#64748b;
+    }
+
+    .small-muted{
+      color:#64748b;
+      font-size:.88rem;
+    }
+
+    @media (max-width: 767.98px) {
+      .meta-grid, .action-grid { grid-template-columns:1fr; }
+      .ticket-topbar{ flex-direction:column; }
+      .sticky-filters{ position:static; }
+    }
   </style>
 </head>
 <body class="bg-light">
@@ -33,36 +217,51 @@
   <div class="container py-4">
     <h2 class="text-center mb-4">Panel de Administración - Tickets</h2>
 
-    <div class="row mb-4 g-3">
-      <div class="col-md-4">
-        <label class="form-label">Filtrar por tipo</label>
-        <select id="filtroTipo" class="form-select" onchange="cargarTickets()">
-          <option value="">Todos</option>
-          <option value="Sistemas">Sistemas</option>
-          <option value="Mantenimiento">Mantenimiento</option>
-        </select>
-      </div>
-      <div class="col-md-4">
-        <label class="form-label">Filtrar por estatus</label>
-        <select id="filtroEstatus" class="form-select" onchange="cargarTickets()">
-          <option value="">Todos</option>
-          <option>Abierto</option>
-          <option>En proceso</option>
-          <option>En espera de material</option>
-          <option>Resuelto</option>
-          <option>Cerrado</option>
-          <option>Tiempo excedido</option>
-        </select>
-      </div>
-      <div class="col-md-4">
-        <label class="form-label">Filtrar por prioridad</label>
-        <select id="filtroPrioridad" class="form-select" onchange="cargarTickets()">
-          <option value="">Todas</option>
-          <option>Alta</option>
-          <option>Media</option>
-          <option>Baja</option>
-          <option>Sin prioridad</option>
-        </select>
+    <div class="filters-wrap sticky-filters mb-4">
+      <div class="row g-3 align-items-end">
+        <div class="col-md-3">
+          <label class="form-label">Buscar ticket</label>
+          <input id="busquedaTicket" type="text" class="form-control" placeholder="Folio, descripción, usuario, área...">
+        </div>
+        <div class="col-md-2">
+          <label class="form-label">Filtrar por tipo</label>
+          <select id="filtroTipo" class="form-select" onchange="cargarTickets()">
+            <option value="">Todos</option>
+            <option value="Sistemas">Sistemas</option>
+            <option value="Mantenimiento">Mantenimiento</option>
+          </select>
+        </div>
+        <div class="col-md-3">
+          <label class="form-label">Filtrar por estatus</label>
+          <select id="filtroEstatus" class="form-select" onchange="cargarTickets()">
+            <option value="">Todos</option>
+            <option>Abierto</option>
+            <option>En proceso</option>
+            <option>En espera de material</option>
+            <option>Resuelto</option>
+            <option>Cerrado</option>
+            <option>Tiempo excedido</option>
+          </select>
+        </div>
+        <div class="col-md-2">
+          <label class="form-label">Filtrar por prioridad</label>
+          <select id="filtroPrioridad" class="form-select" onchange="cargarTickets()">
+            <option value="">Todas</option>
+            <option>Alta</option>
+            <option>Media</option>
+            <option>Baja</option>
+            <option>Sin prioridad</option>
+          </select>
+        </div>
+        <div class="col-md-2">
+          <label class="form-label">Ordenar por</label>
+          <select id="ordenTickets" class="form-select" onchange="cargarTickets()">
+            <option value="recientes">Más recientes</option>
+            <option value="antiguos">Más antiguos</option>
+            <option value="prioridad">Prioridad</option>
+            <option value="estatus">Estatus</option>
+          </select>
+        </div>
       </div>
     </div>
 
@@ -115,6 +314,20 @@
           <div id="kpi-excedido" class="value">0</div>
         </div>
       </div>
+    </div>
+
+    <div class="toolbar-wrap mb-3">
+      <div class="toolbar-stats">
+        <div class="d-flex flex-wrap gap-2">
+          <span class="chip">Mostrando <strong id="contador-filtrados">0</strong> tickets</span>
+          <span class="chip">Total general <strong id="contador-total">0</strong></span>
+        </div>
+        <div class="d-flex flex-wrap gap-2">
+          <button class="btn btn-outline-secondary btn-sm" type="button" onclick="limpiarFiltros()">Limpiar filtros</button>
+          <button class="btn btn-outline-primary btn-sm" type="button" onclick="cargarTickets()">Actualizar</button>
+        </div>
+      </div>
+      <div id="filtros-activos" class="filters-active mt-3"></div>
     </div>
 
     <div id="mensaje-estado" class="mb-3"></div>
@@ -200,6 +413,40 @@
       return `<span class="badge bg-${map[p] || "secondary"}">${p}</span>`;
     };
 
+    const prioridadPeso = { Alta: 3, Media: 2, Baja: 1, "Sin prioridad": 0 };
+    const estatusPeso = {
+      "Tiempo excedido": 6,
+      "Abierto": 5,
+      "En proceso": 4,
+      "En espera de material": 3,
+      "Resuelto": 2,
+      "Cerrado": 1
+    };
+
+    function statusClass(estatus = "") {
+      return `status-${String(estatus).toLowerCase().replace(/[^a-z0-9]+/g, '-')}`;
+    }
+
+    function escapeHtml(texto = "") {
+      return String(texto)
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
+    }
+
+    function normalizarTexto(v) {
+      return String(v || "")
+        .normalize("NFD")
+        .replace(/[̀-ͯ]/g, "")
+        .toLowerCase();
+    }
+
+    function resumenActivo(label, valor) {
+      return `<span class="chip">${label}: <strong>${escapeHtml(valor)}</strong></span>`;
+    }
+
     // ===== Texto de ubicación =====
     function textoUbicacion(ticket) {
       const tipo = (ticket.tipo || "").toLowerCase();
@@ -237,6 +484,79 @@
           <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
       `;
+    }
+
+    function renderLoading() {
+      const contenedor = document.getElementById("tickets");
+      if (!contenedor) return;
+      contenedor.innerHTML = `
+        <div class="col-12">
+          <div class="loading-box">
+            <div class="spinner-border mb-3" role="status" aria-hidden="true"></div>
+            <div class="fw-semibold">Cargando tickets...</div>
+          </div>
+        </div>
+      `;
+    }
+
+    function renderEmpty() {
+      const contenedor = document.getElementById("tickets");
+      if (!contenedor) return;
+      contenedor.innerHTML = `
+        <div class="col-12">
+          <div class="empty-box">
+            <div class="fs-5 fw-bold mb-2">No se encontraron tickets</div>
+            <div>Ajusta los filtros o limpia la búsqueda para ver más resultados.</div>
+          </div>
+        </div>
+      `;
+    }
+
+    function actualizarResumen(filtrados, totales) {
+      const totalEl = document.getElementById("contador-total");
+      const filtradosEl = document.getElementById("contador-filtrados");
+      if (totalEl) totalEl.textContent = totales;
+      if (filtradosEl) filtradosEl.textContent = filtrados;
+
+      const chips = [];
+      const busqueda = document.getElementById("busquedaTicket")?.value?.trim();
+      const tipo = document.getElementById("filtroTipo")?.value;
+      const estatus = document.getElementById("filtroEstatus")?.value;
+      const prioridad = document.getElementById("filtroPrioridad")?.value;
+      const orden = document.getElementById("ordenTickets")?.value;
+
+      if (busqueda) chips.push(resumenActivo("Búsqueda", busqueda));
+      if (tipo) chips.push(resumenActivo("Tipo", tipo));
+      if (estatus) chips.push(resumenActivo("Estatus", estatus));
+      if (prioridad) chips.push(resumenActivo("Prioridad", prioridad));
+      if (orden && orden !== "recientes") {
+        const etiquetas = {
+          antiguos: "Más antiguos",
+          prioridad: "Prioridad",
+          estatus: "Estatus"
+        };
+        chips.push(resumenActivo("Orden", etiquetas[orden] || orden));
+      }
+
+      const host = document.getElementById("filtros-activos");
+      if (host) {
+        host.innerHTML = chips.length ? chips.join("") : `<span class="small-muted">Sin filtros activos.</span>`;
+      }
+
+      document.querySelectorAll(".kpi-filter").forEach((card) => {
+        const estado = card.dataset.estado || "";
+        card.classList.toggle("active", estado === (estatus || ""));
+      });
+    }
+
+    function limpiarFiltros() {
+      const ids = ["busquedaTicket", "filtroTipo", "filtroEstatus", "filtroPrioridad", "ordenTickets"];
+      ids.forEach((id) => {
+        const el = document.getElementById(id);
+        if (!el) return;
+        el.value = id === "ordenTickets" ? "recientes" : "";
+      });
+      cargarTickets();
     }
 
     // ✅ Cargar usuarios UNA sola vez (cache)
@@ -277,6 +597,7 @@
     async function cargarTickets() {
       if (cargandoTickets) return;
       cargandoTickets = true;
+      renderLoading();
 
       try {
         const usuariosOK = await obtenerUsuarios();
@@ -286,9 +607,11 @@
           console.warn("Usuarios no disponibles, continúo cargando tickets...");
         }
 
+        const busquedaSel = (document.getElementById("busquedaTicket").value || "").trim();
         const tipoSel = document.getElementById("filtroTipo").value;
         const estatusSel = document.getElementById("filtroEstatus").value;
         const prioridadSel = document.getElementById("filtroPrioridad").value;
+        const ordenSel = document.getElementById("ordenTickets").value || "recientes";
 
         let datos = [];
         try {
@@ -316,9 +639,46 @@
         if (prioridadSel) {
           filtrados = filtrados.filter((t) => (t.prioridad || "Sin prioridad") === prioridadSel);
         }
+        if (busquedaSel) {
+          const needle = normalizarTexto(busquedaSel);
+          filtrados = filtrados.filter((t) => {
+            const bag = [
+              t.folio,
+              t.descripcion,
+              t.tipo,
+              t.subtipo,
+              t.salon,
+              t.ubicacion,
+              t.laboratorio,
+              t.equipo,
+              t.requiereMaterial,
+              t.creadoPor?.nombre,
+              t.asignadoA?.nombre,
+              t.estatus,
+              t.prioridad
+            ].map(normalizarTexto).join(" | ");
+            return bag.includes(needle);
+          });
+        }
+
+        filtrados.sort((a, b) => {
+          const da = new Date(a.fechaCreacion || a.createdAt || 0).getTime();
+          const db = new Date(b.fechaCreacion || b.createdAt || 0).getTime();
+          if (ordenSel === "antiguos") return da - db;
+          if (ordenSel === "prioridad") return (prioridadPeso[b.prioridad || "Sin prioridad"] || 0) - (prioridadPeso[a.prioridad || "Sin prioridad"] || 0) || db - da;
+          if (ordenSel === "estatus") return (estatusPeso[b.estatus] || 0) - (estatusPeso[a.estatus] || 0) || db - da;
+          return db - da;
+        });
+
+        actualizarResumen(filtrados.length, todosTickets.length);
 
         const contenedor = document.getElementById("tickets");
         contenedor.innerHTML = "";
+
+        if (!filtrados.length) {
+          renderEmpty();
+          return;
+        }
 
         filtrados.forEach((ticket) => {
           const div = document.createElement("div");
@@ -382,35 +742,35 @@
           `;
 
           const btnGuardarComentarios = `
-            <button class="btn btn-outline-secondary flex-fill"
+            <button class="btn btn-outline-secondary"
                     onclick="guardarComentarios('${ticket._id}')">
               Guardar comentarios
             </button>
           `;
 
           const btnVerComentarios = `
-            <button class="btn btn-dark flex-fill"
+            <button class="btn btn-dark"
                     onclick="verComentarios('${ticket._id}', '${ticket.folio || ""}', '${ticket.tipo || ""}')">
               Comentarios
             </button>
           `;
 
           const btnEvidencias = `
-            <button class="btn btn-info flex-fill text-white"
+            <button class="btn btn-info text-white"
                     onclick="verEvidencias('${ticket._id}')">
               Evidencias
             </button>
           `;
 
           const btnEnProceso = puedePonerEnProceso
-            ? `<button class="btn btn-warning flex-fill text-dark" onclick="ponerEnProceso('${ticket._id}')">
+            ? `<button class="btn btn-warning text-dark" onclick="ponerEnProceso('${ticket._id}')">
                  Poner en proceso
                </button>`
             : "";
 
           const btnExcedido =
             ticket.estatus !== "Cerrado"
-              ? `<button class="btn btn-outline-danger flex-fill"
+              ? `<button class="btn btn-outline-danger"
                          onclick="marcarExcedido('${ticket._id}')"
                          ${ticket.estatus === "Tiempo excedido" ? "disabled" : ""}>
                    Marcar tiempo excedido
@@ -419,32 +779,32 @@
 
           const btnReabrir =
             ticket.estatus === "Cerrado" || ticket.estatus === "Tiempo excedido"
-              ? `<button class="btn btn-outline-dark flex-fill" onclick="reabrirTicket('${ticket._id}')">
+              ? `<button class="btn btn-outline-dark" onclick="reabrirTicket('${ticket._id}')">
                    Reabrir ticket
                  </button>`
               : "";
 
           let btnCerrar = "";
           if (puedeCerrar) {
-            btnCerrar = `<button class="btn btn-danger flex-fill" onclick="cerrarTicket('${ticket._id}')">
+            btnCerrar = `<button class="btn btn-danger" onclick="cerrarTicket('${ticket._id}')">
                           Cerrar ticket
                         </button>`;
           }
 
           const btnEliminar = `
-            <button class="btn btn-outline-light flex-fill" onclick="eliminarTicket('${ticket._id}')">
+            <button class="btn btn-outline-danger" onclick="eliminarTicket('${ticket._id}')">
               Eliminar ticket
             </button>
           `;
 
           const btnArchivar = `
-            <button class="btn btn-outline-secondary flex-fill" onclick="archivarTicket('${ticket._id}')">
+            <button class="btn btn-outline-secondary" onclick="archivarTicket('${ticket._id}')">
               Archivar ticket
             </button>
           `;
 
           const btnRechazar = `
-            <button class="btn btn-outline-warning flex-fill" onclick="rechazarTicket('${ticket._id}')">
+            <button class="btn btn-outline-warning" onclick="rechazarTicket('${ticket._id}')">
               Rechazar
             </button>
           `;
@@ -453,38 +813,60 @@
           const ubicacionTexto = textoUbicacion(ticket);
 
           div.innerHTML = `
-            <div class="card border-${estilo.border} ${estilo.bg} ${estilo.text}">
-              <div class="card-body">
-                <div class="d-flex justify-content-between align-items-start">
-                  <h5 class="card-title mb-1">${ticket.tipo}</h5>
-                  <div class="text-end small">
-                    <div>Estatus: <strong>${ticket.estatus}</strong></div>
-                    <div>Prioridad:
-                      <span id="prio-header-${ticket._id}">
-                        ${prioridadBadge(ticket.prioridad || "Sin prioridad")}
-                      </span>
-                    </div>
+            <div class="ticket-card ${estilo.bg}">
+              <div class="card-body p-3 p-lg-4">
+                <div class="ticket-topbar">
+                  <div>
+                    <div class="ticket-folio">${ticket.folio || "—"}</div>
+                    <h5 class="ticket-title">${ticket.tipo}</h5>
+                    <div class="small-muted">${ticket.subtipo || "Ticket administrativo"}</div>
+                  </div>
+                  <div class="d-flex flex-wrap gap-2 justify-content-end">
+                    <span class="ticket-status-chip ${statusClass(ticket.estatus)}">${ticket.estatus}</span>
+                    <span id="prio-header-${ticket._id}">${prioridadBadge(ticket.prioridad || "Sin prioridad")}</span>
                   </div>
                 </div>
 
-                <p class="card-text mb-2">
-                  <span class="text-muted">Folio:</span>
-                  <strong>${ticket.folio || "—"}</strong><br>
-                  ${ubicacionTexto ? `${ubicacionTexto}<br>` : ""}
-                  Descripción: ${ticket.descripcion}<br>
-                  Material requerido: ${ticket.requiereMaterial || "Ninguno"}<br>
-                  Creado por: ${ticket.creadoPor?.nombre || "N/A"}<br>
-                  Asignado a: <span id="asignado-${ticket._id}">
-                    ${ticket.asignadoA?.nombre || "Sin asignar"}
-                  </span><br>
-                  Fecha: ${new Date(ticket.fechaCreacion || ticket.createdAt).toLocaleString()}
-                </p>
+                <div class="meta-grid">
+                  <div class="meta-item">
+                    <span class="meta-label">Ubicación</span>
+                    <div class="meta-value">${ubicacionTexto || "Sin ubicación especificada"}</div>
+                  </div>
+                  <div class="meta-item">
+                    <span class="meta-label">Material requerido</span>
+                    <div class="meta-value">${ticket.requiereMaterial || "Ninguno"}</div>
+                  </div>
+                  <div class="meta-item">
+                    <span class="meta-label">Creado por</span>
+                    <div class="meta-value">${ticket.creadoPor?.nombre || "N/A"}</div>
+                  </div>
+                  <div class="meta-item">
+                    <span class="meta-label">Asignado a</span>
+                    <div class="meta-value" id="asignado-${ticket._id}">${ticket.asignadoA?.nombre || "Sin asignar"}</div>
+                  </div>
+                  <div class="meta-item">
+                    <span class="meta-label">Fecha</span>
+                    <div class="meta-value">${fmtFecha(ticket.fechaCreacion || ticket.createdAt)}</div>
+                  </div>
+                  <div class="meta-item">
+                    <span class="meta-label">Tipo</span>
+                    <div class="meta-value">${ticket.tipo || "—"}</div>
+                  </div>
+                </div>
+
+                <div class="description-box">
+                  <div class="section-label">Descripción</div>
+                  <div>${ticket.descripcion || "Sin descripción"}</div>
+                </div>
 
                 ${selectorPrioridad}
                 ${asignarHTML}
-                ${comentariosHTML}
 
-                <div class="d-flex flex-wrap gap-2 mt-3">
+                <div class="mt-3">
+                  ${comentariosHTML}
+                </div>
+
+                <div class="action-grid mt-3">
                   ${btnGuardarComentarios}
                   ${btnEnProceso}
                   ${btnExcedido}
@@ -849,6 +1231,16 @@
       const modal = new bootstrap.Modal(el);
       modal.show();
     }
+
+    (function configurarBusqueda() {
+      const input = document.getElementById("busquedaTicket");
+      if (!input) return;
+      let t = null;
+      input.addEventListener("input", () => {
+        clearTimeout(t);
+        t = setTimeout(() => cargarTickets(), 250);
+      });
+    })();
 
     cargarTickets();
   </script>

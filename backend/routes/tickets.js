@@ -75,7 +75,7 @@ async function notificarAdminsFinanzas(io, titulo, tipo = 'general') {
       {
         $or: [
           { roles: { $in: ['admin', 'Admin', 'ADMIN', 'finanzas', 'Finanzas', 'FINANZAS'] } },
-          { rol:   { $in: ['admin', 'Admin', 'ADMIN', 'finanzas', 'Finanzas', 'FINANZAS'] } }
+          { rol: { $in: ['admin', 'Admin', 'ADMIN', 'finanzas', 'Finanzas', 'FINANZAS'] } }
         ]
       },
       '_id'
@@ -114,6 +114,37 @@ async function notificarAdminsFinanzas(io, titulo, tipo = 'general') {
   }
 }
 
+async function notificarUsuario(io, usuarioId, titulo, tipo = 'general') {
+  try {
+    if (!usuarioId) return;
+
+    const notifDoc = await Notification.create({
+      usuario: usuarioId,
+      titulo,
+      tipo
+    });
+
+    if (io) {
+      const fechaTxt = new Date(notifDoc.fecha).toLocaleString('es-MX', {
+        year: '2-digit',
+        month: '2-digit',
+        day: '2-digit',
+        hour: '2-digit',
+        minute: '2-digit'
+      });
+
+      io.to(`user:${usuarioId.toString()}`).emit('nuevaNotificacion', {
+        titulo: notifDoc.titulo,
+        fecha: fechaTxt,
+        tipo: notifDoc.tipo || tipo || 'general',
+        leida: !!notifDoc.leida
+      });
+    }
+  } catch (e) {
+    console.error('Error creando notificación para usuario:', e);
+  }
+}
+
 /* ========= Crear ========= */
 router.post('/', verifyToken, async (req, res) => {
   try {
@@ -130,8 +161,8 @@ router.post('/', verifyToken, async (req, res) => {
       const tipoGeneral = body.area === 'sistemas' ? 'Sistemas' : 'Mantenimiento';
       doc = {
         descripcion: body.descripcion,
-        tipo: tipoGeneral,                         // Sistemas|Mantenimiento
-        subtipo: body.area === 'sistemas' ? body.tipo : null, // laboratorio|otro
+        tipo: tipoGeneral,
+        subtipo: body.area === 'sistemas' ? body.tipo : null,
         laboratorio: body.laboratorio || null,
         equipo: body.equipo || null,
         ubicacion: body.ubicacion || null,
@@ -143,7 +174,6 @@ router.post('/', verifyToken, async (req, res) => {
         resolucion: ''
       };
     } else {
-      // formato “viejo”
       if (!body.tipo || !['Sistemas', 'Mantenimiento'].includes(body.tipo)) {
         return res.status(400).json({ ok: false, error: 'tipo debe ser Sistemas|Mantenimiento' });
       }
@@ -159,7 +189,6 @@ router.post('/', verifyToken, async (req, res) => {
 
     const nuevo = await Ticket.create(doc);
 
-    // 🗂️ Crear carpeta en Google Drive para evidencias del ticket
     try {
       const folder = await ensureTicketFolder(nuevo);
 
@@ -169,16 +198,13 @@ router.post('/', verifyToken, async (req, res) => {
         await nuevo.save();
       }
     } catch (error) {
-      console.error("Error creando carpeta de Drive:", error.message || error);
-      // No detenemos la creación del ticket si falla Drive
+      console.error('Error creando carpeta de Drive:', error.message || error);
     }
 
-    // 🔔 Notificar a admin / finanzas: NUEVO TICKET
     const io = req.app.get('io');
     const tituloNotif = `Nuevo ticket (${nuevo.tipo || '—'}) - ${nuevo.folio || nuevo.descripcion || 'Sin folio'}`;
     await notificarAdminsFinanzas(io, tituloNotif, 'nuevo');
 
-    // 🆕 Emitir actualización en tiempo real
     if (io) {
       io.emit('ticketsActualizados', {
         accion: 'creado',
@@ -201,7 +227,7 @@ router.get('/asignables', verifyToken, verifyRole(['admin', 'finanzas']), async 
     const tickets = await Ticket.find({
       estatus: { $in: ['Abierto', 'En proceso'] },
       asignadoA: null,
-      archivado: { $ne: true } // ✅ NO mostrar archivados
+      archivado: { $ne: true }
     })
       .populate('creadoPor', 'nombre')
       .sort({ fechaCreacion: -1 });
@@ -223,7 +249,8 @@ router.put('/:id', verifyToken, async (req, res) => {
       asignar,
       asignadoA,
       prioridad,
-      comentario
+      comentario,
+      cerradoPorUsuario
     } = req.body;
 
     const ticket = await Ticket.findById(req.params.id);
@@ -231,7 +258,6 @@ router.put('/:id', verifyToken, async (req, res) => {
 
     const io = req.app.get('io');
 
-    // Guardar asignado ANTES para detectar cambios de asignación
     const asignadoAntes = ticket.asignadoA ? ticket.asignadoA.toString() : null;
     const prioridadAntes = ticket.prioridad || 'Sin prioridad';
 
@@ -246,73 +272,118 @@ router.put('/:id', verifyToken, async (req, res) => {
 
     const esSoporteOMantenimiento = roles.some(r => ['soporte', 'mantenimiento'].includes(r));
     const puedeTrabajar = roles.some(r => ['soporte', 'mantenimiento', 'admin'].includes(r));
+    const esCreadorDelTicket = String(ticket.creadoPor) === String(usuarioId);
 
     let cambioAResuelto = false;
     let cambioDePrioridad = false;
+    let ticketCerradoPorUsuario = false;
 
-    // === Manejo de estatus y fechas ===
-    if (estatus) {
-      const estatusValidos = [
-        'Abierto',
-        'En proceso',
-        'En espera de material',
-        'Resuelto',
-        'Tiempo excedido',
-        'Cerrado',
-        'Rechazado' 
-      ];
-      if (!estatusValidos.includes(estatus)) {
-        return res.status(400).json({ mensaje: 'Estatus inválido.' });
+    if (estatus === 'Cerrado' && cerradoPorUsuario === true) {
+      if (!esCreadorDelTicket) {
+        return res.status(403).json({
+          mensaje: 'Solo el creador del ticket puede cerrarlo desde Mis tickets.'
+        });
       }
 
-      if (estatus === 'En proceso' && !ticket.fechaInicio) {
-        ticket.fechaInicio = ahora;
+      if (ticket.archivado || ticket.estatus === 'Rechazado') {
+        return res.status(400).json({
+          mensaje: 'No se puede cerrar un ticket archivado o rechazado.'
+        });
       }
-      if (estatus === 'En espera de material') {
-        if (!requiereMaterial || !String(requiereMaterial).trim()) {
-          return res.status(400).json({
-            mensaje: 'Debes indicar el material requerido para poner el ticket en espera.'
+
+      if (ticket.estatus !== 'Resuelto') {
+        return res.status(400).json({
+          mensaje: 'Solo puedes cerrar un ticket cuando esté en estatus Resuelto.'
+        });
+      }
+
+      ticket.fechaCierre = ahora;
+
+      pushHistorial(ticket, {
+        usuarioId,
+        usuarioNombre,
+        de: anterior,
+        a: 'Cerrado',
+        comentario: 'Ticket cerrado por el usuario solicitante'
+      });
+
+      ticket.estatus = 'Cerrado';
+      ticketCerradoPorUsuario = true;
+    } else {
+      if (estatus) {
+        const estatusValidos = [
+          'Abierto',
+          'En proceso',
+          'En espera de material',
+          'Resuelto',
+          'Tiempo excedido',
+          'Cerrado',
+          'Rechazado'
+        ];
+
+        if (!estatusValidos.includes(estatus)) {
+          return res.status(400).json({ mensaje: 'Estatus inválido.' });
+        }
+
+        if (!puedeTrabajar) {
+          return res.status(403).json({
+            mensaje: 'No autorizado para cambiar el estatus de este ticket.'
           });
         }
-        ticket.fechaPausa = ahora;
-      }
-      if (estatus === 'En proceso' && anterior === 'En espera de material') {
-        ticket.fechaReanudacion = ahora;
-      }
-      if (estatus === 'Tiempo excedido') {
-        ticket.fechaExcedido = ahora;
-      }
-      if (estatus === 'Resuelto' || estatus === 'Cerrado') {
-        ticket.fechaCierre = ahora;
-      }
-      if (estatus === 'Abierto') {
-        ticket.fechaInicio = null;
-        ticket.fechaPausa = null;
-        ticket.fechaReanudacion = null;
-        ticket.fechaExcedido = null;
-        ticket.fechaCierre = null;
-      }
 
-      if (estatus !== anterior) {
-        if (estatus === 'Resuelto') cambioAResuelto = true;
+        if (estatus === 'En proceso' && !ticket.fechaInicio) {
+          ticket.fechaInicio = ahora;
+        }
 
-        pushHistorial(ticket, {
-          usuarioId,
-          usuarioNombre,
-          de: anterior,
-          a: estatus,
-          comentario: comentario || undefined,
-          requiereMaterial:
-            estatus === 'En espera de material' ? (requiereMaterial || '') : undefined,
-          resolucion:
-            estatus === 'Resuelto' || estatus === 'Cerrado' ? (resolucion || '') : undefined
-        });
+        if (estatus === 'En espera de material') {
+          if (!requiereMaterial || !String(requiereMaterial).trim()) {
+            return res.status(400).json({
+              mensaje: 'Debes indicar el material requerido para poner el ticket en espera.'
+            });
+          }
+          ticket.fechaPausa = ahora;
+        }
 
-        ticket.estatus = estatus;
+        if (estatus === 'En proceso' && anterior === 'En espera de material') {
+          ticket.fechaReanudacion = ahora;
+        }
+
+        if (estatus === 'Tiempo excedido') {
+          ticket.fechaExcedido = ahora;
+        }
+
+        if (estatus === 'Resuelto' || estatus === 'Cerrado') {
+          ticket.fechaCierre = ahora;
+        }
+
+        if (estatus === 'Abierto') {
+          ticket.fechaInicio = null;
+          ticket.fechaPausa = null;
+          ticket.fechaReanudacion = null;
+          ticket.fechaExcedido = null;
+          ticket.fechaCierre = null;
+        }
+
+        if (estatus !== anterior) {
+          if (estatus === 'Resuelto') cambioAResuelto = true;
+
+          pushHistorial(ticket, {
+            usuarioId,
+            usuarioNombre,
+            de: anterior,
+            a: estatus,
+            comentario: comentario || undefined,
+            requiereMaterial:
+              estatus === 'En espera de material' ? (requiereMaterial || '') : undefined,
+            resolucion:
+              estatus === 'Resuelto' || estatus === 'Cerrado' ? (resolucion || '') : undefined
+          });
+
+          ticket.estatus = estatus;
+        }
       }
     }
 
-    // === Prioridad ===
     if (typeof prioridad !== 'undefined') {
       const ok = ['Alta', 'Media', 'Baja', 'Sin prioridad'].includes(prioridad);
       if (!ok) return res.status(400).json({ mensaje: 'Prioridad inválida' });
@@ -332,7 +403,6 @@ router.put('/:id', verifyToken, async (req, res) => {
       }
     }
 
-    // === Campos de trabajo (material/resolución/asignarme) ===
     if (puedeTrabajar) {
       if (typeof requiereMaterial !== 'undefined' && requiereMaterial !== ticket.requiereMaterial) {
         pushHistorial(ticket, {
@@ -358,13 +428,13 @@ router.put('/:id', verifyToken, async (req, res) => {
         ticket.resolucion = resolucion;
       }
 
-      // Auto-asignarse (soporte/mant/admin)
       if (asignar) {
         if (['Cerrado', 'Resuelto'].includes(ticket.estatus)) {
           return res.status(400).json({
             mensaje: 'No puedes asignarte un ticket cerrado o resuelto.'
           });
         }
+
         if (!ticket.asignadoA || String(ticket.asignadoA) !== String(usuarioId)) {
           pushHistorial(ticket, {
             usuarioId,
@@ -374,11 +444,11 @@ router.put('/:id', verifyToken, async (req, res) => {
             comentario: 'Auto-asignación al usuario'
           });
         }
+
         ticket.asignadoA = usuarioId;
       }
     }
 
-    // === Asignación directa (panel admin: admin / finanzas) ===
     if (asignadoA && String(asignadoA) !== String(ticket.asignadoA || '')) {
       pushHistorial(ticket, {
         usuarioId,
@@ -390,7 +460,6 @@ router.put('/:id', verifyToken, async (req, res) => {
       ticket.asignadoA = asignadoA;
     }
 
-    // === Comentario “solo” (sin otros cambios) ===
     const noHayCambiosExtra =
       !estatus &&
       typeof prioridad === 'undefined' &&
@@ -409,10 +478,8 @@ router.put('/:id', verifyToken, async (req, res) => {
       });
     }
 
-    // Guardar cambios en el ticket
     await ticket.save();
 
-    // 🆕 Emitir actualización en tiempo real
     if (io) {
       io.emit('ticketsActualizados', {
         accion: 'actualizado',
@@ -422,7 +489,6 @@ router.put('/:id', verifyToken, async (req, res) => {
       });
     }
 
-    // Notificación a admin / finanzas si RESUELTO
     if (cambioAResuelto && esSoporteOMantenimiento) {
       const tituloNotif = `Ticket resuelto (${ticket.tipo || '—'}) - ${
         ticket.folio || ticket.descripcion || 'Sin folio'
@@ -430,7 +496,33 @@ router.put('/:id', verifyToken, async (req, res) => {
       await notificarAdminsFinanzas(io, tituloNotif, 'resuelto');
     }
 
-    // Notificación de cambio de prioridad (solo al técnico asignado)
+    if (ticketCerradoPorUsuario && ticket.asignadoA) {
+      try {
+        const tecnico = await User.findById(ticket.asignadoA, 'roles rol');
+
+        const rolesTec = [
+          ...(tecnico?.roles || []),
+          tecnico?.rol
+        ]
+          .filter(Boolean)
+          .map(r => String(r).toLowerCase());
+
+        const esTecSoporteOMant = rolesTec.some(r =>
+          ['soporte', 'mantenimiento'].includes(r)
+        );
+
+        if (esTecSoporteOMant) {
+          const tituloNotif = `El usuario cerró el ticket (${ticket.tipo || '—'}) - ${
+            ticket.folio || ticket.descripcion || 'Sin folio'
+          }`;
+
+          await notificarUsuario(io, ticket.asignadoA, tituloNotif, 'cerrado_usuario');
+        }
+      } catch (e) {
+        console.error('Error creando notificación de cierre por usuario:', e);
+      }
+    }
+
     if (cambioDePrioridad && ticket.asignadoA) {
       try {
         const tecnico = await User.findById(ticket.asignadoA, 'roles rol');
@@ -476,7 +568,6 @@ router.put('/:id', verifyToken, async (req, res) => {
       }
     }
 
-    // Notificación por ASIGNACIÓN al usuario asignado
     const asignadoNuevo = ticket.asignadoA ? ticket.asignadoA.toString() : null;
 
     if (asignadoNuevo && asignadoNuevo !== asignadoAntes) {
@@ -512,14 +603,20 @@ router.put('/:id', verifyToken, async (req, res) => {
       }
     }
 
-    res.json({ ok: true, mensaje: 'Ticket actualizado correctamente' });
+    return res.json({
+      ok: true,
+      mensaje: ticketCerradoPorUsuario
+        ? 'Ticket cerrado correctamente por el usuario.'
+        : 'Ticket actualizado correctamente'
+    });
+
   } catch (err) {
     console.error('PUT /tickets/:id error:', err);
     res.status(500).json({ mensaje: 'Error al actualizar ticket' });
   }
 });
 
-// === Comentarios ADMIN: crear ===
+/* ========= Comentarios ADMIN: crear ========= */
 router.post('/:id/comentarios-admin', verifyToken, async (req, res) => {
   try {
     const { texto } = req.body;
@@ -540,7 +637,6 @@ router.post('/:id/comentarios-admin', verifyToken, async (req, res) => {
 
     await t.save();
 
-    // 🆕 Emitir actualización en tiempo real
     const io = req.app.get('io');
     if (io) {
       io.emit('ticketsActualizados', {
@@ -553,6 +649,59 @@ router.post('/:id/comentarios-admin', verifyToken, async (req, res) => {
   } catch (e) {
     console.error('POST /comentarios-admin', e);
     res.status(500).json({ mensaje: 'Error al guardar comentario' });
+  }
+});
+
+/* ========= Comentarios ADMIN: leer ========= */
+router.get('/:id/comentarios-admin', verifyToken, async (req, res) => {
+  try {
+    const t = await Ticket.findById(req.params.id, { comentariosAdmin: 1 }).lean();
+    if (!t) return res.status(404).json({ mensaje: 'Ticket no encontrado' });
+
+    const rows = (t.comentariosAdmin || [])
+      .slice()
+      .sort((a, b) => new Date(b.fecha) - new Date(a.fecha));
+
+    res.json(rows);
+  } catch (e) {
+    console.error('GET /comentarios-admin', e);
+    res.status(500).json({ mensaje: 'Error al obtener comentarios' });
+  }
+});
+
+/* ========= Comentarios (bitácora) ========= */
+router.post('/:id/comentarios', verifyToken, async (req, res) => {
+  try {
+    const { comentario } = req.body;
+    if (!comentario || !String(comentario).trim()) {
+      return res.status(400).json({ mensaje: 'Comentario requerido' });
+    }
+
+    const ticket = await Ticket.findById(req.params.id);
+    if (!ticket) return res.status(404).json({ mensaje: 'Ticket no encontrado' });
+
+    pushHistorial(ticket, {
+      usuarioId: req.usuario.id,
+      usuarioNombre: req.usuario?.nombre || req.usuario?.email || 'Usuario',
+      de: ticket.estatus,
+      a: ticket.estatus,
+      comentario
+    });
+
+    await ticket.save();
+
+    const io = req.app.get('io');
+    if (io) {
+      io.emit('ticketsActualizados', {
+        accion: 'comentario',
+        ticketId: ticket._id.toString()
+      });
+    }
+
+    res.json({ mensaje: 'Comentario agregado' });
+  } catch (err) {
+    console.error('POST /tickets/:id/comentarios error:', err);
+    res.status(500).json({ mensaje: 'Error al agregar comentario' });
   }
 });
 
@@ -588,7 +737,6 @@ router.put('/:id/archivar', verifyToken, verifyRole(['admin', 'finanzas']), asyn
     ticket.fechaArchivado = new Date();
     ticket.archivadoPor = usuarioId || null;
 
-    // Registrar en historial
     pushHistorial(ticket, {
       usuarioId,
       usuarioNombre,
@@ -619,7 +767,6 @@ router.put('/:id/rechazar', verifyToken, verifyRole(['admin', 'finanzas']), asyn
   try {
     const { comentario } = req.body;
 
-    // ✅ comentario obligatorio
     if (!comentario || !String(comentario).trim()) {
       return res.status(400).json({ ok: false, mensaje: 'Debes escribir un comentario para rechazar.' });
     }
@@ -632,10 +779,8 @@ router.put('/:id/rechazar', verifyToken, verifyRole(['admin', 'finanzas']), asyn
 
     const estatusAntes = ticket.estatus;
 
-    // Cambiar estatus a Rechazado
     ticket.estatus = 'Rechazado';
 
-    // Registrar en historial con motivo
     pushHistorial(ticket, {
       usuarioId,
       usuarioNombre,
@@ -644,7 +789,6 @@ router.put('/:id/rechazar', verifyToken, verifyRole(['admin', 'finanzas']), asyn
       comentario: `RECHAZADO: ${String(comentario).trim()}`
     });
 
-    // ✅ Archivar automáticamente
     ticket.archivado = true;
     ticket.fechaArchivado = new Date();
     ticket.archivadoPor = usuarioId || null;
@@ -666,59 +810,6 @@ router.put('/:id/rechazar', verifyToken, verifyRole(['admin', 'finanzas']), asyn
   }
 });
 
-// === Comentarios ADMIN: leer (para modal en soporte) ===
-router.get('/:id/comentarios-admin', verifyToken, async (req, res) => {
-  try {
-    const t = await Ticket.findById(req.params.id, { comentariosAdmin: 1 }).lean();
-    if (!t) return res.status(404).json({ mensaje: 'Ticket no encontrado' });
-
-    const rows = (t.comentariosAdmin || [])
-      .slice()
-      .sort((a, b) => new Date(b.fecha) - new Date(a.fecha));
-
-    res.json(rows);
-  } catch (e) {
-    console.error('GET /comentarios-admin', e);
-    res.status(500).json({ mensaje: 'Error al obtener comentarios' });
-  }
-});
-
-/* ========= Comentarios (bitácora) ========= */
-router.post('/:id/comentarios', verifyToken, async (req, res) => {
-  try {
-    const { comentario } = req.body;
-    if (!comentario || !String(comentario).trim()) {
-      return res.status(400).json({ mensaje: 'Comentario requerido' });
-    }
-
-    const ticket = await Ticket.findById(req.params.id);
-    if (!ticket) return res.status(404).json({ mensaje: 'Ticket no encontrado' });
-
-    pushHistorial(ticket, {
-      usuarioId: req.usuario.id,
-      usuarioNombre: req.usuario?.nombre || req.usuario?.email || 'Usuario',
-      de: ticket.estatus, a: ticket.estatus,
-      comentario
-    });
-
-    await ticket.save();
-
-    // 🆕 Emitir actualización en tiempo real
-    const io = req.app.get('io');
-    if (io) {
-      io.emit('ticketsActualizados', {
-        accion: 'comentario',
-        ticketId: ticket._id.toString()
-      });
-    }
-
-    res.json({ mensaje: 'Comentario agregado' });
-  } catch (err) {
-    console.error('POST /tickets/:id/comentarios error:', err);
-    res.status(500).json({ mensaje: 'Error al agregar comentario' });
-  }
-});
-
 /* ========= Historial para tabla (directivos) ========= */
 router.get('/historial', verifyToken, async (req, res) => {
   try {
@@ -729,7 +820,6 @@ router.get('/historial', verifyToken, async (req, res) => {
     const puede = ['admin', 'direccion', 'subdireccion', 'finanzas'].some(r => roles.includes(r));
     if (!puede) return res.status(403).json({ mensaje: 'No autorizado' });
 
-    // ✅ NO mostrar archivados en historial normal
     const tickets = await Ticket.find(
       { archivado: { $ne: true } },
       { descripcion: 0, resolucion: 0 }
@@ -745,22 +835,19 @@ router.get('/historial', verifyToken, async (req, res) => {
   }
 });
 
-
-//-------------------------------------------------------------
-//  MIS TICKETS (usuario ve solo los suyos)  ✅ INCLUYE archivados/rechazados
-//-------------------------------------------------------------
+/* ========= MIS TICKETS ========= */
 router.get('/mis-tickets', verifyToken, async (req, res) => {
   try {
     const userId = req.usuario.id;
 
     const tickets = await Ticket.find(
-      { creadoPor: userId }, // ✅ NO filtramos archivado aquí
+      { creadoPor: userId },
       {
         folio: 1,
         tipo: 1,
         estatus: 1,
-        archivado: 1,        // ✅ importante para mostrar “Archivado”
-        fechaArchivado: 1,   // opcional
+        archivado: 1,
+        fechaArchivado: 1,
         fechaCreacion: 1,
         fechaInicio: 1,
         fechaCierre: 1,
@@ -774,7 +861,6 @@ router.get('/mis-tickets', verifyToken, async (req, res) => {
     res.status(500).json({ ok: false, mensaje: 'Error al obtener tus tickets.' });
   }
 });
-
 
 /* ========= Get ticket para encabezado del modal ========= */
 router.get('/:id', verifyToken, async (req, res) => {
@@ -790,7 +876,7 @@ router.get('/:id', verifyToken, async (req, res) => {
   }
 });
 
-/* ========= Historial por ticket (filas del modal) ========= */
+/* ========= Historial por ticket ========= */
 router.get('/:id/historial', verifyToken, async (req, res) => {
   try {
     const t = await Ticket.findById(req.params.id)
@@ -822,9 +908,7 @@ router.get('/:id/historial', verifyToken, async (req, res) => {
   }
 });
 
-// ==============================================
-//   Listar tickets según rol y usuario (LISTADO PRINCIPAL)
-// ==============================================
+/* ========= Listado principal ========= */
 router.get('/', verifyToken, async (req, res) => {
   try {
     const rolesRaw = req.usuario?.roles || [req.usuario?.rol || ''];
@@ -833,8 +917,6 @@ router.get('/', verifyToken, async (req, res) => {
       .map(r => String(r).toLowerCase());
 
     const userId = req.usuario?.id;
-
-    // ✅ Base: NO mostrar archivados en listados normales
     const filtro = { archivado: { $ne: true } };
 
     const esAdminLike = roles.some(r =>
@@ -864,7 +946,7 @@ router.get('/', verifyToken, async (req, res) => {
   }
 });
 
-// Eliminar ticket (solo admin / finanzas)
+/* ========= Eliminar ticket (solo admin / finanzas) ========= */
 router.delete('/:id', verifyToken, verifyRole(['admin', 'finanzas']), async (req, res) => {
   try {
     const { id } = req.params;
@@ -874,17 +956,15 @@ router.delete('/:id', verifyToken, verifyRole(['admin', 'finanzas']), async (req
       return res.status(404).json({ mensaje: 'Ticket no encontrado' });
     }
 
-    const tipoTicket  = ticket.tipo || '—';
+    const tipoTicket = ticket.tipo || '—';
     const folioTicket = ticket.folio || ticket.descripcion || 'Sin folio';
 
     await ticket.deleteOne();
 
-    // 🔔 Notificar a admins/finanzas que se eliminó un ticket
     const io = req.app.get('io');
     const tituloNotif = `Ticket eliminado (${tipoTicket}) - ${folioTicket}`;
     await notificarAdminsFinanzas(io, tituloNotif, 'eliminado');
 
-    // 🆕 Emitir actualización en tiempo real
     if (io) {
       io.emit('ticketsActualizados', {
         accion: 'eliminado',
@@ -899,9 +979,7 @@ router.delete('/:id', verifyToken, verifyRole(['admin', 'finanzas']), async (req
   }
 });
 
-// =========================
-// SUBIR EVIDENCIA (FOTO) A UN TICKET  (PRUEBA SIN TOKEN)
-// =========================
+/* ========= Subir evidencia ========= */
 router.post('/:id/evidencias',
   uploadEvidence.single('file'),
   async (req, res) => {
@@ -927,13 +1005,13 @@ router.post('/:id/evidencias',
 
       const info = await uploadTicketEvidence(ticket, file);
 
-      ticket.driveFolderId   = info.folderId;
+      ticket.driveFolderId = info.folderId;
       ticket.driveFolderLink = info.webViewLink || ticket.driveFolderLink;
 
       ticket.evidencias.push({
-        fileId:         info.fileId,
-        fileName:       info.fileName,
-        webViewLink:    info.webViewLink,
+        fileId: info.fileId,
+        fileName: info.fileName,
+        webViewLink: info.webViewLink,
         webContentLink: info.webContentLink,
       });
 
