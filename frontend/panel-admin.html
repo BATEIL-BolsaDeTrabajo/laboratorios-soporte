@@ -698,41 +698,29 @@
           let asignarHTML = "";
           if (puedeAsignarOReasignar && candidatos.length) {
             const actualId = ticket.asignadoA?._id || ticket.asignadoA || "";
-            const btnTxt = ticket.asignadoA ? "Reasignar" : "Asignar";
             asignarHTML = `
               <label class="form-label mt-2">Asignar/Reasignar a:</label>
-              <div class="input-group">
-                <select class="form-select" id="select-${ticket._id}">
-                  ${candidatos.map((u) => `
-                    <option value="${u._id}" ${String(u._id) === String(actualId) ? "selected" : ""}>
-                      ${u.nombre}
-                    </option>`).join("")}
-                </select>
-                <button type="button" class="btn btn-success" onclick="asignarTicket('${ticket._id}')">
-                  ${btnTxt}
-                </button>
-              </div>
+              <select class="form-select" id="select-${ticket._id}">
+                ${candidatos.map((u) => `
+                  <option value="${u._id}" ${String(u._id) === String(actualId) ? "selected" : ""}>
+                    ${u.nombre}
+                  </option>`).join("")}
+              </select>
             `;
           }
 
-          const estaAsignado = !!ticket.asignadoA;
           const selectorPrioridad = `
             <label class="form-label mt-2">Prioridad:</label>
             <div class="input-group">
-              <select class="form-select" id="prio-${ticket._id}" ${!estaAsignado ? "disabled" : ""}>
+              <select class="form-select" id="prio-${ticket._id}">
                 <option value="Sin prioridad" ${(ticket.prioridad ?? "Sin prioridad") === "Sin prioridad" ? "selected" : ""}>Sin prioridad</option>
                 ${["Alta", "Media", "Baja"].map((p) => `
                   <option value="${p}" ${ticket.prioridad === p ? "selected" : ""}>${p}</option>`).join("")}
               </select>
-              <button class="btn btn-outline-primary" type="button"
-                      onclick="guardarPrioridad('${ticket._id}')" ${!estaAsignado ? "disabled" : ""}>
-                Guardar
-              </button>
               <span class="input-group-text" id="prio-badge-${ticket._id}">
                 ${prioridadBadge(ticket.prioridad || "Sin prioridad")}
               </span>
             </div>
-            ${!estaAsignado ? '<div class="form-text text-muted">Asigna el ticket para habilitar la prioridad.</div>' : ""}
           `;
 
           const comentariosHTML = `
@@ -741,10 +729,10 @@
                       placeholder="Agrega notas, avances o cualquier comentario">${ticket.resolucion || ""}</textarea>
           `;
 
-          const btnGuardarComentarios = `
-            <button class="btn btn-outline-secondary"
-                    onclick="guardarComentarios('${ticket._id}')">
-              Guardar comentarios
+          const btnGuardarCambios = `
+            <button class="btn btn-primary"
+                    onclick="guardarCambiosTicket('${ticket._id}', this)">
+              Guardar cambios
             </button>
           `;
 
@@ -867,7 +855,7 @@
                 </div>
 
                 <div class="action-grid mt-3">
-                  ${btnGuardarComentarios}
+                  ${btnGuardarCambios}
                   ${btnEnProceso}
                   ${btnExcedido}
                   ${btnReabrir}
@@ -1084,6 +1072,73 @@
       await cargarTickets();
     }
 
+
+    async function guardarCambiosTicket(id, boton = null) {
+      const selPrioridad = document.getElementById(`prio-${id}`);
+      const selAsignado = document.getElementById(`select-${id}`);
+      const txtComentario = (document.getElementById(`coment-${id}`)?.value || "").trim();
+
+      const prioridad = selPrioridad ? selPrioridad.value : "Sin prioridad";
+      const asignadoA = selAsignado ? selAsignado.value : null;
+
+      const textoOriginal = boton ? boton.innerHTML : "";
+      if (boton) {
+        boton.disabled = true;
+        boton.innerHTML = `
+          <span class="spinner-border spinner-border-sm me-1" aria-hidden="true"></span>
+          Guardando...
+        `;
+      }
+
+      try {
+        const body = { prioridad };
+        if (asignadoA) body.asignadoA = asignadoA;
+
+        const res = await fetch(`/api/tickets/${id}`, {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`
+          },
+          body: JSON.stringify(body)
+        });
+
+        const data = await res.json().catch(() => ({}));
+        if (!res.ok) {
+          mostrarMensaje(data.mensaje || "❌ No se pudieron guardar los cambios", "danger");
+          return;
+        }
+
+        if (txtComentario) {
+          const resComent = await fetch(`/api/tickets/${id}/comentarios-admin`, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`
+            },
+            body: JSON.stringify({ texto: txtComentario })
+          });
+
+          const dataComent = await resComent.json().catch(() => ({}));
+          if (!resComent.ok) {
+            mostrarMensaje(dataComent.mensaje || "⚠️ Cambios guardados, pero no se pudo guardar el comentario", "warning");
+            return;
+          }
+        }
+
+        mostrarMensaje("✅ Cambios guardados correctamente", "success");
+        await cargarTickets();
+      } catch (e) {
+        console.error(e);
+        mostrarMensaje("❌ Error al guardar cambios", "danger");
+      } finally {
+        if (boton) {
+          boton.disabled = false;
+          boton.innerHTML = textoOriginal;
+        }
+      }
+    }
+
     async function guardarComentarios(id) {
       const txt = (document.getElementById(`coment-${id}`).value || "").trim();
       if (!txt) {
@@ -1269,5 +1324,4 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
-
 
