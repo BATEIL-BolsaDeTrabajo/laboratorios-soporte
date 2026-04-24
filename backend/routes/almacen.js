@@ -11,7 +11,6 @@ const AuditoriaInventario = require('../models/AuditoriaInventario');
 
 const { verifyToken, verifyRole } = require('../middlewares/auth');
 
-
 // 🔐 Solo pueden usar este módulo: almacen y finanzas
 const allowAlmacen = ['almacen', 'finanzas'];
 
@@ -32,8 +31,6 @@ function bloquearEntradasYProductosParaCorreo(req, res, next) {
 
   next();
 }
-
-
 
 /* ===========================
    Helpers
@@ -56,7 +53,6 @@ function validarProducto(body) {
   return errores;
 }
 
-// Registra auditoría de inventario (no rompe si falla)
 async function registrarAuditoriaMovimiento({
   producto,
   accion,
@@ -83,14 +79,8 @@ async function registrarAuditoriaMovimiento({
 
 /* ===========================
    RUTA SOLO PARA SELECTS
-   (Permite cargar productos para Salidas/Ajustes,
-   sin dar acceso al CRUD de Productos)
 =========================== */
 
-/**
- * GET /api/almacen/productos-select
- * Lista mínima de productos activos para llenar selects
- */
 router.get(
   '/productos-select',
   verifyToken,
@@ -109,37 +99,28 @@ router.get(
   }
 );
 
-// ✅ Productos para Entradas (incluye stock 0)
 router.get(
-  "/productos-select-entrada",
+  '/productos-select-entrada',
   verifyToken,
   verifyRole(allowAlmacen),
   async (req, res) => {
     try {
-      const productos = await Producto.find({ estado: "activo" })
-        .select("_id nombre codigo unidadMedida stockActual")
+      const productos = await Producto.find({ estado: 'activo' })
+        .select('_id nombre codigo unidadMedida stockActual')
         .sort({ nombre: 1 });
 
       return res.json(productos);
     } catch (err) {
-      console.error("Error en /productos-select-entrada:", err);
-      return res.status(500).json({ mensaje: "Error al cargar productos" });
+      console.error('Error en /productos-select-entrada:', err);
+      return res.status(500).json({ mensaje: 'Error al cargar productos' });
     }
   }
 );
-
 
 /* ===========================
    RUTAS DE PRODUCTOS
 =========================== */
 
-/**
- * GET /api/almacen/productos
- * Lista de productos con filtros:
- *  - nombre (contains)
- *  - categoria
- *  - estado (activo/inactivo)
- */
 router.get(
   '/productos',
   verifyToken,
@@ -184,10 +165,6 @@ router.get(
   }
 );
 
-/**
- * GET /api/almacen/productos/:id
- * Obtener un producto por ID
- */
 router.get(
   '/productos/:id',
   verifyToken,
@@ -198,6 +175,7 @@ router.get(
       if (!producto) {
         return res.status(404).json({ mensaje: 'Producto no encontrado' });
       }
+
       res.json({ producto });
     } catch (err) {
       console.error('Error al obtener producto:', err);
@@ -206,10 +184,6 @@ router.get(
   }
 );
 
-/**
- * POST /api/almacen/productos
- * Crear nuevo producto
- */
 router.post(
   '/productos',
   verifyToken,
@@ -232,7 +206,6 @@ router.post(
         estado
       } = req.body;
 
-      // Verificar código único
       const existente = await Producto.findOne({ codigo });
       if (existente) {
         return res.status(400).json({ mensaje: 'Ya existe un producto con ese código.' });
@@ -260,10 +233,6 @@ router.post(
   }
 );
 
-/**
- * PUT /api/almacen/productos/:id
- * Actualizar producto
- */
 router.put(
   '/productos/:id',
   verifyToken,
@@ -295,12 +264,12 @@ router.put(
       if (stockActual !== undefined) producto.stockActual = stockActual;
       if (estado !== undefined) producto.estado = estado;
 
-      // Si cambian código, validar que no exista duplicado
       if (codigo) {
         const repetido = await Producto.findOne({
           _id: { $ne: producto._id },
           codigo
         });
+
         if (repetido) {
           return res.status(400).json({ mensaje: 'Ya existe otro producto con ese código.' });
         }
@@ -319,10 +288,6 @@ router.put(
   }
 );
 
-/**
- * DELETE /api/almacen/productos/:id
- * Baja lógica: marcar como inactivo
- */
 router.delete(
   '/productos/:id',
   verifyToken,
@@ -343,19 +308,12 @@ router.delete(
         producto
       });
     } catch (err) {
-      console.error('Error al eliminar (baja lógica) producto:', err);
+      console.error('Error al eliminar producto:', err);
       res.status(500).json({ mensaje: 'Error al eliminar producto' });
     }
   }
 );
 
-/**
- * GET /api/almacen/resumen
- * Resumen básico para el panel:
- *  - totalProductos
- *  - totalInventario (suma de stockActual)
- *  - productosBajoStock (lista)
- */
 router.get(
   '/resumen',
   verifyToken,
@@ -397,16 +355,6 @@ router.get(
    RUTAS DE ENTRADAS
 =========================== */
 
-/**
- * POST /api/almacen/entradas
- * Registrar una entrada de almacén
- * Body:
- *  - productoId
- *  - cantidad
- *  - proveedor (opcional)
- *  - folio (opcional)
- *  - fecha (opcional, ISO string)
- */
 router.post(
   '/entradas',
   verifyToken,
@@ -432,11 +380,9 @@ router.post(
       const cantidadAntes = producto.stockActual || 0;
       const cantidadDespues = cantidadAntes + Number(cantidad);
 
-      // Actualizar stock
       producto.stockActual = cantidadDespues;
       await producto.save();
 
-      // Registrar entrada
       const entrada = await EntradaAlmacen.create({
         producto: producto._id,
         cantidad,
@@ -446,7 +392,6 @@ router.post(
         registradoPor: req.usuario?.id || null
       });
 
-      // Auditoría
       await registrarAuditoriaMovimiento({
         producto,
         accion: 'entrada',
@@ -468,19 +413,12 @@ router.post(
   }
 );
 
-/**
- * GET /api/almacen/entradas
- * Listar entradas con filtros:
- *  - productoId
- *  - proveedor
- *  - fechaInicio, fechaFin (YYYY-MM-DD o ISO)
- *  - recibido (true/false)
- */
+// ✅ CORREGIDO:
+// almacen@bateil.edu.mx SÍ puede consultar entradas para recibir productos.
 router.get(
   '/entradas',
   verifyToken,
   verifyRole(allowAlmacen),
-  bloquearEntradasYProductosParaCorreo,
   async (req, res) => {
     try {
       const { productoId, proveedor, fechaInicio, fechaFin, recibido } = req.query;
@@ -496,9 +434,11 @@ router.get(
 
       if (fechaInicio || fechaFin) {
         filtro.fecha = {};
+
         if (fechaInicio) {
           filtro.fecha.$gte = new Date(fechaInicio);
         }
+
         if (fechaFin) {
           const fin = new Date(fechaFin);
           fin.setHours(23, 59, 59, 999);
@@ -524,18 +464,16 @@ router.get(
   }
 );
 
-/**
- * PATCH /api/almacen/entradas/:id/recibir
- * Marca una entrada como RECIBIDA y guarda fechaRecibido + recibidoPor
- */
+// ✅ CORREGIDO:
+// almacen@bateil.edu.mx SÍ puede marcar productos como recibidos.
 router.patch(
   '/entradas/:id/recibir',
   verifyToken,
   verifyRole(allowAlmacen),
-  bloquearEntradasYProductosParaCorreo,
   async (req, res) => {
     try {
       const entradaId = req.params.id;
+
       if (!mongoose.Types.ObjectId.isValid(entradaId)) {
         return res.status(400).json({ mensaje: 'ID inválido.' });
       }
@@ -546,7 +484,10 @@ router.patch(
       }
 
       if (entrada.recibido) {
-        return res.json({ mensaje: 'Esta entrada ya estaba marcada como recibida.', entrada });
+        return res.json({
+          mensaje: 'Esta entrada ya estaba marcada como recibida.',
+          entrada
+        });
       }
 
       entrada.recibido = true;
@@ -560,7 +501,10 @@ router.patch(
         .populate('registradoPor', 'nombre email')
         .populate('recibidoPor', 'nombre email');
 
-      return res.json({ mensaje: 'Entrada marcada como recibida ✅', entrada: entradaPop });
+      return res.json({
+        mensaje: 'Entrada marcada como recibida ✅',
+        entrada: entradaPop
+      });
     } catch (err) {
       console.error('Error al marcar entrada como recibida:', err);
       return res.status(500).json({ mensaje: 'Error al marcar como recibida' });
@@ -568,34 +512,32 @@ router.patch(
   }
 );
 
-/**
- * DELETE /api/almacen/entradas/:id
- * Elimina una entrada y revierte el stock (solo permitido a jose.garcia@bateil.edu.mx)
- */
 router.delete(
-  "/entradas/:id",
+  '/entradas/:id',
   verifyToken,
   verifyRole(allowAlmacen),
   async (req, res) => {
     try {
-      const email = (req.usuario?.email || "").toLowerCase();
+      const email = (req.usuario?.email || '').toLowerCase();
+
       if (email !== ALLOW_DELETE_ENTRADAS_EMAIL) {
-        return res.status(403).json({ mensaje: "Acceso denegado." });
+        return res.status(403).json({ mensaje: 'Acceso denegado.' });
       }
 
       const entradaId = req.params.id;
+
       if (!mongoose.Types.ObjectId.isValid(entradaId)) {
-        return res.status(400).json({ mensaje: "ID inválido." });
+        return res.status(400).json({ mensaje: 'ID inválido.' });
       }
 
       const entrada = await EntradaAlmacen.findById(entradaId);
       if (!entrada) {
-        return res.status(404).json({ mensaje: "Entrada no encontrada." });
+        return res.status(404).json({ mensaje: 'Entrada no encontrada.' });
       }
 
       const producto = await Producto.findById(entrada.producto);
       if (!producto) {
-        return res.status(404).json({ mensaje: "Producto no encontrado." });
+        return res.status(404).json({ mensaje: 'Producto no encontrado.' });
       }
 
       const cantidadEntrada = Number(entrada.cantidad || 0);
@@ -604,8 +546,7 @@ router.delete(
 
       if (stockDespues < 0) {
         return res.status(400).json({
-          mensaje:
-            "No se puede eliminar: el stock actual es menor que la cantidad de la entrada (ya se usó en salidas).",
+          mensaje: 'No se puede eliminar: el stock actual es menor que la cantidad de la entrada.'
         });
       }
 
@@ -616,41 +557,28 @@ router.delete(
 
       await registrarAuditoriaMovimiento({
         producto,
-        accion: "entrada_eliminada",
+        accion: 'entrada_eliminada',
         cantidadAntes: stockAntes,
         cantidadDespues: stockDespues,
         usuarioId: req.usuario?.id,
-        detalle: `Se eliminó entrada de ${cantidadEntrada} unidades. Folio: ${entrada.folio || "-"}`,
+        detalle: `Se eliminó entrada de ${cantidadEntrada} unidades. Folio: ${entrada.folio || '-'}`
       });
 
       return res.json({
-        mensaje: "Entrada eliminada y stock revertido ✅",
-        productoActualizado: producto,
+        mensaje: 'Entrada eliminada y stock revertido ✅',
+        productoActualizado: producto
       });
     } catch (err) {
-      console.error("Error al eliminar entrada:", err);
-      return res.status(500).json({ mensaje: "Error al eliminar entrada" });
+      console.error('Error al eliminar entrada:', err);
+      return res.status(500).json({ mensaje: 'Error al eliminar entrada' });
     }
   }
 );
-
 
 /* ===========================
    RUTAS DE SALIDAS
 =========================== */
 
-/**
- * POST /api/almacen/salidas
- * Registrar una salida de almacén (entrega)
- * Body:
- *  - productoId
- *  - cantidad
- *  - entregadoA
- *  - departamento
- *  - tipoSalida
- *  - comentarios (opcional)
- *  - fecha (opcional)
- */
 router.post(
   '/salidas',
   verifyToken,
@@ -731,15 +659,6 @@ router.post(
   }
 );
 
-/**
- * GET /api/almacen/salidas
- * Listar salidas con filtros:
- *  - productoId
- *  - entregadoA
- *  - departamento
- *  - tipoSalida
- *  - fechaInicio, fechaFin
- */
 router.get(
   '/salidas',
   verifyToken,
@@ -757,27 +676,18 @@ router.get(
 
       const filtro = {};
 
-      if (productoId) {
-        filtro.producto = productoId;
-      }
-
-      if (entregadoA) {
-        filtro.entregadoA = { $regex: entregadoA, $options: 'i' };
-      }
-
-      if (departamento) {
-        filtro.departamento = { $regex: departamento, $options: 'i' };
-      }
-
-      if (tipoSalida) {
-        filtro.tipoSalida = { $regex: tipoSalida, $options: 'i' };
-      }
+      if (productoId) filtro.producto = productoId;
+      if (entregadoA) filtro.entregadoA = { $regex: entregadoA, $options: 'i' };
+      if (departamento) filtro.departamento = { $regex: departamento, $options: 'i' };
+      if (tipoSalida) filtro.tipoSalida = { $regex: tipoSalida, $options: 'i' };
 
       if (fechaInicio || fechaFin) {
         filtro.fecha = {};
+
         if (fechaInicio) {
           filtro.fecha.$gte = new Date(fechaInicio);
         }
+
         if (fechaFin) {
           const fin = new Date(fechaFin);
           fin.setHours(23, 59, 59, 999);
@@ -802,10 +712,6 @@ router.get(
    MOVIMIENTOS RECIENTES
 =========================== */
 
-/**
- * GET /api/almacen/movimientos-recientes
- * Devuelve las últimas entradas y salidas (para el panel)
- */
 router.get(
   '/movimientos-recientes',
   verifyToken,
@@ -865,7 +771,6 @@ router.post(
       }
 
       const cantidadAntes = producto.stockActual;
-
       let cantidadDespues = cantidadAntes;
 
       if (tipo === 'merma') {
@@ -874,23 +779,19 @@ router.post(
             mensaje: `La merma no puede ser mayor al stock actual (${cantidadAntes}).`
           });
         }
+
         cantidadDespues -= cantidad;
-      }
-
-      else if (tipo === 'devolucion') {
+      } else if (tipo === 'devolucion') {
         cantidadDespues += cantidad;
-      }
-
-      else if (tipo === 'error') {
+      } else if (tipo === 'error') {
         if (cantidad < 0) {
           return res.status(400).json({
             mensaje: 'El stock no puede ser negativo.'
           });
         }
-        cantidadDespues = cantidad;
-      }
 
-      else {
+        cantidadDespues = cantidad;
+      } else {
         return res.status(400).json({ mensaje: 'Tipo de ajuste no válido.' });
       }
 
@@ -936,19 +837,16 @@ router.get(
 
       const filtro = {};
 
-      if (productoId) {
-        filtro.producto = productoId;
-      }
-
-      if (tipo) {
-        filtro.tipo = tipo;
-      }
+      if (productoId) filtro.producto = productoId;
+      if (tipo) filtro.tipo = tipo;
 
       if (fechaInicio || fechaFin) {
         filtro.fecha = {};
+
         if (fechaInicio) {
           filtro.fecha.$gte = new Date(fechaInicio);
         }
+
         if (fechaFin) {
           const fin = new Date(fechaFin);
           fin.setHours(23, 59, 59, 999);
@@ -968,7 +866,6 @@ router.get(
     }
   }
 );
-
 
 /* ===========================
    HISTORIAL COMPLETO DE UN PRODUCTO
@@ -1023,53 +920,49 @@ router.get(
 
 /* ===========================
    ELIMINAR DEFINITIVAMENTE PRODUCTO
-   Solo jose.garcia y rosario.gonzalez
 =========================== */
 
 router.delete(
-  "/productos/eliminar-definitivo/:id",
+  '/productos/eliminar-definitivo/:id',
   verifyToken,
   verifyRole(allowAlmacen),
   async (req, res) => {
     try {
-      const email = (req.usuario?.email || "").toLowerCase();
+      const email = (req.usuario?.email || '').toLowerCase();
 
       const correosPermitidos = [
-        "jose.garcia@bateil.edu.mx",
-        "rosario.gonzalez@bateil.edu.mx"
+        'jose.garcia@bateil.edu.mx',
+        'rosario.gonzalez@bateil.edu.mx'
       ];
 
       if (!correosPermitidos.includes(email)) {
         return res.status(403).json({
-          mensaje: "No tienes permiso para eliminar definitivamente."
+          mensaje: 'No tienes permiso para eliminar definitivamente.'
         });
       }
 
       const { id } = req.params;
 
       if (!mongoose.Types.ObjectId.isValid(id)) {
-        return res.status(400).json({ mensaje: "ID inválido." });
+        return res.status(400).json({ mensaje: 'ID inválido.' });
       }
 
       const producto = await Producto.findById(id);
 
       if (!producto) {
-        return res.status(404).json({ mensaje: "Producto no encontrado." });
+        return res.status(404).json({ mensaje: 'Producto no encontrado.' });
       }
 
       await Producto.deleteOne({ _id: id });
 
       return res.json({
-        mensaje: "Producto eliminado definitivamente ✅"
+        mensaje: 'Producto eliminado definitivamente ✅'
       });
-
     } catch (error) {
-      console.error("Error al eliminar definitivo:", error);
-      return res.status(500).json({ mensaje: "Error del servidor." });
+      console.error('Error al eliminar definitivo:', error);
+      return res.status(500).json({ mensaje: 'Error del servidor.' });
     }
   }
 );
-
-
 
 module.exports = router;
