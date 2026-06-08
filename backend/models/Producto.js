@@ -9,12 +9,12 @@ const productoSchema = new Schema({
     trim: true
   },
   categoria: {
-    type: String, // papelería, herramientas, limpieza, etc.
+    type: String,
     required: true,
     trim: true
   },
   unidadMedida: {
-    type: String, // piezas, caja, litros, etc.
+    type: String,
     required: true,
     trim: true
   },
@@ -24,6 +24,15 @@ const productoSchema = new Schema({
     unique: true,
     trim: true
   },
+
+  // ✅ Nuevo campo: Venta o Interno
+  tipoUso: {
+    type: String,
+    enum: ['venta', 'interno'],
+    default: 'interno',
+    required: true
+  },
+
   descripcion: {
     type: String,
     default: ''

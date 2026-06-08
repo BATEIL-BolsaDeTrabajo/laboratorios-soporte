@@ -29,6 +29,13 @@ const entradaAlmacenSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: 'User'
   },
+  clientRequestId: {
+    type: String,
+    trim: true,
+    index: true,
+    unique: true,
+    sparse: true
+  },
 
   // ✅ Confirmación de recepción física
   recibido: {

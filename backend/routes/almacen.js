@@ -11,13 +11,8 @@ const AuditoriaInventario = require('../models/AuditoriaInventario');
 
 const { verifyToken, verifyRole } = require('../middlewares/auth');
 
-// 🔐 Solo pueden usar este módulo: almacen y finanzas
 const allowAlmacen = ['almacen', 'finanzas'];
-
-// 🚫 Restricción especial por correo
 const RESTRICTED_ALMACEN_EMAIL = 'almacen@bateil.edu.mx';
-
-// ✅ Solo este correo puede eliminar entradas
 const ALLOW_DELETE_ENTRADAS_EMAIL = 'jose.garcia@bateil.edu.mx';
 
 function bloquearEntradasYProductosParaCorreo(req, res, next) {
@@ -38,17 +33,16 @@ function bloquearEntradasYProductosParaCorreo(req, res, next) {
 
 function validarProducto(body) {
   const errores = [];
-  const {
-    nombre,
-    categoria,
-    unidadMedida,
-    codigo
-  } = body;
+  const { nombre, categoria, unidadMedida, codigo, tipoUso } = body;
 
   if (!nombre) errores.push('El nombre es obligatorio.');
   if (!categoria) errores.push('La categoría es obligatoria.');
   if (!unidadMedida) errores.push('La unidad de medida es obligatoria.');
   if (!codigo) errores.push('El código es obligatorio.');
+
+  if (tipoUso && !['venta', 'interno'].includes(tipoUso)) {
+    errores.push('El tipo de uso debe ser venta o interno.');
+  }
 
   return errores;
 }
@@ -88,7 +82,7 @@ router.get(
   async (req, res) => {
     try {
       const productos = await Producto.find({ estado: 'activo', stockActual: { $gt: 0 } })
-        .select('_id nombre codigo unidadMedida stockActual')
+        .select('_id nombre codigo unidadMedida stockActual tipoUso')
         .sort({ nombre: 1 });
 
       return res.json(productos);
@@ -106,7 +100,7 @@ router.get(
   async (req, res) => {
     try {
       const productos = await Producto.find({ estado: 'activo' })
-        .select('_id nombre codigo unidadMedida stockActual')
+        .select('_id nombre codigo unidadMedida stockActual tipoUso')
         .sort({ nombre: 1 });
 
       return res.json(productos);
@@ -131,17 +125,9 @@ router.get(
 
       const filtro = {};
 
-      if (nombre) {
-        filtro.nombre = { $regex: nombre, $options: 'i' };
-      }
-
-      if (categoria) {
-        filtro.categoria = { $regex: categoria, $options: 'i' };
-      }
-
-      if (estado) {
-        filtro.estado = estado;
-      }
+      if (nombre) filtro.nombre = { $regex: nombre, $options: 'i' };
+      if (categoria) filtro.categoria = { $regex: categoria, $options: 'i' };
+      if (estado) filtro.estado = estado;
 
       if (fechaInicio || fechaFin) {
         filtro.createdAt = {};
@@ -172,6 +158,7 @@ router.get(
   async (req, res) => {
     try {
       const producto = await Producto.findById(req.params.id);
+
       if (!producto) {
         return res.status(404).json({ mensaje: 'Producto no encontrado' });
       }
@@ -191,6 +178,7 @@ router.post(
   async (req, res) => {
     try {
       const errores = validarProducto(req.body);
+
       if (errores.length > 0) {
         return res.status(400).json({ mensaje: 'Datos inválidos', errores });
       }
@@ -200,6 +188,7 @@ router.post(
         categoria,
         unidadMedida,
         codigo,
+        tipoUso,
         descripcion,
         stockMinimo,
         stockActual,
@@ -207,6 +196,7 @@ router.post(
       } = req.body;
 
       const existente = await Producto.findOne({ codigo });
+
       if (existente) {
         return res.status(400).json({ mensaje: 'Ya existe un producto con ese código.' });
       }
@@ -216,6 +206,7 @@ router.post(
         categoria,
         unidadMedida,
         codigo,
+        tipoUso: tipoUso || 'interno',
         descripcion: descripcion || '',
         stockMinimo: stockMinimo || 0,
         stockActual: stockActual || 0,
@@ -240,8 +231,18 @@ router.put(
   async (req, res) => {
     try {
       const producto = await Producto.findById(req.params.id);
+
       if (!producto) {
         return res.status(404).json({ mensaje: 'Producto no encontrado' });
+      }
+
+      const errores = validarProducto({
+        ...producto.toObject(),
+        ...req.body
+      });
+
+      if (errores.length > 0) {
+        return res.status(400).json({ mensaje: 'Datos inválidos', errores });
       }
 
       const {
@@ -249,6 +250,7 @@ router.put(
         categoria,
         unidadMedida,
         codigo,
+        tipoUso,
         descripcion,
         stockMinimo,
         stockActual,
@@ -259,6 +261,7 @@ router.put(
       if (categoria !== undefined) producto.categoria = categoria;
       if (unidadMedida !== undefined) producto.unidadMedida = unidadMedida;
       if (codigo !== undefined) producto.codigo = codigo;
+      if (tipoUso !== undefined) producto.tipoUso = tipoUso;
       if (descripcion !== undefined) producto.descripcion = descripcion;
       if (stockMinimo !== undefined) producto.stockMinimo = stockMinimo;
       if (stockActual !== undefined) producto.stockActual = stockActual;
@@ -296,6 +299,7 @@ router.delete(
   async (req, res) => {
     try {
       const producto = await Producto.findById(req.params.id);
+
       if (!producto) {
         return res.status(404).json({ mensaje: 'Producto no encontrado' });
       }
@@ -362,35 +366,60 @@ router.post(
   bloquearEntradasYProductosParaCorreo,
   async (req, res) => {
     try {
-      const { productoId, cantidad, proveedor, folio, fecha } = req.body;
+      const { productoId, cantidad, proveedor, folio, fecha, clientRequestId } = req.body;
+      const cantidadNum = Number(cantidad);
 
       if (!productoId || !cantidad) {
         return res.status(400).json({ mensaje: 'productoId y cantidad son obligatorios.' });
       }
 
-      if (cantidad <= 0) {
+      if (!Number.isFinite(cantidadNum) || cantidadNum <= 0) {
         return res.status(400).json({ mensaje: 'La cantidad debe ser mayor a cero.' });
       }
 
       const producto = await Producto.findById(productoId);
+
       if (!producto) {
         return res.status(404).json({ mensaje: 'Producto no encontrado.' });
       }
 
-      const cantidadAntes = producto.stockActual || 0;
-      const cantidadDespues = cantidadAntes + Number(cantidad);
-
-      producto.stockActual = cantidadDespues;
-      await producto.save();
-
-      const entrada = await EntradaAlmacen.create({
+      const entradaData = {
         producto: producto._id,
-        cantidad,
+        cantidad: cantidadNum,
         proveedor: proveedor || '',
         folio: folio || '',
         fecha: fecha ? new Date(fecha) : new Date(),
         registradoPor: req.usuario?.id || null
-      });
+      };
+
+      if (clientRequestId) {
+        entradaData.clientRequestId = String(clientRequestId);
+      }
+
+      let entrada;
+      try {
+        entrada = await EntradaAlmacen.create(entradaData);
+      } catch (createErr) {
+        if (createErr?.code === 11000 && clientRequestId) {
+          const existente = await EntradaAlmacen.findOne({ clientRequestId });
+          return res.status(200).json({
+            mensaje: 'Esta entrada ya habia sido registrada.',
+            entrada: existente,
+            duplicada: true
+          });
+        }
+
+        throw createErr;
+      }
+
+      const productoAntes = await Producto.findByIdAndUpdate(
+        producto._id,
+        { $inc: { stockActual: cantidadNum } },
+        { new: false }
+      );
+
+      const cantidadAntes = productoAntes?.stockActual || 0;
+      const cantidadDespues = cantidadAntes + cantidadNum;
 
       await registrarAuditoriaMovimiento({
         producto,
@@ -398,13 +427,16 @@ router.post(
         cantidadAntes,
         cantidadDespues,
         usuarioId: req.usuario?.id,
-        detalle: `Entrada de ${cantidad} unidades.`
+        detalle: `Entrada de ${cantidadNum} unidades.`
       });
 
       res.status(201).json({
         mensaje: 'Entrada registrada correctamente',
         entrada,
-        productoActualizado: producto
+        productoActualizado: {
+          ...producto.toObject(),
+          stockActual: cantidadDespues
+        }
       });
     } catch (err) {
       console.error('Error al registrar entrada:', err);
@@ -413,8 +445,6 @@ router.post(
   }
 );
 
-// ✅ CORREGIDO:
-// almacen@bateil.edu.mx SÍ puede consultar entradas para recibir productos.
 router.get(
   '/entradas',
   verifyToken,
@@ -424,13 +454,8 @@ router.get(
       const { productoId, proveedor, fechaInicio, fechaFin, recibido } = req.query;
       const filtro = {};
 
-      if (productoId) {
-        filtro.producto = productoId;
-      }
-
-      if (proveedor) {
-        filtro.proveedor = { $regex: proveedor, $options: 'i' };
-      }
+      if (productoId) filtro.producto = productoId;
+      if (proveedor) filtro.proveedor = { $regex: proveedor, $options: 'i' };
 
       if (fechaInicio || fechaFin) {
         filtro.fecha = {};
@@ -451,7 +476,7 @@ router.get(
       }
 
       const entradas = await EntradaAlmacen.find(filtro)
-        .populate('producto', 'nombre codigo categoria unidadMedida')
+        .populate('producto', 'nombre codigo categoria unidadMedida tipoUso')
         .populate('registradoPor', 'nombre email')
         .populate('recibidoPor', 'nombre email')
         .sort({ fecha: -1, createdAt: -1 });
@@ -464,8 +489,6 @@ router.get(
   }
 );
 
-// ✅ CORREGIDO:
-// almacen@bateil.edu.mx SÍ puede marcar productos como recibidos.
 router.patch(
   '/entradas/:id/recibir',
   verifyToken,
@@ -479,6 +502,7 @@ router.patch(
       }
 
       const entrada = await EntradaAlmacen.findById(entradaId);
+
       if (!entrada) {
         return res.status(404).json({ mensaje: 'Entrada no encontrada.' });
       }
@@ -497,7 +521,7 @@ router.patch(
       await entrada.save();
 
       const entradaPop = await EntradaAlmacen.findById(entradaId)
-        .populate('producto', 'nombre codigo categoria unidadMedida')
+        .populate('producto', 'nombre codigo categoria unidadMedida tipoUso')
         .populate('registradoPor', 'nombre email')
         .populate('recibidoPor', 'nombre email');
 
@@ -531,11 +555,13 @@ router.delete(
       }
 
       const entrada = await EntradaAlmacen.findById(entradaId);
+
       if (!entrada) {
         return res.status(404).json({ mensaje: 'Entrada no encontrada.' });
       }
 
       const producto = await Producto.findById(entrada.producto);
+
       if (!producto) {
         return res.status(404).json({ mensaje: 'Producto no encontrado.' });
       }
@@ -606,6 +632,7 @@ router.post(
       }
 
       const producto = await Producto.findById(productoId);
+
       if (!producto) {
         return res.status(404).json({ mensaje: 'Producto no encontrado.' });
       }
@@ -643,8 +670,7 @@ router.post(
         detalle: `Salida de ${cantidad} unidades para ${entregadoA} (${departamento}) - Tipo: ${tipoSalida}.`
       });
 
-      const alertaBajoStock = producto.stockMinimo > 0 &&
-        cantidadDespues <= producto.stockMinimo;
+      const alertaBajoStock = producto.stockMinimo > 0 && cantidadDespues <= producto.stockMinimo;
 
       res.status(201).json({
         mensaje: 'Salida registrada correctamente',
@@ -696,7 +722,7 @@ router.get(
       }
 
       const salidas = await SalidaAlmacen.find(filtro)
-        .populate('producto', 'nombre codigo categoria unidadMedida')
+        .populate('producto', 'nombre codigo categoria unidadMedida tipoUso')
         .populate('realizadoPor', 'nombre email')
         .sort({ fecha: -1, createdAt: -1 });
 
@@ -721,13 +747,13 @@ router.get(
       const limite = Number(req.query.limite) || 10;
 
       const entradasRecientes = await EntradaAlmacen.find({})
-        .populate('producto', 'nombre codigo categoria unidadMedida')
+        .populate('producto', 'nombre codigo categoria unidadMedida tipoUso')
         .populate('registradoPor', 'nombre email')
         .sort({ fecha: -1, createdAt: -1 })
         .limit(limite);
 
       const salidasRecientes = await SalidaAlmacen.find({})
-        .populate('producto', 'nombre codigo categoria unidadMedida')
+        .populate('producto', 'nombre codigo categoria unidadMedida tipoUso')
         .populate('realizadoPor', 'nombre email')
         .sort({ fecha: -1, createdAt: -1 })
         .limit(limite);
@@ -766,6 +792,7 @@ router.post(
       }
 
       const producto = await Producto.findById(productoId);
+
       if (!producto) {
         return res.status(404).json({ mensaje: 'Producto no encontrado.' });
       }
@@ -855,7 +882,7 @@ router.get(
       }
 
       const ajustes = await AjusteInventario.find(filtro)
-        .populate('producto', 'nombre codigo categoria unidadMedida')
+        .populate('producto', 'nombre codigo categoria unidadMedida tipoUso')
         .populate('realizadoPor', 'nombre email')
         .sort({ fecha: -1, createdAt: -1 });
 
@@ -884,6 +911,7 @@ router.get(
       }
 
       const producto = await Producto.findById(id);
+
       if (!producto) {
         return res.status(404).json({ mensaje: 'Producto no encontrado' });
       }

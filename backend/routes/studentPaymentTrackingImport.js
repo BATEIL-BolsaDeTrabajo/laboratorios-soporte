@@ -40,6 +40,24 @@ function monthMatches(monthKey, concValue) {
   return (aliases[monthKey] || []).includes(raw);
 }
 
+function getPaymentValue(payments, monthKey) {
+  if (!payments) return '';
+  return payments.get
+    ? (payments.get(monthKey)?.value || '')
+    : (payments[monthKey]?.value || '');
+}
+
+function hasPreviousDebt(row, cycleMonths, monthKey) {
+  const orderedMonths = [...cycleMonths].sort((a, b) => a.order - b.order);
+  const currentIndex = orderedMonths.findIndex(month => month.key === monthKey);
+
+  if (currentIndex <= 0) return false;
+
+  return orderedMonths
+    .slice(0, currentIndex)
+    .some(month => getPaymentValue(row.payments, month.key) === 'NO');
+}
+
 function extractStudentsFromCajaSheet(rows) {
   const students = [];
 
@@ -155,6 +173,7 @@ router.post(
       let created = 0;
       let updatedToNo = 0;
       let updatedToSi = 0;
+      let keptToNoByPreviousDebt = 0;
 
       // 1. Crear o actualizar alumnos que aparecen en el archivo => NO
       for (const student of studentsForCycle) {
@@ -202,13 +221,15 @@ router.post(
         updatedToNo++;
       }
 
-      // 2. A todos los del ciclo que NO aparezcan en el archivo => SI
+      // 2. Quien no aparezca solo queda en SI si no arrastra adeudos anteriores.
       const allCycleRows = await StudentPaymentTracking.find({ cycleId });
 
       for (const row of allCycleRows) {
         if (!fileMatriculas.has(row.matricula)) {
+          const value = hasPreviousDebt(row, cycle.months, monthKey) ? 'NO' : 'SI';
+
           row.payments.set(monthKey, {
-            value: 'SI',
+            value,
             updatedAt: now,
             updatedBy: req.usuario.id
           });
@@ -217,7 +238,13 @@ router.post(
           row.lastCajaUploadBy = req.usuario.id;
 
           await row.save();
-          updatedToSi++;
+
+          if (value === 'NO') {
+            updatedToNo++;
+            keptToNoByPreviousDebt++;
+          } else {
+            updatedToSi++;
+          }
         }
       }
 
@@ -229,7 +256,8 @@ router.post(
         totalPeriodoCorrecto: studentsForCycle.length,
         created,
         updatedToNo,
-        updatedToSi
+        updatedToSi,
+        keptToNoByPreviousDebt
       });
     } catch (error) {
       console.error('Error al importar archivo de caja:', error);

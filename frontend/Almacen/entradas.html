@@ -118,7 +118,7 @@
           </div>
 
           <div class="modal-footer">
-            <button class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+            <button class="btn btn-secondary" type="button" data-bs-dismiss="modal">Cancelar</button>
             <button class="btn btn-primary" type="submit" id="btnGuardarEntrada">Guardar</button>
           </div>
         </form>
@@ -146,6 +146,14 @@
 
     // 🔒 Candado para evitar doble submit
     let enviandoEntrada = false;
+
+    function crearClientRequestId() {
+      if (window.crypto && typeof window.crypto.randomUUID === "function") {
+        return window.crypto.randomUUID();
+      }
+
+      return `entrada-${Date.now()}-${Math.random().toString(16).slice(2)}`;
+    }
 
     function fmtFecha(dt) {
       const d = new Date(dt);
@@ -233,11 +241,12 @@
             <td>${e.registradoPor?.nombre || "-"}</td>
             <td class="text-center">
               <div class="d-flex gap-2 justify-content-center">
-                <button class="btn btn-sm btn-success"
+                <button class="btn btn-sm btn-outline-primary"
                   data-bs-toggle="modal"
                   data-bs-target="#modalEntrada"
+                  title="Sumar mas stock a este producto"
                   onclick="abrirModalAgregarStock('${prodId}')">
-                  + Agregar
+                  + Sumar stock
                 </button>
 
                 ${
@@ -264,6 +273,7 @@
       document.getElementById("modalEntradaTitulo").textContent = "Registrar entrada";
       document.getElementById("entradaHint").style.display = "none";
       document.getElementById("btnGuardarEntrada").textContent = "Guardar";
+      document.getElementById("btnGuardarEntrada").disabled = false;
 
       document.getElementById("formEntrada").reset();
 
@@ -282,6 +292,7 @@
       document.getElementById("modalEntradaTitulo").textContent = "Agregar cantidad a producto";
       document.getElementById("entradaHint").style.display = "block";
       document.getElementById("btnGuardarEntrada").textContent = "Sumar";
+      document.getElementById("btnGuardarEntrada").disabled = false;
 
       // Reset parcial
       document.getElementById("formEntrada").reset();
@@ -347,7 +358,8 @@
           productoId,
           cantidad: Number(document.getElementById("entradaCantidad").value),
           proveedor: document.getElementById("entradaProveedor").value,
-          folio: document.getElementById("entradaFolio").value
+          folio: document.getElementById("entradaFolio").value,
+          clientRequestId: crearClientRequestId()
         };
 
         if (!payload.cantidad || payload.cantidad < 1) {

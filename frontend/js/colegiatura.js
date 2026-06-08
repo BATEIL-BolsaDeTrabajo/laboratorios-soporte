@@ -185,6 +185,7 @@ async function importCajaExcel() {
       `Alumnos detectados: ${data.totalPeriodoCorrecto}\n` +
       `Creados: ${data.created}\n` +
       `Marcados en NO: ${data.updatedToNo}\n` +
+      `NO por adeudo anterior: ${data.keptToNoByPreviousDebt || 0}\n` +
       `Marcados en SI: ${data.updatedToSi}`
     );
 
