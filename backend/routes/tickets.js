@@ -5,6 +5,7 @@ const Ticket = require('../models/Ticket');
 const { verifyToken, verifyRole } = require('../middlewares/auth');
 const Notification = require('../models/Notification');
 const User = require('../models/User');
+const { sendTicketNotificationEmail } = require('../utils/mailer');
 const { ensureTicketFolder, uploadTicketEvidence } = require('../utils/googleDrive');
 const uploadEvidence = require('../middlewares/uploadEvidence');
 const fs = require('fs');
@@ -65,11 +66,86 @@ function pushHistorial(ticket, {
   });
 }
 
+function ticketLabel(ticket) {
+  return ticket?.folio || ticket?.descripcion || 'Sin folio';
+}
+
+function notificationTypeLabel(tipo = 'general') {
+  const labels = {
+    nuevo: 'Nuevo ticket',
+    asignado: 'Ticket asignado',
+    resuelto: 'Ticket finalizado',
+    prioridad: 'Prioridad actualizada',
+    comentario: 'Nuevo comentario',
+    cerrado_usuario: 'Ticket cerrado por el usuario',
+    eliminado: 'Ticket eliminado',
+    general: 'Notificacion'
+  };
+
+  return labels[tipo] || labels.general;
+}
+
+function userLabel(user) {
+  if (!user) return 'Sin informacion';
+  return user.nombre || user.correo || String(user);
+}
+
+async function buildTicketEmailMessage(titulo, tipo = 'general', ticketId = null) {
+  if (!ticketId) {
+    return `${notificationTypeLabel(tipo)}\n\n${titulo}`;
+  }
+
+  const ticket = await Ticket.findById(ticketId)
+    .populate('creadoPor', 'nombre correo')
+    .populate('asignadoA', 'nombre correo')
+    .lean();
+
+  if (!ticket) {
+    return `${notificationTypeLabel(tipo)}\n\n${titulo}`;
+  }
+
+  return [
+    `Evento: ${notificationTypeLabel(tipo)}`,
+    `Folio: ${ticketLabel(ticket)}`,
+    `Tipo de ticket: ${ticket.tipo || 'Sin tipo'}`,
+    `Estatus: ${ticket.estatus || 'Sin estatus'}`,
+    `Prioridad: ${ticket.prioridad || 'Sin prioridad'}`,
+    `Creado por: ${userLabel(ticket.creadoPor)}`,
+    `Asignado a: ${userLabel(ticket.asignadoA)}`,
+    '',
+    'Descripcion del problema:',
+    ticket.descripcion || 'Sin descripcion',
+    '',
+    titulo
+  ].join('\n');
+}
+
+function formatFechaNotificacion(fecha) {
+  return new Date(fecha).toLocaleString('es-MX', {
+    year: '2-digit',
+    month: '2-digit',
+    day: '2-digit',
+    hour: '2-digit',
+    minute: '2-digit'
+  });
+}
+
+function emitirNotificacion(io, notifDoc, tipoFallback = 'general') {
+  if (!io || !notifDoc?.usuario) return;
+
+  io.to(`user:${notifDoc.usuario.toString()}`).emit('nuevaNotificacion', {
+    titulo: notifDoc.titulo,
+    fecha: formatFechaNotificacion(notifDoc.fecha),
+    tipo: notifDoc.tipo || tipoFallback || 'general',
+    leida: !!notifDoc.leida
+  });
+}
+
 /**
  * Notificar a TODOS los usuarios con rol admin / finanzas
  * tipo: 'nuevo' | 'resuelto' | ...
  */
-async function notificarAdminsFinanzas(io, titulo, tipo = 'general') {
+async function notificarAdminsFinanzas(io, titulo, tipo = 'general', ticketId = null) {
   try {
     const admins = await User.find(
       {
@@ -78,7 +154,7 @@ async function notificarAdminsFinanzas(io, titulo, tipo = 'general') {
           { rol: { $in: ['admin', 'Admin', 'ADMIN', 'finanzas', 'Finanzas', 'FINANZAS'] } }
         ]
       },
-      '_id'
+      '_id correo nombre'
     );
 
     if (!admins.length) return;
@@ -86,60 +162,54 @@ async function notificarAdminsFinanzas(io, titulo, tipo = 'general') {
     const docsData = admins.map(u => ({
       usuario: u._id,
       titulo,
-      tipo
+      tipo,
+      ticket: ticketId || null
     }));
 
     const creadas = await Notification.insertMany(docsData);
 
     if (io) {
-      creadas.forEach(notifDoc => {
-        const fechaTxt = new Date(notifDoc.fecha).toLocaleString('es-MX', {
-          year: '2-digit',
-          month: '2-digit',
-          day: '2-digit',
-          hour: '2-digit',
-          minute: '2-digit'
-        });
-
-        io.to(`user:${notifDoc.usuario.toString()}`).emit('nuevaNotificacion', {
-          titulo: notifDoc.titulo,
-          fecha: fechaTxt,
-          tipo: notifDoc.tipo || tipo || 'general',
-          leida: !!notifDoc.leida
-        });
-      });
+      creadas.forEach(notifDoc => emitirNotificacion(io, notifDoc, tipo));
     }
+
+    const emailMessage = await buildTicketEmailMessage(titulo, tipo, ticketId);
+
+    await Promise.all(creadas.map((notifDoc, index) => {
+      const user = admins[index];
+      return sendTicketNotificationEmail({
+        to: user?.correo,
+        subject: notifDoc.titulo,
+        title: notifDoc.titulo,
+        message: emailMessage
+      });
+    }));
   } catch (e) {
     console.error('Error creando notificación para admin/finanzas:', e);
   }
 }
 
-async function notificarUsuario(io, usuarioId, titulo, tipo = 'general') {
+async function notificarUsuario(io, usuarioId, titulo, tipo = 'general', ticketId = null) {
   try {
     if (!usuarioId) return;
 
     const notifDoc = await Notification.create({
       usuario: usuarioId,
       titulo,
-      tipo
+      tipo,
+      ticket: ticketId || null
     });
 
-    if (io) {
-      const fechaTxt = new Date(notifDoc.fecha).toLocaleString('es-MX', {
-        year: '2-digit',
-        month: '2-digit',
-        day: '2-digit',
-        hour: '2-digit',
-        minute: '2-digit'
-      });
+    emitirNotificacion(io, notifDoc, tipo);
 
-      io.to(`user:${usuarioId.toString()}`).emit('nuevaNotificacion', {
-        titulo: notifDoc.titulo,
-        fecha: fechaTxt,
-        tipo: notifDoc.tipo || tipo || 'general',
-        leida: !!notifDoc.leida
-      });
-    }
+    const user = await User.findById(usuarioId, 'correo nombre').lean();
+    const emailMessage = await buildTicketEmailMessage(notifDoc.titulo, tipo, ticketId);
+
+    await sendTicketNotificationEmail({
+      to: user?.correo,
+      subject: notifDoc.titulo,
+      title: notifDoc.titulo,
+      message: emailMessage
+    });
   } catch (e) {
     console.error('Error creando notificación para usuario:', e);
   }
@@ -203,7 +273,7 @@ router.post('/', verifyToken, async (req, res) => {
 
     const io = req.app.get('io');
     const tituloNotif = `Nuevo ticket (${nuevo.tipo || '—'}) - ${nuevo.folio || nuevo.descripcion || 'Sin folio'}`;
-    await notificarAdminsFinanzas(io, tituloNotif, 'nuevo');
+    await notificarAdminsFinanzas(io, tituloNotif, 'nuevo', nuevo._id);
 
     if (io) {
       io.emit('ticketsActualizados', {
@@ -493,12 +563,20 @@ router.put('/:id', verifyToken, async (req, res) => {
       const tituloNotif = `Ticket resuelto (${ticket.tipo || '—'}) - ${
         ticket.folio || ticket.descripcion || 'Sin folio'
       }`;
-      await notificarAdminsFinanzas(io, tituloNotif, 'resuelto');
+      await notificarAdminsFinanzas(io, tituloNotif, 'resuelto', ticket._id);
+
+      await notificarUsuario(
+        io,
+        ticket.creadoPor,
+        `Tu ticket fue resuelto (${ticket.tipo || '-'}) - ${ticketLabel(ticket)}`,
+        'resuelto',
+        ticket._id
+      );
     }
 
     if (ticketCerradoPorUsuario && ticket.asignadoA) {
       try {
-        const tecnico = await User.findById(ticket.asignadoA, 'roles rol');
+        const tecnico = await User.findById(ticket.asignadoA, 'roles rol correo');
 
         const rolesTec = [
           ...(tecnico?.roles || []),
@@ -516,7 +594,7 @@ router.put('/:id', verifyToken, async (req, res) => {
             ticket.folio || ticket.descripcion || 'Sin folio'
           }`;
 
-          await notificarUsuario(io, ticket.asignadoA, tituloNotif, 'cerrado_usuario');
+          await notificarUsuario(io, ticket.asignadoA, tituloNotif, 'cerrado_usuario', ticket._id);
         }
       } catch (e) {
         console.error('Error creando notificación de cierre por usuario:', e);
@@ -543,7 +621,8 @@ router.put('/:id', verifyToken, async (req, res) => {
             titulo: `Prioridad cambiada a ${ticket.prioridad} – ${
               (ticket.folio || ticket.descripcion || 'Ticket').toString().slice(0, 60)
             }`,
-            tipo: 'prioridad'
+            tipo: 'prioridad',
+            ticket: ticket._id
           });
 
           if (io) {
@@ -562,10 +641,27 @@ router.put('/:id', verifyToken, async (req, res) => {
               leida: false
             });
           }
+
+          await sendTicketNotificationEmail({
+            to: tecnico?.correo,
+            subject: notifDoc.titulo,
+            title: notifDoc.titulo,
+            message: await buildTicketEmailMessage(notifDoc.titulo, 'prioridad', ticket._id)
+          });
         }
       } catch (e) {
         console.error('Error creando notificación de cambio de prioridad:', e);
       }
+    }
+
+    if (cambioDePrioridad) {
+      await notificarUsuario(
+        io,
+        ticket.creadoPor,
+        `La prioridad de tu ticket cambio a ${ticket.prioridad} - ${ticketLabel(ticket)}`,
+        'prioridad',
+        ticket._id
+      );
     }
 
     const asignadoNuevo = ticket.asignadoA ? ticket.asignadoA.toString() : null;
@@ -577,7 +673,8 @@ router.put('/:id', verifyToken, async (req, res) => {
           titulo: `Se te asignó un ticket (${ticket.tipo || '—'}) - ${
             ticket.folio || ticket.descripcion || 'Sin folio'
           }`,
-          tipo: 'asignado'
+          tipo: 'asignado',
+          ticket: ticket._id
         });
 
         if (io) {
@@ -598,6 +695,14 @@ router.put('/:id', verifyToken, async (req, res) => {
 
           io.to(`user:${asignadoNuevo}`).emit('nuevaNotificacion', payload);
         }
+
+        const userAsignado = await User.findById(asignadoNuevo, 'correo nombre').lean();
+        await sendTicketNotificationEmail({
+          to: userAsignado?.correo,
+          subject: notifDoc.titulo,
+          title: notifDoc.titulo,
+          message: await buildTicketEmailMessage(notifDoc.titulo, 'asignado', ticket._id)
+        });
       } catch (e) {
         console.error('Error creando notificación de asignación:', e);
       }
@@ -638,6 +743,16 @@ router.post('/:id/comentarios-admin', verifyToken, async (req, res) => {
     await t.save();
 
     const io = req.app.get('io');
+    if (String(t.creadoPor) !== String(req.usuario?.id)) {
+      await notificarUsuario(
+        io,
+        t.creadoPor,
+        `Nuevo comentario en tu ticket - ${ticketLabel(t)}`,
+        'comentario',
+        t._id
+      );
+    }
+
     if (io) {
       io.emit('ticketsActualizados', {
         accion: 'comentario-admin',
@@ -691,6 +806,16 @@ router.post('/:id/comentarios', verifyToken, async (req, res) => {
     await ticket.save();
 
     const io = req.app.get('io');
+    if (String(ticket.creadoPor) !== String(req.usuario?.id)) {
+      await notificarUsuario(
+        io,
+        ticket.creadoPor,
+        `Nuevo comentario en tu ticket - ${ticketLabel(ticket)}`,
+        'comentario',
+        ticket._id
+      );
+    }
+
     if (io) {
       io.emit('ticketsActualizados', {
         accion: 'comentario',
@@ -963,7 +1088,7 @@ router.delete('/:id', verifyToken, verifyRole(['admin', 'finanzas']), async (req
 
     const io = req.app.get('io');
     const tituloNotif = `Ticket eliminado (${tipoTicket}) - ${folioTicket}`;
-    await notificarAdminsFinanzas(io, tituloNotif, 'eliminado');
+    await notificarAdminsFinanzas(io, tituloNotif, 'eliminado', id);
 
     if (io) {
       io.emit('ticketsActualizados', {

@@ -390,16 +390,23 @@ async function cargarNotificacionesServidor() {
     const esTecLike =
       roles.includes("soporte") || roles.includes("mantenimiento");
 
-    let tiposPermitidos = [];
+    const tiposPermitidos = new Set(["resuelto", "prioridad", "comentario"]);
 
-    if (esAdminLike) tiposPermitidos.push("nuevo", "resuelto");
-    if (esTecLike) tiposPermitidos.push("asignado", "prioridad");
+    if (esAdminLike) {
+      tiposPermitidos.add("nuevo");
+      tiposPermitidos.add("eliminado");
+    }
 
-    if (!tiposPermitidos.length) {
+    if (esTecLike) {
+      tiposPermitidos.add("asignado");
+      tiposPermitidos.add("cerrado_usuario");
+    }
+
+    if (!tiposPermitidos.size) {
       notifLista = [];
     } else {
       notifLista = data
-        .filter((n) => tiposPermitidos.includes(n.tipo))
+        .filter((n) => tiposPermitidos.has(n.tipo))
         .map((n) => {
           const fechaTxt = new Date(n.fecha).toLocaleString("es-MX", {
             year: "2-digit",
@@ -482,6 +489,10 @@ function renderNotificaciones() {
       else if (n.tipo === "prioridad") icono = "⚠️";
       else if (n.tipo === "asignado") icono = "📌";
       else if (n.tipo === "resuelto") icono = "✅";
+
+      if (n.tipo === "cerrado_usuario") icono = "✅";
+      else if (n.tipo === "comentario") icono = "💬";
+      else if (n.tipo === "eliminado") icono = "🗑️";
 
       html += `
         <li>
