@@ -120,6 +120,21 @@ async function buildTicketEmailMessage(titulo, tipo = 'general', ticketId = null
   ].join('\n');
 }
 
+function enviarCorreoTicketEnSegundoPlano({ to, subject, title, tipo = 'general', ticketId = null }) {
+  if (!to) return;
+
+  buildTicketEmailMessage(title || subject, tipo, ticketId)
+    .then(message => sendTicketNotificationEmail({
+      to,
+      subject,
+      title,
+      message
+    }))
+    .catch(error => {
+      console.error('Error preparando correo de ticket:', error.message || error);
+    });
+}
+
 function formatFechaNotificacion(fecha) {
   return new Date(fecha).toLocaleString('es-MX', {
     year: '2-digit',
@@ -172,17 +187,16 @@ async function notificarAdminsFinanzas(io, titulo, tipo = 'general', ticketId = 
       creadas.forEach(notifDoc => emitirNotificacion(io, notifDoc, tipo));
     }
 
-    const emailMessage = await buildTicketEmailMessage(titulo, tipo, ticketId);
-
-    await Promise.all(creadas.map((notifDoc, index) => {
+    creadas.forEach((notifDoc, index) => {
       const user = admins[index];
-      return sendTicketNotificationEmail({
+      enviarCorreoTicketEnSegundoPlano({
         to: user?.correo,
         subject: notifDoc.titulo,
         title: notifDoc.titulo,
-        message: emailMessage
+        tipo,
+        ticketId
       });
-    }));
+    });
   } catch (e) {
     console.error('Error creando notificación para admin/finanzas:', e);
   }
@@ -202,13 +216,12 @@ async function notificarUsuario(io, usuarioId, titulo, tipo = 'general', ticketI
     emitirNotificacion(io, notifDoc, tipo);
 
     const user = await User.findById(usuarioId, 'correo nombre').lean();
-    const emailMessage = await buildTicketEmailMessage(notifDoc.titulo, tipo, ticketId);
-
-    await sendTicketNotificationEmail({
+    enviarCorreoTicketEnSegundoPlano({
       to: user?.correo,
       subject: notifDoc.titulo,
       title: notifDoc.titulo,
-      message: emailMessage
+      tipo,
+      ticketId
     });
   } catch (e) {
     console.error('Error creando notificación para usuario:', e);
@@ -642,11 +655,12 @@ router.put('/:id', verifyToken, async (req, res) => {
             });
           }
 
-          await sendTicketNotificationEmail({
+          enviarCorreoTicketEnSegundoPlano({
             to: tecnico?.correo,
             subject: notifDoc.titulo,
             title: notifDoc.titulo,
-            message: await buildTicketEmailMessage(notifDoc.titulo, 'prioridad', ticket._id)
+            tipo: 'prioridad',
+            ticketId: ticket._id
           });
         }
       } catch (e) {
@@ -697,11 +711,12 @@ router.put('/:id', verifyToken, async (req, res) => {
         }
 
         const userAsignado = await User.findById(asignadoNuevo, 'correo nombre').lean();
-        await sendTicketNotificationEmail({
+        enviarCorreoTicketEnSegundoPlano({
           to: userAsignado?.correo,
           subject: notifDoc.titulo,
           title: notifDoc.titulo,
-          message: await buildTicketEmailMessage(notifDoc.titulo, 'asignado', ticket._id)
+          tipo: 'asignado',
+          ticketId: ticket._id
         });
       } catch (e) {
         console.error('Error creando notificación de asignación:', e);

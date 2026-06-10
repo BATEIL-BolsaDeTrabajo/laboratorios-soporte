@@ -30,7 +30,10 @@ function getTransporter() {
     host: cfg.host,
     port: cfg.port,
     secure: cfg.secure,
-    auth: cfg.auth
+    auth: cfg.auth,
+    connectionTimeout: Number(process.env.MAIL_CONNECTION_TIMEOUT || 10000),
+    greetingTimeout: Number(process.env.MAIL_GREETING_TIMEOUT || 10000),
+    socketTimeout: Number(process.env.MAIL_SOCKET_TIMEOUT || 15000)
   });
 
   return transporter;
