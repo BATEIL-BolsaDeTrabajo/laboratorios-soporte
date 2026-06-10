@@ -22,6 +22,13 @@ function isMailConfigured() {
   return !!(cfg.host && cfg.auth.user && cfg.auth.pass && cfg.from);
 }
 
+function maskEmail(email = '') {
+  const [name, domain] = String(email).split('@');
+  if (!name || !domain) return 'correo-no-valido';
+  const visible = name.slice(0, 2);
+  return `${visible}***@${domain}`;
+}
+
 function getTransporter() {
   if (transporter) return transporter;
 
@@ -49,7 +56,15 @@ function escapeHtml(value = '') {
 }
 
 async function sendTicketNotificationEmail({ to, subject, title, message }) {
-  if (!to || !isMailConfigured()) return;
+  if (!to) {
+    console.warn('Correo no enviado: destinatario vacio.');
+    return;
+  }
+
+  if (!isMailConfigured()) {
+    console.warn('Correo no enviado: faltan variables MAIL_HOST, MAIL_USER, MAIL_PASS o MAIL_FROM.');
+    return;
+  }
 
   const mailer = getTransporter();
   const safeTitle = title || subject || 'Notificacion de ticket';
@@ -58,7 +73,9 @@ async function sendTicketNotificationEmail({ to, subject, title, message }) {
   try {
     const htmlMessage = escapeHtml(safeMessage).replace(/\n/g, '<br>');
 
-    await mailer.sendMail({
+    console.log(`Enviando correo de ticket a ${maskEmail(to)}: ${subject || safeTitle}`);
+
+    const info = await mailer.sendMail({
       from: getMailConfig().from,
       to,
       subject: subject || safeTitle,
@@ -73,8 +90,17 @@ async function sendTicketNotificationEmail({ to, subject, title, message }) {
         </div>
       `
     });
+
+    console.log(`Correo enviado a ${maskEmail(to)}. messageId=${info.messageId || 'sin-id'}`);
   } catch (error) {
-    console.error('Error enviando correo de notificacion:', error.message || error);
+    console.error('Error enviando correo de notificacion:', {
+      to: maskEmail(to),
+      code: error.code,
+      command: error.command,
+      responseCode: error.responseCode,
+      response: error.response,
+      message: error.message
+    });
   }
 }
 
