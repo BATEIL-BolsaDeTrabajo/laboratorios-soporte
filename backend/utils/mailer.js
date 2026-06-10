@@ -37,6 +37,7 @@ function getTransporter() {
     host: cfg.host,
     port: cfg.port,
     secure: cfg.secure,
+    family: Number(process.env.MAIL_FAMILY || 4),
     auth: cfg.auth,
     connectionTimeout: Number(process.env.MAIL_CONNECTION_TIMEOUT || 10000),
     greetingTimeout: Number(process.env.MAIL_GREETING_TIMEOUT || 10000),
