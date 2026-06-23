@@ -4,12 +4,23 @@ function normalizeWhatsappNumber(value = '') {
   return String(value).replace(/[^\d]/g, '');
 }
 
+function maskWhatsappNumber(value = '') {
+  const number = normalizeWhatsappNumber(value);
+  if (!number) return 'sin numero';
+  return `${'*'.repeat(Math.max(0, number.length - 4))}${number.slice(-4)}`;
+}
+
 function postWhatsappMessage(to, payloadBody) {
   const token = process.env.WHATSAPP_ACCESS_TOKEN;
   const phoneNumberId = process.env.WHATSAPP_PHONE_NUMBER_ID;
   const cleanTo = normalizeWhatsappNumber(to);
 
   if (!token || !phoneNumberId || !cleanTo) {
+    console.warn('WhatsApp no enviado:', {
+      accessTokenConfigured: Boolean(token),
+      phoneNumberIdConfigured: Boolean(phoneNumberId),
+      destinatario: maskWhatsappNumber(to)
+    });
     return Promise.resolve(false);
   }
 
@@ -38,7 +49,10 @@ function postWhatsappMessage(to, payloadBody) {
           data += chunk;
         });
         res.on('end', () => {
-          if (res.statusCode >= 200 && res.statusCode < 300) return resolve(true);
+          if (res.statusCode >= 200 && res.statusCode < 300) {
+            console.log(`WhatsApp enviado a ${maskWhatsappNumber(cleanTo)}`);
+            return resolve(true);
+          }
           console.error('Error enviando WhatsApp:', res.statusCode, data);
           resolve(false);
         });
