@@ -1,0 +1,18 @@
+[
+  {
+    "_id": {
+      "$oid": "685af7257e5225ca036a86e4"
+    },
+    "laboratorio": "Lab 1",
+    "equipo": "PC3",
+    "tipoFalla": "Mouse",
+    "descripcion": "",
+    "reportadoPor": {
+      "$oid": "685aebb013bf3eff09f102ec"
+    },
+    "fecha": {
+      "$date": "2025-06-24T19:06:13.673Z"
+    },
+    "__v": 0
+  }
+]

@@ -45,6 +45,7 @@
         const data = await res.json();
 
         data.forEach((u) => {
+          const departamentoActual = String(u.departamento || "").trim().toLowerCase();
           const fila = document.createElement("tr");
           fila.innerHTML = `
             <td>${u.nombre}</td>
@@ -59,7 +60,10 @@
               <input type="text" class="form-control form-control-sm" id="puesto-${u._id}" value="${u.puesto ?? ""}">
             </td>
             <td>
-              <input type="text" class="form-control form-control-sm" id="depto-${u._id}" value="${u.departamento ?? ""}">
+              <select class="form-select form-select-sm" id="depto-${u._id}">
+                <option value="administrativo" ${departamentoActual === "administrativo" ? "selected" : ""}>administrativo</option>
+                <option value="academico" ${departamentoActual === "academico" ? "selected" : ""}>academico</option>
+              </select>
             </td>
             <td>
               <button class="btn btn-sm btn-primary" onclick="actualizar('${u._id}')">💾 Guardar</button>

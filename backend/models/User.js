@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 const userSchema = new mongoose.Schema({
   nombre: { type: String, required: true },
   correo: { type: String, required: true, unique: true },
+  telefonoWhatsapp: { type: String, default: '' },
   contraseña: { type: String, required: true },
   roles: {
     type: [String],
@@ -10,6 +11,10 @@ const userSchema = new mongoose.Schema({
     default: ['docente']
   },
   diasVacacionesDisponibles: {
+    type: Number,
+    default: 0
+  },
+  diasVacacionesAcumulados: {
     type: Number,
     default: 0
   },

@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Asignacion de Equipo - Almacen</title>
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+
+  <style>
+    .tabla-scroll {
+      max-height: calc(100vh - 330px);
+      overflow: auto;
+      border: 1px solid rgba(0,0,0,.125);
+      border-radius: .5rem;
+      background: #fff;
+    }
+
+    .tabla-scroll thead th {
+      position: sticky;
+      top: 0;
+      z-index: 2;
+      background: #f8f9fa;
+    }
+
+    .equipos-lista {
+      display: flex;
+      flex-wrap: wrap;
+      gap: .4rem;
+    }
+
+    .equipo-chip {
+      border: 1px solid #d7dbe2;
+      border-radius: 6px;
+      padding: .25rem .45rem;
+      background: #fff;
+      font-size: .875rem;
+    }
+
+    .detalle-equipo {
+      border: 1px solid #d7dbe2;
+      border-radius: 8px;
+      padding: 1rem;
+      background: #fff;
+    }
+
+    #modalEquipo .modal-dialog,
+    #modalDetalle .modal-dialog,
+    #modalRetiro .modal-dialog {
+      margin-top: 6rem;
+    }
+
+    .btn-retirar-equipo {
+      color: #842029 !important;
+      background-color: #ffffff;
+      border-color: #842029;
+    }
+
+    .btn-retirar-equipo:hover,
+    .btn-retirar-equipo:focus {
+      color: #ffffff !important;
+      background-color: #842029;
+      border-color: #842029;
+    }
+  </style>
+</head>
+
+<body class="bg-light">
+  <div id="navbar-container"></div>
+
+  <div class="container py-4">
+    <div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-3">
+      <div>
+        <a href="/almacen/dashboard-almacen.html" class="btn btn-secondary mb-3">&larr; Regresar</a>
+        <h2 class="mb-0">Asignacion de Equipo</h2>
+      </div>
+      <div class="d-flex gap-2">
+        <button class="btn btn-outline-dark" type="button" onclick="exportarExcel()">Exportar Excel</button>
+        <button class="btn btn-primary" type="button" onclick="abrirNuevoEquipo()">+ Nueva asignacion</button>
+      </div>
+    </div>
+
+    <div class="card mb-3">
+      <div class="card-body">
+        <div class="row g-3">
+          <div class="col-md-5">
+            <label class="form-label">Buscar</label>
+            <input type="text" id="filtroTexto" class="form-control" placeholder="Colaborador, correo, equipo, serie...">
+          </div>
+          <div class="col-md-3">
+            <label class="form-label">Area</label>
+            <input type="text" id="filtroDepartamento" class="form-control" placeholder="Departamento">
+          </div>
+          <div class="col-md-2">
+            <label class="form-label">Estado</label>
+            <select id="filtroEstado" class="form-select">
+              <option value="activo">Activos</option>
+              <option value="retirado">Retirados</option>
+              <option value="todos">Todos</option>
+            </select>
+          </div>
+          <div class="col-md-2 d-flex align-items-end">
+            <button class="btn btn-dark w-100" type="button" onclick="cargarAsignaciones()">Filtrar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="tabla-scroll">
+      <table class="table table-bordered table-hover align-middle mb-0" id="tablaAsignaciones">
+        <thead class="table-light">
+          <tr>
+            <th>Colaborador</th>
+            <th>Area</th>
+            <th>Cantidad</th>
+            <th>Equipos asignados</th>
+            <th>Ultima asignacion</th>
+            <th width="280">Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td colspan="6" class="text-center text-muted">Cargando...</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="modal fade" id="modalEquipo" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <form id="formEquipo">
+          <div class="modal-header">
+            <h5 class="modal-title" id="modalEquipoTitulo">Nueva asignacion</h5>
+            <button class="btn-close" data-bs-dismiss="modal" type="button"></button>
+          </div>
+
+          <div class="modal-body">
+            <input type="hidden" id="asignacionId">
+
+            <div class="row g-3">
+              <div class="col-md-6">
+                <label class="form-label">Colaborador</label>
+                <select id="equipoColaborador" class="form-select" required></select>
+              </div>
+
+              <div class="col-md-6">
+                <label class="form-label">Fecha de asignacion</label>
+                <input type="date" id="equipoFecha" class="form-control" required>
+              </div>
+
+              <div class="col-md-4">
+                <label class="form-label">Tipo de equipo</label>
+                <input list="tiposEquipo" id="equipoTipo" class="form-control" required>
+                <datalist id="tiposEquipo">
+                  <option value="CPU"></option>
+                  <option value="Monitor"></option>
+                  <option value="Laptop"></option>
+                  <option value="Impresora"></option>
+                  <option value="Radio"></option>
+                  <option value="Teclado"></option>
+                  <option value="Mouse"></option>
+                  <option value="Proyector"></option>
+                  <option value="Tablet"></option>
+                  <option value="Telefono IP"></option>
+                </datalist>
+              </div>
+
+              <div class="col-md-4">
+                <label class="form-label">Marca</label>
+                <input type="text" id="equipoMarca" class="form-control" required>
+              </div>
+
+              <div class="col-md-4">
+                <label class="form-label">Modelo</label>
+                <input type="text" id="equipoModelo" class="form-control" required>
+              </div>
+
+              <div class="col-md-4">
+                <label class="form-label">Numero de serie</label>
+                <input type="text" id="equipoSerie" class="form-control" required>
+              </div>
+
+              <div class="col-md-4">
+                <label class="form-label">Numero de inventario</label>
+                <input type="text" id="equipoInventario" class="form-control">
+              </div>
+
+              <div class="col-md-4">
+                <label class="form-label">Estado del equipo</label>
+                <select id="equipoEstado" class="form-select" required>
+                  <option value="bueno">Bueno</option>
+                  <option value="regular">Regular</option>
+                  <option value="requiere_mantenimiento">Requiere mantenimiento</option>
+                </select>
+              </div>
+
+              <div class="col-12">
+                <label class="form-label">Observaciones</label>
+                <textarea id="equipoObservaciones" class="form-control" rows="3"></textarea>
+              </div>
+            </div>
+          </div>
+
+          <div class="modal-footer">
+            <button class="btn btn-secondary" data-bs-dismiss="modal" type="button">Cancelar</button>
+            <button class="btn btn-primary" type="submit">Guardar</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal fade" id="modalDetalle" tabindex="-1">
+    <div class="modal-dialog modal-xl">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="detalleTitulo">Detalle</h5>
+          <button class="btn-close" data-bs-dismiss="modal" type="button"></button>
+        </div>
+        <div class="modal-body" id="detalleContenido"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal fade" id="modalRetiro" tabindex="-1">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <form id="formRetiro">
+          <div class="modal-header">
+            <h5 class="modal-title">Retirar equipo</h5>
+            <button class="btn-close" data-bs-dismiss="modal" type="button"></button>
+          </div>
+          <div class="modal-body">
+            <input type="hidden" id="retiroAsignacionId">
+            <label class="form-label">Motivo del retiro</label>
+            <textarea id="retiroMotivo" class="form-control" rows="3"></textarea>
+          </div>
+          <div class="modal-footer">
+            <button class="btn btn-secondary" data-bs-dismiss="modal" type="button">Cancelar</button>
+            <button class="btn btn-danger" type="submit">Retirar</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <script src="../js/navbar.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+  <script>
+    const token = localStorage.getItem("token");
+    if (!token) window.location.href = "/login.html";
+
+    const estadoLabels = {
+      bueno: "Bueno",
+      regular: "Regular",
+      requiere_mantenimiento: "Requiere mantenimiento"
+    };
+
+    let colaboradores = [];
+    let filasActuales = [];
+    let modalEquipo;
+    let modalDetalle;
+    let modalRetiro;
+    let filtroTimer;
+
+    function escapeHtml(value) {
+      return String(value ?? "")
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
+    }
+
+    function fmtFecha(value) {
+      if (!value) return "-";
+      const d = new Date(value);
+      if (Number.isNaN(d.getTime())) return "-";
+      const pad = n => String(n).padStart(2, "0");
+      return `${pad(d.getDate())}/${pad(d.getMonth() + 1)}/${d.getFullYear()}`;
+    }
+
+    function fechaInput(value) {
+      const d = value ? new Date(value) : new Date();
+      if (Number.isNaN(d.getTime())) return new Date().toISOString().slice(0, 10);
+      return d.toISOString().slice(0, 10);
+    }
+
+    async function api(url, options = {}) {
+      const res = await fetch(url, {
+        ...options,
+        headers: {
+          "Authorization": "Bearer " + token,
+          "Content-Type": "application/json",
+          ...(options.headers || {})
+        }
+      });
+
+      if (res.status === 401) {
+        window.location.href = "/login.html";
+        return null;
+      }
+
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) throw new Error(data.mensaje || "Error en la solicitud");
+      return data;
+    }
+
+    async function cargarColaboradores() {
+      const data = await api("/api/almacen/asignaciones-equipo/colaboradores");
+      colaboradores = data?.colaboradores || [];
+
+      const options = colaboradores.map(c => {
+        const area = c.departamento ? ` - ${c.departamento}` : "";
+        return `<option value="${c._id}">${escapeHtml(c.nombre)}${escapeHtml(area)}</option>`;
+      }).join("");
+
+      document.getElementById("equipoColaborador").innerHTML = `<option value="">Selecciona...</option>${options}`;
+    }
+
+    async function cargarAsignaciones() {
+      const tbody = document.querySelector("#tablaAsignaciones tbody");
+      tbody.innerHTML = `<tr><td colspan="6" class="text-center text-muted">Cargando...</td></tr>`;
+
+      const params = new URLSearchParams({
+        q: document.getElementById("filtroTexto").value.trim(),
+        departamento: document.getElementById("filtroDepartamento").value.trim(),
+        estado: document.getElementById("filtroEstado").value
+      });
+
+      try {
+        const data = await api(`/api/almacen/asignaciones-equipo?${params.toString()}`);
+        filasActuales = data?.colaboradores || [];
+        renderTabla();
+      } catch (err) {
+        tbody.innerHTML = `<tr><td colspan="6" class="text-center text-danger">${escapeHtml(err.message)}</td></tr>`;
+      }
+    }
+
+    function renderTabla() {
+      const tbody = document.querySelector("#tablaAsignaciones tbody");
+
+      if (!filasActuales.length) {
+        tbody.innerHTML = `<tr><td colspan="6" class="text-center text-muted">Sin datos.</td></tr>`;
+        return;
+      }
+
+      tbody.innerHTML = filasActuales.map((fila, index) => {
+        const c = fila.colaborador || {};
+        const equipos = fila.equipos || [];
+        const chips = equipos.length
+          ? equipos.slice(0, 4).map(e => `<span class="equipo-chip">${escapeHtml(e.tipoEquipo)} ${escapeHtml(e.marca)} ${escapeHtml(e.modelo)}</span>`).join("")
+          : `<span class="text-muted">Sin equipos asignados</span>`;
+
+        return `
+          <tr>
+            <td>
+              <div class="fw-bold">${escapeHtml(c.nombre)}</div>
+              <div class="small text-muted">${escapeHtml(c.correo || "")}</div>
+            </td>
+            <td>
+              <div>${escapeHtml(c.departamento || "-")}</div>
+              <div class="small text-muted">${escapeHtml(c.puesto || "")}</div>
+            </td>
+            <td>${fila.cantidadEquipos || 0}</td>
+            <td><div class="equipos-lista">${chips}</div></td>
+            <td>${fmtFecha(fila.ultimaAsignacion)}</td>
+            <td>
+              <div class="d-flex flex-wrap gap-1">
+                <button class="btn btn-sm btn-outline-dark" type="button" onclick="verDetalle(${index})">Ver detalle</button>
+                <button class="btn btn-sm btn-primary" type="button" onclick="abrirNuevoEquipo('${c._id}')">Agregar equipo</button>
+                ${equipos.length ? `<button class="btn btn-sm btn-retirar-equipo" type="button" onclick="abrirRetiroDesdeFila(${index})">Retirar equipo</button>` : ""}
+              </div>
+            </td>
+          </tr>
+        `;
+      }).join("");
+    }
+
+    function abrirNuevoEquipo(colaboradorId = "") {
+      document.getElementById("formEquipo").reset();
+      document.getElementById("modalEquipoTitulo").textContent = "Nueva asignacion";
+      document.getElementById("asignacionId").value = "";
+      document.getElementById("equipoFecha").value = fechaInput();
+      document.getElementById("equipoColaborador").disabled = false;
+      if (colaboradorId) document.getElementById("equipoColaborador").value = colaboradorId;
+      modalEquipo.show();
+    }
+
+    function abrirEditarEquipo(asignacionId) {
+      const equipo = buscarEquipo(asignacionId);
+      if (!equipo) return;
+
+      document.getElementById("modalEquipoTitulo").textContent = "Editar equipo";
+      document.getElementById("asignacionId").value = equipo._id;
+      document.getElementById("equipoColaborador").value = equipo.colaborador?._id || equipo.colaborador || "";
+      document.getElementById("equipoColaborador").disabled = true;
+      document.getElementById("equipoFecha").value = fechaInput(equipo.fechaAsignacion);
+      document.getElementById("equipoTipo").value = equipo.tipoEquipo || "";
+      document.getElementById("equipoMarca").value = equipo.marca || "";
+      document.getElementById("equipoModelo").value = equipo.modelo || "";
+      document.getElementById("equipoSerie").value = equipo.numeroSerie || "";
+      document.getElementById("equipoInventario").value = equipo.numeroInventario || "";
+      document.getElementById("equipoEstado").value = equipo.estadoEquipo || "bueno";
+      document.getElementById("equipoObservaciones").value = equipo.observaciones || "";
+
+      if (document.getElementById("modalDetalle").classList.contains("show")) {
+        document.getElementById("modalDetalle").addEventListener("hidden.bs.modal", () => {
+          modalEquipo.show();
+        }, { once: true });
+        modalDetalle.hide();
+        return;
+      }
+
+      modalEquipo.show();
+    }
+
+    function buscarEquipo(asignacionId) {
+      for (const fila of filasActuales) {
+        const equipo = (fila.equipos || []).find(e => e._id === asignacionId);
+        if (equipo) return equipo;
+      }
+      return null;
+    }
+
+    function verDetalle(index) {
+      const fila = filasActuales[index];
+      const c = fila.colaborador || {};
+      const equipos = fila.equipos || [];
+
+      document.getElementById("detalleTitulo").textContent = c.nombre || "Detalle";
+
+      if (!equipos.length) {
+        document.getElementById("detalleContenido").innerHTML = `<p class="text-muted mb-0">Este colaborador no tiene equipos asignados con el filtro actual.</p>`;
+        modalDetalle.show();
+        return;
+      }
+
+      document.getElementById("detalleContenido").innerHTML = equipos.map(e => {
+        const historial = (e.historial || []).slice().reverse().map(h => `
+          <tr>
+            <td>${fmtFecha(h.fecha)}</td>
+            <td>${escapeHtml(h.accion)}</td>
+            <td>${escapeHtml(h.descripcion)}</td>
+            <td>${escapeHtml(h.usuario?.nombre || "-")}</td>
+          </tr>
+        `).join("");
+
+        return `
+          <div class="detalle-equipo mb-3">
+            <div class="d-flex flex-wrap justify-content-between gap-2">
+              <div>
+                <h5 class="mb-1">${escapeHtml(e.tipoEquipo)} ${escapeHtml(e.marca)} ${escapeHtml(e.modelo)}</h5>
+                <div class="text-muted small">Serie: ${escapeHtml(e.numeroSerie)} | Inventario: ${escapeHtml(e.numeroInventario || "-")}</div>
+              </div>
+              <div class="d-flex gap-1">
+                <button class="btn btn-sm btn-outline-dark" type="button" onclick="abrirEditarEquipo('${e._id}')">Editar</button>
+                ${e.estadoAsignacion === "activo" ? `<button class="btn btn-sm btn-retirar-equipo" type="button" onclick="abrirRetiro('${e._id}')">Retirar</button>` : ""}
+              </div>
+            </div>
+            <div class="row g-2 mt-2">
+              <div class="col-md-3"><strong>Estado:</strong> ${escapeHtml(estadoLabels[e.estadoEquipo] || e.estadoEquipo)}</div>
+              <div class="col-md-3"><strong>Asignado:</strong> ${fmtFecha(e.fechaAsignacion)}</div>
+              <div class="col-md-3"><strong>Asignacion:</strong> ${escapeHtml(e.estadoAsignacion)}</div>
+              <div class="col-md-3"><strong>Retiro:</strong> ${fmtFecha(e.fechaRetiro)}</div>
+              <div class="col-12"><strong>Observaciones:</strong> ${escapeHtml(e.observaciones || "-")}</div>
+            </div>
+            <div class="table-responsive mt-3">
+              <table class="table table-sm table-bordered mb-0">
+                <thead class="table-light">
+                  <tr>
+                    <th>Fecha</th>
+                    <th>Movimiento</th>
+                    <th>Descripcion</th>
+                    <th>Usuario</th>
+                  </tr>
+                </thead>
+                <tbody>${historial || `<tr><td colspan="4" class="text-center text-muted">Sin historial.</td></tr>`}</tbody>
+              </table>
+            </div>
+          </div>
+        `;
+      }).join("");
+
+      modalDetalle.show();
+    }
+
+    function abrirRetiro(asignacionId) {
+      document.getElementById("retiroAsignacionId").value = asignacionId;
+      document.getElementById("retiroMotivo").value = "";
+      modalRetiro.show();
+    }
+
+    function abrirRetiroDesdeFila(index) {
+      const equipos = (filasActuales[index]?.equipos || []).filter(e => e.estadoAsignacion === "activo");
+      if (!equipos.length) return;
+
+      if (equipos.length === 1) {
+        abrirRetiro(equipos[0]._id);
+        return;
+      }
+
+      verDetalle(index);
+    }
+
+    document.getElementById("formEquipo").addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      const asignacionId = document.getElementById("asignacionId").value;
+      const payload = {
+        colaborador: document.getElementById("equipoColaborador").value,
+        tipoEquipo: document.getElementById("equipoTipo").value,
+        marca: document.getElementById("equipoMarca").value,
+        modelo: document.getElementById("equipoModelo").value,
+        numeroSerie: document.getElementById("equipoSerie").value,
+        numeroInventario: document.getElementById("equipoInventario").value,
+        estadoEquipo: document.getElementById("equipoEstado").value,
+        fechaAsignacion: document.getElementById("equipoFecha").value,
+        observaciones: document.getElementById("equipoObservaciones").value
+      };
+
+      try {
+        if (asignacionId) {
+          await api(`/api/almacen/asignaciones-equipo/${asignacionId}`, {
+            method: "PUT",
+            body: JSON.stringify(payload)
+          });
+        } else {
+          await api("/api/almacen/asignaciones-equipo", {
+            method: "POST",
+            body: JSON.stringify(payload)
+          });
+        }
+
+        modalEquipo.hide();
+        await cargarAsignaciones();
+      } catch (err) {
+        alert(err.message);
+      }
+    });
+
+    document.getElementById("formRetiro").addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      const asignacionId = document.getElementById("retiroAsignacionId").value;
+      const motivoRetiro = document.getElementById("retiroMotivo").value;
+
+      try {
+        await api(`/api/almacen/asignaciones-equipo/${asignacionId}/retirar`, {
+          method: "PATCH",
+          body: JSON.stringify({ motivoRetiro })
+        });
+
+        modalRetiro.hide();
+        modalDetalle.hide();
+        await cargarAsignaciones();
+      } catch (err) {
+        alert(err.message);
+      }
+    });
+
+    async function exportarExcel() {
+      try {
+        const res = await fetch("/api/almacen/asignaciones-equipo/export", {
+          headers: { "Authorization": "Bearer " + token }
+        });
+
+        if (!res.ok) throw new Error("No se pudo exportar el archivo.");
+
+        const blob = await res.blob();
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = "equipos-asignados.xlsx";
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+        URL.revokeObjectURL(url);
+      } catch (err) {
+        alert(err.message);
+      }
+    }
+
+    function filtrarAutomaticamente() {
+      clearTimeout(filtroTimer);
+      filtroTimer = setTimeout(cargarAsignaciones, 300);
+    }
+
+    document.addEventListener("DOMContentLoaded", async () => {
+      modalEquipo = new bootstrap.Modal(document.getElementById("modalEquipo"));
+      modalDetalle = new bootstrap.Modal(document.getElementById("modalDetalle"));
+      modalRetiro = new bootstrap.Modal(document.getElementById("modalRetiro"));
+
+      document.getElementById("filtroTexto").addEventListener("input", filtrarAutomaticamente);
+
+      await cargarColaboradores();
+      await cargarAsignaciones();
+    });
+  </script>
+</body>
+</html>

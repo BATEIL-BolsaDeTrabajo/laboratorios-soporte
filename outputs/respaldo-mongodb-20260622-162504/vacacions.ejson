@@ -1,0 +1,92 @@
+[
+  {
+    "_id": {
+      "$oid": "6862a6c9c9b690df50d6f8bb"
+    },
+    "solicitante": {
+      "$oid": "685aebb013bf3eff09f102ec"
+    },
+    "fechaInicio": {
+      "$date": "2025-07-01T18:00:00Z"
+    },
+    "fechaFin": {
+      "$date": "2025-07-05T18:00:00Z"
+    },
+    "motivo": "Descansar",
+    "detalles": "Me gustaria descansar",
+    "diasSolicitados": 5,
+    "diasDisponiblesAntes": 22,
+    "diasRestantes": 17,
+    "diasPorPagar": 0,
+    "estatus": "Aceptado",
+    "fechaSolicitud": {
+      "$date": "2025-06-30T15:01:29.268Z"
+    },
+    "__v": 0,
+    "motivoRespuesta": "",
+    "revisadoPor": {
+      "$oid": "6862a611c9b690df50d6f881"
+    },
+    "rolRevisor": "subdireccion"
+  },
+  {
+    "_id": {
+      "$oid": "6a2d8ecbf64fc220d1d6e65e"
+    },
+    "solicitante": {
+      "$oid": "685aebb013bf3eff09f102ec"
+    },
+    "fechaInicio": {
+      "$date": "2026-06-15T18:00:00Z"
+    },
+    "fechaFin": {
+      "$date": "2026-06-19T18:00:00Z"
+    },
+    "motivo": "Descansar",
+    "detalles": "",
+    "diasSolicitados": 5,
+    "diasDisponiblesAntes": 22,
+    "diasRestantes": 17,
+    "diasPorPagar": 0,
+    "estatus": "Aceptado",
+    "fechaSolicitud": {
+      "$date": "2026-06-13T17:09:31.572Z"
+    },
+    "__v": 0,
+    "motivoRespuesta": "",
+    "revisadoPor": {
+      "$oid": "6862a623c9b690df50d6f884"
+    },
+    "rolRevisor": "finanzas"
+  },
+  {
+    "_id": {
+      "$oid": "6a2da49149f7dc9d3c696433"
+    },
+    "solicitante": {
+      "$oid": "685aebb013bf3eff09f102ec"
+    },
+    "fechaInicio": {
+      "$date": "2026-06-15T18:00:00Z"
+    },
+    "fechaFin": {
+      "$date": "2026-06-27T18:00:00Z"
+    },
+    "motivo": "Descansar otra vez",
+    "detalles": "",
+    "diasSolicitados": 12,
+    "diasDisponiblesAntes": 22,
+    "diasRestantes": 10,
+    "diasPorPagar": 0,
+    "estatus": "Aceptado",
+    "fechaSolicitud": {
+      "$date": "2026-06-13T18:42:25.498Z"
+    },
+    "__v": 0,
+    "motivoRespuesta": "",
+    "revisadoPor": {
+      "$oid": "6862a623c9b690df50d6f884"
+    },
+    "rolRevisor": "finanzas"
+  }
+]

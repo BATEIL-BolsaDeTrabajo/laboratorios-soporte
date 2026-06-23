@@ -1,7 +1,16 @@
 // js/navbar.js
 
+(function cargarToastsGlobales() {
+  if (window.mostrarToast || document.querySelector('script[data-app-toasts="true"]')) return;
+
+  const script = document.createElement("script");
+  script.src = "/js/toasts.js";
+  script.dataset.appToasts = "true";
+  document.head.appendChild(script);
+})();
+
 // ================== CARGAR NAVBAR ==================
-fetch("/navbar.html?v=12")
+  fetch("/navbar.html?v=15")
   .then((res) => res.text())
   .then((html) => {
     const cont =
@@ -89,6 +98,8 @@ function configurarMenuPorRoles() {
       "item-docente-reservar",
       "item-docente-mistickets",
       "item-docente-mis",
+      "item-docente-vacaciones",
+      "item-docente-historial",
       "item-docente-divider",
     ]);
     visible = true;
@@ -214,6 +225,8 @@ function configurarMenuPorRoles() {
       "item-almacen-recibidos",
       "item-almacen-salidas",
       "item-almacen-ajustes",
+      "item-almacen-configuracion",
+      "item-almacen-asignacion-equipo",
       "item-almacen-divider",
     ]);
     visible = true;

@@ -1,0 +1,303 @@
+[
+  {
+    "_id": {
+      "$oid": "685aebb013bf3eff09f102ec"
+    },
+    "nombre": "Jose Manuel",
+    "correo": "jose.garcia@bateil.edu.mx",
+    "contraseña": "$2b$10$OHF8r0JC.hlnzKQHDP8clecE.h7npz29TVeYuipiDLPwUVaQYL26a",
+    "rol": "docente",
+    "__v": 5,
+    "roles": [
+      "docente",
+      "soporte",
+      "almacen"
+    ],
+    "diasVacacionesDisponibles": 22,
+    "fechaIngreso": {
+      "$date": "2019-07-18T17:00:00Z"
+    },
+    "ultimaActualizacionDias": {
+      "$date": "2026-06-13T17:46:25.012Z"
+    },
+    "departamento": "administrativo",
+    "puesto": "SOPORTE/DOCENTE",
+    "telefonoWhatsapp": "528711449548",
+    "diasVacacionesAcumulados": 0
+  },
+  {
+    "_id": {
+      "$oid": "685aee77c1ac24e6a4c528fb"
+    },
+    "nombre": "Administrador",
+    "correo": "admin@bateil.edu.mx",
+    "contraseña": "$2b$10$cK6S6kcQV.qN3/8vJeCGr.ch7xZkwO7B3/1svSd.1J1o7p6mjRtTm",
+    "rol": "admin",
+    "__v": 2,
+    "roles": [
+      "admin",
+      "rrhh"
+    ],
+    "diasVacacionesDisponibles": 0,
+    "telefonoWhatsapp": "",
+    "departamento": "administrativo",
+    "ultimaActualizacionDias": {
+      "$date": "2026-06-13T17:46:28.193Z"
+    },
+    "diasVacacionesAcumulados": 0
+  },
+  {
+    "_id": {
+      "$oid": "685b151858a86a8b63b7b880"
+    },
+    "nombre": "Tecnico Soporte",
+    "correo": "soporte@bateil.edu.mx",
+    "contraseña": "$2b$10$QJKIb3U8qp8yplNxDzfFW.kqrUKK5uzHu/zjclEXFQc6pZJcRx4lS",
+    "rol": "soporte",
+    "__v": 3,
+    "roles": [
+      "coordinador"
+    ],
+    "diasVacacionesDisponibles": 0,
+    "telefonoWhatsapp": "",
+    "departamento": "administrativo",
+    "ultimaActualizacionDias": {
+      "$date": "2026-06-13T17:46:31.406Z"
+    },
+    "diasVacacionesAcumulados": 0
+  },
+  {
+    "_id": {
+      "$oid": "685b153258a86a8b63b7b883"
+    },
+    "nombre": "Mantenimiento General",
+    "correo": "mantenimiento@bateil.edu.mx",
+    "contraseña": "$2b$10$eQfx7VPWY33gmiwo3b.FluEahzYc00WyaeCTquGRN7avrjq9Z7X9W",
+    "rol": "mantenimiento",
+    "__v": 1,
+    "roles": [
+      "mantenimiento"
+    ],
+    "diasVacacionesDisponibles": 0,
+    "telefonoWhatsapp": "",
+    "departamento": "administrativo",
+    "ultimaActualizacionDias": {
+      "$date": "2026-06-13T17:46:32.856Z"
+    },
+    "diasVacacionesAcumulados": 0
+  },
+  {
+    "_id": {
+      "$oid": "685b26e4da13b7cbe3b105b0"
+    },
+    "nombre": "Super Admin",
+    "correo": "Sadmin@bateil.edu.mx",
+    "contraseña": "$2b$10$23TB0qd53TlDmEQuruofD.2XBFdzmVUtDitABO11mOj1PV7MgEPB6",
+    "roles": [
+      "admin"
+    ],
+    "__v": 0,
+    "diasVacacionesDisponibles": 0,
+    "telefonoWhatsapp": "",
+    "diasVacacionesAcumulados": 0
+  },
+  {
+    "_id": {
+      "$oid": "685dc9c7f90f5b2d43462d47"
+    },
+    "nombre": "Abidan",
+    "correo": "abidan@bateil.edu.mx",
+    "contraseña": "$2b$10$Zl47h76IPxbjdb1r.YrG0uG/VPRdp7mzX0db13takSwsQY5PwfIxK",
+    "roles": [
+      "soporte"
+    ],
+    "__v": 0,
+    "diasVacacionesDisponibles": 0,
+    "telefonoWhatsapp": "",
+    "departamento": "administrativo",
+    "ultimaActualizacionDias": {
+      "$date": "2026-06-13T17:46:38.171Z"
+    },
+    "diasVacacionesAcumulados": 0
+  },
+  {
+    "_id": {
+      "$oid": "685dc9e7f90f5b2d43462d4a"
+    },
+    "nombre": "Gollas",
+    "correo": "gollas@bateil.edu.mx",
+    "contraseña": "$2b$10$PUBrbE2Xa5Pa9vJT/F095eL0wHbC6tr81e8Wd8rD8PH3voef/9AFu",
+    "roles": [
+      "mantenimiento"
+    ],
+    "__v": 0,
+    "diasVacacionesDisponibles": 0,
+    "telefonoWhatsapp": "",
+    "diasVacacionesAcumulados": 0
+  },
+  {
+    "_id": {
+      "$oid": "685dc9f7f90f5b2d43462d4d"
+    },
+    "nombre": "Ruiz",
+    "correo": "Ruiz@bateil.edu.mx",
+    "contraseña": "$2b$10$SOch1gL9/CIxSNOtENAA8.2DhHYscwfhEUoGVUejuJWq.N.ikieEy",
+    "roles": [
+      "mantenimiento"
+    ],
+    "__v": 0,
+    "diasVacacionesDisponibles": 0,
+    "telefonoWhatsapp": "",
+    "departamento": "administrativo",
+    "ultimaActualizacionDias": {
+      "$date": "2026-06-13T17:46:43.528Z"
+    },
+    "diasVacacionesAcumulados": 0
+  },
+  {
+    "_id": {
+      "$oid": "6862a5fbc9b690df50d6f87e"
+    },
+    "nombre": "luis",
+    "correo": "luis@bateil.edu.mx",
+    "contraseña": "$2b$10$Di.1yCVwqjpXOEimwmID6e3k1AuFrfKmkUKVMG6iQNMk1gD2eayrS",
+    "roles": [
+      "talleres"
+    ],
+    "diasVacacionesDisponibles": 0,
+    "__v": 0,
+    "telefonoWhatsapp": "",
+    "diasVacacionesAcumulados": 0
+  },
+  {
+    "_id": {
+      "$oid": "6862a611c9b690df50d6f881"
+    },
+    "nombre": "erik",
+    "correo": "erik@bateil.edu.mx",
+    "contraseña": "$2b$10$KXpHiqJJ2Nmfh8gVJ9zmrOw8SS0hvBd7Dhw/8IlxHqP22eGeOd7Pu",
+    "roles": [
+      "subdireccion"
+    ],
+    "diasVacacionesDisponibles": 0,
+    "__v": 0,
+    "telefonoWhatsapp": "",
+    "diasVacacionesAcumulados": 0
+  },
+  {
+    "_id": {
+      "$oid": "6862a623c9b690df50d6f884"
+    },
+    "nombre": "rosario",
+    "correo": "rosario@bateil.edu.mx",
+    "contraseña": "$2b$10$Mgjf0H4h9ewWUaQewoJYiesb/Qrvx6cqqIknP9pJj2i1/e97K4GQK",
+    "roles": [
+      "finanzas"
+    ],
+    "diasVacacionesDisponibles": 0,
+    "__v": 0,
+    "telefonoWhatsapp": "528711123486",
+    "diasVacacionesAcumulados": 0
+  },
+  {
+    "_id": {
+      "$oid": "6862a633c9b690df50d6f887"
+    },
+    "nombre": "ines",
+    "correo": "ines@bateil.edu.mx",
+    "contraseña": "$2b$10$4KI2fpN7flYmBchFm/u.UOIMsyydFdZoS64vgIZnpr/c0G8mbcLme",
+    "roles": [
+      "rrhh"
+    ],
+    "diasVacacionesDisponibles": 0,
+    "__v": 0,
+    "telefonoWhatsapp": "",
+    "diasVacacionesAcumulados": 0
+  },
+  {
+    "_id": {
+      "$oid": "686426122b5d399a1569b6e4"
+    },
+    "nombre": "silvia",
+    "correo": "scano@bateil.edu.mx",
+    "contraseña": "$2b$10$s0Y46XzrkQnqVIio8FST2.4fIvlvxTSBAYLKHY40cC31.QlyHTiki",
+    "roles": [
+      "direccion"
+    ],
+    "diasVacacionesDisponibles": 0,
+    "__v": 0,
+    "telefonoWhatsapp": "526141164475",
+    "diasVacacionesAcumulados": 0
+  },
+  {
+    "_id": {
+      "$oid": "68d2efe459545f15d9b398bc"
+    },
+    "nombre": "Admin Principal",
+    "correo": "Nadmin@bateil.edu.mx",
+    "contraseña": "$2b$10$wdervNFhmegirkwf0u8K..8l7mPMwYTwlzkSUQqoad3NQGZZCe0s.",
+    "roles": [
+      "admin"
+    ],
+    "diasVacacionesDisponibles": 0,
+    "__v": 0,
+    "telefonoWhatsapp": "",
+    "diasVacacionesAcumulados": 0
+  },
+  {
+    "_id": {
+      "$oid": "68d58a8ce9bb82f62a32f91d"
+    },
+    "nombre": "Coordinación Docentes",
+    "correo": "coordDocentes@bateil.edu.mx",
+    "contraseña": "$2b$10$3hL9AklDmWoGSETB6wk0AOl9olfKPvs8Pw7rS1yRnR/S0Krxjf6c.",
+    "roles": [
+      "coordinacionD"
+    ],
+    "diasVacacionesDisponibles": 0,
+    "__v": 0,
+    "telefonoWhatsapp": "",
+    "diasVacacionesAcumulados": 0
+  },
+  {
+    "_id": {
+      "$oid": "69778f89a8c20c0d15dd3176"
+    },
+    "nombre": "Almacen",
+    "correo": "almacen@bateil.edu.mx",
+    "contraseña": "$2b$10$0NcReghs1bXq6neWjcqokudVeqD8t.BiBx6KXkEyCLOmy4U9UnCzy",
+    "roles": [
+      "almacen"
+    ],
+    "diasVacacionesDisponibles": 32,
+    "fechaIngreso": {
+      "$date": "2026-01-26T00:00:00Z"
+    },
+    "puesto": "administrativo",
+    "departamento": "Administrativo",
+    "__v": 1,
+    "ultimaActualizacionDias": {
+      "$date": "2026-01-26T16:26:50.109Z"
+    },
+    "telefonoWhatsapp": "",
+    "diasVacacionesAcumulados": 0
+  },
+  {
+    "_id": {
+      "$oid": "69bc2119577a46359b97b857"
+    },
+    "nombre": "Anonieta Frias",
+    "correo": "antonieta.frias@bateil.edu.mx",
+    "contraseña": "$2b$10$apuRmbkE5CimjZE1P3w5Qe8ODi1FWRHMaikB2Vnmp/6sWwJMOq1Bm",
+    "roles": [
+      "caja"
+    ],
+    "diasVacacionesDisponibles": 0,
+    "fechaIngreso": null,
+    "puesto": "Caja",
+    "departamento": "Administrativo",
+    "__v": 0,
+    "telefonoWhatsapp": "",
+    "diasVacacionesAcumulados": 0
+  }
+]

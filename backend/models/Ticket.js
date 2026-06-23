@@ -107,7 +107,21 @@ const ticketSchema = new Schema({
   // Archivado (para ocultar de listados activos)
   archivado: { type: Boolean, default: false, index: true },
   fechaArchivado: { type: Date, default: null },
-  archivadoPor: { type: Schema.Types.ObjectId, ref: 'User', default: null }
+  archivadoPor: { type: Schema.Types.ObjectId, ref: 'User', default: null },
+
+  // Integraciones externas
+  canal: {
+    type: String,
+    enum: ['web', 'whatsapp'],
+    default: 'web',
+    index: true
+  },
+  whatsapp: {
+    from: { type: String, default: '', index: true },
+    contactName: { type: String, default: '' },
+    lastMessageId: { type: String, default: '' },
+    lastMessageAt: { type: Date, default: null }
+  }
 }, { timestamps: true });
 
 ticketSchema.index({ createdAt: -1 });

@@ -1,0 +1,977 @@
+[
+  {
+    "_id": {
+      "$oid": "6931d0ec71c047f8e5d17994"
+    },
+    "producto": {
+      "$oid": "6931ce0e58536cb4a40d7005"
+    },
+    "accion": "entrada",
+    "cantidadAntes": 10,
+    "cantidadDespues": 15,
+    "detalle": "Entrada de 5 unidades.",
+    "usuario": {
+      "$oid": "6862a623c9b690df50d6f884"
+    },
+    "fecha": {
+      "$date": "2025-12-04T18:20:28.954Z"
+    },
+    "createdAt": {
+      "$date": "2025-12-04T18:20:28.954Z"
+    },
+    "updatedAt": {
+      "$date": "2025-12-04T18:20:28.954Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "6931d14b71c047f8e5d1799c"
+    },
+    "producto": {
+      "$oid": "6931ce0e58536cb4a40d7005"
+    },
+    "accion": "salida",
+    "cantidadAntes": 15,
+    "cantidadDespues": 12,
+    "detalle": "Salida de 3 unidades para Juan Pérez (Sistemas).",
+    "usuario": {
+      "$oid": "6862a623c9b690df50d6f884"
+    },
+    "fecha": {
+      "$date": "2025-12-04T18:22:03.565Z"
+    },
+    "createdAt": {
+      "$date": "2025-12-04T18:22:03.565Z"
+    },
+    "updatedAt": {
+      "$date": "2025-12-04T18:22:03.565Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "69320d0feeeab73ba5206949"
+    },
+    "producto": {
+      "$oid": "69320c16eeeab73ba5206917"
+    },
+    "accion": "entrada",
+    "cantidadAntes": 0,
+    "cantidadDespues": 100,
+    "detalle": "Entrada de 100 unidades.",
+    "usuario": {
+      "$oid": "6862a623c9b690df50d6f884"
+    },
+    "fecha": {
+      "$date": "2025-12-04T22:37:03.102Z"
+    },
+    "createdAt": {
+      "$date": "2025-12-04T22:37:03.102Z"
+    },
+    "updatedAt": {
+      "$date": "2025-12-04T22:37:03.102Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "69320df5eeeab73ba5206975"
+    },
+    "producto": {
+      "$oid": "69320c16eeeab73ba5206917"
+    },
+    "accion": "salida",
+    "cantidadAntes": 100,
+    "cantidadDespues": 80,
+    "detalle": "Salida de 20 unidades para Jose (Sistemas).",
+    "usuario": {
+      "$oid": "6862a623c9b690df50d6f884"
+    },
+    "fecha": {
+      "$date": "2025-12-04T22:40:53.918Z"
+    },
+    "createdAt": {
+      "$date": "2025-12-04T22:40:53.918Z"
+    },
+    "updatedAt": {
+      "$date": "2025-12-04T22:40:53.918Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "69320f25eeeab73ba5206994"
+    },
+    "producto": {
+      "$oid": "69320c16eeeab73ba5206917"
+    },
+    "accion": "ajuste_devolucion",
+    "cantidadAntes": 80,
+    "cantidadDespues": 85,
+    "detalle": "Ajuste (devolucion): No se utilizaron",
+    "usuario": {
+      "$oid": "6862a623c9b690df50d6f884"
+    },
+    "fecha": {
+      "$date": "2025-12-04T22:45:57.853Z"
+    },
+    "createdAt": {
+      "$date": "2025-12-04T22:45:57.853Z"
+    },
+    "updatedAt": {
+      "$date": "2025-12-04T22:45:57.853Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "693312ca2d1ccdc7630581dd"
+    },
+    "producto": {
+      "$oid": "69320c16eeeab73ba5206917"
+    },
+    "accion": "entrada",
+    "cantidadAntes": 85,
+    "cantidadDespues": 185,
+    "detalle": "Entrada de 100 unidades.",
+    "usuario": {
+      "$oid": "6862a623c9b690df50d6f884"
+    },
+    "fecha": {
+      "$date": "2025-12-05T17:13:46.889Z"
+    },
+    "createdAt": {
+      "$date": "2025-12-05T17:13:46.890Z"
+    },
+    "updatedAt": {
+      "$date": "2025-12-05T17:13:46.890Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "694abf853073f2831f5a90b3"
+    },
+    "producto": {
+      "$oid": "6931ce0e58536cb4a40d7005"
+    },
+    "accion": "entrada",
+    "cantidadAntes": 12,
+    "cantidadDespues": 17,
+    "detalle": "Entrada de 5 unidades.",
+    "usuario": {
+      "$oid": "6862a623c9b690df50d6f884"
+    },
+    "fecha": {
+      "$date": "2025-12-23T16:12:53.338Z"
+    },
+    "createdAt": {
+      "$date": "2025-12-23T16:12:53.338Z"
+    },
+    "updatedAt": {
+      "$date": "2025-12-23T16:12:53.338Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "694abfe93073f2831f5a90c3"
+    },
+    "producto": {
+      "$oid": "69320c16eeeab73ba5206917"
+    },
+    "accion": "salida",
+    "cantidadAntes": 185,
+    "cantidadDespues": 165,
+    "detalle": "Salida de 20 unidades para jose (sistemas).",
+    "usuario": {
+      "$oid": "6862a623c9b690df50d6f884"
+    },
+    "fecha": {
+      "$date": "2025-12-23T16:14:33.047Z"
+    },
+    "createdAt": {
+      "$date": "2025-12-23T16:14:33.047Z"
+    },
+    "updatedAt": {
+      "$date": "2025-12-23T16:14:33.047Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "694ac0393073f2831f5a90e9"
+    },
+    "producto": {
+      "$oid": "69320c16eeeab73ba5206917"
+    },
+    "accion": "salida",
+    "cantidadAntes": 165,
+    "cantidadDespues": 149,
+    "detalle": "Salida de 16 unidades para jose (sistemas).",
+    "usuario": {
+      "$oid": "6862a623c9b690df50d6f884"
+    },
+    "fecha": {
+      "$date": "2025-12-23T16:15:53.094Z"
+    },
+    "createdAt": {
+      "$date": "2025-12-23T16:15:53.094Z"
+    },
+    "updatedAt": {
+      "$date": "2025-12-23T16:15:53.094Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "694ac0803073f2831f5a9103"
+    },
+    "producto": {
+      "$oid": "69320c16eeeab73ba5206917"
+    },
+    "accion": "ajuste_devolucion",
+    "cantidadAntes": 149,
+    "cantidadDespues": 159,
+    "detalle": "Ajuste (devolucion): No los uso",
+    "usuario": {
+      "$oid": "6862a623c9b690df50d6f884"
+    },
+    "fecha": {
+      "$date": "2025-12-23T16:17:04.682Z"
+    },
+    "createdAt": {
+      "$date": "2025-12-23T16:17:04.682Z"
+    },
+    "updatedAt": {
+      "$date": "2025-12-23T16:17:04.682Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "6977900ea8c20c0d15dd319a"
+    },
+    "producto": {
+      "$oid": "69320c16eeeab73ba5206917"
+    },
+    "accion": "entrada",
+    "cantidadAntes": 159,
+    "cantidadDespues": 171,
+    "detalle": "Entrada de 12 unidades.",
+    "usuario": {
+      "$oid": "685aebb013bf3eff09f102ec"
+    },
+    "fecha": {
+      "$date": "2026-01-26T16:02:22.153Z"
+    },
+    "createdAt": {
+      "$date": "2026-01-26T16:02:22.153Z"
+    },
+    "updatedAt": {
+      "$date": "2026-01-26T16:02:22.153Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "69779023a8c20c0d15dd31a4"
+    },
+    "producto": {
+      "$oid": "69320c16eeeab73ba5206917"
+    },
+    "accion": "entrada",
+    "cantidadAntes": 171,
+    "cantidadDespues": 179,
+    "detalle": "Entrada de 8 unidades.",
+    "usuario": {
+      "$oid": "685aebb013bf3eff09f102ec"
+    },
+    "fecha": {
+      "$date": "2026-01-26T16:02:43.191Z"
+    },
+    "createdAt": {
+      "$date": "2026-01-26T16:02:43.191Z"
+    },
+    "updatedAt": {
+      "$date": "2026-01-26T16:02:43.191Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "6977ac097a55df114749be78"
+    },
+    "producto": {
+      "$oid": "6977abcb7a55df114749be68"
+    },
+    "accion": "entrada",
+    "cantidadAntes": 0,
+    "cantidadDespues": 180,
+    "detalle": "Entrada de 180 unidades.",
+    "usuario": {
+      "$oid": "685aebb013bf3eff09f102ec"
+    },
+    "fecha": {
+      "$date": "2026-01-26T18:01:45.703Z"
+    },
+    "createdAt": {
+      "$date": "2026-01-26T18:01:45.704Z"
+    },
+    "updatedAt": {
+      "$date": "2026-01-26T18:01:45.704Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "6977ac317a55df114749be82"
+    },
+    "producto": {
+      "$oid": "6977abcb7a55df114749be68"
+    },
+    "accion": "entrada",
+    "cantidadAntes": 180,
+    "cantidadDespues": 480,
+    "detalle": "Entrada de 300 unidades.",
+    "usuario": {
+      "$oid": "685aebb013bf3eff09f102ec"
+    },
+    "fecha": {
+      "$date": "2026-01-26T18:02:25.793Z"
+    },
+    "createdAt": {
+      "$date": "2026-01-26T18:02:25.794Z"
+    },
+    "updatedAt": {
+      "$date": "2026-01-26T18:02:25.794Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "6977ac487a55df114749be8c"
+    },
+    "producto": {
+      "$oid": "69320c16eeeab73ba5206917"
+    },
+    "accion": "entrada",
+    "cantidadAntes": 179,
+    "cantidadDespues": 479,
+    "detalle": "Entrada de 300 unidades.",
+    "usuario": {
+      "$oid": "685aebb013bf3eff09f102ec"
+    },
+    "fecha": {
+      "$date": "2026-01-26T18:02:48.984Z"
+    },
+    "createdAt": {
+      "$date": "2026-01-26T18:02:48.985Z"
+    },
+    "updatedAt": {
+      "$date": "2026-01-26T18:02:48.985Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "697b702f6250689b7c732450"
+    },
+    "producto": {
+      "$oid": "69320c16eeeab73ba5206917"
+    },
+    "accion": "entrada",
+    "cantidadAntes": 479,
+    "cantidadDespues": 529,
+    "detalle": "Entrada de 50 unidades.",
+    "usuario": {
+      "$oid": "685aebb013bf3eff09f102ec"
+    },
+    "fecha": {
+      "$date": "2026-01-29T14:35:27.102Z"
+    },
+    "createdAt": {
+      "$date": "2026-01-29T14:35:27.102Z"
+    },
+    "updatedAt": {
+      "$date": "2026-01-29T14:35:27.102Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "697b75df98f8106ca97f73cf"
+    },
+    "producto": {
+      "$oid": "69320c16eeeab73ba5206917"
+    },
+    "accion": "salida",
+    "cantidadAntes": 529,
+    "cantidadDespues": 519,
+    "detalle": "Salida de 10 unidades para Jose manuel (sistemas).",
+    "usuario": {
+      "$oid": "69778f89a8c20c0d15dd3176"
+    },
+    "fecha": {
+      "$date": "2026-01-29T14:59:43.055Z"
+    },
+    "createdAt": {
+      "$date": "2026-01-29T14:59:43.055Z"
+    },
+    "updatedAt": {
+      "$date": "2026-01-29T14:59:43.055Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "697b7808ac9ad1312a54749c"
+    },
+    "producto": {
+      "$oid": "6931ce0e58536cb4a40d7005"
+    },
+    "accion": "ajuste_devolucion",
+    "cantidadAntes": 17,
+    "cantidadDespues": 22,
+    "detalle": "Ajuste (devolucion): No se usaron",
+    "usuario": {
+      "$oid": "69778f89a8c20c0d15dd3176"
+    },
+    "fecha": {
+      "$date": "2026-01-29T15:08:56.205Z"
+    },
+    "createdAt": {
+      "$date": "2026-01-29T15:08:56.205Z"
+    },
+    "updatedAt": {
+      "$date": "2026-01-29T15:08:56.205Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "697b781fac9ad1312a5474aa"
+    },
+    "producto": {
+      "$oid": "69320c16eeeab73ba5206917"
+    },
+    "accion": "salida",
+    "cantidadAntes": 519,
+    "cantidadDespues": 500,
+    "detalle": "Salida de 19 unidades para Jose manuel (sistemas).",
+    "usuario": {
+      "$oid": "69778f89a8c20c0d15dd3176"
+    },
+    "fecha": {
+      "$date": "2026-01-29T15:09:19.331Z"
+    },
+    "createdAt": {
+      "$date": "2026-01-29T15:09:19.332Z"
+    },
+    "updatedAt": {
+      "$date": "2026-01-29T15:09:19.332Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "697b7890ac9ad1312a5474c0"
+    },
+    "producto": {
+      "$oid": "69320c16eeeab73ba5206917"
+    },
+    "accion": "ajuste_devolucion",
+    "cantidadAntes": 500,
+    "cantidadDespues": 519,
+    "detalle": "Ajuste (devolucion): oiuh",
+    "usuario": {
+      "$oid": "69778f89a8c20c0d15dd3176"
+    },
+    "fecha": {
+      "$date": "2026-01-29T15:11:12.666Z"
+    },
+    "createdAt": {
+      "$date": "2026-01-29T15:11:12.666Z"
+    },
+    "updatedAt": {
+      "$date": "2026-01-29T15:11:12.666Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "697b9824ac9ad1312a547521"
+    },
+    "producto": {
+      "$oid": "69320c16eeeab73ba5206917"
+    },
+    "accion": "entrada",
+    "cantidadAntes": 519,
+    "cantidadDespues": 524,
+    "detalle": "Entrada de 5 unidades.",
+    "usuario": {
+      "$oid": "685aebb013bf3eff09f102ec"
+    },
+    "fecha": {
+      "$date": "2026-01-29T17:25:56.432Z"
+    },
+    "createdAt": {
+      "$date": "2026-01-29T17:25:56.432Z"
+    },
+    "updatedAt": {
+      "$date": "2026-01-29T17:25:56.432Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "697b98acac9ad1312a547533"
+    },
+    "producto": {
+      "$oid": "69320c16eeeab73ba5206917"
+    },
+    "accion": "entrada",
+    "cantidadAntes": 524,
+    "cantidadDespues": 530,
+    "detalle": "Entrada de 6 unidades.",
+    "usuario": {
+      "$oid": "685aebb013bf3eff09f102ec"
+    },
+    "fecha": {
+      "$date": "2026-01-29T17:28:12.386Z"
+    },
+    "createdAt": {
+      "$date": "2026-01-29T17:28:12.387Z"
+    },
+    "updatedAt": {
+      "$date": "2026-01-29T17:28:12.387Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "697b98f5ac9ad1312a547551"
+    },
+    "producto": {
+      "$oid": "69320c16eeeab73ba5206917"
+    },
+    "accion": "entrada",
+    "cantidadAntes": 530,
+    "cantidadDespues": 540,
+    "detalle": "Entrada de 10 unidades.",
+    "usuario": {
+      "$oid": "685aebb013bf3eff09f102ec"
+    },
+    "fecha": {
+      "$date": "2026-01-29T17:29:25.124Z"
+    },
+    "createdAt": {
+      "$date": "2026-01-29T17:29:25.125Z"
+    },
+    "updatedAt": {
+      "$date": "2026-01-29T17:29:25.125Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "698236d1cb4044a0d4386f6e"
+    },
+    "producto": {
+      "$oid": "6977abcb7a55df114749be68"
+    },
+    "accion": "entrada",
+    "cantidadAntes": 480,
+    "cantidadDespues": 689,
+    "detalle": "Entrada de 209 unidades.",
+    "usuario": {
+      "$oid": "685aebb013bf3eff09f102ec"
+    },
+    "fecha": {
+      "$date": "2026-02-03T17:56:33.443Z"
+    },
+    "createdAt": {
+      "$date": "2026-02-03T17:56:33.443Z"
+    },
+    "updatedAt": {
+      "$date": "2026-02-03T17:56:33.443Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "6982523902c7c2f5a4af6ff0"
+    },
+    "producto": {
+      "$oid": "6977abcb7a55df114749be68"
+    },
+    "accion": "entrada_eliminada",
+    "cantidadAntes": 689,
+    "cantidadDespues": 480,
+    "detalle": "Se eliminó entrada de 209 unidades. Folio: bt-001212121",
+    "usuario": {
+      "$oid": "685aebb013bf3eff09f102ec"
+    },
+    "fecha": {
+      "$date": "2026-02-03T19:53:29.497Z"
+    },
+    "createdAt": {
+      "$date": "2026-02-03T19:53:29.497Z"
+    },
+    "updatedAt": {
+      "$date": "2026-02-03T19:53:29.497Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "69a88e37a78d426d7eb18ae7"
+    },
+    "producto": {
+      "$oid": "69320c16eeeab73ba5206917"
+    },
+    "accion": "entrada_eliminada",
+    "cantidadAntes": 540,
+    "cantidadDespues": 530,
+    "detalle": "Se eliminó entrada de 10 unidades. Folio: bt-001222",
+    "usuario": {
+      "$oid": "685aebb013bf3eff09f102ec"
+    },
+    "fecha": {
+      "$date": "2026-03-04T19:55:35.978Z"
+    },
+    "createdAt": {
+      "$date": "2026-03-04T19:55:35.979Z"
+    },
+    "updatedAt": {
+      "$date": "2026-03-04T19:55:35.979Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "69a88e3aa78d426d7eb18af0"
+    },
+    "producto": {
+      "$oid": "69320c16eeeab73ba5206917"
+    },
+    "accion": "entrada_eliminada",
+    "cantidadAntes": 530,
+    "cantidadDespues": 524,
+    "detalle": "Se eliminó entrada de 6 unidades. Folio: bt-001555",
+    "usuario": {
+      "$oid": "685aebb013bf3eff09f102ec"
+    },
+    "fecha": {
+      "$date": "2026-03-04T19:55:38.421Z"
+    },
+    "createdAt": {
+      "$date": "2026-03-04T19:55:38.421Z"
+    },
+    "updatedAt": {
+      "$date": "2026-03-04T19:55:38.421Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "69a88e3ca78d426d7eb18af9"
+    },
+    "producto": {
+      "$oid": "69320c16eeeab73ba5206917"
+    },
+    "accion": "entrada_eliminada",
+    "cantidadAntes": 524,
+    "cantidadDespues": 519,
+    "detalle": "Se eliminó entrada de 5 unidades. Folio: bt-0013",
+    "usuario": {
+      "$oid": "685aebb013bf3eff09f102ec"
+    },
+    "fecha": {
+      "$date": "2026-03-04T19:55:40.562Z"
+    },
+    "createdAt": {
+      "$date": "2026-03-04T19:55:40.562Z"
+    },
+    "updatedAt": {
+      "$date": "2026-03-04T19:55:40.562Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "69a88e3ea78d426d7eb18b02"
+    },
+    "producto": {
+      "$oid": "69320c16eeeab73ba5206917"
+    },
+    "accion": "entrada_eliminada",
+    "cantidadAntes": 519,
+    "cantidadDespues": 469,
+    "detalle": "Se eliminó entrada de 50 unidades. Folio: fl-151",
+    "usuario": {
+      "$oid": "685aebb013bf3eff09f102ec"
+    },
+    "fecha": {
+      "$date": "2026-03-04T19:55:42.685Z"
+    },
+    "createdAt": {
+      "$date": "2026-03-04T19:55:42.685Z"
+    },
+    "updatedAt": {
+      "$date": "2026-03-04T19:55:42.685Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "69a88e41a78d426d7eb18b0b"
+    },
+    "producto": {
+      "$oid": "69320c16eeeab73ba5206917"
+    },
+    "accion": "entrada_eliminada",
+    "cantidadAntes": 469,
+    "cantidadDespues": 169,
+    "detalle": "Se eliminó entrada de 300 unidades. Folio: bt-001222222",
+    "usuario": {
+      "$oid": "685aebb013bf3eff09f102ec"
+    },
+    "fecha": {
+      "$date": "2026-03-04T19:55:45.601Z"
+    },
+    "createdAt": {
+      "$date": "2026-03-04T19:55:45.601Z"
+    },
+    "updatedAt": {
+      "$date": "2026-03-04T19:55:45.601Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "69a88e44a78d426d7eb18b14"
+    },
+    "producto": {
+      "$oid": "6977abcb7a55df114749be68"
+    },
+    "accion": "entrada_eliminada",
+    "cantidadAntes": 480,
+    "cantidadDespues": 180,
+    "detalle": "Se eliminó entrada de 300 unidades. Folio: -",
+    "usuario": {
+      "$oid": "685aebb013bf3eff09f102ec"
+    },
+    "fecha": {
+      "$date": "2026-03-04T19:55:48.822Z"
+    },
+    "createdAt": {
+      "$date": "2026-03-04T19:55:48.822Z"
+    },
+    "updatedAt": {
+      "$date": "2026-03-04T19:55:48.822Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "69a88e47a78d426d7eb18b1d"
+    },
+    "producto": {
+      "$oid": "6977abcb7a55df114749be68"
+    },
+    "accion": "entrada_eliminada",
+    "cantidadAntes": 180,
+    "cantidadDespues": 0,
+    "detalle": "Se eliminó entrada de 180 unidades. Folio: bt-0015",
+    "usuario": {
+      "$oid": "685aebb013bf3eff09f102ec"
+    },
+    "fecha": {
+      "$date": "2026-03-04T19:55:51.068Z"
+    },
+    "createdAt": {
+      "$date": "2026-03-04T19:55:51.068Z"
+    },
+    "updatedAt": {
+      "$date": "2026-03-04T19:55:51.068Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "69a88e49a78d426d7eb18b26"
+    },
+    "producto": {
+      "$oid": "69320c16eeeab73ba5206917"
+    },
+    "accion": "entrada_eliminada",
+    "cantidadAntes": 169,
+    "cantidadDespues": 161,
+    "detalle": "Se eliminó entrada de 8 unidades. Folio: bt-0012",
+    "usuario": {
+      "$oid": "685aebb013bf3eff09f102ec"
+    },
+    "fecha": {
+      "$date": "2026-03-04T19:55:53.529Z"
+    },
+    "createdAt": {
+      "$date": "2026-03-04T19:55:53.529Z"
+    },
+    "updatedAt": {
+      "$date": "2026-03-04T19:55:53.529Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "69a88e4ca78d426d7eb18b2f"
+    },
+    "producto": {
+      "$oid": "69320c16eeeab73ba5206917"
+    },
+    "accion": "entrada_eliminada",
+    "cantidadAntes": 161,
+    "cantidadDespues": 149,
+    "detalle": "Se eliminó entrada de 12 unidades. Folio: bt-0012",
+    "usuario": {
+      "$oid": "685aebb013bf3eff09f102ec"
+    },
+    "fecha": {
+      "$date": "2026-03-04T19:55:56.169Z"
+    },
+    "createdAt": {
+      "$date": "2026-03-04T19:55:56.169Z"
+    },
+    "updatedAt": {
+      "$date": "2026-03-04T19:55:56.169Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "69a88e4ea78d426d7eb18b38"
+    },
+    "producto": {
+      "$oid": "6931ce0e58536cb4a40d7005"
+    },
+    "accion": "entrada_eliminada",
+    "cantidadAntes": 22,
+    "cantidadDespues": 17,
+    "detalle": "Se eliminó entrada de 5 unidades. Folio: bt-0012",
+    "usuario": {
+      "$oid": "685aebb013bf3eff09f102ec"
+    },
+    "fecha": {
+      "$date": "2026-03-04T19:55:58.698Z"
+    },
+    "createdAt": {
+      "$date": "2026-03-04T19:55:58.698Z"
+    },
+    "updatedAt": {
+      "$date": "2026-03-04T19:55:58.698Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "69a88e52a78d426d7eb18b41"
+    },
+    "producto": {
+      "$oid": "69320c16eeeab73ba5206917"
+    },
+    "accion": "entrada_eliminada",
+    "cantidadAntes": 149,
+    "cantidadDespues": 49,
+    "detalle": "Se eliminó entrada de 100 unidades. Folio: -",
+    "usuario": {
+      "$oid": "685aebb013bf3eff09f102ec"
+    },
+    "fecha": {
+      "$date": "2026-03-04T19:56:02.108Z"
+    },
+    "createdAt": {
+      "$date": "2026-03-04T19:56:02.108Z"
+    },
+    "updatedAt": {
+      "$date": "2026-03-04T19:56:02.108Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "69a88e88a78d426d7eb18b67"
+    },
+    "producto": {
+      "$oid": "69320c16eeeab73ba5206917"
+    },
+    "accion": "entrada",
+    "cantidadAntes": 49,
+    "cantidadDespues": 199,
+    "detalle": "Entrada de 150 unidades.",
+    "usuario": {
+      "$oid": "685aebb013bf3eff09f102ec"
+    },
+    "fecha": {
+      "$date": "2026-03-04T19:56:56.715Z"
+    },
+    "createdAt": {
+      "$date": "2026-03-04T19:56:56.715Z"
+    },
+    "updatedAt": {
+      "$date": "2026-03-04T19:56:56.715Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "69ab54fbac13ef6834d00b8a"
+    },
+    "producto": {
+      "$oid": "69320c16eeeab73ba5206917"
+    },
+    "accion": "entrada",
+    "cantidadAntes": 199,
+    "cantidadDespues": 209,
+    "detalle": "Entrada de 10 unidades.",
+    "usuario": {
+      "$oid": "685aebb013bf3eff09f102ec"
+    },
+    "fecha": {
+      "$date": "2026-03-06T22:28:11.092Z"
+    },
+    "createdAt": {
+      "$date": "2026-03-06T22:28:11.092Z"
+    },
+    "updatedAt": {
+      "$date": "2026-03-06T22:28:11.092Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "69c58fe03a8ed0475e3a306e"
+    },
+    "producto": {
+      "$oid": "69320c16eeeab73ba5206917"
+    },
+    "accion": "salida",
+    "cantidadAntes": 209,
+    "cantidadDespues": 204,
+    "detalle": "Salida de 5 unidades para Jose manuel (sistemas) - Tipo: Reparacion.",
+    "usuario": {
+      "$oid": "6862a623c9b690df50d6f884"
+    },
+    "fecha": {
+      "$date": "2026-03-26T19:58:24.972Z"
+    },
+    "createdAt": {
+      "$date": "2026-03-26T19:58:24.972Z"
+    },
+    "updatedAt": {
+      "$date": "2026-03-26T19:58:24.972Z"
+    },
+    "__v": 0
+  }
+]

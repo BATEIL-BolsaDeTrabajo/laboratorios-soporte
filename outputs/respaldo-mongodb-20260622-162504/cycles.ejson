@@ -1,0 +1,56 @@
+[
+  {
+    "_id": {
+      "$oid": "69b9d9b431b4c8909fe928e5"
+    },
+    "name": "2026-1",
+    "months": [
+      {
+        "key": "inscripcion",
+        "label": "Inscripción",
+        "order": 1
+      },
+      {
+        "key": "enero",
+        "label": "Enero",
+        "order": 2
+      },
+      {
+        "key": "febrero",
+        "label": "Febrero",
+        "order": 3
+      },
+      {
+        "key": "marzo",
+        "label": "Marzo",
+        "order": 4
+      },
+      {
+        "key": "abril",
+        "label": "Abril",
+        "order": 5
+      },
+      {
+        "key": "mayo",
+        "label": "Mayo",
+        "order": 6
+      },
+      {
+        "key": "junio",
+        "label": "Junio",
+        "order": 7
+      }
+    ],
+    "isActive": true,
+    "createdBy": {
+      "$oid": "685aee77c1ac24e6a4c528fb"
+    },
+    "createdAt": {
+      "$date": "2026-03-17T22:46:12.332Z"
+    },
+    "updatedAt": {
+      "$date": "2026-03-17T23:11:20.455Z"
+    },
+    "__v": 0
+  }
+]

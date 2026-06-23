@@ -1,0 +1,5408 @@
+[
+  {
+    "_id": {
+      "$oid": "691e4b5d0b2dbed87e3f501c"
+    },
+    "usuario": {
+      "$oid": "685aebb013bf3eff09f102ec"
+    },
+    "titulo": "Prioridad cambiada a Media – SYS-2025-000002",
+    "tipo": "prioridad",
+    "ticket": null,
+    "leida": true,
+    "fecha": {
+      "$date": "2025-11-19T22:57:33.484Z"
+    },
+    "actualizado": {
+      "$date": "2025-11-19T22:57:34.972Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "691e4b710b2dbed87e3f5047"
+    },
+    "usuario": {
+      "$oid": "685aee77c1ac24e6a4c528fb"
+    },
+    "titulo": "Prioridad cambiada a Media – SYS-2025-000002",
+    "tipo": "prioridad",
+    "ticket": null,
+    "leida": true,
+    "fecha": {
+      "$date": "2025-11-19T22:57:53.088Z"
+    },
+    "actualizado": {
+      "$date": "2025-11-19T23:00:10.881Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "691e4c340b2dbed87e3f5077"
+    },
+    "usuario": {
+      "$oid": "685aebb013bf3eff09f102ec"
+    },
+    "titulo": "Nuevo ticket (Sistemas) - SYS-2025-000008",
+    "tipo": "nuevo",
+    "ticket": null,
+    "leida": true,
+    "fecha": {
+      "$date": "2025-11-19T23:01:08.256Z"
+    },
+    "actualizado": {
+      "$date": "2025-11-19T23:05:01.072Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "691e4c430b2dbed87e3f507c"
+    },
+    "usuario": {
+      "$oid": "685aee77c1ac24e6a4c528fb"
+    },
+    "titulo": "Nuevo ticket (Sistemas) - SYS-2025-000008",
+    "tipo": "nuevo",
+    "ticket": null,
+    "leida": true,
+    "fecha": {
+      "$date": "2025-11-19T23:01:23.089Z"
+    },
+    "actualizado": {
+      "$date": "2025-11-19T23:05:03.883Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "691f58e02cf85340ecbc69fd"
+    },
+    "usuario": {
+      "$oid": "685aebb013bf3eff09f102ec"
+    },
+    "titulo": "Prioridad cambiada a Alta – SYS-2025-000002",
+    "tipo": "prioridad",
+    "ticket": null,
+    "leida": true,
+    "fecha": {
+      "$date": "2025-11-20T18:07:28.659Z"
+    },
+    "actualizado": {
+      "$date": "2025-11-20T18:07:30.229Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "691f58eb2cf85340ecbc6a03"
+    },
+    "usuario": {
+      "$oid": "685aee77c1ac24e6a4c528fb"
+    },
+    "titulo": "Prioridad cambiada a Alta – SYS-2025-000002",
+    "tipo": "prioridad",
+    "ticket": null,
+    "leida": true,
+    "fecha": {
+      "$date": "2025-11-20T18:07:39.617Z"
+    },
+    "actualizado": {
+      "$date": "2025-11-20T19:25:41.014Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "691f59092cf85340ecbc6a0d"
+    },
+    "usuario": {
+      "$oid": "685aee77c1ac24e6a4c528fb"
+    },
+    "titulo": "Prioridad cambiada a Media – SYS-2025-000002",
+    "tipo": "prioridad",
+    "ticket": null,
+    "leida": true,
+    "fecha": {
+      "$date": "2025-11-20T18:08:09.628Z"
+    },
+    "actualizado": {
+      "$date": "2025-11-20T19:25:41.014Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "691f591c2cf85340ecbc6a15"
+    },
+    "usuario": {
+      "$oid": "685aebb013bf3eff09f102ec"
+    },
+    "titulo": "Prioridad cambiada a Baja – SYS-2025-000002",
+    "tipo": "prioridad",
+    "ticket": null,
+    "leida": true,
+    "fecha": {
+      "$date": "2025-11-20T18:08:28.667Z"
+    },
+    "actualizado": {
+      "$date": "2025-11-20T18:08:31.536Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "691f59272cf85340ecbc6a1b"
+    },
+    "usuario": {
+      "$oid": "685aee77c1ac24e6a4c528fb"
+    },
+    "titulo": "Prioridad cambiada a Baja – SYS-2025-000002",
+    "tipo": "prioridad",
+    "ticket": null,
+    "leida": true,
+    "fecha": {
+      "$date": "2025-11-20T18:08:39.621Z"
+    },
+    "actualizado": {
+      "$date": "2025-11-20T19:25:41.014Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "691f6b822cf85340ecbc6dd6"
+    },
+    "usuario": {
+      "$oid": "685aebb013bf3eff09f102ec"
+    },
+    "titulo": "Nuevo ticket (Sistemas) - SYS-2025-000009",
+    "tipo": "nuevo",
+    "ticket": null,
+    "leida": true,
+    "fecha": {
+      "$date": "2025-11-20T19:26:58.650Z"
+    },
+    "actualizado": {
+      "$date": "2025-11-20T19:27:03.297Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "691f6b842cf85340ecbc6ddb"
+    },
+    "usuario": {
+      "$oid": "685aebb013bf3eff09f102ec"
+    },
+    "titulo": "Nuevo ticket (Sistemas) - SYS-2025-000009",
+    "tipo": "nuevo",
+    "ticket": null,
+    "leida": true,
+    "fecha": {
+      "$date": "2025-11-20T19:27:00.705Z"
+    },
+    "actualizado": {
+      "$date": "2025-11-20T19:27:03.297Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "691f6c4d2cf85340ecbc6e1b"
+    },
+    "usuario": {
+      "$oid": "685b153258a86a8b63b7b883"
+    },
+    "titulo": "Nuevo ticket (Mantenimiento) - MNT-2025-000004",
+    "tipo": "nuevo",
+    "ticket": null,
+    "leida": true,
+    "fecha": {
+      "$date": "2025-11-20T19:30:21.502Z"
+    },
+    "actualizado": {
+      "$date": "2025-11-20T19:30:24.042Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "691f9552ba2996fc28306b22"
+    },
+    "usuario": {
+      "$oid": "685aee77c1ac24e6a4c528fb"
+    },
+    "titulo": "Prioridad cambiada a Media – SYS-2025-000002",
+    "tipo": "prioridad",
+    "ticket": null,
+    "leida": true,
+    "fecha": {
+      "$date": "2025-11-20T22:25:22.794Z"
+    },
+    "actualizado": {
+      "$date": "2025-11-20T22:25:25.762Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "691f9570ba2996fc28306b33"
+    },
+    "usuario": {
+      "$oid": "685aee77c1ac24e6a4c528fb"
+    },
+    "titulo": "Prioridad cambiada a Alta – SYS-2025-000002",
+    "tipo": "prioridad",
+    "ticket": null,
+    "leida": true,
+    "fecha": {
+      "$date": "2025-11-20T22:25:52.803Z"
+    },
+    "actualizado": {
+      "$date": "2025-11-20T22:26:25.885Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "691f958eba2996fc28306b3d"
+    },
+    "usuario": {
+      "$oid": "685aee77c1ac24e6a4c528fb"
+    },
+    "titulo": "Prioridad cambiada a Alta – SYS-2025-000001",
+    "tipo": "prioridad",
+    "ticket": null,
+    "leida": true,
+    "fecha": {
+      "$date": "2025-11-20T22:26:22.782Z"
+    },
+    "actualizado": {
+      "$date": "2025-11-20T22:26:25.885Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "691f9598ba2996fc28306b44"
+    },
+    "usuario": {
+      "$oid": "685aebb013bf3eff09f102ec"
+    },
+    "titulo": "Prioridad cambiada a Alta – SYS-2025-000001",
+    "tipo": "prioridad",
+    "ticket": null,
+    "leida": true,
+    "fecha": {
+      "$date": "2025-11-20T22:26:32.322Z"
+    },
+    "actualizado": {
+      "$date": "2025-11-20T22:26:36.583Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "6920aeef8a4a40e67a3d75bd"
+    },
+    "usuario": {
+      "$oid": "685aebb013bf3eff09f102ec"
+    },
+    "titulo": "Nuevo ticket (Sistemas) - SYS-2025-000009",
+    "tipo": "nuevo",
+    "ticket": null,
+    "leida": true,
+    "fecha": {
+      "$date": "2025-11-21T18:26:55.208Z"
+    },
+    "actualizado": {
+      "$date": "2025-11-21T18:26:57.080Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "69246b628a4a40e67a3d882e"
+    },
+    "usuario": {
+      "$oid": "685aebb013bf3eff09f102ec"
+    },
+    "titulo": "Nuevo ticket (Sistemas) - SYS-2025-000002",
+    "tipo": "nuevo",
+    "ticket": null,
+    "leida": true,
+    "fecha": {
+      "$date": "2025-11-24T14:27:46.176Z"
+    },
+    "actualizado": {
+      "$date": "2025-11-24T14:27:48.644Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "692470c49851d125ed11c957"
+    },
+    "usuario": {
+      "$oid": "685b151858a86a8b63b7b880"
+    },
+    "titulo": "Se te asignó un ticket (Sistemas) - SYS-2025-000002",
+    "tipo": "asignado",
+    "ticket": null,
+    "leida": false,
+    "fecha": {
+      "$date": "2025-11-24T14:50:44.415Z"
+    },
+    "actualizado": {
+      "$date": "2025-11-24T14:50:44.415Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "692470c99851d125ed11c95f"
+    },
+    "usuario": {
+      "$oid": "685aebb013bf3eff09f102ec"
+    },
+    "titulo": "Se te asignó un ticket (Sistemas) - SYS-2025-000002",
+    "tipo": "asignado",
+    "ticket": null,
+    "leida": true,
+    "fecha": {
+      "$date": "2025-11-24T14:50:49.643Z"
+    },
+    "actualizado": {
+      "$date": "2025-11-24T14:51:04.266Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "692470cc9851d125ed11c967"
+    },
+    "usuario": {
+      "$oid": "685dc9c7f90f5b2d43462d47"
+    },
+    "titulo": "Se te asignó un ticket (Sistemas) - SYS-2025-000002",
+    "tipo": "asignado",
+    "ticket": null,
+    "leida": false,
+    "fecha": {
+      "$date": "2025-11-24T14:50:52.297Z"
+    },
+    "actualizado": {
+      "$date": "2025-11-24T14:50:52.297Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "692470e99851d125ed11c976"
+    },
+    "usuario": {
+      "$oid": "685aebb013bf3eff09f102ec"
+    },
+    "titulo": "Se te asignó un ticket (Sistemas) - SYS-2025-000002",
+    "tipo": "asignado",
+    "ticket": null,
+    "leida": true,
+    "fecha": {
+      "$date": "2025-11-24T14:51:21.922Z"
+    },
+    "actualizado": {
+      "$date": "2025-11-24T14:51:24.872Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "692470ea9851d125ed11c97f"
+    },
+    "usuario": {
+      "$oid": "685aebb013bf3eff09f102ec"
+    },
+    "titulo": "Nuevo ticket (Sistemas) - SYS-2025-000002",
+    "tipo": "nuevo",
+    "ticket": null,
+    "leida": true,
+    "fecha": {
+      "$date": "2025-11-24T14:51:22.321Z"
+    },
+    "actualizado": {
+      "$date": "2025-11-24T14:51:24.872Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "692470fa9851d125ed11c984"
+    },
+    "usuario": {
+      "$oid": "685b151858a86a8b63b7b880"
+    },
+    "titulo": "Se te asignó un ticket (Sistemas) - SYS-2025-000002",
+    "tipo": "asignado",
+    "ticket": null,
+    "leida": false,
+    "fecha": {
+      "$date": "2025-11-24T14:51:38.323Z"
+    },
+    "actualizado": {
+      "$date": "2025-11-24T14:51:38.323Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "692470fe9851d125ed11c98f"
+    },
+    "usuario": {
+      "$oid": "685aebb013bf3eff09f102ec"
+    },
+    "titulo": "Se te asignó un ticket (Sistemas) - SYS-2025-000002",
+    "tipo": "asignado",
+    "ticket": null,
+    "leida": true,
+    "fecha": {
+      "$date": "2025-11-24T14:51:42.785Z"
+    },
+    "actualizado": {
+      "$date": "2025-11-24T14:51:45.565Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "6924710b9851d125ed11c99b"
+    },
+    "usuario": {
+      "$oid": "685aebb013bf3eff09f102ec"
+    },
+    "titulo": "Se te asignó un ticket (Sistemas) - SYS-2025-000001",
+    "tipo": "asignado",
+    "ticket": null,
+    "leida": true,
+    "fecha": {
+      "$date": "2025-11-24T14:51:55.233Z"
+    },
+    "actualizado": {
+      "$date": "2025-11-24T14:51:58.653Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "692471269851d125ed11c9a8"
+    },
+    "usuario": {
+      "$oid": "685aebb013bf3eff09f102ec"
+    },
+    "titulo": "Nuevo ticket (Sistemas) - SYS-2025-000001",
+    "tipo": "nuevo",
+    "ticket": null,
+    "leida": true,
+    "fecha": {
+      "$date": "2025-11-24T14:52:22.342Z"
+    },
+    "actualizado": {
+      "$date": "2025-11-24T14:52:25.064Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "692498f244b46d81155f92e0"
+    },
+    "usuario": {
+      "$oid": "685b151858a86a8b63b7b880"
+    },
+    "titulo": "Se te asignó un ticket (Sistemas) - SYS-2025-000002",
+    "tipo": "asignado",
+    "ticket": null,
+    "leida": false,
+    "fecha": {
+      "$date": "2025-11-24T17:42:10.791Z"
+    },
+    "actualizado": {
+      "$date": "2025-11-24T17:42:10.791Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "692498fa44b46d81155f92e8"
+    },
+    "usuario": {
+      "$oid": "685aebb013bf3eff09f102ec"
+    },
+    "titulo": "Se te asignó un ticket (Sistemas) - SYS-2025-000002",
+    "tipo": "asignado",
+    "ticket": null,
+    "leida": true,
+    "fecha": {
+      "$date": "2025-11-24T17:42:18.062Z"
+    },
+    "actualizado": {
+      "$date": "2025-11-24T17:42:20.595Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "69249b0044b46d81155f935c"
+    },
+    "usuario": {
+      "$oid": "685aebb013bf3eff09f102ec"
+    },
+    "titulo": "Prioridad cambiada a Media – SYS-2025-000002",
+    "tipo": "prioridad",
+    "ticket": null,
+    "leida": true,
+    "fecha": {
+      "$date": "2025-11-24T17:50:56.555Z"
+    },
+    "actualizado": {
+      "$date": "2025-11-24T17:51:11.685Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "69249b1944b46d81155f9363"
+    },
+    "usuario": {
+      "$oid": "685aee77c1ac24e6a4c528fb"
+    },
+    "titulo": "Prioridad cambiada a Media – SYS-2025-000002",
+    "tipo": "prioridad",
+    "ticket": null,
+    "leida": true,
+    "fecha": {
+      "$date": "2025-11-24T17:51:21.920Z"
+    },
+    "actualizado": {
+      "$date": "2025-11-24T17:51:40.303Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "69249f0d85954bab87a00fec"
+    },
+    "usuario": {
+      "$oid": "685aee77c1ac24e6a4c528fb"
+    },
+    "titulo": "Nuevo ticket (Sistemas) - SYS-2025-000010",
+    "tipo": "nuevo",
+    "ticket": null,
+    "leida": true,
+    "__v": 0,
+    "fecha": {
+      "$date": "2025-11-24T18:08:13.442Z"
+    },
+    "actualizado": {
+      "$date": "2025-11-24T18:08:16.634Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "69249f0d85954bab87a00fed"
+    },
+    "usuario": {
+      "$oid": "685b26e4da13b7cbe3b105b0"
+    },
+    "titulo": "Nuevo ticket (Sistemas) - SYS-2025-000010",
+    "tipo": "nuevo",
+    "ticket": null,
+    "leida": false,
+    "__v": 0,
+    "fecha": {
+      "$date": "2025-11-24T18:08:13.442Z"
+    },
+    "actualizado": {
+      "$date": "2025-11-24T18:08:13.442Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "69249f0d85954bab87a00fee"
+    },
+    "usuario": {
+      "$oid": "6862a623c9b690df50d6f884"
+    },
+    "titulo": "Nuevo ticket (Sistemas) - SYS-2025-000010",
+    "tipo": "nuevo",
+    "ticket": null,
+    "leida": true,
+    "__v": 0,
+    "fecha": {
+      "$date": "2025-11-24T18:08:13.442Z"
+    },
+    "actualizado": {
+      "$date": "2025-11-24T18:22:12.131Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "69249f0d85954bab87a00fef"
+    },
+    "usuario": {
+      "$oid": "68d2efe459545f15d9b398bc"
+    },
+    "titulo": "Nuevo ticket (Sistemas) - SYS-2025-000010",
+    "tipo": "nuevo",
+    "ticket": null,
+    "leida": false,
+    "__v": 0,
+    "fecha": {
+      "$date": "2025-11-24T18:08:13.442Z"
+    },
+    "actualizado": {
+      "$date": "2025-11-24T18:08:13.442Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "69249f1485954bab87a00ff5"
+    },
+    "usuario": {
+      "$oid": "685aee77c1ac24e6a4c528fb"
+    },
+    "titulo": "Nuevo ticket (Sistemas) - SYS-2025-000010",
+    "tipo": "nuevo",
+    "ticket": null,
+    "leida": true,
+    "fecha": {
+      "$date": "2025-11-24T18:08:20.866Z"
+    },
+    "actualizado": {
+      "$date": "2025-11-24T18:08:30.146Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "69249f2285954bab87a00fff"
+    },
+    "usuario": {
+      "$oid": "685aee77c1ac24e6a4c528fb"
+    },
+    "titulo": "Nuevo ticket (Sistemas) - SYS-2025-000011",
+    "tipo": "nuevo",
+    "ticket": null,
+    "leida": true,
+    "__v": 0,
+    "fecha": {
+      "$date": "2025-11-24T18:08:34.177Z"
+    },
+    "actualizado": {
+      "$date": "2025-11-24T18:08:37.346Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "69249f2285954bab87a01000"
+    },
+    "usuario": {
+      "$oid": "685b26e4da13b7cbe3b105b0"
+    },
+    "titulo": "Nuevo ticket (Sistemas) - SYS-2025-000011",
+    "tipo": "nuevo",
+    "ticket": null,
+    "leida": false,
+    "__v": 0,
+    "fecha": {
+      "$date": "2025-11-24T18:08:34.177Z"
+    },
+    "actualizado": {
+      "$date": "2025-11-24T18:08:34.177Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "69249f2285954bab87a01001"
+    },
+    "usuario": {
+      "$oid": "6862a623c9b690df50d6f884"
+    },
+    "titulo": "Nuevo ticket (Sistemas) - SYS-2025-000011",
+    "tipo": "nuevo",
+    "ticket": null,
+    "leida": true,
+    "__v": 0,
+    "fecha": {
+      "$date": "2025-11-24T18:08:34.177Z"
+    },
+    "actualizado": {
+      "$date": "2025-11-24T18:22:12.131Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "69249f2285954bab87a01002"
+    },
+    "usuario": {
+      "$oid": "68d2efe459545f15d9b398bc"
+    },
+    "titulo": "Nuevo ticket (Sistemas) - SYS-2025-000011",
+    "tipo": "nuevo",
+    "ticket": null,
+    "leida": false,
+    "__v": 0,
+    "fecha": {
+      "$date": "2025-11-24T18:08:34.177Z"
+    },
+    "actualizado": {
+      "$date": "2025-11-24T18:08:34.177Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "69249f3285954bab87a01009"
+    },
+    "usuario": {
+      "$oid": "685aee77c1ac24e6a4c528fb"
+    },
+    "titulo": "Nuevo ticket (Sistemas) - SYS-2025-000011",
+    "tipo": "nuevo",
+    "ticket": null,
+    "leida": true,
+    "fecha": {
+      "$date": "2025-11-24T18:08:50.875Z"
+    },
+    "actualizado": {
+      "$date": "2025-11-24T18:08:52.378Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "6924a1b06d5276377748f7c1"
+    },
+    "usuario": {
+      "$oid": "685aee77c1ac24e6a4c528fb"
+    },
+    "titulo": "Ticket resuelto (Sistemas) - SYS-2025-000009",
+    "tipo": "resuelto",
+    "ticket": null,
+    "leida": true,
+    "__v": 0,
+    "fecha": {
+      "$date": "2025-11-24T18:19:28.620Z"
+    },
+    "actualizado": {
+      "$date": "2025-11-24T18:19:30.617Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6924a1b06d5276377748f7c2"
+    },
+    "usuario": {
+      "$oid": "685b26e4da13b7cbe3b105b0"
+    },
+    "titulo": "Ticket resuelto (Sistemas) - SYS-2025-000009",
+    "tipo": "resuelto",
+    "ticket": null,
+    "leida": false,
+    "__v": 0,
+    "fecha": {
+      "$date": "2025-11-24T18:19:28.621Z"
+    },
+    "actualizado": {
+      "$date": "2025-11-24T18:19:28.621Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6924a1b06d5276377748f7c3"
+    },
+    "usuario": {
+      "$oid": "6862a623c9b690df50d6f884"
+    },
+    "titulo": "Ticket resuelto (Sistemas) - SYS-2025-000009",
+    "tipo": "resuelto",
+    "ticket": null,
+    "leida": true,
+    "__v": 0,
+    "fecha": {
+      "$date": "2025-11-24T18:19:28.621Z"
+    },
+    "actualizado": {
+      "$date": "2025-11-24T18:22:12.131Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6924a1b06d5276377748f7c4"
+    },
+    "usuario": {
+      "$oid": "68d2efe459545f15d9b398bc"
+    },
+    "titulo": "Ticket resuelto (Sistemas) - SYS-2025-000009",
+    "tipo": "resuelto",
+    "ticket": null,
+    "leida": false,
+    "__v": 0,
+    "fecha": {
+      "$date": "2025-11-24T18:19:28.621Z"
+    },
+    "actualizado": {
+      "$date": "2025-11-24T18:19:28.621Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6924a2516d5276377748f82f"
+    },
+    "usuario": {
+      "$oid": "685aee77c1ac24e6a4c528fb"
+    },
+    "titulo": "Nuevo ticket (Sistemas) - SYS-2025-000012",
+    "tipo": "nuevo",
+    "ticket": null,
+    "leida": true,
+    "__v": 0,
+    "fecha": {
+      "$date": "2025-11-24T18:22:09.089Z"
+    },
+    "actualizado": {
+      "$date": "2025-12-05T17:23:02.059Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6924a2516d5276377748f830"
+    },
+    "usuario": {
+      "$oid": "685b26e4da13b7cbe3b105b0"
+    },
+    "titulo": "Nuevo ticket (Sistemas) - SYS-2025-000012",
+    "tipo": "nuevo",
+    "ticket": null,
+    "leida": false,
+    "__v": 0,
+    "fecha": {
+      "$date": "2025-11-24T18:22:09.089Z"
+    },
+    "actualizado": {
+      "$date": "2025-11-24T18:22:09.089Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6924a2516d5276377748f831"
+    },
+    "usuario": {
+      "$oid": "6862a623c9b690df50d6f884"
+    },
+    "titulo": "Nuevo ticket (Sistemas) - SYS-2025-000012",
+    "tipo": "nuevo",
+    "ticket": null,
+    "leida": true,
+    "__v": 0,
+    "fecha": {
+      "$date": "2025-11-24T18:22:09.089Z"
+    },
+    "actualizado": {
+      "$date": "2025-11-24T18:22:12.131Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6924a2516d5276377748f832"
+    },
+    "usuario": {
+      "$oid": "68d2efe459545f15d9b398bc"
+    },
+    "titulo": "Nuevo ticket (Sistemas) - SYS-2025-000012",
+    "tipo": "nuevo",
+    "ticket": null,
+    "leida": false,
+    "__v": 0,
+    "fecha": {
+      "$date": "2025-11-24T18:22:09.089Z"
+    },
+    "actualizado": {
+      "$date": "2025-11-24T18:22:09.089Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6924a25f6d5276377748f838"
+    },
+    "usuario": {
+      "$oid": "6862a623c9b690df50d6f884"
+    },
+    "titulo": "Nuevo ticket (Sistemas) - SYS-2025-000012",
+    "tipo": "nuevo",
+    "ticket": null,
+    "leida": true,
+    "fecha": {
+      "$date": "2025-11-24T18:22:23.073Z"
+    },
+    "actualizado": {
+      "$date": "2025-11-24T18:23:15.270Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "6924a2776d5276377748f86d"
+    },
+    "usuario": {
+      "$oid": "685aebb013bf3eff09f102ec"
+    },
+    "titulo": "Se te asignó un ticket (Sistemas) - SYS-2025-000003",
+    "tipo": "asignado",
+    "ticket": null,
+    "leida": true,
+    "fecha": {
+      "$date": "2025-11-24T18:22:47.375Z"
+    },
+    "actualizado": {
+      "$date": "2025-11-24T18:23:01.533Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "6924a2826d5276377748f885"
+    },
+    "usuario": {
+      "$oid": "685aebb013bf3eff09f102ec"
+    },
+    "titulo": "Nuevo ticket (Sistemas) - SYS-2025-000003",
+    "tipo": "nuevo",
+    "ticket": null,
+    "leida": true,
+    "fecha": {
+      "$date": "2025-11-24T18:22:58.924Z"
+    },
+    "actualizado": {
+      "$date": "2025-11-24T18:23:01.533Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "6924a2906d5276377748f88e"
+    },
+    "usuario": {
+      "$oid": "685aee77c1ac24e6a4c528fb"
+    },
+    "titulo": "Ticket resuelto (Sistemas) - SYS-2025-000001",
+    "tipo": "resuelto",
+    "ticket": null,
+    "leida": true,
+    "__v": 0,
+    "fecha": {
+      "$date": "2025-11-24T18:23:12.859Z"
+    },
+    "actualizado": {
+      "$date": "2025-12-05T17:23:02.059Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6924a2906d5276377748f88f"
+    },
+    "usuario": {
+      "$oid": "685b26e4da13b7cbe3b105b0"
+    },
+    "titulo": "Ticket resuelto (Sistemas) - SYS-2025-000001",
+    "tipo": "resuelto",
+    "ticket": null,
+    "leida": false,
+    "__v": 0,
+    "fecha": {
+      "$date": "2025-11-24T18:23:12.859Z"
+    },
+    "actualizado": {
+      "$date": "2025-11-24T18:23:12.859Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6924a2906d5276377748f890"
+    },
+    "usuario": {
+      "$oid": "6862a623c9b690df50d6f884"
+    },
+    "titulo": "Ticket resuelto (Sistemas) - SYS-2025-000001",
+    "tipo": "resuelto",
+    "ticket": null,
+    "leida": true,
+    "__v": 0,
+    "fecha": {
+      "$date": "2025-11-24T18:23:12.859Z"
+    },
+    "actualizado": {
+      "$date": "2025-11-24T18:23:15.270Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6924a2906d5276377748f891"
+    },
+    "usuario": {
+      "$oid": "68d2efe459545f15d9b398bc"
+    },
+    "titulo": "Ticket resuelto (Sistemas) - SYS-2025-000001",
+    "tipo": "resuelto",
+    "ticket": null,
+    "leida": false,
+    "__v": 0,
+    "fecha": {
+      "$date": "2025-11-24T18:23:12.859Z"
+    },
+    "actualizado": {
+      "$date": "2025-11-24T18:23:12.859Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6924b5126d5276377748fa9d"
+    },
+    "usuario": {
+      "$oid": "6862a623c9b690df50d6f884"
+    },
+    "titulo": "Prioridad cambiada a Alta – SYS-2025-000003",
+    "tipo": "prioridad",
+    "ticket": null,
+    "leida": true,
+    "fecha": {
+      "$date": "2025-11-24T19:42:10.661Z"
+    },
+    "actualizado": {
+      "$date": "2025-11-24T19:42:14.829Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "6924b5306d5276377748fab8"
+    },
+    "usuario": {
+      "$oid": "6862a623c9b690df50d6f884"
+    },
+    "titulo": "Prioridad cambiada a Media – SYS-2025-000003",
+    "tipo": "prioridad",
+    "ticket": null,
+    "leida": true,
+    "fecha": {
+      "$date": "2025-11-24T19:42:40.658Z"
+    },
+    "actualizado": {
+      "$date": "2025-11-24T19:42:42.178Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "6924b54e6d5276377748fadc"
+    },
+    "usuario": {
+      "$oid": "6862a623c9b690df50d6f884"
+    },
+    "titulo": "Prioridad cambiada a Alta – SYS-2025-000003",
+    "tipo": "prioridad",
+    "ticket": null,
+    "leida": true,
+    "fecha": {
+      "$date": "2025-11-24T19:43:10.660Z"
+    },
+    "actualizado": {
+      "$date": "2025-11-24T19:43:14.154Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "6924b55b6d5276377748fae2"
+    },
+    "usuario": {
+      "$oid": "685b151858a86a8b63b7b880"
+    },
+    "titulo": "Se te asignó un ticket (Sistemas) - SYS-2025-000003",
+    "tipo": "asignado",
+    "ticket": null,
+    "leida": false,
+    "fecha": {
+      "$date": "2025-11-24T19:43:23.281Z"
+    },
+    "actualizado": {
+      "$date": "2025-11-24T19:43:23.281Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "6924b55d6d5276377748fafc"
+    },
+    "usuario": {
+      "$oid": "685aebb013bf3eff09f102ec"
+    },
+    "titulo": "Se te asignó un ticket (Sistemas) - SYS-2025-000003",
+    "tipo": "asignado",
+    "ticket": null,
+    "leida": true,
+    "fecha": {
+      "$date": "2025-11-24T19:43:25.784Z"
+    },
+    "actualizado": {
+      "$date": "2025-11-24T19:43:27.132Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "6924b5796d5276377748fb18"
+    },
+    "usuario": {
+      "$oid": "685aebb013bf3eff09f102ec"
+    },
+    "titulo": "Nuevo ticket (Sistemas) - SYS-2025-000003",
+    "tipo": "nuevo",
+    "ticket": null,
+    "leida": true,
+    "fecha": {
+      "$date": "2025-11-24T19:43:53.483Z"
+    },
+    "actualizado": {
+      "$date": "2025-11-24T22:25:24.349Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "6924dae57aaf628245fdd4bd"
+    },
+    "usuario": {
+      "$oid": "685aee77c1ac24e6a4c528fb"
+    },
+    "titulo": "Ticket resuelto (Sistemas) - SYS-2025-000002",
+    "tipo": "resuelto",
+    "ticket": null,
+    "leida": true,
+    "__v": 0,
+    "fecha": {
+      "$date": "2025-11-24T22:23:33.371Z"
+    },
+    "actualizado": {
+      "$date": "2025-12-05T17:23:02.059Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6924dae57aaf628245fdd4be"
+    },
+    "usuario": {
+      "$oid": "685b26e4da13b7cbe3b105b0"
+    },
+    "titulo": "Ticket resuelto (Sistemas) - SYS-2025-000002",
+    "tipo": "resuelto",
+    "ticket": null,
+    "leida": false,
+    "__v": 0,
+    "fecha": {
+      "$date": "2025-11-24T22:23:33.371Z"
+    },
+    "actualizado": {
+      "$date": "2025-11-24T22:23:33.371Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6924dae57aaf628245fdd4bf"
+    },
+    "usuario": {
+      "$oid": "6862a623c9b690df50d6f884"
+    },
+    "titulo": "Ticket resuelto (Sistemas) - SYS-2025-000002",
+    "tipo": "resuelto",
+    "ticket": null,
+    "leida": true,
+    "__v": 0,
+    "fecha": {
+      "$date": "2025-11-24T22:23:33.371Z"
+    },
+    "actualizado": {
+      "$date": "2025-11-24T22:23:35.310Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6924dae57aaf628245fdd4c0"
+    },
+    "usuario": {
+      "$oid": "68d2efe459545f15d9b398bc"
+    },
+    "titulo": "Ticket resuelto (Sistemas) - SYS-2025-000002",
+    "tipo": "resuelto",
+    "ticket": null,
+    "leida": false,
+    "__v": 0,
+    "fecha": {
+      "$date": "2025-11-24T22:23:33.371Z"
+    },
+    "actualizado": {
+      "$date": "2025-11-24T22:23:33.371Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6924daf97aaf628245fdd4cb"
+    },
+    "usuario": {
+      "$oid": "685aee77c1ac24e6a4c528fb"
+    },
+    "titulo": "Nuevo ticket (Sistemas) - SYS-2025-000013",
+    "tipo": "nuevo",
+    "ticket": null,
+    "leida": true,
+    "__v": 0,
+    "fecha": {
+      "$date": "2025-11-24T22:23:53.354Z"
+    },
+    "actualizado": {
+      "$date": "2025-12-05T17:23:02.059Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6924daf97aaf628245fdd4cc"
+    },
+    "usuario": {
+      "$oid": "685b26e4da13b7cbe3b105b0"
+    },
+    "titulo": "Nuevo ticket (Sistemas) - SYS-2025-000013",
+    "tipo": "nuevo",
+    "ticket": null,
+    "leida": false,
+    "__v": 0,
+    "fecha": {
+      "$date": "2025-11-24T22:23:53.354Z"
+    },
+    "actualizado": {
+      "$date": "2025-11-24T22:23:53.354Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6924daf97aaf628245fdd4cd"
+    },
+    "usuario": {
+      "$oid": "6862a623c9b690df50d6f884"
+    },
+    "titulo": "Nuevo ticket (Sistemas) - SYS-2025-000013",
+    "tipo": "nuevo",
+    "ticket": null,
+    "leida": true,
+    "__v": 0,
+    "fecha": {
+      "$date": "2025-11-24T22:23:53.354Z"
+    },
+    "actualizado": {
+      "$date": "2025-11-24T22:23:55.955Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6924daf97aaf628245fdd4ce"
+    },
+    "usuario": {
+      "$oid": "68d2efe459545f15d9b398bc"
+    },
+    "titulo": "Nuevo ticket (Sistemas) - SYS-2025-000013",
+    "tipo": "nuevo",
+    "ticket": null,
+    "leida": false,
+    "__v": 0,
+    "fecha": {
+      "$date": "2025-11-24T22:23:53.354Z"
+    },
+    "actualizado": {
+      "$date": "2025-11-24T22:23:53.354Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6924db647aaf628245fdd516"
+    },
+    "usuario": {
+      "$oid": "685b151858a86a8b63b7b880"
+    },
+    "titulo": "Se te asignó un ticket (Sistemas) - SYS-2025-000003",
+    "tipo": "asignado",
+    "ticket": null,
+    "leida": false,
+    "fecha": {
+      "$date": "2025-11-24T22:25:40.452Z"
+    },
+    "actualizado": {
+      "$date": "2025-11-24T22:25:40.452Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "6924db687aaf628245fdd52d"
+    },
+    "usuario": {
+      "$oid": "685aebb013bf3eff09f102ec"
+    },
+    "titulo": "Se te asignó un ticket (Sistemas) - SYS-2025-000003",
+    "tipo": "asignado",
+    "ticket": null,
+    "leida": true,
+    "fecha": {
+      "$date": "2025-11-24T22:25:44.650Z"
+    },
+    "actualizado": {
+      "$date": "2025-11-24T22:25:46.361Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "6924e4d949ddf191ae82f7bd"
+    },
+    "usuario": {
+      "$oid": "685aebb013bf3eff09f102ec"
+    },
+    "titulo": "Prioridad cambiada a Media – SYS-2025-000003",
+    "tipo": "prioridad",
+    "ticket": null,
+    "leida": true,
+    "fecha": {
+      "$date": "2025-11-24T23:06:01.558Z"
+    },
+    "actualizado": {
+      "$date": "2025-11-24T23:06:03.132Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "6924e98a49ddf191ae82f99f"
+    },
+    "usuario": {
+      "$oid": "685aebb013bf3eff09f102ec"
+    },
+    "titulo": "Prioridad cambiada a Alta – SYS-2025-000003",
+    "tipo": "prioridad",
+    "ticket": null,
+    "leida": true,
+    "fecha": {
+      "$date": "2025-11-24T23:26:02.120Z"
+    },
+    "actualizado": {
+      "$date": "2025-11-24T23:26:13.181Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "6924e99349ddf191ae82f9b7"
+    },
+    "usuario": {
+      "$oid": "685aee77c1ac24e6a4c528fb"
+    },
+    "titulo": "Ticket resuelto (Sistemas) - SYS-2025-000003",
+    "tipo": "resuelto",
+    "ticket": null,
+    "leida": true,
+    "__v": 0,
+    "fecha": {
+      "$date": "2025-11-24T23:26:11.161Z"
+    },
+    "actualizado": {
+      "$date": "2025-12-05T17:23:02.059Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6924e99349ddf191ae82f9b8"
+    },
+    "usuario": {
+      "$oid": "685b26e4da13b7cbe3b105b0"
+    },
+    "titulo": "Ticket resuelto (Sistemas) - SYS-2025-000003",
+    "tipo": "resuelto",
+    "ticket": null,
+    "leida": false,
+    "__v": 0,
+    "fecha": {
+      "$date": "2025-11-24T23:26:11.161Z"
+    },
+    "actualizado": {
+      "$date": "2025-11-24T23:26:11.161Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6924e99349ddf191ae82f9b9"
+    },
+    "usuario": {
+      "$oid": "6862a623c9b690df50d6f884"
+    },
+    "titulo": "Ticket resuelto (Sistemas) - SYS-2025-000003",
+    "tipo": "resuelto",
+    "ticket": null,
+    "leida": true,
+    "__v": 0,
+    "fecha": {
+      "$date": "2025-11-24T23:26:11.161Z"
+    },
+    "actualizado": {
+      "$date": "2025-11-24T23:26:14.806Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6924e99349ddf191ae82f9ba"
+    },
+    "usuario": {
+      "$oid": "68d2efe459545f15d9b398bc"
+    },
+    "titulo": "Ticket resuelto (Sistemas) - SYS-2025-000003",
+    "tipo": "resuelto",
+    "ticket": null,
+    "leida": false,
+    "__v": 0,
+    "fecha": {
+      "$date": "2025-11-24T23:26:11.161Z"
+    },
+    "actualizado": {
+      "$date": "2025-11-24T23:26:11.161Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6925be28ce060a06d597b16b"
+    },
+    "usuario": {
+      "$oid": "685aee77c1ac24e6a4c528fb"
+    },
+    "titulo": "Nuevo ticket (Sistemas) - SYS-2025-000014",
+    "tipo": "nuevo",
+    "ticket": null,
+    "leida": true,
+    "__v": 0,
+    "fecha": {
+      "$date": "2025-11-25T14:33:12.573Z"
+    },
+    "actualizado": {
+      "$date": "2025-12-05T17:23:02.059Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6925be28ce060a06d597b16c"
+    },
+    "usuario": {
+      "$oid": "685b26e4da13b7cbe3b105b0"
+    },
+    "titulo": "Nuevo ticket (Sistemas) - SYS-2025-000014",
+    "tipo": "nuevo",
+    "ticket": null,
+    "leida": false,
+    "__v": 0,
+    "fecha": {
+      "$date": "2025-11-25T14:33:12.573Z"
+    },
+    "actualizado": {
+      "$date": "2025-11-25T14:33:12.573Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6925be28ce060a06d597b16d"
+    },
+    "usuario": {
+      "$oid": "6862a623c9b690df50d6f884"
+    },
+    "titulo": "Nuevo ticket (Sistemas) - SYS-2025-000014",
+    "tipo": "nuevo",
+    "ticket": null,
+    "leida": true,
+    "__v": 0,
+    "fecha": {
+      "$date": "2025-11-25T14:33:12.574Z"
+    },
+    "actualizado": {
+      "$date": "2025-11-25T14:34:13.949Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6925be28ce060a06d597b16e"
+    },
+    "usuario": {
+      "$oid": "68d2efe459545f15d9b398bc"
+    },
+    "titulo": "Nuevo ticket (Sistemas) - SYS-2025-000014",
+    "tipo": "nuevo",
+    "ticket": null,
+    "leida": false,
+    "__v": 0,
+    "fecha": {
+      "$date": "2025-11-25T14:33:12.574Z"
+    },
+    "actualizado": {
+      "$date": "2025-11-25T14:33:12.574Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6925be43ce060a06d597b187"
+    },
+    "usuario": {
+      "$oid": "685aebb013bf3eff09f102ec"
+    },
+    "titulo": "Prioridad cambiada a Alta – SYS-2025-000002",
+    "tipo": "prioridad",
+    "ticket": null,
+    "leida": true,
+    "fecha": {
+      "$date": "2025-11-25T14:33:39.154Z"
+    },
+    "actualizado": {
+      "$date": "2025-11-25T14:34:00.803Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "6925be56ce060a06d597b1c7"
+    },
+    "usuario": {
+      "$oid": "685dc9c7f90f5b2d43462d47"
+    },
+    "titulo": "Prioridad cambiada a Alta – SYS-2025-000004",
+    "tipo": "prioridad",
+    "ticket": null,
+    "leida": false,
+    "fecha": {
+      "$date": "2025-11-25T14:33:58.553Z"
+    },
+    "actualizado": {
+      "$date": "2025-11-25T14:33:58.553Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "6925be62ce060a06d597b1e1"
+    },
+    "usuario": {
+      "$oid": "685aee77c1ac24e6a4c528fb"
+    },
+    "titulo": "Nuevo ticket (Sistemas) - SYS-2025-000015",
+    "tipo": "nuevo",
+    "ticket": null,
+    "leida": true,
+    "__v": 0,
+    "fecha": {
+      "$date": "2025-11-25T14:34:10.298Z"
+    },
+    "actualizado": {
+      "$date": "2025-12-05T17:23:02.059Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6925be62ce060a06d597b1e2"
+    },
+    "usuario": {
+      "$oid": "685b26e4da13b7cbe3b105b0"
+    },
+    "titulo": "Nuevo ticket (Sistemas) - SYS-2025-000015",
+    "tipo": "nuevo",
+    "ticket": null,
+    "leida": false,
+    "__v": 0,
+    "fecha": {
+      "$date": "2025-11-25T14:34:10.298Z"
+    },
+    "actualizado": {
+      "$date": "2025-11-25T14:34:10.298Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6925be62ce060a06d597b1e3"
+    },
+    "usuario": {
+      "$oid": "6862a623c9b690df50d6f884"
+    },
+    "titulo": "Nuevo ticket (Sistemas) - SYS-2025-000015",
+    "tipo": "nuevo",
+    "ticket": null,
+    "leida": true,
+    "__v": 0,
+    "fecha": {
+      "$date": "2025-11-25T14:34:10.298Z"
+    },
+    "actualizado": {
+      "$date": "2025-11-25T14:34:13.949Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6925be62ce060a06d597b1e4"
+    },
+    "usuario": {
+      "$oid": "68d2efe459545f15d9b398bc"
+    },
+    "titulo": "Nuevo ticket (Sistemas) - SYS-2025-000015",
+    "tipo": "nuevo",
+    "ticket": null,
+    "leida": false,
+    "__v": 0,
+    "fecha": {
+      "$date": "2025-11-25T14:34:10.298Z"
+    },
+    "actualizado": {
+      "$date": "2025-11-25T14:34:10.298Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6925fbd4ce060a06d597b215"
+    },
+    "usuario": {
+      "$oid": "685aebb013bf3eff09f102ec"
+    },
+    "titulo": "Se te asignó un ticket (Sistemas) - SYS-2025-000004",
+    "tipo": "asignado",
+    "ticket": null,
+    "leida": true,
+    "fecha": {
+      "$date": "2025-11-25T18:56:20.629Z"
+    },
+    "actualizado": {
+      "$date": "2025-11-25T18:57:59.791Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "6925fbdace060a06d597b22d"
+    },
+    "usuario": {
+      "$oid": "685aebb013bf3eff09f102ec"
+    },
+    "titulo": "Prioridad cambiada a Media – SYS-2025-000004",
+    "tipo": "prioridad",
+    "ticket": null,
+    "leida": true,
+    "fecha": {
+      "$date": "2025-11-25T18:56:26.470Z"
+    },
+    "actualizado": {
+      "$date": "2025-11-25T18:57:59.791Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "6925fc42ce060a06d597b2af"
+    },
+    "usuario": {
+      "$oid": "685aebb013bf3eff09f102ec"
+    },
+    "titulo": "Prioridad cambiada a Alta – SYS-2025-000004",
+    "tipo": "prioridad",
+    "ticket": null,
+    "leida": true,
+    "fecha": {
+      "$date": "2025-11-25T18:58:10.497Z"
+    },
+    "actualizado": {
+      "$date": "2025-11-25T18:58:14.024Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "6925fc5cce060a06d597b2d0"
+    },
+    "usuario": {
+      "$oid": "685aee77c1ac24e6a4c528fb"
+    },
+    "titulo": "Ticket resuelto (Sistemas) - SYS-2025-000004",
+    "tipo": "resuelto",
+    "ticket": null,
+    "leida": true,
+    "__v": 0,
+    "fecha": {
+      "$date": "2025-11-25T18:58:36.148Z"
+    },
+    "actualizado": {
+      "$date": "2025-12-05T17:23:02.059Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6925fc5cce060a06d597b2d1"
+    },
+    "usuario": {
+      "$oid": "685b26e4da13b7cbe3b105b0"
+    },
+    "titulo": "Ticket resuelto (Sistemas) - SYS-2025-000004",
+    "tipo": "resuelto",
+    "ticket": null,
+    "leida": false,
+    "__v": 0,
+    "fecha": {
+      "$date": "2025-11-25T18:58:36.149Z"
+    },
+    "actualizado": {
+      "$date": "2025-11-25T18:58:36.149Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6925fc5cce060a06d597b2d2"
+    },
+    "usuario": {
+      "$oid": "6862a623c9b690df50d6f884"
+    },
+    "titulo": "Ticket resuelto (Sistemas) - SYS-2025-000004",
+    "tipo": "resuelto",
+    "ticket": null,
+    "leida": true,
+    "__v": 0,
+    "fecha": {
+      "$date": "2025-11-25T18:58:36.149Z"
+    },
+    "actualizado": {
+      "$date": "2025-11-25T18:58:38.690Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6925fc5cce060a06d597b2d3"
+    },
+    "usuario": {
+      "$oid": "68d2efe459545f15d9b398bc"
+    },
+    "titulo": "Ticket resuelto (Sistemas) - SYS-2025-000004",
+    "tipo": "resuelto",
+    "ticket": null,
+    "leida": false,
+    "__v": 0,
+    "fecha": {
+      "$date": "2025-11-25T18:58:36.149Z"
+    },
+    "actualizado": {
+      "$date": "2025-11-25T18:58:36.149Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6925ffa2d04f7ff8b58cce2e"
+    },
+    "usuario": {
+      "$oid": "685aee77c1ac24e6a4c528fb"
+    },
+    "titulo": "Ticket resuelto (Sistemas) - SYS-2025-000002",
+    "tipo": "resuelto",
+    "ticket": null,
+    "leida": true,
+    "__v": 0,
+    "fecha": {
+      "$date": "2025-11-25T19:12:34.398Z"
+    },
+    "actualizado": {
+      "$date": "2025-12-05T17:23:02.059Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6925ffa2d04f7ff8b58cce2f"
+    },
+    "usuario": {
+      "$oid": "685b26e4da13b7cbe3b105b0"
+    },
+    "titulo": "Ticket resuelto (Sistemas) - SYS-2025-000002",
+    "tipo": "resuelto",
+    "ticket": null,
+    "leida": false,
+    "__v": 0,
+    "fecha": {
+      "$date": "2025-11-25T19:12:34.398Z"
+    },
+    "actualizado": {
+      "$date": "2025-11-25T19:12:34.398Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6925ffa2d04f7ff8b58cce30"
+    },
+    "usuario": {
+      "$oid": "6862a623c9b690df50d6f884"
+    },
+    "titulo": "Ticket resuelto (Sistemas) - SYS-2025-000002",
+    "tipo": "resuelto",
+    "ticket": null,
+    "leida": true,
+    "__v": 0,
+    "fecha": {
+      "$date": "2025-11-25T19:12:34.398Z"
+    },
+    "actualizado": {
+      "$date": "2025-11-25T19:12:36.269Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6925ffa2d04f7ff8b58cce31"
+    },
+    "usuario": {
+      "$oid": "68d2efe459545f15d9b398bc"
+    },
+    "titulo": "Ticket resuelto (Sistemas) - SYS-2025-000002",
+    "tipo": "resuelto",
+    "ticket": null,
+    "leida": false,
+    "__v": 0,
+    "fecha": {
+      "$date": "2025-11-25T19:12:34.398Z"
+    },
+    "actualizado": {
+      "$date": "2025-11-25T19:12:34.398Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "692600e5439386ede4f3d5e7"
+    },
+    "usuario": {
+      "$oid": "685aee77c1ac24e6a4c528fb"
+    },
+    "titulo": "Ticket resuelto (Sistemas) - SYS-2025-000002",
+    "tipo": "resuelto",
+    "ticket": null,
+    "leida": true,
+    "__v": 0,
+    "fecha": {
+      "$date": "2025-11-25T19:17:57.546Z"
+    },
+    "actualizado": {
+      "$date": "2025-12-05T17:23:02.059Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "692600e5439386ede4f3d5e8"
+    },
+    "usuario": {
+      "$oid": "685b26e4da13b7cbe3b105b0"
+    },
+    "titulo": "Ticket resuelto (Sistemas) - SYS-2025-000002",
+    "tipo": "resuelto",
+    "ticket": null,
+    "leida": false,
+    "__v": 0,
+    "fecha": {
+      "$date": "2025-11-25T19:17:57.546Z"
+    },
+    "actualizado": {
+      "$date": "2025-11-25T19:17:57.546Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "692600e5439386ede4f3d5e9"
+    },
+    "usuario": {
+      "$oid": "6862a623c9b690df50d6f884"
+    },
+    "titulo": "Ticket resuelto (Sistemas) - SYS-2025-000002",
+    "tipo": "resuelto",
+    "ticket": null,
+    "leida": true,
+    "__v": 0,
+    "fecha": {
+      "$date": "2025-11-25T19:17:57.547Z"
+    },
+    "actualizado": {
+      "$date": "2025-11-25T19:18:03.505Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "692600e5439386ede4f3d5ea"
+    },
+    "usuario": {
+      "$oid": "68d2efe459545f15d9b398bc"
+    },
+    "titulo": "Ticket resuelto (Sistemas) - SYS-2025-000002",
+    "tipo": "resuelto",
+    "ticket": null,
+    "leida": false,
+    "__v": 0,
+    "fecha": {
+      "$date": "2025-11-25T19:17:57.547Z"
+    },
+    "actualizado": {
+      "$date": "2025-11-25T19:17:57.547Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "69260119439386ede4f3d624"
+    },
+    "usuario": {
+      "$oid": "685aee77c1ac24e6a4c528fb"
+    },
+    "titulo": "Ticket resuelto (Sistemas) - SYS-2025-000002",
+    "tipo": "resuelto",
+    "ticket": null,
+    "leida": true,
+    "__v": 0,
+    "fecha": {
+      "$date": "2025-11-25T19:18:49.862Z"
+    },
+    "actualizado": {
+      "$date": "2025-12-05T17:23:02.059Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "69260119439386ede4f3d625"
+    },
+    "usuario": {
+      "$oid": "685b26e4da13b7cbe3b105b0"
+    },
+    "titulo": "Ticket resuelto (Sistemas) - SYS-2025-000002",
+    "tipo": "resuelto",
+    "ticket": null,
+    "leida": false,
+    "__v": 0,
+    "fecha": {
+      "$date": "2025-11-25T19:18:49.862Z"
+    },
+    "actualizado": {
+      "$date": "2025-11-25T19:18:49.862Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "69260119439386ede4f3d626"
+    },
+    "usuario": {
+      "$oid": "6862a623c9b690df50d6f884"
+    },
+    "titulo": "Ticket resuelto (Sistemas) - SYS-2025-000002",
+    "tipo": "resuelto",
+    "ticket": null,
+    "leida": true,
+    "__v": 0,
+    "fecha": {
+      "$date": "2025-11-25T19:18:49.862Z"
+    },
+    "actualizado": {
+      "$date": "2025-11-25T19:18:53.314Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "69260119439386ede4f3d627"
+    },
+    "usuario": {
+      "$oid": "68d2efe459545f15d9b398bc"
+    },
+    "titulo": "Ticket resuelto (Sistemas) - SYS-2025-000002",
+    "tipo": "resuelto",
+    "ticket": null,
+    "leida": false,
+    "__v": 0,
+    "fecha": {
+      "$date": "2025-11-25T19:18:49.862Z"
+    },
+    "actualizado": {
+      "$date": "2025-11-25T19:18:49.862Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6926171577d572716542cd99"
+    },
+    "usuario": {
+      "$oid": "685aebb013bf3eff09f102ec"
+    },
+    "titulo": "Se te asignó un ticket (Sistemas) - SYS-2025-000005",
+    "tipo": "asignado",
+    "ticket": null,
+    "leida": true,
+    "fecha": {
+      "$date": "2025-11-25T20:52:37.025Z"
+    },
+    "actualizado": {
+      "$date": "2025-11-25T20:52:45.335Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "6926171877d572716542cdb1"
+    },
+    "usuario": {
+      "$oid": "685aebb013bf3eff09f102ec"
+    },
+    "titulo": "Prioridad cambiada a Media – SYS-2025-000005",
+    "tipo": "prioridad",
+    "ticket": null,
+    "leida": true,
+    "fecha": {
+      "$date": "2025-11-25T20:52:40.204Z"
+    },
+    "actualizado": {
+      "$date": "2025-11-25T20:52:45.335Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "6926172b77d572716542cdcf"
+    },
+    "usuario": {
+      "$oid": "685aee77c1ac24e6a4c528fb"
+    },
+    "titulo": "Ticket resuelto (Sistemas) - SYS-2025-000005",
+    "tipo": "resuelto",
+    "ticket": null,
+    "leida": true,
+    "__v": 0,
+    "fecha": {
+      "$date": "2025-11-25T20:52:59.294Z"
+    },
+    "actualizado": {
+      "$date": "2025-12-05T17:23:02.059Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6926172b77d572716542cdd0"
+    },
+    "usuario": {
+      "$oid": "685b26e4da13b7cbe3b105b0"
+    },
+    "titulo": "Ticket resuelto (Sistemas) - SYS-2025-000005",
+    "tipo": "resuelto",
+    "ticket": null,
+    "leida": false,
+    "__v": 0,
+    "fecha": {
+      "$date": "2025-11-25T20:52:59.294Z"
+    },
+    "actualizado": {
+      "$date": "2025-11-25T20:52:59.294Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6926172b77d572716542cdd1"
+    },
+    "usuario": {
+      "$oid": "6862a623c9b690df50d6f884"
+    },
+    "titulo": "Ticket resuelto (Sistemas) - SYS-2025-000005",
+    "tipo": "resuelto",
+    "ticket": null,
+    "leida": true,
+    "__v": 0,
+    "fecha": {
+      "$date": "2025-11-25T20:52:59.294Z"
+    },
+    "actualizado": {
+      "$date": "2025-11-25T20:53:01.587Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6926172b77d572716542cdd2"
+    },
+    "usuario": {
+      "$oid": "68d2efe459545f15d9b398bc"
+    },
+    "titulo": "Ticket resuelto (Sistemas) - SYS-2025-000005",
+    "tipo": "resuelto",
+    "ticket": null,
+    "leida": false,
+    "__v": 0,
+    "fecha": {
+      "$date": "2025-11-25T20:52:59.294Z"
+    },
+    "actualizado": {
+      "$date": "2025-11-25T20:52:59.294Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6926173c77d572716542ce04"
+    },
+    "usuario": {
+      "$oid": "685b151858a86a8b63b7b880"
+    },
+    "titulo": "Prioridad cambiada a Media – SYS-2025-000006",
+    "tipo": "prioridad",
+    "ticket": null,
+    "leida": false,
+    "fecha": {
+      "$date": "2025-11-25T20:53:16.011Z"
+    },
+    "actualizado": {
+      "$date": "2025-11-25T20:53:16.011Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "6926173e77d572716542ce1b"
+    },
+    "usuario": {
+      "$oid": "685aebb013bf3eff09f102ec"
+    },
+    "titulo": "Se te asignó un ticket (Sistemas) - SYS-2025-000006",
+    "tipo": "asignado",
+    "ticket": null,
+    "leida": true,
+    "fecha": {
+      "$date": "2025-11-25T20:53:18.385Z"
+    },
+    "actualizado": {
+      "$date": "2025-11-25T20:53:19.790Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "6926175377d572716542ce3a"
+    },
+    "usuario": {
+      "$oid": "685aee77c1ac24e6a4c528fb"
+    },
+    "titulo": "Nuevo ticket (Sistemas) - SYS-2025-000016",
+    "tipo": "nuevo",
+    "ticket": null,
+    "leida": true,
+    "__v": 0,
+    "fecha": {
+      "$date": "2025-11-25T20:53:39.458Z"
+    },
+    "actualizado": {
+      "$date": "2025-12-05T17:23:02.059Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6926175377d572716542ce3b"
+    },
+    "usuario": {
+      "$oid": "685b26e4da13b7cbe3b105b0"
+    },
+    "titulo": "Nuevo ticket (Sistemas) - SYS-2025-000016",
+    "tipo": "nuevo",
+    "ticket": null,
+    "leida": false,
+    "__v": 0,
+    "fecha": {
+      "$date": "2025-11-25T20:53:39.458Z"
+    },
+    "actualizado": {
+      "$date": "2025-11-25T20:53:39.458Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6926175377d572716542ce3c"
+    },
+    "usuario": {
+      "$oid": "6862a623c9b690df50d6f884"
+    },
+    "titulo": "Nuevo ticket (Sistemas) - SYS-2025-000016",
+    "tipo": "nuevo",
+    "ticket": null,
+    "leida": true,
+    "__v": 0,
+    "fecha": {
+      "$date": "2025-11-25T20:53:39.458Z"
+    },
+    "actualizado": {
+      "$date": "2025-11-25T20:53:43.266Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6926175377d572716542ce3d"
+    },
+    "usuario": {
+      "$oid": "68d2efe459545f15d9b398bc"
+    },
+    "titulo": "Nuevo ticket (Sistemas) - SYS-2025-000016",
+    "tipo": "nuevo",
+    "ticket": null,
+    "leida": false,
+    "__v": 0,
+    "fecha": {
+      "$date": "2025-11-25T20:53:39.458Z"
+    },
+    "actualizado": {
+      "$date": "2025-11-25T20:53:39.458Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6926178677d572716542ce96"
+    },
+    "usuario": {
+      "$oid": "685aee77c1ac24e6a4c528fb"
+    },
+    "titulo": "Nuevo ticket (Sistemas) - SYS-2025-000017",
+    "tipo": "nuevo",
+    "ticket": null,
+    "leida": true,
+    "__v": 0,
+    "fecha": {
+      "$date": "2025-11-25T20:54:30.419Z"
+    },
+    "actualizado": {
+      "$date": "2025-12-05T17:23:02.059Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6926178677d572716542ce97"
+    },
+    "usuario": {
+      "$oid": "685b26e4da13b7cbe3b105b0"
+    },
+    "titulo": "Nuevo ticket (Sistemas) - SYS-2025-000017",
+    "tipo": "nuevo",
+    "ticket": null,
+    "leida": false,
+    "__v": 0,
+    "fecha": {
+      "$date": "2025-11-25T20:54:30.419Z"
+    },
+    "actualizado": {
+      "$date": "2025-11-25T20:54:30.419Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6926178677d572716542ce98"
+    },
+    "usuario": {
+      "$oid": "6862a623c9b690df50d6f884"
+    },
+    "titulo": "Nuevo ticket (Sistemas) - SYS-2025-000017",
+    "tipo": "nuevo",
+    "ticket": null,
+    "leida": true,
+    "__v": 0,
+    "fecha": {
+      "$date": "2025-11-25T20:54:30.419Z"
+    },
+    "actualizado": {
+      "$date": "2025-11-25T20:54:33.258Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6926178677d572716542ce99"
+    },
+    "usuario": {
+      "$oid": "68d2efe459545f15d9b398bc"
+    },
+    "titulo": "Nuevo ticket (Sistemas) - SYS-2025-000017",
+    "tipo": "nuevo",
+    "ticket": null,
+    "leida": false,
+    "__v": 0,
+    "fecha": {
+      "$date": "2025-11-25T20:54:30.419Z"
+    },
+    "actualizado": {
+      "$date": "2025-11-25T20:54:30.419Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "692f31704b35e7e14359e34d"
+    },
+    "usuario": {
+      "$oid": "685b153258a86a8b63b7b883"
+    },
+    "titulo": "Se te asignó un ticket (Mantenimiento) - MNT-2025-000001",
+    "tipo": "asignado",
+    "ticket": null,
+    "leida": false,
+    "fecha": {
+      "$date": "2025-12-02T18:35:28.057Z"
+    },
+    "actualizado": {
+      "$date": "2025-12-02T18:35:28.057Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "692f31cb4b35e7e14359e382"
+    },
+    "usuario": {
+      "$oid": "685b153258a86a8b63b7b883"
+    },
+    "titulo": "Se te asignó un ticket (Mantenimiento) - MNT-2025-000002",
+    "tipo": "asignado",
+    "ticket": null,
+    "leida": false,
+    "fecha": {
+      "$date": "2025-12-02T18:36:59.096Z"
+    },
+    "actualizado": {
+      "$date": "2025-12-02T18:36:59.096Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "692f31cd4b35e7e14359e39b"
+    },
+    "usuario": {
+      "$oid": "685b153258a86a8b63b7b883"
+    },
+    "titulo": "Prioridad cambiada a Alta – MNT-2025-000002",
+    "tipo": "prioridad",
+    "ticket": null,
+    "leida": false,
+    "fecha": {
+      "$date": "2025-12-02T18:37:01.072Z"
+    },
+    "actualizado": {
+      "$date": "2025-12-02T18:37:01.072Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "6930b803a9a15386abbf692c"
+    },
+    "usuario": {
+      "$oid": "685aebb013bf3eff09f102ec"
+    },
+    "titulo": "Se te asignó un ticket (Sistemas) - SYS-2025-000010",
+    "tipo": "asignado",
+    "ticket": null,
+    "leida": true,
+    "fecha": {
+      "$date": "2025-12-03T22:21:55.555Z"
+    },
+    "actualizado": {
+      "$date": "2025-12-03T22:22:44.686Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "6930b840a9a15386abbf69ef"
+    },
+    "usuario": {
+      "$oid": "685aee77c1ac24e6a4c528fb"
+    },
+    "titulo": "Nuevo ticket (Sistemas) - SYS-2025-000018",
+    "tipo": "nuevo",
+    "ticket": null,
+    "leida": true,
+    "__v": 0,
+    "fecha": {
+      "$date": "2025-12-03T22:22:56.870Z"
+    },
+    "actualizado": {
+      "$date": "2025-12-05T17:23:02.059Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6930b840a9a15386abbf69f0"
+    },
+    "usuario": {
+      "$oid": "685b26e4da13b7cbe3b105b0"
+    },
+    "titulo": "Nuevo ticket (Sistemas) - SYS-2025-000018",
+    "tipo": "nuevo",
+    "ticket": null,
+    "leida": false,
+    "__v": 0,
+    "fecha": {
+      "$date": "2025-12-03T22:22:56.870Z"
+    },
+    "actualizado": {
+      "$date": "2025-12-03T22:22:56.870Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6930b840a9a15386abbf69f1"
+    },
+    "usuario": {
+      "$oid": "6862a623c9b690df50d6f884"
+    },
+    "titulo": "Nuevo ticket (Sistemas) - SYS-2025-000018",
+    "tipo": "nuevo",
+    "ticket": null,
+    "leida": true,
+    "__v": 0,
+    "fecha": {
+      "$date": "2025-12-03T22:22:56.870Z"
+    },
+    "actualizado": {
+      "$date": "2025-12-03T22:23:00.292Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6930b840a9a15386abbf69f2"
+    },
+    "usuario": {
+      "$oid": "68d2efe459545f15d9b398bc"
+    },
+    "titulo": "Nuevo ticket (Sistemas) - SYS-2025-000018",
+    "tipo": "nuevo",
+    "ticket": null,
+    "leida": false,
+    "__v": 0,
+    "fecha": {
+      "$date": "2025-12-03T22:22:56.871Z"
+    },
+    "actualizado": {
+      "$date": "2025-12-03T22:22:56.871Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6930b87aa9a15386abbf6a4a"
+    },
+    "usuario": {
+      "$oid": "685aebb013bf3eff09f102ec"
+    },
+    "titulo": "Se te asignó un ticket (Sistemas) - SYS-2025-000011",
+    "tipo": "asignado",
+    "ticket": null,
+    "leida": true,
+    "fecha": {
+      "$date": "2025-12-03T22:23:54.806Z"
+    },
+    "actualizado": {
+      "$date": "2025-12-03T22:23:56.601Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "6930b88ba9a15386abbf6aa4"
+    },
+    "usuario": {
+      "$oid": "685aebb013bf3eff09f102ec"
+    },
+    "titulo": "Se te asignó un ticket (Sistemas) - SYS-2025-000012",
+    "tipo": "asignado",
+    "ticket": null,
+    "leida": true,
+    "fecha": {
+      "$date": "2025-12-03T22:24:11.887Z"
+    },
+    "actualizado": {
+      "$date": "2025-12-08T18:37:27.393Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "69371b0896712f5f6cfc1718"
+    },
+    "usuario": {
+      "$oid": "685aee77c1ac24e6a4c528fb"
+    },
+    "titulo": "Nuevo ticket (Sistemas) - SYS-2025-000019",
+    "tipo": "nuevo",
+    "ticket": null,
+    "leida": true,
+    "__v": 0,
+    "fecha": {
+      "$date": "2025-12-08T18:38:00.931Z"
+    },
+    "actualizado": {
+      "$date": "2026-03-19T15:15:04.392Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "69371b0896712f5f6cfc1719"
+    },
+    "usuario": {
+      "$oid": "685b26e4da13b7cbe3b105b0"
+    },
+    "titulo": "Nuevo ticket (Sistemas) - SYS-2025-000019",
+    "tipo": "nuevo",
+    "ticket": null,
+    "leida": false,
+    "__v": 0,
+    "fecha": {
+      "$date": "2025-12-08T18:38:00.931Z"
+    },
+    "actualizado": {
+      "$date": "2025-12-08T18:38:00.931Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "69371b0896712f5f6cfc171a"
+    },
+    "usuario": {
+      "$oid": "6862a623c9b690df50d6f884"
+    },
+    "titulo": "Nuevo ticket (Sistemas) - SYS-2025-000019",
+    "tipo": "nuevo",
+    "ticket": null,
+    "leida": true,
+    "__v": 0,
+    "fecha": {
+      "$date": "2025-12-08T18:38:00.931Z"
+    },
+    "actualizado": {
+      "$date": "2025-12-09T21:06:17.280Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "69371b0896712f5f6cfc171b"
+    },
+    "usuario": {
+      "$oid": "68d2efe459545f15d9b398bc"
+    },
+    "titulo": "Nuevo ticket (Sistemas) - SYS-2025-000019",
+    "tipo": "nuevo",
+    "ticket": null,
+    "leida": false,
+    "__v": 0,
+    "fecha": {
+      "$date": "2025-12-08T18:38:00.932Z"
+    },
+    "actualizado": {
+      "$date": "2025-12-08T18:38:00.932Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "693720268e68ea52ca758a72"
+    },
+    "usuario": {
+      "$oid": "685aee77c1ac24e6a4c528fb"
+    },
+    "titulo": "Nuevo ticket (Sistemas) - SYS-2025-000020",
+    "tipo": "nuevo",
+    "ticket": null,
+    "leida": true,
+    "__v": 0,
+    "fecha": {
+      "$date": "2025-12-08T18:59:50.012Z"
+    },
+    "actualizado": {
+      "$date": "2026-03-19T15:15:04.392Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "693720268e68ea52ca758a73"
+    },
+    "usuario": {
+      "$oid": "685b26e4da13b7cbe3b105b0"
+    },
+    "titulo": "Nuevo ticket (Sistemas) - SYS-2025-000020",
+    "tipo": "nuevo",
+    "ticket": null,
+    "leida": false,
+    "__v": 0,
+    "fecha": {
+      "$date": "2025-12-08T18:59:50.013Z"
+    },
+    "actualizado": {
+      "$date": "2025-12-08T18:59:50.013Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "693720268e68ea52ca758a74"
+    },
+    "usuario": {
+      "$oid": "6862a623c9b690df50d6f884"
+    },
+    "titulo": "Nuevo ticket (Sistemas) - SYS-2025-000020",
+    "tipo": "nuevo",
+    "ticket": null,
+    "leida": true,
+    "__v": 0,
+    "fecha": {
+      "$date": "2025-12-08T18:59:50.013Z"
+    },
+    "actualizado": {
+      "$date": "2025-12-09T21:06:17.280Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "693720268e68ea52ca758a75"
+    },
+    "usuario": {
+      "$oid": "68d2efe459545f15d9b398bc"
+    },
+    "titulo": "Nuevo ticket (Sistemas) - SYS-2025-000020",
+    "tipo": "nuevo",
+    "ticket": null,
+    "leida": false,
+    "__v": 0,
+    "fecha": {
+      "$date": "2025-12-08T18:59:50.013Z"
+    },
+    "actualizado": {
+      "$date": "2025-12-08T18:59:50.013Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6937217510a6a023e276c8a9"
+    },
+    "usuario": {
+      "$oid": "685aee77c1ac24e6a4c528fb"
+    },
+    "titulo": "Nuevo ticket (Sistemas) - SYS-2025-000021",
+    "tipo": "nuevo",
+    "ticket": null,
+    "leida": true,
+    "__v": 0,
+    "fecha": {
+      "$date": "2025-12-08T19:05:25.774Z"
+    },
+    "actualizado": {
+      "$date": "2026-03-19T15:15:04.392Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6937217510a6a023e276c8aa"
+    },
+    "usuario": {
+      "$oid": "685b26e4da13b7cbe3b105b0"
+    },
+    "titulo": "Nuevo ticket (Sistemas) - SYS-2025-000021",
+    "tipo": "nuevo",
+    "ticket": null,
+    "leida": false,
+    "__v": 0,
+    "fecha": {
+      "$date": "2025-12-08T19:05:25.775Z"
+    },
+    "actualizado": {
+      "$date": "2025-12-08T19:05:25.775Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6937217510a6a023e276c8ab"
+    },
+    "usuario": {
+      "$oid": "6862a623c9b690df50d6f884"
+    },
+    "titulo": "Nuevo ticket (Sistemas) - SYS-2025-000021",
+    "tipo": "nuevo",
+    "ticket": null,
+    "leida": true,
+    "__v": 0,
+    "fecha": {
+      "$date": "2025-12-08T19:05:25.775Z"
+    },
+    "actualizado": {
+      "$date": "2025-12-09T21:06:17.280Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6937217510a6a023e276c8ac"
+    },
+    "usuario": {
+      "$oid": "68d2efe459545f15d9b398bc"
+    },
+    "titulo": "Nuevo ticket (Sistemas) - SYS-2025-000021",
+    "tipo": "nuevo",
+    "ticket": null,
+    "leida": false,
+    "__v": 0,
+    "fecha": {
+      "$date": "2025-12-08T19:05:25.775Z"
+    },
+    "actualizado": {
+      "$date": "2025-12-08T19:05:25.775Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "69372290212c6e69817b9541"
+    },
+    "usuario": {
+      "$oid": "685aee77c1ac24e6a4c528fb"
+    },
+    "titulo": "Nuevo ticket (Sistemas) - SYS-2025-000022",
+    "tipo": "nuevo",
+    "ticket": null,
+    "leida": true,
+    "__v": 0,
+    "fecha": {
+      "$date": "2025-12-08T19:10:08.593Z"
+    },
+    "actualizado": {
+      "$date": "2026-03-19T15:15:04.392Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "69372290212c6e69817b9542"
+    },
+    "usuario": {
+      "$oid": "685b26e4da13b7cbe3b105b0"
+    },
+    "titulo": "Nuevo ticket (Sistemas) - SYS-2025-000022",
+    "tipo": "nuevo",
+    "ticket": null,
+    "leida": false,
+    "__v": 0,
+    "fecha": {
+      "$date": "2025-12-08T19:10:08.593Z"
+    },
+    "actualizado": {
+      "$date": "2025-12-08T19:10:08.593Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "69372290212c6e69817b9543"
+    },
+    "usuario": {
+      "$oid": "6862a623c9b690df50d6f884"
+    },
+    "titulo": "Nuevo ticket (Sistemas) - SYS-2025-000022",
+    "tipo": "nuevo",
+    "ticket": null,
+    "leida": true,
+    "__v": 0,
+    "fecha": {
+      "$date": "2025-12-08T19:10:08.593Z"
+    },
+    "actualizado": {
+      "$date": "2025-12-09T21:06:17.280Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "69372290212c6e69817b9544"
+    },
+    "usuario": {
+      "$oid": "68d2efe459545f15d9b398bc"
+    },
+    "titulo": "Nuevo ticket (Sistemas) - SYS-2025-000022",
+    "tipo": "nuevo",
+    "ticket": null,
+    "leida": false,
+    "__v": 0,
+    "fecha": {
+      "$date": "2025-12-08T19:10:08.593Z"
+    },
+    "actualizado": {
+      "$date": "2025-12-08T19:10:08.593Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "69389efd27e44551d59e1159"
+    },
+    "usuario": {
+      "$oid": "685aee77c1ac24e6a4c528fb"
+    },
+    "titulo": "Nuevo ticket (Sistemas) - SYS-2025-000023",
+    "tipo": "nuevo",
+    "ticket": null,
+    "leida": true,
+    "__v": 0,
+    "fecha": {
+      "$date": "2025-12-09T22:13:17.160Z"
+    },
+    "actualizado": {
+      "$date": "2026-03-19T15:15:04.392Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "69389efd27e44551d59e115a"
+    },
+    "usuario": {
+      "$oid": "685b26e4da13b7cbe3b105b0"
+    },
+    "titulo": "Nuevo ticket (Sistemas) - SYS-2025-000023",
+    "tipo": "nuevo",
+    "ticket": null,
+    "leida": false,
+    "__v": 0,
+    "fecha": {
+      "$date": "2025-12-09T22:13:17.160Z"
+    },
+    "actualizado": {
+      "$date": "2025-12-09T22:13:17.160Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "69389efd27e44551d59e115b"
+    },
+    "usuario": {
+      "$oid": "6862a623c9b690df50d6f884"
+    },
+    "titulo": "Nuevo ticket (Sistemas) - SYS-2025-000023",
+    "tipo": "nuevo",
+    "ticket": null,
+    "leida": true,
+    "__v": 0,
+    "fecha": {
+      "$date": "2025-12-09T22:13:17.160Z"
+    },
+    "actualizado": {
+      "$date": "2025-12-09T22:13:54.279Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "69389efd27e44551d59e115c"
+    },
+    "usuario": {
+      "$oid": "68d2efe459545f15d9b398bc"
+    },
+    "titulo": "Nuevo ticket (Sistemas) - SYS-2025-000023",
+    "tipo": "nuevo",
+    "ticket": null,
+    "leida": false,
+    "__v": 0,
+    "fecha": {
+      "$date": "2025-12-09T22:13:17.161Z"
+    },
+    "actualizado": {
+      "$date": "2025-12-09T22:13:17.161Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "69389f3027e44551d59e11a1"
+    },
+    "usuario": {
+      "$oid": "685aebb013bf3eff09f102ec"
+    },
+    "titulo": "Se te asignó un ticket (Sistemas) - SYS-2025-000023",
+    "tipo": "asignado",
+    "ticket": null,
+    "leida": true,
+    "fecha": {
+      "$date": "2025-12-09T22:14:08.139Z"
+    },
+    "actualizado": {
+      "$date": "2025-12-09T22:14:43.264Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "69389f3227e44551d59e11cc"
+    },
+    "usuario": {
+      "$oid": "685aebb013bf3eff09f102ec"
+    },
+    "titulo": "Prioridad cambiada a Alta – SYS-2025-000023",
+    "tipo": "prioridad",
+    "ticket": null,
+    "leida": true,
+    "fecha": {
+      "$date": "2025-12-09T22:14:10.283Z"
+    },
+    "actualizado": {
+      "$date": "2025-12-09T22:14:43.264Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "698e3e4c4b20c6abe16307e8"
+    },
+    "usuario": {
+      "$oid": "685aee77c1ac24e6a4c528fb"
+    },
+    "titulo": "Nuevo ticket (Sistemas) - SYS-2026-000001",
+    "tipo": "nuevo",
+    "ticket": null,
+    "leida": true,
+    "__v": 0,
+    "fecha": {
+      "$date": "2026-02-12T20:55:40.025Z"
+    },
+    "actualizado": {
+      "$date": "2026-03-19T15:15:04.392Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "698e3e4c4b20c6abe16307e9"
+    },
+    "usuario": {
+      "$oid": "685b26e4da13b7cbe3b105b0"
+    },
+    "titulo": "Nuevo ticket (Sistemas) - SYS-2026-000001",
+    "tipo": "nuevo",
+    "ticket": null,
+    "leida": false,
+    "__v": 0,
+    "fecha": {
+      "$date": "2026-02-12T20:55:40.025Z"
+    },
+    "actualizado": {
+      "$date": "2026-02-12T20:55:40.025Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "698e3e4c4b20c6abe16307ea"
+    },
+    "usuario": {
+      "$oid": "6862a623c9b690df50d6f884"
+    },
+    "titulo": "Nuevo ticket (Sistemas) - SYS-2026-000001",
+    "tipo": "nuevo",
+    "ticket": null,
+    "leida": true,
+    "__v": 0,
+    "fecha": {
+      "$date": "2026-02-12T20:55:40.025Z"
+    },
+    "actualizado": {
+      "$date": "2026-02-13T14:50:40.419Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "698e3e4c4b20c6abe16307eb"
+    },
+    "usuario": {
+      "$oid": "68d2efe459545f15d9b398bc"
+    },
+    "titulo": "Nuevo ticket (Sistemas) - SYS-2026-000001",
+    "tipo": "nuevo",
+    "ticket": null,
+    "leida": false,
+    "__v": 0,
+    "fecha": {
+      "$date": "2026-02-12T20:55:40.025Z"
+    },
+    "actualizado": {
+      "$date": "2026-02-12T20:55:40.025Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "698f3a3cc2307ca07e5852e9"
+    },
+    "usuario": {
+      "$oid": "685aee77c1ac24e6a4c528fb"
+    },
+    "titulo": "Nuevo ticket (Sistemas) - SYS-2026-000002",
+    "tipo": "nuevo",
+    "ticket": null,
+    "leida": true,
+    "__v": 0,
+    "fecha": {
+      "$date": "2026-02-13T14:50:36.411Z"
+    },
+    "actualizado": {
+      "$date": "2026-03-19T15:15:04.392Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "698f3a3cc2307ca07e5852ea"
+    },
+    "usuario": {
+      "$oid": "685b26e4da13b7cbe3b105b0"
+    },
+    "titulo": "Nuevo ticket (Sistemas) - SYS-2026-000002",
+    "tipo": "nuevo",
+    "ticket": null,
+    "leida": false,
+    "__v": 0,
+    "fecha": {
+      "$date": "2026-02-13T14:50:36.412Z"
+    },
+    "actualizado": {
+      "$date": "2026-02-13T14:50:36.412Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "698f3a3cc2307ca07e5852eb"
+    },
+    "usuario": {
+      "$oid": "6862a623c9b690df50d6f884"
+    },
+    "titulo": "Nuevo ticket (Sistemas) - SYS-2026-000002",
+    "tipo": "nuevo",
+    "ticket": null,
+    "leida": true,
+    "__v": 0,
+    "fecha": {
+      "$date": "2026-02-13T14:50:36.412Z"
+    },
+    "actualizado": {
+      "$date": "2026-02-13T14:50:40.419Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "698f3a3cc2307ca07e5852ec"
+    },
+    "usuario": {
+      "$oid": "68d2efe459545f15d9b398bc"
+    },
+    "titulo": "Nuevo ticket (Sistemas) - SYS-2026-000002",
+    "tipo": "nuevo",
+    "ticket": null,
+    "leida": false,
+    "__v": 0,
+    "fecha": {
+      "$date": "2026-02-13T14:50:36.412Z"
+    },
+    "actualizado": {
+      "$date": "2026-02-13T14:50:36.412Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "69e7d045a79bc87aee333a33"
+    },
+    "usuario": {
+      "$oid": "685aebb013bf3eff09f102ec"
+    },
+    "titulo": "Se te asignó un ticket (Sistemas) - SYS-2026-000001",
+    "tipo": "asignado",
+    "ticket": null,
+    "leida": true,
+    "fecha": {
+      "$date": "2026-04-21T19:30:13.612Z"
+    },
+    "actualizado": {
+      "$date": "2026-06-09T18:59:53.601Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "69e7d051a79bc87aee333a3e"
+    },
+    "usuario": {
+      "$oid": "685aebb013bf3eff09f102ec"
+    },
+    "titulo": "Prioridad cambiada a Alta – SYS-2025-000011",
+    "tipo": "prioridad",
+    "ticket": null,
+    "leida": true,
+    "fecha": {
+      "$date": "2026-04-21T19:30:25.094Z"
+    },
+    "actualizado": {
+      "$date": "2026-06-09T18:59:53.601Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "69e7d0c9a79bc87aee333a51"
+    },
+    "usuario": {
+      "$oid": "685aee77c1ac24e6a4c528fb"
+    },
+    "titulo": "Ticket resuelto (Sistemas) - SYS-2026-000001",
+    "tipo": "resuelto",
+    "ticket": null,
+    "leida": true,
+    "__v": 0,
+    "fecha": {
+      "$date": "2026-04-21T19:32:25.975Z"
+    },
+    "actualizado": {
+      "$date": "2026-06-09T14:48:09.423Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "69e7d0c9a79bc87aee333a52"
+    },
+    "usuario": {
+      "$oid": "685b26e4da13b7cbe3b105b0"
+    },
+    "titulo": "Ticket resuelto (Sistemas) - SYS-2026-000001",
+    "tipo": "resuelto",
+    "ticket": null,
+    "leida": false,
+    "__v": 0,
+    "fecha": {
+      "$date": "2026-04-21T19:32:25.976Z"
+    },
+    "actualizado": {
+      "$date": "2026-04-21T19:32:25.976Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "69e7d0c9a79bc87aee333a53"
+    },
+    "usuario": {
+      "$oid": "6862a623c9b690df50d6f884"
+    },
+    "titulo": "Ticket resuelto (Sistemas) - SYS-2026-000001",
+    "tipo": "resuelto",
+    "ticket": null,
+    "leida": true,
+    "__v": 0,
+    "fecha": {
+      "$date": "2026-04-21T19:32:25.976Z"
+    },
+    "actualizado": {
+      "$date": "2026-04-21T19:39:38.279Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "69e7d0c9a79bc87aee333a54"
+    },
+    "usuario": {
+      "$oid": "68d2efe459545f15d9b398bc"
+    },
+    "titulo": "Ticket resuelto (Sistemas) - SYS-2026-000001",
+    "tipo": "resuelto",
+    "ticket": null,
+    "leida": false,
+    "__v": 0,
+    "fecha": {
+      "$date": "2026-04-21T19:32:25.977Z"
+    },
+    "actualizado": {
+      "$date": "2026-04-21T19:32:25.977Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "69eb98282646ed672f3be0c4"
+    },
+    "usuario": {
+      "$oid": "685aebb013bf3eff09f102ec"
+    },
+    "titulo": "Prioridad cambiada a Media – SYS-2025-000023",
+    "tipo": "prioridad",
+    "ticket": null,
+    "leida": true,
+    "fecha": {
+      "$date": "2026-04-24T16:19:52.534Z"
+    },
+    "actualizado": {
+      "$date": "2026-06-09T18:59:53.601Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "69eb98312646ed672f3be0cc"
+    },
+    "usuario": {
+      "$oid": "685aebb013bf3eff09f102ec"
+    },
+    "titulo": "Prioridad cambiada a Alta – SYS-2025-000021",
+    "tipo": "prioridad",
+    "ticket": null,
+    "leida": true,
+    "fecha": {
+      "$date": "2026-04-24T16:20:01.186Z"
+    },
+    "actualizado": {
+      "$date": "2026-06-09T18:59:53.601Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "69eb98312646ed672f3be0ce"
+    },
+    "usuario": {
+      "$oid": "685aebb013bf3eff09f102ec"
+    },
+    "titulo": "Se te asignó un ticket (Sistemas) - SYS-2025-000021",
+    "tipo": "asignado",
+    "ticket": null,
+    "leida": true,
+    "fecha": {
+      "$date": "2026-04-24T16:20:01.188Z"
+    },
+    "actualizado": {
+      "$date": "2026-06-09T18:59:53.601Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "69eb98352646ed672f3be0d5"
+    },
+    "usuario": {
+      "$oid": "685dc9c7f90f5b2d43462d47"
+    },
+    "titulo": "Se te asignó un ticket (Sistemas) - SYS-2025-000021",
+    "tipo": "asignado",
+    "ticket": null,
+    "leida": false,
+    "fecha": {
+      "$date": "2026-04-24T16:20:05.720Z"
+    },
+    "actualizado": {
+      "$date": "2026-04-24T16:20:05.720Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "69eb993e2646ed672f3be0e6"
+    },
+    "usuario": {
+      "$oid": "685aebb013bf3eff09f102ec"
+    },
+    "titulo": "Prioridad cambiada a Alta – SYS-2025-000023",
+    "tipo": "prioridad",
+    "ticket": null,
+    "leida": true,
+    "fecha": {
+      "$date": "2026-04-24T16:24:30.500Z"
+    },
+    "actualizado": {
+      "$date": "2026-06-09T18:59:53.601Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "6a28621122554f89d8dc4204"
+    },
+    "usuario": {
+      "$oid": "685aee77c1ac24e6a4c528fb"
+    },
+    "titulo": "Nuevo ticket (Sistemas) - SYS-2026-000003",
+    "tipo": "nuevo",
+    "ticket": {
+      "$oid": "6a28620f22554f89d8dc41ff"
+    },
+    "leida": true,
+    "__v": 0,
+    "fecha": {
+      "$date": "2026-06-09T18:57:21.167Z"
+    },
+    "actualizado": {
+      "$date": "2026-06-11T16:55:24.215Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a28621122554f89d8dc4205"
+    },
+    "usuario": {
+      "$oid": "685b26e4da13b7cbe3b105b0"
+    },
+    "titulo": "Nuevo ticket (Sistemas) - SYS-2026-000003",
+    "tipo": "nuevo",
+    "ticket": {
+      "$oid": "6a28620f22554f89d8dc41ff"
+    },
+    "leida": false,
+    "__v": 0,
+    "fecha": {
+      "$date": "2026-06-09T18:57:21.167Z"
+    },
+    "actualizado": {
+      "$date": "2026-06-09T18:57:21.167Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a28621122554f89d8dc4206"
+    },
+    "usuario": {
+      "$oid": "6862a623c9b690df50d6f884"
+    },
+    "titulo": "Nuevo ticket (Sistemas) - SYS-2026-000003",
+    "tipo": "nuevo",
+    "ticket": {
+      "$oid": "6a28620f22554f89d8dc41ff"
+    },
+    "leida": true,
+    "__v": 0,
+    "fecha": {
+      "$date": "2026-06-09T18:57:21.167Z"
+    },
+    "actualizado": {
+      "$date": "2026-06-09T18:57:27.378Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a28621122554f89d8dc4207"
+    },
+    "usuario": {
+      "$oid": "68d2efe459545f15d9b398bc"
+    },
+    "titulo": "Nuevo ticket (Sistemas) - SYS-2026-000003",
+    "tipo": "nuevo",
+    "ticket": {
+      "$oid": "6a28620f22554f89d8dc41ff"
+    },
+    "leida": false,
+    "__v": 0,
+    "fecha": {
+      "$date": "2026-06-09T18:57:21.167Z"
+    },
+    "actualizado": {
+      "$date": "2026-06-09T18:57:21.167Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a28622b22554f89d8dc422a"
+    },
+    "usuario": {
+      "$oid": "685aebb013bf3eff09f102ec"
+    },
+    "titulo": "Prioridad cambiada a Alta – SYS-2026-000003",
+    "tipo": "prioridad",
+    "ticket": {
+      "$oid": "6a28620f22554f89d8dc41ff"
+    },
+    "leida": true,
+    "fecha": {
+      "$date": "2026-06-09T18:57:47.242Z"
+    },
+    "actualizado": {
+      "$date": "2026-06-09T18:59:53.601Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "6a28622b22554f89d8dc422c"
+    },
+    "usuario": {
+      "$oid": "6862a623c9b690df50d6f884"
+    },
+    "titulo": "La prioridad de tu ticket cambio a Alta - SYS-2026-000003",
+    "tipo": "prioridad",
+    "ticket": {
+      "$oid": "6a28620f22554f89d8dc41ff"
+    },
+    "leida": true,
+    "fecha": {
+      "$date": "2026-06-09T18:57:47.245Z"
+    },
+    "actualizado": {
+      "$date": "2026-06-09T19:00:38.908Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "6a28622b22554f89d8dc4232"
+    },
+    "usuario": {
+      "$oid": "685aebb013bf3eff09f102ec"
+    },
+    "titulo": "Se te asignó un ticket (Sistemas) - SYS-2026-000003",
+    "tipo": "asignado",
+    "ticket": {
+      "$oid": "6a28620f22554f89d8dc41ff"
+    },
+    "leida": true,
+    "fecha": {
+      "$date": "2026-06-09T18:57:47.265Z"
+    },
+    "actualizado": {
+      "$date": "2026-06-09T18:59:53.601Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "6a2862c922554f89d8dc4243"
+    },
+    "usuario": {
+      "$oid": "685aee77c1ac24e6a4c528fb"
+    },
+    "titulo": "Ticket resuelto (Sistemas) - SYS-2026-000003",
+    "tipo": "resuelto",
+    "ticket": {
+      "$oid": "6a28620f22554f89d8dc41ff"
+    },
+    "leida": true,
+    "__v": 0,
+    "fecha": {
+      "$date": "2026-06-09T19:00:25.776Z"
+    },
+    "actualizado": {
+      "$date": "2026-06-11T16:55:24.215Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a2862c922554f89d8dc4244"
+    },
+    "usuario": {
+      "$oid": "685b26e4da13b7cbe3b105b0"
+    },
+    "titulo": "Ticket resuelto (Sistemas) - SYS-2026-000003",
+    "tipo": "resuelto",
+    "ticket": {
+      "$oid": "6a28620f22554f89d8dc41ff"
+    },
+    "leida": false,
+    "__v": 0,
+    "fecha": {
+      "$date": "2026-06-09T19:00:25.776Z"
+    },
+    "actualizado": {
+      "$date": "2026-06-09T19:00:25.776Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a2862c922554f89d8dc4245"
+    },
+    "usuario": {
+      "$oid": "6862a623c9b690df50d6f884"
+    },
+    "titulo": "Ticket resuelto (Sistemas) - SYS-2026-000003",
+    "tipo": "resuelto",
+    "ticket": {
+      "$oid": "6a28620f22554f89d8dc41ff"
+    },
+    "leida": true,
+    "__v": 0,
+    "fecha": {
+      "$date": "2026-06-09T19:00:25.776Z"
+    },
+    "actualizado": {
+      "$date": "2026-06-09T19:00:38.908Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a2862c922554f89d8dc4246"
+    },
+    "usuario": {
+      "$oid": "68d2efe459545f15d9b398bc"
+    },
+    "titulo": "Ticket resuelto (Sistemas) - SYS-2026-000003",
+    "tipo": "resuelto",
+    "ticket": {
+      "$oid": "6a28620f22554f89d8dc41ff"
+    },
+    "leida": false,
+    "__v": 0,
+    "fecha": {
+      "$date": "2026-06-09T19:00:25.776Z"
+    },
+    "actualizado": {
+      "$date": "2026-06-09T19:00:25.776Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a2862c922554f89d8dc4249"
+    },
+    "usuario": {
+      "$oid": "6862a623c9b690df50d6f884"
+    },
+    "titulo": "Tu ticket fue resuelto (Sistemas) - SYS-2026-000003",
+    "tipo": "resuelto",
+    "ticket": {
+      "$oid": "6a28620f22554f89d8dc41ff"
+    },
+    "leida": true,
+    "fecha": {
+      "$date": "2026-06-09T19:00:25.782Z"
+    },
+    "actualizado": {
+      "$date": "2026-06-09T19:00:38.908Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "6a2865082816c969db2d0573"
+    },
+    "usuario": {
+      "$oid": "685aee77c1ac24e6a4c528fb"
+    },
+    "titulo": "Nuevo ticket (Sistemas) - SYS-2026-000004",
+    "tipo": "nuevo",
+    "ticket": {
+      "$oid": "6a2865062816c969db2d056e"
+    },
+    "leida": true,
+    "__v": 0,
+    "fecha": {
+      "$date": "2026-06-09T19:10:00.928Z"
+    },
+    "actualizado": {
+      "$date": "2026-06-11T16:55:24.215Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a2865082816c969db2d0574"
+    },
+    "usuario": {
+      "$oid": "685b26e4da13b7cbe3b105b0"
+    },
+    "titulo": "Nuevo ticket (Sistemas) - SYS-2026-000004",
+    "tipo": "nuevo",
+    "ticket": {
+      "$oid": "6a2865062816c969db2d056e"
+    },
+    "leida": false,
+    "__v": 0,
+    "fecha": {
+      "$date": "2026-06-09T19:10:00.928Z"
+    },
+    "actualizado": {
+      "$date": "2026-06-09T19:10:00.928Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a2865082816c969db2d0575"
+    },
+    "usuario": {
+      "$oid": "6862a623c9b690df50d6f884"
+    },
+    "titulo": "Nuevo ticket (Sistemas) - SYS-2026-000004",
+    "tipo": "nuevo",
+    "ticket": {
+      "$oid": "6a2865062816c969db2d056e"
+    },
+    "leida": true,
+    "__v": 0,
+    "fecha": {
+      "$date": "2026-06-09T19:10:00.928Z"
+    },
+    "actualizado": {
+      "$date": "2026-06-09T19:10:04.213Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a2865082816c969db2d0576"
+    },
+    "usuario": {
+      "$oid": "68d2efe459545f15d9b398bc"
+    },
+    "titulo": "Nuevo ticket (Sistemas) - SYS-2026-000004",
+    "tipo": "nuevo",
+    "ticket": {
+      "$oid": "6a2865062816c969db2d056e"
+    },
+    "leida": false,
+    "__v": 0,
+    "fecha": {
+      "$date": "2026-06-09T19:10:00.928Z"
+    },
+    "actualizado": {
+      "$date": "2026-06-09T19:10:00.928Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a28652f2816c969db2d0596"
+    },
+    "usuario": {
+      "$oid": "685aebb013bf3eff09f102ec"
+    },
+    "titulo": "Prioridad cambiada a Alta – SYS-2026-000004",
+    "tipo": "prioridad",
+    "ticket": {
+      "$oid": "6a2865062816c969db2d056e"
+    },
+    "leida": true,
+    "fecha": {
+      "$date": "2026-06-09T19:10:39.026Z"
+    },
+    "actualizado": {
+      "$date": "2026-06-13T18:46:56.654Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "6a28652f2816c969db2d0598"
+    },
+    "usuario": {
+      "$oid": "6862a623c9b690df50d6f884"
+    },
+    "titulo": "La prioridad de tu ticket cambio a Alta - SYS-2026-000004",
+    "tipo": "prioridad",
+    "ticket": {
+      "$oid": "6a2865062816c969db2d056e"
+    },
+    "leida": true,
+    "fecha": {
+      "$date": "2026-06-09T19:10:39.028Z"
+    },
+    "actualizado": {
+      "$date": "2026-06-09T19:27:19.981Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "6a2865322816c969db2d059e"
+    },
+    "usuario": {
+      "$oid": "685aebb013bf3eff09f102ec"
+    },
+    "titulo": "Se te asignó un ticket (Sistemas) - SYS-2026-000004",
+    "tipo": "asignado",
+    "ticket": {
+      "$oid": "6a2865062816c969db2d056e"
+    },
+    "leida": true,
+    "fecha": {
+      "$date": "2026-06-09T19:10:42.057Z"
+    },
+    "actualizado": {
+      "$date": "2026-06-13T18:46:56.654Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "6a286914ee2982f4af77ba9b"
+    },
+    "usuario": {
+      "$oid": "685aee77c1ac24e6a4c528fb"
+    },
+    "titulo": "Nuevo ticket (Sistemas) - SYS-2026-000005",
+    "tipo": "nuevo",
+    "ticket": {
+      "$oid": "6a286912ee2982f4af77ba96"
+    },
+    "leida": true,
+    "__v": 0,
+    "fecha": {
+      "$date": "2026-06-09T19:27:16.246Z"
+    },
+    "actualizado": {
+      "$date": "2026-06-11T16:55:24.215Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a286914ee2982f4af77ba9c"
+    },
+    "usuario": {
+      "$oid": "685b26e4da13b7cbe3b105b0"
+    },
+    "titulo": "Nuevo ticket (Sistemas) - SYS-2026-000005",
+    "tipo": "nuevo",
+    "ticket": {
+      "$oid": "6a286912ee2982f4af77ba96"
+    },
+    "leida": false,
+    "__v": 0,
+    "fecha": {
+      "$date": "2026-06-09T19:27:16.246Z"
+    },
+    "actualizado": {
+      "$date": "2026-06-09T19:27:16.246Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a286914ee2982f4af77ba9d"
+    },
+    "usuario": {
+      "$oid": "6862a623c9b690df50d6f884"
+    },
+    "titulo": "Nuevo ticket (Sistemas) - SYS-2026-000005",
+    "tipo": "nuevo",
+    "ticket": {
+      "$oid": "6a286912ee2982f4af77ba96"
+    },
+    "leida": true,
+    "__v": 0,
+    "fecha": {
+      "$date": "2026-06-09T19:27:16.246Z"
+    },
+    "actualizado": {
+      "$date": "2026-06-09T19:27:19.981Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a286914ee2982f4af77ba9e"
+    },
+    "usuario": {
+      "$oid": "68d2efe459545f15d9b398bc"
+    },
+    "titulo": "Nuevo ticket (Sistemas) - SYS-2026-000005",
+    "tipo": "nuevo",
+    "ticket": {
+      "$oid": "6a286912ee2982f4af77ba96"
+    },
+    "leida": false,
+    "__v": 0,
+    "fecha": {
+      "$date": "2026-06-09T19:27:16.246Z"
+    },
+    "actualizado": {
+      "$date": "2026-06-09T19:27:16.246Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a28693aee2982f4af77bac0"
+    },
+    "usuario": {
+      "$oid": "685aebb013bf3eff09f102ec"
+    },
+    "titulo": "Prioridad cambiada a Media – SYS-2026-000005",
+    "tipo": "prioridad",
+    "ticket": {
+      "$oid": "6a286912ee2982f4af77ba96"
+    },
+    "leida": true,
+    "fecha": {
+      "$date": "2026-06-09T19:27:54.827Z"
+    },
+    "actualizado": {
+      "$date": "2026-06-13T18:46:56.654Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "6a28693aee2982f4af77bac6"
+    },
+    "usuario": {
+      "$oid": "6862a623c9b690df50d6f884"
+    },
+    "titulo": "La prioridad de tu ticket cambio a Media - SYS-2026-000005",
+    "tipo": "prioridad",
+    "ticket": {
+      "$oid": "6a286912ee2982f4af77ba96"
+    },
+    "leida": true,
+    "fecha": {
+      "$date": "2026-06-09T19:27:54.837Z"
+    },
+    "actualizado": {
+      "$date": "2026-06-11T16:56:28.833Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "6a28693cee2982f4af77bace"
+    },
+    "usuario": {
+      "$oid": "685aebb013bf3eff09f102ec"
+    },
+    "titulo": "Se te asignó un ticket (Sistemas) - SYS-2026-000005",
+    "tipo": "asignado",
+    "ticket": {
+      "$oid": "6a286912ee2982f4af77ba96"
+    },
+    "leida": true,
+    "fecha": {
+      "$date": "2026-06-09T19:27:56.056Z"
+    },
+    "actualizado": {
+      "$date": "2026-06-13T18:46:56.654Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "6a2ae894f1344ec9b6d45d2d"
+    },
+    "usuario": {
+      "$oid": "685aee77c1ac24e6a4c528fb"
+    },
+    "titulo": "Nuevo ticket (Sistemas) - SYS-2026-000006",
+    "tipo": "nuevo",
+    "ticket": {
+      "$oid": "6a2ae893f1344ec9b6d45d28"
+    },
+    "leida": true,
+    "__v": 0,
+    "fecha": {
+      "$date": "2026-06-11T16:55:48.460Z"
+    },
+    "actualizado": {
+      "$date": "2026-06-15T21:00:28.985Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a2ae894f1344ec9b6d45d2e"
+    },
+    "usuario": {
+      "$oid": "685b26e4da13b7cbe3b105b0"
+    },
+    "titulo": "Nuevo ticket (Sistemas) - SYS-2026-000006",
+    "tipo": "nuevo",
+    "ticket": {
+      "$oid": "6a2ae893f1344ec9b6d45d28"
+    },
+    "leida": false,
+    "__v": 0,
+    "fecha": {
+      "$date": "2026-06-11T16:55:48.460Z"
+    },
+    "actualizado": {
+      "$date": "2026-06-11T16:55:48.460Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a2ae894f1344ec9b6d45d2f"
+    },
+    "usuario": {
+      "$oid": "6862a623c9b690df50d6f884"
+    },
+    "titulo": "Nuevo ticket (Sistemas) - SYS-2026-000006",
+    "tipo": "nuevo",
+    "ticket": {
+      "$oid": "6a2ae893f1344ec9b6d45d28"
+    },
+    "leida": true,
+    "__v": 0,
+    "fecha": {
+      "$date": "2026-06-11T16:55:48.460Z"
+    },
+    "actualizado": {
+      "$date": "2026-06-11T16:56:28.833Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a2ae894f1344ec9b6d45d30"
+    },
+    "usuario": {
+      "$oid": "68d2efe459545f15d9b398bc"
+    },
+    "titulo": "Nuevo ticket (Sistemas) - SYS-2026-000006",
+    "tipo": "nuevo",
+    "ticket": {
+      "$oid": "6a2ae893f1344ec9b6d45d28"
+    },
+    "leida": false,
+    "__v": 0,
+    "fecha": {
+      "$date": "2026-06-11T16:55:48.460Z"
+    },
+    "actualizado": {
+      "$date": "2026-06-11T16:55:48.460Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a2aeb4310e59f699bf78486"
+    },
+    "usuario": {
+      "$oid": "685aee77c1ac24e6a4c528fb"
+    },
+    "titulo": "Nuevo ticket (Sistemas) - SYS-2026-000007",
+    "tipo": "nuevo",
+    "ticket": {
+      "$oid": "6a2aeb4210e59f699bf78481"
+    },
+    "leida": true,
+    "__v": 0,
+    "fecha": {
+      "$date": "2026-06-11T17:07:15.712Z"
+    },
+    "actualizado": {
+      "$date": "2026-06-15T21:00:28.985Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a2aeb4310e59f699bf78487"
+    },
+    "usuario": {
+      "$oid": "685b26e4da13b7cbe3b105b0"
+    },
+    "titulo": "Nuevo ticket (Sistemas) - SYS-2026-000007",
+    "tipo": "nuevo",
+    "ticket": {
+      "$oid": "6a2aeb4210e59f699bf78481"
+    },
+    "leida": false,
+    "__v": 0,
+    "fecha": {
+      "$date": "2026-06-11T17:07:15.712Z"
+    },
+    "actualizado": {
+      "$date": "2026-06-11T17:07:15.712Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a2aeb4310e59f699bf78488"
+    },
+    "usuario": {
+      "$oid": "6862a623c9b690df50d6f884"
+    },
+    "titulo": "Nuevo ticket (Sistemas) - SYS-2026-000007",
+    "tipo": "nuevo",
+    "ticket": {
+      "$oid": "6a2aeb4210e59f699bf78481"
+    },
+    "leida": true,
+    "__v": 0,
+    "fecha": {
+      "$date": "2026-06-11T17:07:15.712Z"
+    },
+    "actualizado": {
+      "$date": "2026-06-11T17:07:34.461Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a2aeb4310e59f699bf78489"
+    },
+    "usuario": {
+      "$oid": "68d2efe459545f15d9b398bc"
+    },
+    "titulo": "Nuevo ticket (Sistemas) - SYS-2026-000007",
+    "tipo": "nuevo",
+    "ticket": {
+      "$oid": "6a2aeb4210e59f699bf78481"
+    },
+    "leida": false,
+    "__v": 0,
+    "fecha": {
+      "$date": "2026-06-11T17:07:15.712Z"
+    },
+    "actualizado": {
+      "$date": "2026-06-11T17:07:15.712Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a2c8d5c1f45978316fbef18"
+    },
+    "usuario": {
+      "$oid": "685aee77c1ac24e6a4c528fb"
+    },
+    "titulo": "Nuevo ticket (Sistemas) - SYS-2026-000008",
+    "tipo": "nuevo",
+    "ticket": {
+      "$oid": "6a2c8d5b1f45978316fbef13"
+    },
+    "leida": true,
+    "__v": 0,
+    "fecha": {
+      "$date": "2026-06-12T22:51:08.978Z"
+    },
+    "actualizado": {
+      "$date": "2026-06-15T21:00:28.985Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a2c8d5c1f45978316fbef19"
+    },
+    "usuario": {
+      "$oid": "685b26e4da13b7cbe3b105b0"
+    },
+    "titulo": "Nuevo ticket (Sistemas) - SYS-2026-000008",
+    "tipo": "nuevo",
+    "ticket": {
+      "$oid": "6a2c8d5b1f45978316fbef13"
+    },
+    "leida": false,
+    "__v": 0,
+    "fecha": {
+      "$date": "2026-06-12T22:51:08.978Z"
+    },
+    "actualizado": {
+      "$date": "2026-06-12T22:51:08.978Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a2c8d5c1f45978316fbef1a"
+    },
+    "usuario": {
+      "$oid": "6862a623c9b690df50d6f884"
+    },
+    "titulo": "Nuevo ticket (Sistemas) - SYS-2026-000008",
+    "tipo": "nuevo",
+    "ticket": {
+      "$oid": "6a2c8d5b1f45978316fbef13"
+    },
+    "leida": true,
+    "__v": 0,
+    "fecha": {
+      "$date": "2026-06-12T22:51:08.978Z"
+    },
+    "actualizado": {
+      "$date": "2026-06-12T22:51:11.410Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a2c8d5c1f45978316fbef1b"
+    },
+    "usuario": {
+      "$oid": "68d2efe459545f15d9b398bc"
+    },
+    "titulo": "Nuevo ticket (Sistemas) - SYS-2026-000008",
+    "tipo": "nuevo",
+    "ticket": {
+      "$oid": "6a2c8d5b1f45978316fbef13"
+    },
+    "leida": false,
+    "__v": 0,
+    "fecha": {
+      "$date": "2026-06-12T22:51:08.978Z"
+    },
+    "actualizado": {
+      "$date": "2026-06-12T22:51:08.978Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a2c8dc61f45978316fbef44"
+    },
+    "usuario": {
+      "$oid": "685aebb013bf3eff09f102ec"
+    },
+    "titulo": "Prioridad cambiada a Alta – SYS-2026-000008",
+    "tipo": "prioridad",
+    "ticket": {
+      "$oid": "6a2c8d5b1f45978316fbef13"
+    },
+    "leida": true,
+    "fecha": {
+      "$date": "2026-06-12T22:52:54.265Z"
+    },
+    "actualizado": {
+      "$date": "2026-06-13T18:46:56.654Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "6a2c8dc61f45978316fbef46"
+    },
+    "usuario": {
+      "$oid": "6862a623c9b690df50d6f884"
+    },
+    "titulo": "La prioridad de tu ticket cambio a Alta - SYS-2026-000008",
+    "tipo": "prioridad",
+    "ticket": {
+      "$oid": "6a2c8d5b1f45978316fbef13"
+    },
+    "leida": true,
+    "fecha": {
+      "$date": "2026-06-12T22:52:54.267Z"
+    },
+    "actualizado": {
+      "$date": "2026-06-15T19:54:25.655Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "6a2c8dc61f45978316fbef49"
+    },
+    "usuario": {
+      "$oid": "685aebb013bf3eff09f102ec"
+    },
+    "titulo": "Se te asignó un ticket (Sistemas) - SYS-2026-000008",
+    "tipo": "asignado",
+    "ticket": {
+      "$oid": "6a2c8d5b1f45978316fbef13"
+    },
+    "leida": true,
+    "fecha": {
+      "$date": "2026-06-12T22:52:54.271Z"
+    },
+    "actualizado": {
+      "$date": "2026-06-13T18:46:56.654Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "6a3057b4191efb9dd44741f3"
+    },
+    "usuario": {
+      "$oid": "685aee77c1ac24e6a4c528fb"
+    },
+    "titulo": "Nuevo ticket (Sistemas) - SYS-2026-000009",
+    "tipo": "nuevo",
+    "ticket": {
+      "$oid": "6a3057b3191efb9dd44741ee"
+    },
+    "leida": true,
+    "__v": 0,
+    "fecha": {
+      "$date": "2026-06-15T19:51:16.939Z"
+    },
+    "actualizado": {
+      "$date": "2026-06-15T21:00:28.985Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a3057b4191efb9dd44741f4"
+    },
+    "usuario": {
+      "$oid": "685b26e4da13b7cbe3b105b0"
+    },
+    "titulo": "Nuevo ticket (Sistemas) - SYS-2026-000009",
+    "tipo": "nuevo",
+    "ticket": {
+      "$oid": "6a3057b3191efb9dd44741ee"
+    },
+    "leida": false,
+    "__v": 0,
+    "fecha": {
+      "$date": "2026-06-15T19:51:16.939Z"
+    },
+    "actualizado": {
+      "$date": "2026-06-15T19:51:16.939Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a3057b4191efb9dd44741f5"
+    },
+    "usuario": {
+      "$oid": "6862a623c9b690df50d6f884"
+    },
+    "titulo": "Nuevo ticket (Sistemas) - SYS-2026-000009",
+    "tipo": "nuevo",
+    "ticket": {
+      "$oid": "6a3057b3191efb9dd44741ee"
+    },
+    "leida": true,
+    "__v": 0,
+    "fecha": {
+      "$date": "2026-06-15T19:51:16.939Z"
+    },
+    "actualizado": {
+      "$date": "2026-06-15T19:54:25.655Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a3057b4191efb9dd44741f6"
+    },
+    "usuario": {
+      "$oid": "68d2efe459545f15d9b398bc"
+    },
+    "titulo": "Nuevo ticket (Sistemas) - SYS-2026-000009",
+    "tipo": "nuevo",
+    "ticket": {
+      "$oid": "6a3057b3191efb9dd44741ee"
+    },
+    "leida": false,
+    "__v": 0,
+    "fecha": {
+      "$date": "2026-06-15T19:51:16.939Z"
+    },
+    "actualizado": {
+      "$date": "2026-06-15T19:51:16.939Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a305888191efb9dd4474233"
+    },
+    "usuario": {
+      "$oid": "685aebb013bf3eff09f102ec"
+    },
+    "titulo": "Prioridad cambiada a Media – SYS-2026-000009",
+    "tipo": "prioridad",
+    "ticket": {
+      "$oid": "6a3057b3191efb9dd44741ee"
+    },
+    "leida": true,
+    "fecha": {
+      "$date": "2026-06-15T19:54:48.767Z"
+    },
+    "actualizado": {
+      "$date": "2026-06-16T19:45:49.129Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "6a305888191efb9dd4474235"
+    },
+    "usuario": {
+      "$oid": "685aebb013bf3eff09f102ec"
+    },
+    "titulo": "La prioridad de tu ticket cambio a Media - SYS-2026-000009",
+    "tipo": "prioridad",
+    "ticket": {
+      "$oid": "6a3057b3191efb9dd44741ee"
+    },
+    "leida": true,
+    "fecha": {
+      "$date": "2026-06-15T19:54:48.770Z"
+    },
+    "actualizado": {
+      "$date": "2026-06-16T19:45:49.129Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "6a305888191efb9dd447423b"
+    },
+    "usuario": {
+      "$oid": "685aebb013bf3eff09f102ec"
+    },
+    "titulo": "Se te asignó un ticket (Sistemas) - SYS-2026-000009",
+    "tipo": "asignado",
+    "ticket": {
+      "$oid": "6a3057b3191efb9dd44741ee"
+    },
+    "leida": true,
+    "fecha": {
+      "$date": "2026-06-15T19:54:48.789Z"
+    },
+    "actualizado": {
+      "$date": "2026-06-16T19:45:49.129Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "6a3072594adcea9b3a33ef88"
+    },
+    "usuario": {
+      "$oid": "685aee77c1ac24e6a4c528fb"
+    },
+    "titulo": "Nuevo ticket (Sistemas) - SYS-2026-000010",
+    "tipo": "nuevo",
+    "ticket": {
+      "$oid": "6a3072574adcea9b3a33ef82"
+    },
+    "leida": false,
+    "__v": 0,
+    "fecha": {
+      "$date": "2026-06-15T21:44:57.066Z"
+    },
+    "actualizado": {
+      "$date": "2026-06-15T21:44:57.066Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a3072594adcea9b3a33ef89"
+    },
+    "usuario": {
+      "$oid": "685b26e4da13b7cbe3b105b0"
+    },
+    "titulo": "Nuevo ticket (Sistemas) - SYS-2026-000010",
+    "tipo": "nuevo",
+    "ticket": {
+      "$oid": "6a3072574adcea9b3a33ef82"
+    },
+    "leida": false,
+    "__v": 0,
+    "fecha": {
+      "$date": "2026-06-15T21:44:57.066Z"
+    },
+    "actualizado": {
+      "$date": "2026-06-15T21:44:57.066Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a3072594adcea9b3a33ef8a"
+    },
+    "usuario": {
+      "$oid": "6862a623c9b690df50d6f884"
+    },
+    "titulo": "Nuevo ticket (Sistemas) - SYS-2026-000010",
+    "tipo": "nuevo",
+    "ticket": {
+      "$oid": "6a3072574adcea9b3a33ef82"
+    },
+    "leida": true,
+    "__v": 0,
+    "fecha": {
+      "$date": "2026-06-15T21:44:57.066Z"
+    },
+    "actualizado": {
+      "$date": "2026-06-16T22:05:18.614Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a3072594adcea9b3a33ef8b"
+    },
+    "usuario": {
+      "$oid": "68d2efe459545f15d9b398bc"
+    },
+    "titulo": "Nuevo ticket (Sistemas) - SYS-2026-000010",
+    "tipo": "nuevo",
+    "ticket": {
+      "$oid": "6a3072574adcea9b3a33ef82"
+    },
+    "leida": false,
+    "__v": 0,
+    "fecha": {
+      "$date": "2026-06-15T21:44:57.067Z"
+    },
+    "actualizado": {
+      "$date": "2026-06-15T21:44:57.067Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a3073a3036a9c155eb6f946"
+    },
+    "usuario": {
+      "$oid": "685aee77c1ac24e6a4c528fb"
+    },
+    "titulo": "Nuevo ticket (Sistemas) - SYS-2026-000011",
+    "tipo": "nuevo",
+    "ticket": {
+      "$oid": "6a3073a2036a9c155eb6f941"
+    },
+    "leida": false,
+    "__v": 0,
+    "fecha": {
+      "$date": "2026-06-15T21:50:27.603Z"
+    },
+    "actualizado": {
+      "$date": "2026-06-15T21:50:27.603Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a3073a3036a9c155eb6f947"
+    },
+    "usuario": {
+      "$oid": "685b26e4da13b7cbe3b105b0"
+    },
+    "titulo": "Nuevo ticket (Sistemas) - SYS-2026-000011",
+    "tipo": "nuevo",
+    "ticket": {
+      "$oid": "6a3073a2036a9c155eb6f941"
+    },
+    "leida": false,
+    "__v": 0,
+    "fecha": {
+      "$date": "2026-06-15T21:50:27.603Z"
+    },
+    "actualizado": {
+      "$date": "2026-06-15T21:50:27.603Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a3073a3036a9c155eb6f948"
+    },
+    "usuario": {
+      "$oid": "6862a623c9b690df50d6f884"
+    },
+    "titulo": "Nuevo ticket (Sistemas) - SYS-2026-000011",
+    "tipo": "nuevo",
+    "ticket": {
+      "$oid": "6a3073a2036a9c155eb6f941"
+    },
+    "leida": true,
+    "__v": 0,
+    "fecha": {
+      "$date": "2026-06-15T21:50:27.603Z"
+    },
+    "actualizado": {
+      "$date": "2026-06-16T22:05:18.614Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a3073a3036a9c155eb6f949"
+    },
+    "usuario": {
+      "$oid": "68d2efe459545f15d9b398bc"
+    },
+    "titulo": "Nuevo ticket (Sistemas) - SYS-2026-000011",
+    "tipo": "nuevo",
+    "ticket": {
+      "$oid": "6a3073a2036a9c155eb6f941"
+    },
+    "leida": false,
+    "__v": 0,
+    "fecha": {
+      "$date": "2026-06-15T21:50:27.603Z"
+    },
+    "actualizado": {
+      "$date": "2026-06-15T21:50:27.603Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a307708773863a9e853fd6a"
+    },
+    "usuario": {
+      "$oid": "685aee77c1ac24e6a4c528fb"
+    },
+    "titulo": "Nuevo ticket (Sistemas) - SYS-2026-000012",
+    "tipo": "nuevo",
+    "ticket": {
+      "$oid": "6a307707773863a9e853fd65"
+    },
+    "leida": false,
+    "__v": 0,
+    "fecha": {
+      "$date": "2026-06-15T22:04:56.432Z"
+    },
+    "actualizado": {
+      "$date": "2026-06-15T22:04:56.432Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a307708773863a9e853fd6b"
+    },
+    "usuario": {
+      "$oid": "685b26e4da13b7cbe3b105b0"
+    },
+    "titulo": "Nuevo ticket (Sistemas) - SYS-2026-000012",
+    "tipo": "nuevo",
+    "ticket": {
+      "$oid": "6a307707773863a9e853fd65"
+    },
+    "leida": false,
+    "__v": 0,
+    "fecha": {
+      "$date": "2026-06-15T22:04:56.432Z"
+    },
+    "actualizado": {
+      "$date": "2026-06-15T22:04:56.432Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a307708773863a9e853fd6c"
+    },
+    "usuario": {
+      "$oid": "6862a623c9b690df50d6f884"
+    },
+    "titulo": "Nuevo ticket (Sistemas) - SYS-2026-000012",
+    "tipo": "nuevo",
+    "ticket": {
+      "$oid": "6a307707773863a9e853fd65"
+    },
+    "leida": true,
+    "__v": 0,
+    "fecha": {
+      "$date": "2026-06-15T22:04:56.432Z"
+    },
+    "actualizado": {
+      "$date": "2026-06-16T22:05:18.614Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a307708773863a9e853fd6d"
+    },
+    "usuario": {
+      "$oid": "68d2efe459545f15d9b398bc"
+    },
+    "titulo": "Nuevo ticket (Sistemas) - SYS-2026-000012",
+    "tipo": "nuevo",
+    "ticket": {
+      "$oid": "6a307707773863a9e853fd65"
+    },
+    "leida": false,
+    "__v": 0,
+    "fecha": {
+      "$date": "2026-06-15T22:04:56.432Z"
+    },
+    "actualizado": {
+      "$date": "2026-06-15T22:04:56.432Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a3082fe3c4eebe871c44c02"
+    },
+    "usuario": {
+      "$oid": "685aee77c1ac24e6a4c528fb"
+    },
+    "titulo": "Nuevo ticket (Sistemas) - SYS-2026-000013",
+    "tipo": "nuevo",
+    "ticket": {
+      "$oid": "6a3082fd3c4eebe871c44bfd"
+    },
+    "leida": false,
+    "__v": 0,
+    "fecha": {
+      "$date": "2026-06-15T22:55:58.931Z"
+    },
+    "actualizado": {
+      "$date": "2026-06-15T22:55:58.931Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a3082fe3c4eebe871c44c03"
+    },
+    "usuario": {
+      "$oid": "685b26e4da13b7cbe3b105b0"
+    },
+    "titulo": "Nuevo ticket (Sistemas) - SYS-2026-000013",
+    "tipo": "nuevo",
+    "ticket": {
+      "$oid": "6a3082fd3c4eebe871c44bfd"
+    },
+    "leida": false,
+    "__v": 0,
+    "fecha": {
+      "$date": "2026-06-15T22:55:58.931Z"
+    },
+    "actualizado": {
+      "$date": "2026-06-15T22:55:58.931Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a3082fe3c4eebe871c44c04"
+    },
+    "usuario": {
+      "$oid": "6862a623c9b690df50d6f884"
+    },
+    "titulo": "Nuevo ticket (Sistemas) - SYS-2026-000013",
+    "tipo": "nuevo",
+    "ticket": {
+      "$oid": "6a3082fd3c4eebe871c44bfd"
+    },
+    "leida": true,
+    "__v": 0,
+    "fecha": {
+      "$date": "2026-06-15T22:55:58.931Z"
+    },
+    "actualizado": {
+      "$date": "2026-06-16T22:05:18.614Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a3082fe3c4eebe871c44c05"
+    },
+    "usuario": {
+      "$oid": "68d2efe459545f15d9b398bc"
+    },
+    "titulo": "Nuevo ticket (Sistemas) - SYS-2026-000013",
+    "tipo": "nuevo",
+    "ticket": {
+      "$oid": "6a3082fd3c4eebe871c44bfd"
+    },
+    "leida": false,
+    "__v": 0,
+    "fecha": {
+      "$date": "2026-06-15T22:55:58.931Z"
+    },
+    "actualizado": {
+      "$date": "2026-06-15T22:55:58.931Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a31c890c32d2bc36a473112"
+    },
+    "usuario": {
+      "$oid": "685aee77c1ac24e6a4c528fb"
+    },
+    "titulo": "Nuevo ticket (Sistemas) - SYS-2026-000014",
+    "tipo": "nuevo",
+    "ticket": {
+      "$oid": "6a31c88fc32d2bc36a47310d"
+    },
+    "leida": false,
+    "__v": 0,
+    "fecha": {
+      "$date": "2026-06-16T22:05:04.590Z"
+    },
+    "actualizado": {
+      "$date": "2026-06-16T22:05:04.590Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a31c890c32d2bc36a473113"
+    },
+    "usuario": {
+      "$oid": "685b26e4da13b7cbe3b105b0"
+    },
+    "titulo": "Nuevo ticket (Sistemas) - SYS-2026-000014",
+    "tipo": "nuevo",
+    "ticket": {
+      "$oid": "6a31c88fc32d2bc36a47310d"
+    },
+    "leida": false,
+    "__v": 0,
+    "fecha": {
+      "$date": "2026-06-16T22:05:04.590Z"
+    },
+    "actualizado": {
+      "$date": "2026-06-16T22:05:04.590Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a31c890c32d2bc36a473114"
+    },
+    "usuario": {
+      "$oid": "6862a623c9b690df50d6f884"
+    },
+    "titulo": "Nuevo ticket (Sistemas) - SYS-2026-000014",
+    "tipo": "nuevo",
+    "ticket": {
+      "$oid": "6a31c88fc32d2bc36a47310d"
+    },
+    "leida": true,
+    "__v": 0,
+    "fecha": {
+      "$date": "2026-06-16T22:05:04.590Z"
+    },
+    "actualizado": {
+      "$date": "2026-06-16T22:05:18.614Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a31c890c32d2bc36a473115"
+    },
+    "usuario": {
+      "$oid": "68d2efe459545f15d9b398bc"
+    },
+    "titulo": "Nuevo ticket (Sistemas) - SYS-2026-000014",
+    "tipo": "nuevo",
+    "ticket": {
+      "$oid": "6a31c88fc32d2bc36a47310d"
+    },
+    "leida": false,
+    "__v": 0,
+    "fecha": {
+      "$date": "2026-06-16T22:05:04.590Z"
+    },
+    "actualizado": {
+      "$date": "2026-06-16T22:05:04.590Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a31d6c0a3a52d47b782e031"
+    },
+    "usuario": {
+      "$oid": "685aee77c1ac24e6a4c528fb"
+    },
+    "titulo": "Nuevo ticket (Sistemas) - SYS-2026-000015",
+    "tipo": "nuevo",
+    "ticket": {
+      "$oid": "6a31d6bea3a52d47b782e02c"
+    },
+    "leida": false,
+    "__v": 0,
+    "fecha": {
+      "$date": "2026-06-16T23:05:36.350Z"
+    },
+    "actualizado": {
+      "$date": "2026-06-16T23:05:36.350Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a31d6c0a3a52d47b782e032"
+    },
+    "usuario": {
+      "$oid": "685b26e4da13b7cbe3b105b0"
+    },
+    "titulo": "Nuevo ticket (Sistemas) - SYS-2026-000015",
+    "tipo": "nuevo",
+    "ticket": {
+      "$oid": "6a31d6bea3a52d47b782e02c"
+    },
+    "leida": false,
+    "__v": 0,
+    "fecha": {
+      "$date": "2026-06-16T23:05:36.351Z"
+    },
+    "actualizado": {
+      "$date": "2026-06-16T23:05:36.351Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a31d6c0a3a52d47b782e033"
+    },
+    "usuario": {
+      "$oid": "6862a623c9b690df50d6f884"
+    },
+    "titulo": "Nuevo ticket (Sistemas) - SYS-2026-000015",
+    "tipo": "nuevo",
+    "ticket": {
+      "$oid": "6a31d6bea3a52d47b782e02c"
+    },
+    "leida": true,
+    "__v": 0,
+    "fecha": {
+      "$date": "2026-06-16T23:05:36.351Z"
+    },
+    "actualizado": {
+      "$date": "2026-06-17T19:33:45.173Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a31d6c0a3a52d47b782e034"
+    },
+    "usuario": {
+      "$oid": "68d2efe459545f15d9b398bc"
+    },
+    "titulo": "Nuevo ticket (Sistemas) - SYS-2026-000015",
+    "tipo": "nuevo",
+    "ticket": {
+      "$oid": "6a31d6bea3a52d47b782e02c"
+    },
+    "leida": false,
+    "__v": 0,
+    "fecha": {
+      "$date": "2026-06-16T23:05:36.351Z"
+    },
+    "actualizado": {
+      "$date": "2026-06-16T23:05:36.351Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a32f082a3a52d47b782e25f"
+    },
+    "usuario": {
+      "$oid": "685aee77c1ac24e6a4c528fb"
+    },
+    "titulo": "Nuevo ticket (Sistemas) - SYS-2026-000016",
+    "tipo": "nuevo",
+    "ticket": {
+      "$oid": "6a32f080a3a52d47b782e25a"
+    },
+    "leida": false,
+    "__v": 0,
+    "fecha": {
+      "$date": "2026-06-17T19:07:46.189Z"
+    },
+    "actualizado": {
+      "$date": "2026-06-17T19:07:46.189Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a32f082a3a52d47b782e260"
+    },
+    "usuario": {
+      "$oid": "685b26e4da13b7cbe3b105b0"
+    },
+    "titulo": "Nuevo ticket (Sistemas) - SYS-2026-000016",
+    "tipo": "nuevo",
+    "ticket": {
+      "$oid": "6a32f080a3a52d47b782e25a"
+    },
+    "leida": false,
+    "__v": 0,
+    "fecha": {
+      "$date": "2026-06-17T19:07:46.189Z"
+    },
+    "actualizado": {
+      "$date": "2026-06-17T19:07:46.189Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a32f082a3a52d47b782e261"
+    },
+    "usuario": {
+      "$oid": "6862a623c9b690df50d6f884"
+    },
+    "titulo": "Nuevo ticket (Sistemas) - SYS-2026-000016",
+    "tipo": "nuevo",
+    "ticket": {
+      "$oid": "6a32f080a3a52d47b782e25a"
+    },
+    "leida": true,
+    "__v": 0,
+    "fecha": {
+      "$date": "2026-06-17T19:07:46.189Z"
+    },
+    "actualizado": {
+      "$date": "2026-06-17T19:33:45.173Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a32f082a3a52d47b782e262"
+    },
+    "usuario": {
+      "$oid": "68d2efe459545f15d9b398bc"
+    },
+    "titulo": "Nuevo ticket (Sistemas) - SYS-2026-000016",
+    "tipo": "nuevo",
+    "ticket": {
+      "$oid": "6a32f080a3a52d47b782e25a"
+    },
+    "leida": false,
+    "__v": 0,
+    "fecha": {
+      "$date": "2026-06-17T19:07:46.189Z"
+    },
+    "actualizado": {
+      "$date": "2026-06-17T19:07:46.189Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a32f0cfa3a52d47b782e28a"
+    },
+    "usuario": {
+      "$oid": "685aebb013bf3eff09f102ec"
+    },
+    "titulo": "Prioridad cambiada a Alta – SYS-2026-000016",
+    "tipo": "prioridad",
+    "ticket": {
+      "$oid": "6a32f080a3a52d47b782e25a"
+    },
+    "leida": true,
+    "fecha": {
+      "$date": "2026-06-17T19:09:03.963Z"
+    },
+    "actualizado": {
+      "$date": "2026-06-17T19:52:20.050Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "6a32f0cfa3a52d47b782e28c"
+    },
+    "usuario": {
+      "$oid": "686426122b5d399a1569b6e4"
+    },
+    "titulo": "La prioridad de tu ticket cambio a Alta - SYS-2026-000016",
+    "tipo": "prioridad",
+    "ticket": {
+      "$oid": "6a32f080a3a52d47b782e25a"
+    },
+    "leida": false,
+    "fecha": {
+      "$date": "2026-06-17T19:09:03.966Z"
+    },
+    "actualizado": {
+      "$date": "2026-06-17T19:09:03.966Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "6a32f0cfa3a52d47b782e28f"
+    },
+    "usuario": {
+      "$oid": "685aebb013bf3eff09f102ec"
+    },
+    "titulo": "Se te asignó un ticket (Sistemas) - SYS-2026-000016",
+    "tipo": "asignado",
+    "ticket": {
+      "$oid": "6a32f080a3a52d47b782e25a"
+    },
+    "leida": true,
+    "fecha": {
+      "$date": "2026-06-17T19:09:03.970Z"
+    },
+    "actualizado": {
+      "$date": "2026-06-17T19:52:20.050Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "6a32f777c5e18352fa6bcf82"
+    },
+    "usuario": {
+      "$oid": "685aebb013bf3eff09f102ec"
+    },
+    "titulo": "Prioridad cambiada a Alta – SYS-2026-000014",
+    "tipo": "prioridad",
+    "ticket": {
+      "$oid": "6a31c88fc32d2bc36a47310d"
+    },
+    "leida": true,
+    "fecha": {
+      "$date": "2026-06-17T19:37:27.026Z"
+    },
+    "actualizado": {
+      "$date": "2026-06-17T19:52:20.050Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "6a32f777c5e18352fa6bcf84"
+    },
+    "usuario": {
+      "$oid": "685aebb013bf3eff09f102ec"
+    },
+    "titulo": "La prioridad de tu ticket cambio a Alta - SYS-2026-000014",
+    "tipo": "prioridad",
+    "ticket": {
+      "$oid": "6a31c88fc32d2bc36a47310d"
+    },
+    "leida": true,
+    "fecha": {
+      "$date": "2026-06-17T19:37:27.054Z"
+    },
+    "actualizado": {
+      "$date": "2026-06-17T19:52:20.050Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "6a32f777c5e18352fa6bcf8a"
+    },
+    "usuario": {
+      "$oid": "685aebb013bf3eff09f102ec"
+    },
+    "titulo": "Se te asignó un ticket (Sistemas) - SYS-2026-000014",
+    "tipo": "asignado",
+    "ticket": {
+      "$oid": "6a31c88fc32d2bc36a47310d"
+    },
+    "leida": true,
+    "fecha": {
+      "$date": "2026-06-17T19:37:27.078Z"
+    },
+    "actualizado": {
+      "$date": "2026-06-17T19:52:20.050Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "6a32f891c5e18352fa6bcfbb"
+    },
+    "usuario": {
+      "$oid": "685aebb013bf3eff09f102ec"
+    },
+    "titulo": "Prioridad cambiada a Media – SYS-2026-000014",
+    "tipo": "prioridad",
+    "ticket": {
+      "$oid": "6a31c88fc32d2bc36a47310d"
+    },
+    "leida": true,
+    "fecha": {
+      "$date": "2026-06-17T19:42:09.522Z"
+    },
+    "actualizado": {
+      "$date": "2026-06-17T19:52:20.050Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "6a32f891c5e18352fa6bcfbd"
+    },
+    "usuario": {
+      "$oid": "685aebb013bf3eff09f102ec"
+    },
+    "titulo": "La prioridad de tu ticket cambio a Media - SYS-2026-000014",
+    "tipo": "prioridad",
+    "ticket": {
+      "$oid": "6a31c88fc32d2bc36a47310d"
+    },
+    "leida": true,
+    "fecha": {
+      "$date": "2026-06-17T19:42:09.524Z"
+    },
+    "actualizado": {
+      "$date": "2026-06-17T19:52:20.050Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "6a32fa76b0dc01a739adf5f5"
+    },
+    "usuario": {
+      "$oid": "685aebb013bf3eff09f102ec"
+    },
+    "titulo": "Se te asignó un ticket (Sistemas) - SYS-2026-000012",
+    "tipo": "asignado",
+    "ticket": {
+      "$oid": "6a307707773863a9e853fd65"
+    },
+    "leida": true,
+    "fecha": {
+      "$date": "2026-06-17T19:50:14.721Z"
+    },
+    "actualizado": {
+      "$date": "2026-06-17T19:52:20.050Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "6a32faceb0dc01a739adf615"
+    },
+    "usuario": {
+      "$oid": "685aee77c1ac24e6a4c528fb"
+    },
+    "titulo": "Ticket resuelto (Sistemas) - SYS-2026-000016",
+    "tipo": "resuelto",
+    "ticket": {
+      "$oid": "6a32f080a3a52d47b782e25a"
+    },
+    "leida": false,
+    "__v": 0,
+    "fecha": {
+      "$date": "2026-06-17T19:51:42.185Z"
+    },
+    "actualizado": {
+      "$date": "2026-06-17T19:51:42.185Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a32faceb0dc01a739adf616"
+    },
+    "usuario": {
+      "$oid": "685b26e4da13b7cbe3b105b0"
+    },
+    "titulo": "Ticket resuelto (Sistemas) - SYS-2026-000016",
+    "tipo": "resuelto",
+    "ticket": {
+      "$oid": "6a32f080a3a52d47b782e25a"
+    },
+    "leida": false,
+    "__v": 0,
+    "fecha": {
+      "$date": "2026-06-17T19:51:42.185Z"
+    },
+    "actualizado": {
+      "$date": "2026-06-17T19:51:42.185Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a32faceb0dc01a739adf617"
+    },
+    "usuario": {
+      "$oid": "6862a623c9b690df50d6f884"
+    },
+    "titulo": "Ticket resuelto (Sistemas) - SYS-2026-000016",
+    "tipo": "resuelto",
+    "ticket": {
+      "$oid": "6a32f080a3a52d47b782e25a"
+    },
+    "leida": false,
+    "__v": 0,
+    "fecha": {
+      "$date": "2026-06-17T19:51:42.185Z"
+    },
+    "actualizado": {
+      "$date": "2026-06-17T19:51:42.185Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a32faceb0dc01a739adf618"
+    },
+    "usuario": {
+      "$oid": "68d2efe459545f15d9b398bc"
+    },
+    "titulo": "Ticket resuelto (Sistemas) - SYS-2026-000016",
+    "tipo": "resuelto",
+    "ticket": {
+      "$oid": "6a32f080a3a52d47b782e25a"
+    },
+    "leida": false,
+    "__v": 0,
+    "fecha": {
+      "$date": "2026-06-17T19:51:42.185Z"
+    },
+    "actualizado": {
+      "$date": "2026-06-17T19:51:42.185Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a32faceb0dc01a739adf61c"
+    },
+    "usuario": {
+      "$oid": "686426122b5d399a1569b6e4"
+    },
+    "titulo": "Tu ticket fue resuelto (Sistemas) - SYS-2026-000016",
+    "tipo": "resuelto",
+    "ticket": {
+      "$oid": "6a32f080a3a52d47b782e25a"
+    },
+    "leida": false,
+    "fecha": {
+      "$date": "2026-06-17T19:51:42.203Z"
+    },
+    "actualizado": {
+      "$date": "2026-06-17T19:51:42.203Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "6a32faf0610e6a9c124fbc53"
+    },
+    "usuario": {
+      "$oid": "685aee77c1ac24e6a4c528fb"
+    },
+    "titulo": "Ticket resuelto (Sistemas) - SYS-2026-000014",
+    "tipo": "resuelto",
+    "ticket": {
+      "$oid": "6a31c88fc32d2bc36a47310d"
+    },
+    "leida": false,
+    "__v": 0,
+    "fecha": {
+      "$date": "2026-06-17T19:52:16.985Z"
+    },
+    "actualizado": {
+      "$date": "2026-06-17T19:52:16.985Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a32faf0610e6a9c124fbc54"
+    },
+    "usuario": {
+      "$oid": "685b26e4da13b7cbe3b105b0"
+    },
+    "titulo": "Ticket resuelto (Sistemas) - SYS-2026-000014",
+    "tipo": "resuelto",
+    "ticket": {
+      "$oid": "6a31c88fc32d2bc36a47310d"
+    },
+    "leida": false,
+    "__v": 0,
+    "fecha": {
+      "$date": "2026-06-17T19:52:16.986Z"
+    },
+    "actualizado": {
+      "$date": "2026-06-17T19:52:16.986Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a32faf0610e6a9c124fbc55"
+    },
+    "usuario": {
+      "$oid": "6862a623c9b690df50d6f884"
+    },
+    "titulo": "Ticket resuelto (Sistemas) - SYS-2026-000014",
+    "tipo": "resuelto",
+    "ticket": {
+      "$oid": "6a31c88fc32d2bc36a47310d"
+    },
+    "leida": false,
+    "__v": 0,
+    "fecha": {
+      "$date": "2026-06-17T19:52:16.986Z"
+    },
+    "actualizado": {
+      "$date": "2026-06-17T19:52:16.986Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a32faf0610e6a9c124fbc56"
+    },
+    "usuario": {
+      "$oid": "68d2efe459545f15d9b398bc"
+    },
+    "titulo": "Ticket resuelto (Sistemas) - SYS-2026-000014",
+    "tipo": "resuelto",
+    "ticket": {
+      "$oid": "6a31c88fc32d2bc36a47310d"
+    },
+    "leida": false,
+    "__v": 0,
+    "fecha": {
+      "$date": "2026-06-17T19:52:16.986Z"
+    },
+    "actualizado": {
+      "$date": "2026-06-17T19:52:16.986Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a32faf1610e6a9c124fbc5a"
+    },
+    "usuario": {
+      "$oid": "685aebb013bf3eff09f102ec"
+    },
+    "titulo": "Tu ticket fue resuelto (Sistemas) - SYS-2026-000014",
+    "tipo": "resuelto",
+    "ticket": {
+      "$oid": "6a31c88fc32d2bc36a47310d"
+    },
+    "leida": true,
+    "fecha": {
+      "$date": "2026-06-17T19:52:17.052Z"
+    },
+    "actualizado": {
+      "$date": "2026-06-17T19:52:20.050Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "6a32fb5b610e6a9c124fbc84"
+    },
+    "usuario": {
+      "$oid": "685aee77c1ac24e6a4c528fb"
+    },
+    "titulo": "Nuevo ticket (Sistemas) - SYS-2026-000017",
+    "tipo": "nuevo",
+    "ticket": {
+      "$oid": "6a32fb59610e6a9c124fbc7f"
+    },
+    "leida": false,
+    "__v": 0,
+    "fecha": {
+      "$date": "2026-06-17T19:54:03.155Z"
+    },
+    "actualizado": {
+      "$date": "2026-06-17T19:54:03.155Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a32fb5b610e6a9c124fbc85"
+    },
+    "usuario": {
+      "$oid": "685b26e4da13b7cbe3b105b0"
+    },
+    "titulo": "Nuevo ticket (Sistemas) - SYS-2026-000017",
+    "tipo": "nuevo",
+    "ticket": {
+      "$oid": "6a32fb59610e6a9c124fbc7f"
+    },
+    "leida": false,
+    "__v": 0,
+    "fecha": {
+      "$date": "2026-06-17T19:54:03.155Z"
+    },
+    "actualizado": {
+      "$date": "2026-06-17T19:54:03.155Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a32fb5b610e6a9c124fbc86"
+    },
+    "usuario": {
+      "$oid": "6862a623c9b690df50d6f884"
+    },
+    "titulo": "Nuevo ticket (Sistemas) - SYS-2026-000017",
+    "tipo": "nuevo",
+    "ticket": {
+      "$oid": "6a32fb59610e6a9c124fbc7f"
+    },
+    "leida": false,
+    "__v": 0,
+    "fecha": {
+      "$date": "2026-06-17T19:54:03.155Z"
+    },
+    "actualizado": {
+      "$date": "2026-06-17T19:54:03.155Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a32fb5b610e6a9c124fbc87"
+    },
+    "usuario": {
+      "$oid": "68d2efe459545f15d9b398bc"
+    },
+    "titulo": "Nuevo ticket (Sistemas) - SYS-2026-000017",
+    "tipo": "nuevo",
+    "ticket": {
+      "$oid": "6a32fb59610e6a9c124fbc7f"
+    },
+    "leida": false,
+    "__v": 0,
+    "fecha": {
+      "$date": "2026-06-17T19:54:03.156Z"
+    },
+    "actualizado": {
+      "$date": "2026-06-17T19:54:03.156Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a32fb6a610e6a9c124fbc99"
+    },
+    "usuario": {
+      "$oid": "685aebb013bf3eff09f102ec"
+    },
+    "titulo": "El usuario cerró el ticket (Sistemas) - SYS-2026-000014",
+    "tipo": "cerrado_usuario",
+    "ticket": {
+      "$oid": "6a31c88fc32d2bc36a47310d"
+    },
+    "leida": true,
+    "fecha": {
+      "$date": "2026-06-17T19:54:18.489Z"
+    },
+    "actualizado": {
+      "$date": "2026-06-17T19:54:58.343Z"
+    },
+    "__v": 0
+  }
+]

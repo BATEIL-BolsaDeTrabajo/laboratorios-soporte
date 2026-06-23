@@ -1,3 +1,5 @@
+<link rel="stylesheet" href="/css/bateil-theme.css?v=5">
+
 <style>
   /* Animación de la campanita */
   @keyframes bell-shake {
@@ -19,7 +21,8 @@
   <div class="container-fluid">
     <!-- BRAND -->
     <a class="navbar-brand fw-bold text-warning" href="index.html">
-      Portal BATEIL
+      <img src="/assets/benito-bateil.png" alt="Benito BATEIL">
+      <span>BATEIL</span>
     </a>
 
     <!-- BOTÓN HAMBURGUESA -->
@@ -80,6 +83,13 @@
           <!-- Hacemos el menú oscuro y con scroll si está muy largo -->
           <ul class="dropdown-menu dropdown-menu-end dropdown-menu-dark" id="dropdown-items" style="max-height: 60vh; overflow-y:auto;">
 
+            <!-- Opciones personales: se muestran una sola vez, sin importar los roles del usuario. -->
+            <li class="dropdown-header" id="item-mi-cuenta-header">👤 Mi Cuenta</li>
+            <li id="item-mis-equipos">
+              <a class="dropdown-item" href="/mis-equipos.html">📦 Mis Equipos</a>
+            </li>
+            <li id="item-mis-equipos-divider"><hr class="dropdown-divider"></li>
+
             <!-- DOCENTE y TALLERES -->
             <li class="dropdown-header d-none" id="item-docente-header">🎓 Panel Docente</li>
             <li class="d-none" id="item-docente-crear"><a class="dropdown-item" href="crear-ticket.html">🛠️ Crear Ticket</a></li>
@@ -91,6 +101,8 @@
             <li class="d-none" id="item-docente-vacaciones"><a class="dropdown-item" href="solicitar-vacaciones.html">🗓 Solicitar Vacaciones</a></li>
             <li class="d-none" id="item-docente-historial"><a class="dropdown-item" href="historial-vacaciones.html">📋 Mi Historial</a></li>
             -->
+            <li class="d-none" id="item-docente-vacaciones"><a class="dropdown-item" href="solicitar-vacaciones.html">Solicitar Vacaciones</a></li>
+            <li class="d-none" id="item-docente-historial"><a class="dropdown-item" href="historial-vacaciones.html">Mi Historial de Vacaciones</a></li>
             <li class="d-none" id="item-docente-divider"><hr class="dropdown-divider"></li>
 
             <!-- SOPORTE -->
@@ -171,6 +183,9 @@
             <li class="d-none" id="item-finanzas-revisiontiempo"><a class="dropdown-item" href="tiempo-revision.html">📝 Aprobar Tiempo por Tiempo</a></li> -->
             <li id="item-finanzas-historial" class="d-none"><a class="dropdown-item" href="historial-tickets.html">📚 Historial de Tickets</a></li>
             <li class="d-none" id="item-finanzas-colegiatura"><a class="dropdown-item" href="colegiatura.html">📄 Colegiatura</a></li>
+            <li class="d-none" id="item-finanzas-revision"><a class="dropdown-item" href="vacaciones-revision.html">Revisar Vacaciones</a></li>
+            <li class="d-none" id="item-finanzas-tiempo"><a class="dropdown-item" href="tiempo-crear.html">Registrar Tiempo por Tiempo</a></li>
+            <li class="d-none" id="item-finanzas-revisiontiempo"><a class="dropdown-item" href="tiempo-revision.html">Aprobar Tiempo por Tiempo</a></li>
             <li class="d-none" id="item-finanzas-divider"><hr class="dropdown-divider"></li>
 
 
@@ -193,6 +208,12 @@
             </li>
             <li class="d-none" id="item-almacen-ajustes">
               <a class="dropdown-item" href="/almacen/ajustes.html">🧮 Ajustes</a>
+            </li>
+            <li class="d-none" id="item-almacen-configuracion">
+              <a class="dropdown-item" href="/almacen/configuracion.html">Configuración</a>
+            </li>
+            <li class="d-none" id="item-almacen-asignacion-equipo">
+              <a class="dropdown-item" href="/almacen/asignacion-equipo.html">Asignacion de Equipo</a>
             </li>
             <li class="d-none" id="item-almacen-divider">
               <hr class="dropdown-divider">
@@ -225,13 +246,12 @@
         </li>
 
         <!-- BOTÓN CERRAR SESIÓN -->
-        <li class="nav-item ms-lg-3 mt-2 mt-lg-0">
+        <li class="nav-item ms-lg-2 mt-2 mt-lg-0">
           <button class="btn btn-sm btn-outline-danger" type="button" onclick="logout()">
-             Cerrar sesión
+             Salir
           </button>
         </li>
       </ul>
     </div>
   </div>
 </nav>
-

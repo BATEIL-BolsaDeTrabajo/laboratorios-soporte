@@ -28,6 +28,7 @@ app.use('/api/tiempo', require('./routes/tiempoRoutes'));
 app.use('/api/calificaciones', require('./routes/calificaciones'));
 app.use('/api/notifications', notificationsRoutes);
 app.use('/api/almacen', require('./routes/almacen'));
+app.use('/api/whatsapp', require('./routes/whatsapp'));
 app.use('/api/cycles', require('./routes/cycles'));
 app.use('/api/student-payment-tracking', require('./routes/studentPaymentTracking'));
 app.use('/api/student-payment-tracking', require('./routes/studentPaymentTrackingImport'));
@@ -153,7 +154,9 @@ async function cargarHorariosDeLaSemana() {
   }
 }
 
-// Vacaciones: sumar días en aniversario si corresponde
+// Vacaciones: reiniciar dias en aniversario si corresponde
+const DIAS_VACACIONES_ANUALES = 22;
+
 function actualizarDiasSiCorresponde(usuario) {
   const hoy = new Date();
   if (!usuario.fechaIngreso) return usuario;
@@ -168,7 +171,9 @@ function actualizarDiasSiCorresponde(usuario) {
   if (hoy < aniversario) return usuario; // Aún no llega el aniversario este año
   if (ultima && ultima.getFullYear() === añoActual) return usuario; // Ya se actualizó este año
 
-  usuario.diasVacacionesDisponibles = (usuario.diasVacacionesDisponibles || 0) + 10;
+  const diasRestantes = Math.max(usuario.diasVacacionesDisponibles || 0, 0);
+  usuario.diasVacacionesAcumulados = (usuario.diasVacacionesAcumulados || 0) + diasRestantes;
+  usuario.diasVacacionesDisponibles = DIAS_VACACIONES_ANUALES;
   usuario.ultimaActualizacionDias = hoy;
   return usuario;
 }

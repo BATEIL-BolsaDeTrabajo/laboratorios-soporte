@@ -1,0 +1,213 @@
+{"kind":"deck","id":"pr/mhoj2z","name":"Deck"}
+{"kind":"layout","layoutId":"1a972ae8-1c12-49b8-8101-16cb3a307c55","name":"Master","type":"master"}
+{"kind":"layout","layoutId":"138fa932-8679-445b-b0e2-a1f586c45431","name":"Title Slide","type":"title"}
+{"kind":"slide","id":"sl/00qeh4","slide":1,"title":"PRESENTACIÓN EJECUTIVA","textShapes":7}
+{"kind":"shape","id":"sh/wval87ed","slide":1,"bbox":[0,0,1280,720]}
+{"kind":"shape","id":"sh/7adsji5s","slide":1,"bbox":[0,0,475,720]}
+{"kind":"shape","id":"sh/epkzupwb","slide":1,"bbox":[69,109,9,404]}
+{"kind":"textbox","id":"sh/psfil0rq","slide":1,"text":"PRESENTACIÓN EJECUTIVA","textPreview":"PRESENTACIÓN EJECUTIVA","textChars":22,"textLines":1,"bbox":[102,110,320,28]}
+{"kind":"textbox","id":"sh/w7mp0bi9","slide":1,"text":"Cambios al sistema de tickets y almacén","textPreview":"Cambios al sistema de tickets y almacén","textChars":39,"textLines":1,"bbox":[102,162,320,174]}
+{"kind":"textbox","id":"sh/7mp0bi9s","slide":1,"text":"Más trazabilidad para atender solicitudes, controlar recursos y tomar decisiones con información ordenada.","textPreview":"Más trazabilidad para atender solicitudes, controlar recursos y tomar decisiones con información ordenada.","textChars":106,"textLines":1,"bbox":[104,374,308,96]}
+{"kind":"shape","id":"sh/e1w7mp0b","slide":1,"bbox":[104,500,128,30]}
+{"kind":"textbox","id":"sh/l0rqd4vm","slide":1,"text":"JUNIO 2026","textPreview":"JUNIO 2026","textChars":10,"textLines":1,"bbox":[104,503,128,22]}
+{"kind":"shape","id":"sh/wfyxobm5","slide":1,"bbox":[862,127,252,252]}
+{"kind":"shape","id":"sh/ixczed8v","slide":1,"bbox":[903,168,170,170]}
+{"kind":"textbox","id":"sh/bi9s36hc","slide":1,"text":"2","textPreview":"2","textChars":1,"textLines":1,"bbox":[918,187,140,71]}
+{"kind":"textbox","id":"sh/032lszqt","slide":1,"text":"frentes\noperativos","textPreview":"frentes | operativos","textChars":18,"textLines":2,"bbox":[917,255,143,60]}
+{"kind":"textbox","id":"sh/tovahoza","slide":1,"text":"Tickets + Almacén","textPreview":"Tickets + Almacén","textChars":17,"textLines":1,"bbox":[860,414,260,30]}
+{"kind":"notes","id":"nt/00qeh4","slide":1,"text":""}
+{"kind":"slide","id":"sl/uig97u","slide":2,"title":"VISIÓN GENERAL","textShapes":21}
+{"kind":"textbox","id":"sh/cj6tovah","slide":2,"text":"VISIÓN GENERAL","textPreview":"VISIÓN GENERAL","textChars":14,"textLines":1,"bbox":[72,42,800,24]}
+{"kind":"textbox","id":"sh/nyd0z610","slide":2,"text":"Una operación conectada, visible y auditable","textPreview":"Una operación conectada, visible y auditable","textChars":44,"textLines":1,"bbox":[72,70,1040,55]}
+{"kind":"textbox","id":"sh/udg7adsj","slide":2,"text":"Los cambios digitalizan el recorrido desde una necesidad hasta la solución o el recurso entregado.","textPreview":"Los cambios digitalizan el recorrido desde una necesidad hasta la solución o el recurso entregado.","textChars":98,"textLines":1,"bbox":[72,125,1060,38]}
+{"kind":"textbox","id":"sh/5gbq1ory","slide":2,"text":"Sistema de soporte y almacén","textPreview":"Sistema de soporte y almacén","textChars":28,"textLines":1,"bbox":[1018,42,190,20]}
+{"kind":"shape","id":"sh/cvixczed","slide":2,"bbox":[72,275,236,176]}
+{"kind":"shape","id":"sh/nap4r65w","slide":2,"bbox":[97,300,48,48]}
+{"kind":"textbox","id":"sh/upwb2hwf","slide":2,"text":"1","textPreview":"1","textChars":1,"textLines":1,"bbox":[97,310,48,28]}
+{"kind":"textbox","id":"sh/1orytsvu","slide":2,"text":"Solicitud","textPreview":"Solicitud","textChars":9,"textLines":1,"bbox":[97,374,180,28]}
+{"kind":"textbox","id":"sh/c7u54zid","slide":2,"text":"Registro estructurado","textPreview":"Registro estructurado","textChars":21,"textLines":1,"bbox":[97,409,180,34]}
+{"kind":"textbox","id":"sh/6xkf6dcb","slide":2,"text":"→","textPreview":"→","textChars":1,"textLines":1,"bbox":[317,340,42,30]}
+{"kind":"shape","id":"sh/zed8v6ps","slide":2,"bbox":[372,275,236,176]}
+{"kind":"shape","id":"sh/oza1gvy9","slide":2,"bbox":[397,300,48,48]}
+{"kind":"textbox","id":"sh/hk3q5o7q","slide":2,"text":"2","textPreview":"2","textChars":1,"textLines":1,"bbox":[397,310,48,28]}
+{"kind":"textbox","id":"sh/65wjudg7","slide":2,"text":"Atención","textPreview":"Atención","textChars":8,"textLines":1,"bbox":[397,374,180,28]}
+{"kind":"textbox","id":"sh/zqtcj6to","slide":2,"text":"Asignación y estatus","textPreview":"Asignación y estatus","textChars":20,"textLines":1,"bbox":[397,409,180,34]}
+{"kind":"textbox","id":"sh/obm58z25","slide":2,"text":"→","textPreview":"→","textChars":1,"textLines":1,"bbox":[617,340,42,30]}
+{"kind":"shape","id":"sh/hwfyxobm","slide":2,"bbox":[672,275,236,176]}
+{"kind":"shape","id":"sh/a9w3m94f","slide":2,"bbox":[697,300,48,48]}
+{"kind":"textbox","id":"sh/zupwb2hw","slide":2,"text":"3","textPreview":"3","textChars":1,"textLines":1,"bbox":[697,310,48,28]}
+{"kind":"textbox","id":"sh/b6xkf6dc","slide":2,"text":"Recursos","textPreview":"Recursos","textChars":8,"textLines":1,"bbox":[697,374,180,28]}
+{"kind":"textbox","id":"sh/il0rqd4v","slide":2,"text":"Entrada, salida o ajuste","textPreview":"Entrada, salida o ajuste","textChars":24,"textLines":1,"bbox":[697,409,180,34]}
+{"kind":"textbox","id":"sh/tcj6tova","slide":2,"text":"→","textPreview":"→","textChars":1,"textLines":1,"bbox":[917,340,42,30]}
+{"kind":"shape","id":"sh/0rqd4vmt","slide":2,"bbox":[972,275,236,176]}
+{"kind":"shape","id":"sh/byhgn29g","slide":2,"bbox":[997,300,48,48]}
+{"kind":"textbox","id":"sh/idonyd0z","slide":2,"text":"4","textPreview":"4","textChars":1,"textLines":1,"bbox":[997,310,48,28]}
+{"kind":"textbox","id":"sh/t47y1kre","slide":2,"text":"Evidencia","textPreview":"Evidencia","textChars":9,"textLines":1,"bbox":[997,374,180,28]}
+{"kind":"textbox","id":"sh/0je9cvix","slide":2,"text":"Historial y reportes","textPreview":"Historial y reportes","textChars":20,"textLines":1,"bbox":[997,409,180,34]}
+{"kind":"textbox","id":"sh/bulwval8","slide":2,"text":"Resultado esperado: menos dependencia de mensajes dispersos y mayor visibilidad del estado de cada operación.","textPreview":"Resultado esperado: menos dependencia de mensajes dispersos y mayor visibilidad del estado de cada operación.","textChars":109,"textLines":1,"bbox":[72,550,1130,42]}
+{"kind":"textbox","id":"sh/i9s36hcr","slide":2,"text":"Dirección ejecutiva  |  2 / 8","textPreview":"Dirección ejecutiva  |  2 / 8","textChars":29,"textLines":1,"bbox":[72,682,1136,16]}
+{"kind":"notes","id":"nt/uig97u","slide":2,"text":""}
+{"kind":"slide","id":"sl/2t5xpj","slide":3,"title":"SISTEMA DE TICKETS","textShapes":12}
+{"kind":"textbox","id":"sh/9gr2p8nq","slide":3,"text":"SISTEMA DE TICKETS","textPreview":"SISTEMA DE TICKETS","textChars":18,"textLines":1,"bbox":[72,42,800,24]}
+{"kind":"textbox","id":"sh/2p8nqxs7","slide":3,"text":"Mejor captura desde el origen","textPreview":"Mejor captura desde el origen","textChars":29,"textLines":1,"bbox":[72,70,1040,55]}
+{"kind":"textbox","id":"sh/ra5gbq1o","slide":3,"text":"El ticket se registra con datos que ayudan a dirigirlo correctamente desde el primer contacto.","textPreview":"El ticket se registra con datos que ayudan a dirigirlo correctamente desde el primer contacto.","textChars":94,"textLines":1,"bbox":[72,125,1060,38]}
+{"kind":"textbox","id":"sh/kjm1cfa9","slide":3,"text":"Sistema de soporte y almacén","textPreview":"Sistema de soporte y almacén","textChars":28,"textLines":1,"bbox":[1018,42,190,20]}
+{"kind":"shape","id":"sh/94fu18jq","slide":3,"bbox":[72,224,350,192]}
+{"kind":"shape","id":"sh/2hwfyxob","slide":3,"bbox":[72,224,7,192]}
+{"kind":"textbox","id":"sh/r2p8nqxs","slide":3,"text":"Clasificación por área","textPreview":"Clasificación por área","textChars":22,"textLines":1,"bbox":[97,246,305,34]}
+{"kind":"textbox","id":"sh/kb6xkf6d","slide":3,"text":"Sistemas o Mantenimiento, con campos específicos según el tipo de solicitud.","textPreview":"Sistemas o Mantenimiento, con campos específicos según el tipo de solicitud.","textChars":76,"textLines":1,"bbox":[97,288,302,112]}
+{"kind":"shape","id":"sh/9w3m94fu","slide":3,"bbox":[465,224,350,192]}
+{"kind":"shape","id":"sh/xczed8v6","slide":3,"bbox":[465,224,7,192]}
+{"kind":"textbox","id":"sh/8v6psfil","slide":3,"text":"Contexto del incidente","textPreview":"Contexto del incidente","textChars":22,"textLines":1,"bbox":[490,246,305,34]}
+{"kind":"textbox","id":"sh/fa9w3m94","slide":3,"text":"Laboratorio y equipo, ubicación o salón/área; además de descripción del problema.","textPreview":"Laboratorio y equipo, ubicación o salón/área; además de descripción del problema.","textChars":81,"textLines":1,"bbox":[490,288,302,112]}
+{"kind":"shape","id":"sh/qpg3ex0n","slide":3,"bbox":[858,224,350,192]}
+{"kind":"shape","id":"sh/x4nap4r6","slide":3,"bbox":[858,224,7,192]}
+{"kind":"textbox","id":"sh/8jqh0fep","slide":3,"text":"Registro con folio","textPreview":"Registro con folio","textChars":18,"textLines":1,"bbox":[883,246,305,34]}
+{"kind":"textbox","id":"sh/fyxobm58","slide":3,"text":"Cada caso conserva una referencia para seguimiento, consultas e historial.","textPreview":"Cada caso conserva una referencia para seguimiento, consultas e historial.","textChars":74,"textLines":1,"bbox":[883,288,302,112]}
+{"kind":"shape","id":"sh/qd4vmtwr","slide":3,"bbox":[167,489,946,82]}
+{"kind":"textbox","id":"sh/xs72x4na","slide":3,"text":"La información correcta al inicio reduce rebotes, acelera la asignación y facilita el análisis posterior.","textPreview":"La información correcta al inicio reduce rebotes, acelera la asignación y facilita el análisis posterior.","textChars":105,"textLines":1,"bbox":[204,507,872,40]}
+{"kind":"textbox","id":"sh/87ed8bat","slide":3,"text":"Dirección ejecutiva  |  3 / 8","textPreview":"Dirección ejecutiva  |  3 / 8","textChars":29,"textLines":1,"bbox":[72,682,1136,16]}
+{"kind":"notes","id":"nt/2t5xpj","slide":3,"text":""}
+{"kind":"slide","id":"sl/80v2ka","slide":4,"title":"SISTEMA DE TICKETS","textShapes":28}
+{"kind":"textbox","id":"sh/ahoza1gv","slide":4,"text":"SISTEMA DE TICKETS","textPreview":"SISTEMA DE TICKETS","textChars":18,"textLines":1,"bbox":[72,42,800,24]}
+{"kind":"textbox","id":"sh/l87ed8ba","slide":4,"text":"Seguimiento completo y comunicación oportuna","textPreview":"Seguimiento completo y comunicación oportuna","textChars":44,"textLines":1,"bbox":[72,70,1040,55]}
+{"kind":"textbox","id":"sh/sneloj2t","slide":4,"text":"Cada cambio relevante queda asociado al ticket y se comunica a las personas involucradas.","textPreview":"Cada cambio relevante queda asociado al ticket y se comunica a las personas involucradas.","textChars":89,"textLines":1,"bbox":[72,125,1060,38]}
+{"kind":"textbox","id":"sh/3ex0nuxc","slide":4,"text":"Sistema de soporte y almacén","textPreview":"Sistema de soporte y almacén","textChars":28,"textLines":1,"bbox":[1018,42,190,20]}
+{"kind":"shape","id":"sh/at47y1kr","slide":4,"bbox":[72,238,190,142]}
+{"kind":"textbox","id":"sh/lkjm1cfa","slide":4,"text":"1","textPreview":"1","textChars":1,"textLines":1,"bbox":[90,256,30,26]}
+{"kind":"textbox","id":"sh/szqtcj6t","slide":4,"text":"Abierto","textPreview":"Abierto","textChars":7,"textLines":1,"bbox":[90,294,157,36]}
+{"kind":"textbox","id":"sh/3itgfmlk","slide":4,"text":"Solicitud registrada","textPreview":"Solicitud registrada","textChars":20,"textLines":1,"bbox":[90,335,155,30]}
+{"kind":"textbox","id":"sh/ex0nuxc3","slide":4,"text":"›","textPreview":"›","textChars":1,"textLines":1,"bbox":[268,290,25,36]}
+{"kind":"shape","id":"sh/wfyxobm5","slide":4,"bbox":[300,238,190,142]}
+{"kind":"textbox","id":"sh/l0rqd4vm","slide":4,"text":"2","textPreview":"2","textChars":1,"textLines":1,"bbox":[318,256,30,26]}
+{"kind":"textbox","id":"sh/ed8bat47","slide":4,"text":"En proceso","textPreview":"En proceso","textChars":10,"textLines":1,"bbox":[318,294,157,36]}
+{"kind":"textbox","id":"sh/7u54zido","slide":4,"text":"Atención iniciada","textPreview":"Atención iniciada","textChars":17,"textLines":1,"bbox":[318,335,155,30]}
+{"kind":"textbox","id":"sh/wra5gbq1","slide":4,"text":"›","textPreview":"›","textChars":1,"textLines":1,"bbox":[496,290,25,36]}
+{"kind":"shape","id":"sh/lc7u54zi","slide":4,"bbox":[528,238,190,142]}
+{"kind":"textbox","id":"sh/eloj2t83","slide":4,"text":"3","textPreview":"3","textChars":1,"textLines":1,"bbox":[546,256,30,26]}
+{"kind":"textbox","id":"sh/36hcrmhk","slide":4,"text":"En espera de material","textPreview":"En espera de material","textChars":21,"textLines":1,"bbox":[546,294,157,36]}
+{"kind":"textbox","id":"sh/wval87ed","slide":4,"text":"Pausa justificada","textPreview":"Pausa justificada","textChars":17,"textLines":1,"bbox":[546,335,155,30]}
+{"kind":"textbox","id":"sh/pg3ex0nu","slide":4,"text":"›","textPreview":"›","textChars":1,"textLines":1,"bbox":[724,290,25,36]}
+{"kind":"shape","id":"sh/9knih4by","slide":4,"bbox":[756,238,190,142]}
+{"kind":"textbox","id":"sh/kzupwb2h","slide":4,"text":"4","textPreview":"4","textChars":1,"textLines":1,"bbox":[774,256,30,26]}
+{"kind":"textbox","id":"sh/re1w7mp0","slide":4,"text":"Resuelto","textPreview":"Resuelto","textChars":8,"textLines":1,"bbox":[774,294,157,36]}
+{"kind":"textbox","id":"sh/2t83itgf","slide":4,"text":"Solución documentada","textPreview":"Solución documentada","textChars":20,"textLines":1,"bbox":[774,335,155,30]}
+{"kind":"textbox","id":"sh/9w3m94fu","slide":4,"text":"›","textPreview":"›","textChars":1,"textLines":1,"bbox":[952,290,25,36]}
+{"kind":"shape","id":"sh/kb6xkf6d","slide":4,"bbox":[984,238,190,142]}
+{"kind":"textbox","id":"sh/rqd4vmtw","slide":4,"text":"5","textPreview":"5","textChars":1,"textLines":1,"bbox":[1002,256,30,26]}
+{"kind":"textbox","id":"sh/25kb6xkf","slide":4,"text":"Cerrado","textPreview":"Cerrado","textChars":7,"textLines":1,"bbox":[1002,294,157,36]}
+{"kind":"textbox","id":"sh/94fu18jq","slide":4,"text":"Confirmación del solicitante","textPreview":"Confirmación del solicitante","textChars":28,"textLines":1,"bbox":[1002,335,155,30]}
+{"kind":"shape","id":"sh/kjm1cfa9","slide":4,"bbox":[72,449,535,132]}
+{"kind":"shape","id":"sh/udg7adsj","slide":4,"bbox":[72,449,7,132]}
+{"kind":"textbox","id":"sh/nyd0z610","slide":4,"text":"Trazabilidad","textPreview":"Trazabilidad","textChars":12,"textLines":1,"bbox":[97,471,490,34]}
+{"kind":"textbox","id":"sh/cj6tovah","slide":4,"text":"Historial de estatus, comentarios, prioridad, asignación, material requerido y resolución.","textPreview":"Historial de estatus, comentarios, prioridad, asignación, material requerido y resolución.","textChars":90,"textLines":1,"bbox":[97,513,487,52]}
+{"kind":"shape","id":"sh/54zidony","slide":4,"bbox":[673,449,535,132]}
+{"kind":"shape","id":"sh/upwb2hwf","slide":4,"bbox":[673,449,7,132]}
+{"kind":"textbox","id":"sh/nap4r65w","slide":4,"text":"Comunicación","textPreview":"Comunicación","textChars":12,"textLines":1,"bbox":[698,471,490,34]}
+{"kind":"textbox","id":"sh/cvixczed","slide":4,"text":"Actualizaciones en tiempo real y avisos por correo y WhatsApp en eventos relevantes.","textPreview":"Actualizaciones en tiempo real y avisos por correo y WhatsApp en eventos relevantes.","textChars":84,"textLines":1,"bbox":[698,513,487,52]}
+{"kind":"textbox","id":"sh/5gbq1ory","slide":4,"text":"Dirección ejecutiva  |  4 / 8","textPreview":"Dirección ejecutiva  |  4 / 8","textChars":29,"textLines":1,"bbox":[72,682,1136,16]}
+{"kind":"notes","id":"nt/80v2ka","slide":4,"text":""}
+{"kind":"slide","id":"sl/e77f7v","slide":5,"title":"SISTEMA DE ALMACÉN","textShapes":25}
+{"kind":"textbox","id":"sh/u54zidon","slide":5,"text":"SISTEMA DE ALMACÉN","textPreview":"SISTEMA DE ALMACÉN","textChars":18,"textLines":1,"bbox":[72,42,800,24]}
+{"kind":"textbox","id":"sh/5sneloj2","slide":5,"text":"Control del ciclo de inventario","textPreview":"Control del ciclo de inventario","textChars":31,"textLines":1,"bbox":[72,70,1040,55]}
+{"kind":"textbox","id":"sh/cbulwval","slide":5,"text":"El almacén concentra las operaciones que afectan existencias y permite reconstruir el recorrido de cada producto.","textPreview":"El almacén concentra las operaciones que afectan existencias y permite reconstruir el recorrido de cada producto.","textChars":113,"textLines":1,"bbox":[72,125,1060,38]}
+{"kind":"textbox","id":"sh/neloj2t8","slide":5,"text":"Sistema de soporte y almacén","textPreview":"Sistema de soporte y almacén","textChars":28,"textLines":1,"bbox":[1018,42,190,20]}
+{"kind":"shape","id":"sh/ytsvu9kn","slide":5,"bbox":[72,239,190,154]}
+{"kind":"textbox","id":"sh/5kb6xkf6","slide":5,"text":"1","textPreview":"1","textChars":1,"textLines":1,"bbox":[90,258,40,24]}
+{"kind":"textbox","id":"sh/czed8v6p","slide":5,"text":"Catálogo","textPreview":"Catálogo","textChars":8,"textLines":1,"bbox":[90,296,156,30]}
+{"kind":"textbox","id":"sh/n29gr2p8","slide":5,"text":"Producto, código y datos base","textPreview":"Producto, código y datos base","textChars":29,"textLines":1,"bbox":[90,335,155,42]}
+{"kind":"textbox","id":"sh/yhgn29gr","slide":5,"text":"→","textPreview":"→","textChars":1,"textLines":1,"bbox":[266,295,27,33]}
+{"kind":"shape","id":"sh/kb6xkf6d","slide":5,"bbox":[300,239,190,154]}
+{"kind":"textbox","id":"sh/9w3m94fu","slide":5,"text":"2","textPreview":"2","textChars":1,"textLines":1,"bbox":[318,258,40,24]}
+{"kind":"textbox","id":"sh/25kb6xkf","slide":5,"text":"Entrada","textPreview":"Entrada","textChars":7,"textLines":1,"bbox":[318,296,156,30]}
+{"kind":"textbox","id":"sh/rqd4vmtw","slide":5,"text":"Recepción y aumento de stock","textPreview":"Recepción y aumento de stock","textChars":28,"textLines":1,"bbox":[318,335,155,42]}
+{"kind":"textbox","id":"sh/kzupwb2h","slide":5,"text":"→","textPreview":"→","textChars":1,"textLines":1,"bbox":[494,295,27,33]}
+{"kind":"shape","id":"sh/9knih4by","slide":5,"bbox":[528,239,190,154]}
+{"kind":"textbox","id":"sh/2t83itgf","slide":5,"text":"3","textPreview":"3","textChars":1,"textLines":1,"bbox":[546,258,40,24]}
+{"kind":"textbox","id":"sh/re1w7mp0","slide":5,"text":"Salida","textPreview":"Salida","textChars":6,"textLines":1,"bbox":[546,296,156,30]}
+{"kind":"textbox","id":"sh/gvy90je9","slide":5,"text":"Entrega o consumo registrado","textPreview":"Entrega o consumo registrado","textChars":28,"textLines":1,"bbox":[546,335,155,42]}
+{"kind":"textbox","id":"sh/9gr2p8nq","slide":5,"text":"→","textPreview":"→","textChars":1,"textLines":1,"bbox":[722,295,27,33]}
+{"kind":"shape","id":"sh/d8bat47y","slide":5,"bbox":[756,239,190,154]}
+{"kind":"textbox","id":"sh/knih4byh","slide":5,"text":"4","textPreview":"4","textChars":1,"textLines":1,"bbox":[774,258,40,24]}
+{"kind":"textbox","id":"sh/v6psfil0","slide":5,"text":"Ajuste","textPreview":"Ajuste","textChars":6,"textLines":1,"bbox":[774,296,156,30]}
+{"kind":"textbox","id":"sh/2lszqtcj","slide":5,"text":"Corrección con motivo","textPreview":"Corrección con motivo","textChars":21,"textLines":1,"bbox":[774,335,155,42]}
+{"kind":"textbox","id":"sh/d0z61032","slide":5,"text":"→","textPreview":"→","textChars":1,"textLines":1,"bbox":[950,295,27,33]}
+{"kind":"shape","id":"sh/kf6dcbul","slide":5,"bbox":[984,239,190,154]}
+{"kind":"textbox","id":"sh/vu9knih4","slide":5,"text":"5","textPreview":"5","textChars":1,"textLines":1,"bbox":[1002,258,40,24]}
+{"kind":"textbox","id":"sh/29gr2p8n","slide":5,"text":"Historial","textPreview":"Historial","textChars":9,"textLines":1,"bbox":[1002,296,156,30]}
+{"kind":"textbox","id":"sh/donyd0z6","slide":5,"text":"Consulta por producto","textPreview":"Consulta por producto","textChars":21,"textLines":1,"bbox":[1002,335,155,42]}
+{"kind":"textbox","id":"sh/k3q5o7qp","slide":5,"text":"Cada movimiento actualiza el inventario y queda disponible para revisión posterior.","textPreview":"Cada movimiento actualiza el inventario y queda disponible para revisión posterior.","textChars":83,"textLines":1,"bbox":[180,497,920,42]}
+{"kind":"textbox","id":"sh/u54zidon","slide":5,"text":"Dirección ejecutiva  |  5 / 8","textPreview":"Dirección ejecutiva  |  5 / 8","textChars":29,"textLines":1,"bbox":[72,682,1136,16]}
+{"kind":"notes","id":"nt/e77f7v","slide":5,"text":""}
+{"kind":"slide","id":"sl/sq9nhs","slide":6,"title":"SISTEMA DE ALMACÉN","textShapes":12}
+{"kind":"textbox","id":"sh/wjudg7ad","slide":6,"text":"SISTEMA DE ALMACÉN","textPreview":"SISTEMA DE ALMACÉN","textChars":18,"textLines":1,"bbox":[72,42,800,24]}
+{"kind":"textbox","id":"sh/7y1kre1w","slide":6,"text":"Más responsabilidad sobre activos y movimientos","textPreview":"Más responsabilidad sobre activos y movimientos","textChars":47,"textLines":1,"bbox":[72,70,1040,55]}
+{"kind":"textbox","id":"sh/ed8v6psf","slide":6,"text":"El control no termina en el stock: también incluye quién recibe, conserva o devuelve los equipos.","textPreview":"El control no termina en el stock: también incluye quién recibe, conserva o devuelve los equipos.","textChars":97,"textLines":1,"bbox":[72,125,1060,38]}
+{"kind":"textbox","id":"sh/pwb2hwfy","slide":6,"text":"Sistema de soporte y almacén","textPreview":"Sistema de soporte y almacén","textChars":28,"textLines":1,"bbox":[1018,42,190,20]}
+{"kind":"shape","id":"sh/0bi9s36h","slide":6,"bbox":[72,225,350,205]}
+{"kind":"shape","id":"sh/7qpg3ex0","slide":6,"bbox":[72,225,7,205]}
+{"kind":"textbox","id":"sh/i5sneloj","slide":6,"text":"Auditoría de inventario","textPreview":"Auditoría de inventario","textChars":23,"textLines":1,"bbox":[97,247,305,34]}
+{"kind":"textbox","id":"sh/pkzupwb2","slide":6,"text":"Registro de movimientos, usuario responsable, motivo, cantidades antes/después y referencias de operación.","textPreview":"Registro de movimientos, usuario responsable, motivo, cantidades antes/después y referencias de operación.","textChars":106,"textLines":1,"bbox":[97,289,302,125]}
+{"kind":"shape","id":"sh/0z61032l","slide":6,"bbox":[465,225,350,205]}
+{"kind":"shape","id":"sh/qpg3ex0n","slide":6,"bbox":[465,225,7,205]}
+{"kind":"textbox","id":"sh/fa9w3m94","slide":6,"text":"Asignación de equipos","textPreview":"Asignación de equipos","textChars":21,"textLines":1,"bbox":[490,247,305,34]}
+{"kind":"textbox","id":"sh/8v6psfil","slide":6,"text":"Alta, actualización, retiro y reasignación con historial por colaborador; cada persona puede consultar sus equipos.","textPreview":"Alta, actualización, retiro y reasignación con historial por colaborador; cada persona puede consultar sus equipos.","textChars":115,"textLines":1,"bbox":[490,289,302,125]}
+{"kind":"shape","id":"sh/xczed8v6","slide":6,"bbox":[858,225,350,205]}
+{"kind":"shape","id":"sh/qd4vmtwr","slide":6,"bbox":[858,225,7,205]}
+{"kind":"textbox","id":"sh/fyxobm58","slide":6,"text":"Consulta y exportación","textPreview":"Consulta y exportación","textChars":22,"textLines":1,"bbox":[883,247,305,34]}
+{"kind":"textbox","id":"sh/8jqh0fep","slide":6,"text":"Historial por producto, filtros, paginación y reportes en Excel para revisión administrativa.","textPreview":"Historial por producto, filtros, paginación y reportes en Excel para revisión administrativa.","textChars":93,"textLines":1,"bbox":[883,289,302,125]}
+{"kind":"shape","id":"sh/x4nap4r6","slide":6,"bbox":[72,487,1136,85]}
+{"kind":"textbox","id":"sh/q1orytsv","slide":6,"text":"El sistema convierte inventario y activos en información operativa consultable, no en registros aislados.","textPreview":"El sistema convierte inventario y activos en información operativa consultable, no en registros aislados.","textChars":105,"textLines":1,"bbox":[106,508,1068,40]}
+{"kind":"textbox","id":"sh/fmlkjm1c","slide":6,"text":"Dirección ejecutiva  |  6 / 8","textPreview":"Dirección ejecutiva  |  6 / 8","textChars":29,"textLines":1,"bbox":[72,682,1136,16]}
+{"kind":"notes","id":"nt/sq9nhs","slide":6,"text":""}
+{"kind":"slide","id":"sl/e1y9eg","slide":7,"title":"IMPACTO PARA DIRECCIÓN","textShapes":17}
+{"kind":"textbox","id":"sh/q5o7qpg3","slide":7,"text":"IMPACTO PARA DIRECCIÓN","textPreview":"IMPACTO PARA DIRECCIÓN","textChars":22,"textLines":1,"bbox":[72,42,800,24]}
+{"kind":"textbox","id":"sh/1w7mp0bi","slide":7,"text":"Qué habilitan estos cambios","textPreview":"Qué habilitan estos cambios","textChars":27,"textLines":1,"bbox":[72,70,1040,55]}
+{"kind":"textbox","id":"sh/8bat47y1","slide":7,"text":"El valor central es poder intervenir con oportunidad y sostener decisiones con evidencia.","textPreview":"El valor central es poder intervenir con oportunidad y sostener decisiones con evidencia.","textChars":89,"textLines":1,"bbox":[72,125,1060,38]}
+{"kind":"textbox","id":"sh/j2t83itg","slide":7,"text":"Sistema de soporte y almacén","textPreview":"Sistema de soporte y almacén","textChars":28,"textLines":1,"bbox":[1018,42,190,20]}
+{"kind":"shape","id":"sh/qh0fepkz","slide":7,"bbox":[72,215,536,142]}
+{"kind":"shape","id":"sh/18jqh0fe","slide":7,"bbox":[96,239,52,52]}
+{"kind":"textbox","id":"sh/8nqxs72x","slide":7,"text":"1","textPreview":"1","textChars":1,"textLines":1,"bbox":[96,251,52,24]}
+{"kind":"textbox","id":"sh/j6tovaho","slide":7,"text":"Control","textPreview":"Control","textChars":7,"textLines":1,"bbox":[170,242,400,31]}
+{"kind":"textbox","id":"sh/ulwval87","slide":7,"text":"Estado de solicitudes, inventario y activos en un solo flujo digital.","textPreview":"Estado de solicitudes, inventario y activos en un solo flujo digital.","textChars":69,"textLines":1,"bbox":[170,282,395,48]}
+{"kind":"shape","id":"sh/4vmtwra5","slide":7,"bbox":[642,215,536,142]}
+{"kind":"shape","id":"sh/tgfmlkjm","slide":7,"bbox":[666,239,52,52]}
+{"kind":"textbox","id":"sh/mp0bi9s3","slide":7,"text":"2","textPreview":"2","textChars":1,"textLines":1,"bbox":[666,251,52,24]}
+{"kind":"textbox","id":"sh/bat47y1k","slide":7,"text":"Trazabilidad","textPreview":"Trazabilidad","textChars":12,"textLines":1,"bbox":[740,242,400,31]}
+{"kind":"textbox","id":"sh/47y1kre1","slide":7,"text":"Historial de acciones, responsables, fechas y justificaciones.","textPreview":"Historial de acciones, responsables, fechas y justificaciones.","textChars":62,"textLines":1,"bbox":[740,282,395,48]}
+{"kind":"shape","id":"sh/tsvu9kni","slide":7,"bbox":[72,387,536,142]}
+{"kind":"shape","id":"sh/m1cfa9w3","slide":7,"bbox":[96,411,52,52]}
+{"kind":"textbox","id":"sh/bm58z25k","slide":7,"text":"3","textPreview":"3","textChars":1,"textLines":1,"bbox":[96,423,52,24]}
+{"kind":"textbox","id":"sh/4byhgn29","slide":7,"text":"Continuidad","textPreview":"Continuidad","textChars":11,"textLines":1,"bbox":[170,414,400,31]}
+{"kind":"textbox","id":"sh/twra5gbq","slide":7,"text":"Los tickets pueden esperar material sin perder el contexto de atención.","textPreview":"Los tickets pueden esperar material sin perder el contexto de atención.","textChars":71,"textLines":1,"bbox":[170,454,395,48]}
+{"kind":"shape","id":"sh/1gvy90je","slide":7,"bbox":[642,387,536,142]}
+{"kind":"shape","id":"sh/8z25kb6x","slide":7,"bbox":[666,411,52,52]}
+{"kind":"textbox","id":"sh/je9cvixc","slide":7,"text":"4","textPreview":"4","textChars":1,"textLines":1,"bbox":[666,423,52,24]}
+{"kind":"textbox","id":"sh/qtcj6tov","slide":7,"text":"Rendición de cuentas","textPreview":"Rendición de cuentas","textChars":20,"textLines":1,"bbox":[740,414,400,31]}
+{"kind":"textbox","id":"sh/xs72x4na","slide":7,"text":"Las asignaciones y movimientos de almacén conservan responsable y motivo.","textPreview":"Las asignaciones y movimientos de almacén conservan responsable y motivo.","textChars":73,"textLines":1,"bbox":[740,454,395,48]}
+{"kind":"textbox","id":"sh/87ed8bat","slide":7,"text":"Dirección ejecutiva  |  7 / 8","textPreview":"Dirección ejecutiva  |  7 / 8","textChars":29,"textLines":1,"bbox":[72,682,1136,16]}
+{"kind":"notes","id":"nt/e1y9eg","slide":7,"text":""}
+{"kind":"slide","id":"sl/nvrgcp","slide":8,"title":"SIGUIENTE FASE","textShapes":15}
+{"kind":"textbox","id":"sh/q1orytsv","slide":8,"text":"SIGUIENTE FASE","textPreview":"SIGUIENTE FASE","textChars":14,"textLines":1,"bbox":[72,42,800,24]}
+{"kind":"textbox","id":"sh/xs72x4na","slide":8,"text":"Convertir la digitalización en resultados medibles","textPreview":"Convertir la digitalización en resultados medibles","textChars":50,"textLines":1,"bbox":[72,70,1040,55]}
+{"kind":"textbox","id":"sh/87ed8bat","slide":8,"text":"La plataforma ya cubre los flujos clave; el siguiente paso es consolidar adopción y gobierno operativo.","textPreview":"La plataforma ya cubre los flujos clave; el siguiente paso es consolidar adopción y gobierno operativo.","textChars":103,"textLines":1,"bbox":[72,125,1060,38]}
+{"kind":"textbox","id":"sh/je9cvixc","slide":8,"text":"Sistema de soporte y almacén","textPreview":"Sistema de soporte y almacén","textChars":28,"textLines":1,"bbox":[1018,42,190,20]}
+{"kind":"shape","id":"sh/qtcj6tov","slide":8,"bbox":[160,210,960,88]}
+{"kind":"shape","id":"sh/1gvy90je","slide":8,"bbox":[184,228,52,52]}
+{"kind":"textbox","id":"sh/8z25kb6x","slide":8,"text":"1","textPreview":"1","textChars":1,"textLines":1,"bbox":[184,240,52,24]}
+{"kind":"textbox","id":"sh/fa9w3m94","slide":8,"text":"Asegurar adopción","textPreview":"Asegurar adopción","textChars":17,"textLines":1,"bbox":[264,228,260,26]}
+{"kind":"textbox","id":"sh/qpg3ex0n","slide":8,"text":"Capacitación breve por rol y guía de uso para solicitantes, soporte y almacén.","textPreview":"Capacitación breve por rol y guía de uso para solicitantes, soporte y almacén.","textChars":78,"textLines":1,"bbox":[264,257,790,24]}
+{"kind":"shape","id":"sh/wjudg7ad","slide":8,"bbox":[160,326,960,88]}
+{"kind":"shape","id":"sh/p4r65wju","slide":8,"bbox":[184,344,52,52]}
+{"kind":"textbox","id":"sh/ed8v6psf","slide":8,"text":"2","textPreview":"2","textChars":1,"textLines":1,"bbox":[184,356,52,24]}
+{"kind":"textbox","id":"sh/7y1kre1w","slide":8,"text":"Definir indicadores","textPreview":"Definir indicadores","textChars":19,"textLines":1,"bbox":[264,344,260,26]}
+{"kind":"textbox","id":"sh/0bi9s36h","slide":8,"text":"Tiempo de atención, tickets en espera, rotación de inventario y activos pendientes de devolución.","textPreview":"Tiempo de atención, tickets en espera, rotación de inventario y activos pendientes de devolución.","textChars":97,"textLines":1,"bbox":[264,373,790,24]}
+{"kind":"shape","id":"sh/pwb2hwfy","slide":8,"bbox":[160,442,960,88]}
+{"kind":"shape","id":"sh/i5sneloj","slide":8,"bbox":[184,460,52,52]}
+{"kind":"textbox","id":"sh/7qpg3ex0","slide":8,"text":"3","textPreview":"3","textChars":1,"textLines":1,"bbox":[184,472,52,24]}
+{"kind":"textbox","id":"sh/0z61032l","slide":8,"text":"Revisión mensual","textPreview":"Revisión mensual","textChars":16,"textLines":1,"bbox":[264,460,260,26]}
+{"kind":"textbox","id":"sh/pkzupwb2","slide":8,"text":"Revisar excepciones, prioridades, niveles de stock y tendencias para decisiones preventivas.","textPreview":"Revisar excepciones, prioridades, niveles de stock y tendencias para decisiones preventivas.","textChars":92,"textLines":1,"bbox":[264,489,790,24]}
+{"kind":"shape","id":"sh/donyd0z6","slide":8,"bbox":[280,583,720,52]}
+{"kind":"textbox","id":"sh/k3q5o7qp","slide":8,"text":"Decisión solicitada: respaldar la adopción y el seguimiento mensual.","textPreview":"Decisión solicitada: respaldar la adopción y el seguimiento mensual.","textChars":68,"textLines":1,"bbox":[300,595,680,24]}
+{"kind":"textbox","id":"sh/vixczed8","slide":8,"text":"Dirección ejecutiva  |  8 / 8","textPreview":"Dirección ejecutiva  |  8 / 8","textChars":29,"textLines":1,"bbox":[72,682,1136,16]}
+{"kind":"notes","id":"nt/nvrgcp","slide":8,"text":""}

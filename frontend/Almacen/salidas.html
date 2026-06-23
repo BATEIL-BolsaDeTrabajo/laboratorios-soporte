@@ -17,9 +17,12 @@
 
     <div class="d-flex justify-content-between align-items-center mb-3">
       <h2>Salidas del almacén</h2>
-      <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalSalida" onclick="prepararNuevaSalida()">
-        + Registrar salida
-      </button>
+      <div class="d-flex gap-2">
+        <button class="btn btn-outline-success" type="button" onclick="exportarSalidas()">Exportar Excel</button>
+        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalSalida" onclick="prepararNuevaSalida()">
+          + Registrar salida
+        </button>
+      </div>
     </div>
 
     <!-- FILTROS -->
@@ -42,6 +45,11 @@
           <div class="col-md-3">
             <label class="form-label">Departamento</label>
             <input type="text" id="filtroDepartamento" class="form-control">
+          </div>
+
+          <div class="col-md-3">
+            <label class="form-label">Buscar</label>
+            <input type="search" id="filtroBusqueda" class="form-control" placeholder="Producto, persona o comentario">
           </div>
 
           <div class="col-md-2">
@@ -83,6 +91,8 @@
       </table>
     </div>
 
+    <div id="paginacionSalidas" class="d-flex justify-content-between align-items-center mt-3"></div>
+
   </div>
 
   <!-- MODAL SALIDA -->
@@ -115,12 +125,14 @@
 
             <div class="mb-3">
               <label class="form-label">Departamento</label>
-              <input type="text" id="salidaDepartamento" class="form-control" required>
+              <select id="salidaDepartamento" class="form-select" required>
+                <option value="" disabled selected>Cargando departamentos...</option>
+              </select>
             </div>
 
             <div class="mb-3">
               <label class="form-label">Tipo de salida</label>
-              <select id="salidaTipo" class="form-select" required onchange="toggleOtroTipo()">
+              <select id="salidaTipo" class="form-select" required>
                 <option value="" disabled selected>Seleccione...</option>
                 <option value="Venta">Venta</option>
                 <option value="Préstamo">Préstamo</option>
@@ -166,6 +178,8 @@
     if (!token) window.location.href = "/login.html";
 
     const tablaBody = document.querySelector("#tablaSalidas tbody");
+    let paginaActual = 1;
+    const limitePagina = 25;
 
     function fmtFecha(dt) {
       const d = new Date(dt);
@@ -225,10 +239,39 @@
       });
     }
 
+    function llenarSelectCatalogo(selectId, valores) {
+      const select = document.getElementById(selectId);
+      select.innerHTML = '<option value="" disabled selected>Selecciona...</option>';
+
+      valores.forEach((valor) => {
+        const option = document.createElement('option');
+        option.value = valor.nombre;
+        option.textContent = valor.nombre;
+        select.appendChild(option);
+      });
+    }
+
+    async function cargarCatalogosSalida() {
+      const headers = { "Authorization": "Bearer " + token };
+      const [departamentosRes, tiposRes] = await Promise.all([
+        fetch('/api/almacen/catalogos?tipo=departamento', { headers }),
+        fetch('/api/almacen/catalogos?tipo=tipoSalida', { headers })
+      ]);
+
+      if (!departamentosRes.ok || !tiposRes.ok) {
+        alert('No se pudieron cargar los catálogos de salida.');
+        return;
+      }
+
+      const [departamentos, tipos] = await Promise.all([departamentosRes.json(), tiposRes.json()]);
+      llenarSelectCatalogo('salidaDepartamento', departamentos.catalogos || []);
+      llenarSelectCatalogo('salidaTipo', tipos.catalogos || []);
+    }
+
     /** ===========================
      *  Cargar salidas
      =========================== */
-    async function cargarSalidas() {
+    function crearParametrosSalidas(incluirPaginacion = true) {
       const params = new URLSearchParams();
 
       const p = document.getElementById("filtroProducto").value;
@@ -236,12 +279,47 @@
       const dep = document.getElementById("filtroDepartamento").value;
       const d = document.getElementById("filtroDesde").value;
       const h = document.getElementById("filtroHasta").value;
+      const q = document.getElementById("filtroBusqueda").value.trim();
 
       if (p) params.append("productoId", p);
       if (pers) params.append("entregadoA", pers);
       if (dep) params.append("departamento", dep);
       if (d) params.append("fechaInicio", d);
       if (h) params.append("fechaFin", h);
+      if (q) params.append("q", q);
+      if (incluirPaginacion) {
+        params.append("pagina", paginaActual);
+        params.append("limite", limitePagina);
+      }
+
+      return params;
+    }
+
+    function renderizarPaginacionSalidas(paginacion) {
+      const contenedor = document.getElementById("paginacionSalidas");
+      if (!paginacion || !paginacion.total) {
+        contenedor.innerHTML = "";
+        return;
+      }
+
+      contenedor.innerHTML = `
+        <span class="text-muted small">${paginacion.total} registros</span>
+        <div class="d-flex align-items-center gap-2">
+          <button class="btn btn-sm btn-outline-secondary" type="button" onclick="cambiarPaginaSalidas(-1)" ${paginacion.pagina <= 1 ? "disabled" : ""}>Anterior</button>
+          <span class="small">Página ${paginacion.pagina} de ${paginacion.totalPaginas}</span>
+          <button class="btn btn-sm btn-outline-secondary" type="button" onclick="cambiarPaginaSalidas(1)" ${paginacion.pagina >= paginacion.totalPaginas ? "disabled" : ""}>Siguiente</button>
+        </div>
+      `;
+    }
+
+    function cambiarPaginaSalidas(delta) {
+      paginaActual += delta;
+      cargarSalidas(paginaActual);
+    }
+
+    async function cargarSalidas(pagina = 1) {
+      paginaActual = pagina;
+      const params = crearParametrosSalidas();
 
       const res = await fetch("/api/almacen/salidas?" + params.toString(), {
         headers: { "Authorization": "Bearer " + token }
@@ -256,6 +334,7 @@
       if (!data.salidas.length) {
         tablaBody.innerHTML =
           `<tr><td colspan="8" class="text-center text-muted">Sin datos.</td></tr>`;
+        renderizarPaginacionSalidas(data.paginacion);
         return;
       }
 
@@ -273,6 +352,26 @@
           </tr>
         `;
       });
+
+      renderizarPaginacionSalidas(data.paginacion);
+    }
+
+    async function exportarSalidas() {
+      const res = await fetch("/api/almacen/salidas/exportar?" + crearParametrosSalidas(false).toString(), {
+        headers: { "Authorization": "Bearer " + token }
+      });
+
+      if (!res.ok) {
+        const data = await res.json().catch(() => ({}));
+        alert(data.mensaje || "No se pudo exportar el reporte.");
+        return;
+      }
+
+      const enlace = document.createElement("a");
+      enlace.href = URL.createObjectURL(await res.blob());
+      enlace.download = "reporte-salidas.xlsx";
+      enlace.click();
+      URL.revokeObjectURL(enlace.href);
     }
 
     /** ===========================
@@ -288,15 +387,12 @@
     document.getElementById("formSalida").addEventListener("submit", async (e) => {
       e.preventDefault();
 
-      const tipoSeleccionado = document.getElementById("salidaTipo").value;
-      const tipoOtro = document.getElementById("salidaTipoOtro").value.trim();
-
       const payload = {
         productoId: document.getElementById("salidaProducto").value,
         cantidad: Number(document.getElementById("salidaCantidad").value),
         entregadoA: document.getElementById("salidaPersona").value,
         departamento: document.getElementById("salidaDepartamento").value,
-        tipoSalida: tipoSeleccionado === "Otro" ? tipoOtro : tipoSeleccionado,
+        tipoSalida: document.getElementById("salidaTipo").value,
         comentarios: document.getElementById("salidaComentarios").value
       };
 
@@ -334,8 +430,14 @@
     /** ===========================
      *  Inicializar
      =========================== */
+    document.getElementById("filtroBusqueda").addEventListener("input", () => cargarSalidas(1));
+    document.getElementById("filtroPersona").addEventListener("input", () => cargarSalidas(1));
+    document.getElementById("filtroDepartamento").addEventListener("input", () => cargarSalidas(1));
+    document.getElementById("filtroProducto").addEventListener("change", () => cargarSalidas(1));
+
     document.addEventListener("DOMContentLoaded", () => {
       cargarProductosSelect();
+      cargarCatalogosSalida();
       cargarSalidas();
     });
 

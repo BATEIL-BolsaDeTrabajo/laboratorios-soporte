@@ -16,7 +16,11 @@ const ajusteInventarioSchema = new Schema({
   cantidad: {
     type: Number,
     required: true,
-    min: 0
+    min: 0,
+    validate: {
+      validator: (valor) => Number.isFinite(valor) && valor >= 0,
+      message: 'La cantidad del ajuste debe ser un número válido mayor o igual a cero.'
+    }
   },
   motivo: {
     type: String,

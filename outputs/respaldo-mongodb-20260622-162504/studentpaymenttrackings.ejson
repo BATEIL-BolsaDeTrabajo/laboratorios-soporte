@@ -1,0 +1,2607 @@
+[
+  {
+    "_id": {
+      "$oid": "69b9e038f7eac1cef42a34dd"
+    },
+    "studentId": null,
+    "matricula": "25MEC041",
+    "nombre": "DE LEON CHAIREZ FERNANDA EBENEZER",
+    "grupo": "2A",
+    "seccion": "2A",
+    "cycleId": {
+      "$oid": "69b9d9b431b4c8909fe928e5"
+    },
+    "payments": {
+      "inscripcion": {
+        "value": "",
+        "updatedAt": null,
+        "updatedBy": null
+      },
+      "enero": {
+        "value": "",
+        "updatedAt": null,
+        "updatedBy": null
+      },
+      "febrero": {
+        "value": "SI",
+        "updatedAt": {
+          "$date": "2026-03-20T21:10:27.593Z"
+        },
+        "updatedBy": {
+          "$oid": "69bc2119577a46359b97b857"
+        }
+      },
+      "marzo": {
+        "value": "SI",
+        "updatedAt": {
+          "$date": "2026-04-07T21:43:26.331Z"
+        },
+        "updatedBy": {
+          "$oid": "685aee77c1ac24e6a4c528fb"
+        }
+      },
+      "abril": {
+        "value": "",
+        "updatedAt": null,
+        "updatedBy": null
+      },
+      "mayo": {
+        "value": "",
+        "updatedAt": null,
+        "updatedBy": null
+      },
+      "junio": {
+        "value": "",
+        "updatedAt": null,
+        "updatedBy": null
+      }
+    },
+    "asistencia": "",
+    "motivo": "",
+    "notasAcademicas": "",
+    "notasAdministrativas": "",
+    "lastCajaUploadAt": {
+      "$date": "2026-04-07T21:43:26.331Z"
+    },
+    "lastCajaUploadBy": {
+      "$oid": "685aee77c1ac24e6a4c528fb"
+    },
+    "createdAt": {
+      "$date": "2026-03-17T23:14:00.316Z"
+    },
+    "updatedAt": {
+      "$date": "2026-04-07T21:43:26.646Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "69b9e038f7eac1cef42a34e0"
+    },
+    "studentId": null,
+    "matricula": "25AUT045",
+    "nombre": "MARIN GANDARA SANTIAGO DE JESUS",
+    "grupo": "2A",
+    "seccion": "2A",
+    "cycleId": {
+      "$oid": "69b9d9b431b4c8909fe928e5"
+    },
+    "payments": {
+      "inscripcion": {
+        "value": "",
+        "updatedAt": null,
+        "updatedBy": null
+      },
+      "enero": {
+        "value": "",
+        "updatedAt": null,
+        "updatedBy": null
+      },
+      "febrero": {
+        "value": "SI",
+        "updatedAt": {
+          "$date": "2026-03-20T21:10:27.593Z"
+        },
+        "updatedBy": {
+          "$oid": "69bc2119577a46359b97b857"
+        }
+      },
+      "marzo": {
+        "value": "NO",
+        "updatedAt": {
+          "$date": "2026-04-07T21:43:26.331Z"
+        },
+        "updatedBy": {
+          "$oid": "685aee77c1ac24e6a4c528fb"
+        }
+      },
+      "abril": {
+        "value": "",
+        "updatedAt": null,
+        "updatedBy": null
+      },
+      "mayo": {
+        "value": "",
+        "updatedAt": null,
+        "updatedBy": null
+      },
+      "junio": {
+        "value": "",
+        "updatedAt": null,
+        "updatedBy": null
+      }
+    },
+    "asistencia": "REGULAR",
+    "motivo": "Llega tarde",
+    "notasAcademicas": "Vive lejos",
+    "notasAdministrativas": "",
+    "lastCajaUploadAt": {
+      "$date": "2026-04-07T21:43:26.331Z"
+    },
+    "lastCajaUploadBy": {
+      "$oid": "685aee77c1ac24e6a4c528fb"
+    },
+    "createdAt": {
+      "$date": "2026-03-17T23:14:00.324Z"
+    },
+    "updatedAt": {
+      "$date": "2026-04-07T21:43:26.450Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "69b9e038f7eac1cef42a34e3"
+    },
+    "studentId": null,
+    "matricula": "25AUT079",
+    "nombre": "RODRIGUEZ LOPEZ JORGE ALBERTO",
+    "grupo": "2A",
+    "seccion": "2A",
+    "cycleId": {
+      "$oid": "69b9d9b431b4c8909fe928e5"
+    },
+    "payments": {
+      "inscripcion": {
+        "value": "",
+        "updatedAt": null,
+        "updatedBy": null
+      },
+      "enero": {
+        "value": "",
+        "updatedAt": null,
+        "updatedBy": null
+      },
+      "febrero": {
+        "value": "SI",
+        "updatedAt": {
+          "$date": "2026-03-20T21:10:27.593Z"
+        },
+        "updatedBy": {
+          "$oid": "69bc2119577a46359b97b857"
+        }
+      },
+      "marzo": {
+        "value": "SI",
+        "updatedAt": {
+          "$date": "2026-04-07T21:43:26.331Z"
+        },
+        "updatedBy": {
+          "$oid": "685aee77c1ac24e6a4c528fb"
+        }
+      },
+      "abril": {
+        "value": "",
+        "updatedAt": null,
+        "updatedBy": null
+      },
+      "mayo": {
+        "value": "",
+        "updatedAt": null,
+        "updatedBy": null
+      },
+      "junio": {
+        "value": "",
+        "updatedAt": null,
+        "updatedBy": null
+      }
+    },
+    "asistencia": "IRREGULAR",
+    "motivo": "No pasa el camion",
+    "notasAcademicas": "Es recurrente",
+    "notasAdministrativas": "",
+    "lastCajaUploadAt": {
+      "$date": "2026-04-07T21:43:26.331Z"
+    },
+    "lastCajaUploadBy": {
+      "$oid": "685aee77c1ac24e6a4c528fb"
+    },
+    "createdAt": {
+      "$date": "2026-03-17T23:14:00.329Z"
+    },
+    "updatedAt": {
+      "$date": "2026-04-07T21:43:26.650Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "69b9e038f7eac1cef42a34e6"
+    },
+    "studentId": null,
+    "matricula": "25AUT022",
+    "nombre": "GONZALEZ ORONA RAFAEL ALEJANDRO",
+    "grupo": "2B",
+    "seccion": "2B",
+    "cycleId": {
+      "$oid": "69b9d9b431b4c8909fe928e5"
+    },
+    "payments": {
+      "inscripcion": {
+        "value": "",
+        "updatedAt": null,
+        "updatedBy": null
+      },
+      "enero": {
+        "value": "",
+        "updatedAt": null,
+        "updatedBy": null
+      },
+      "febrero": {
+        "value": "SI",
+        "updatedAt": {
+          "$date": "2026-03-20T21:10:27.593Z"
+        },
+        "updatedBy": {
+          "$oid": "69bc2119577a46359b97b857"
+        }
+      },
+      "marzo": {
+        "value": "NO",
+        "updatedAt": {
+          "$date": "2026-04-07T21:43:26.331Z"
+        },
+        "updatedBy": {
+          "$oid": "685aee77c1ac24e6a4c528fb"
+        }
+      },
+      "abril": {
+        "value": "",
+        "updatedAt": null,
+        "updatedBy": null
+      },
+      "mayo": {
+        "value": "",
+        "updatedAt": null,
+        "updatedBy": null
+      },
+      "junio": {
+        "value": "",
+        "updatedAt": null,
+        "updatedBy": null
+      }
+    },
+    "asistencia": "REGULAR",
+    "motivo": "Trafico",
+    "notasAcademicas": "Es recurrente",
+    "notasAdministrativas": "",
+    "lastCajaUploadAt": {
+      "$date": "2026-04-07T21:43:26.331Z"
+    },
+    "lastCajaUploadBy": {
+      "$oid": "685aee77c1ac24e6a4c528fb"
+    },
+    "createdAt": {
+      "$date": "2026-03-17T23:14:00.333Z"
+    },
+    "updatedAt": {
+      "$date": "2026-04-07T21:43:26.545Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "69b9e038f7eac1cef42a34e9"
+    },
+    "studentId": null,
+    "matricula": "25AUT076",
+    "nombre": "MARQUEZ DIEGO",
+    "grupo": "2B",
+    "seccion": "2B",
+    "cycleId": {
+      "$oid": "69b9d9b431b4c8909fe928e5"
+    },
+    "payments": {
+      "inscripcion": {
+        "value": "",
+        "updatedAt": null,
+        "updatedBy": null
+      },
+      "enero": {
+        "value": "",
+        "updatedAt": null,
+        "updatedBy": null
+      },
+      "febrero": {
+        "value": "NO",
+        "updatedAt": {
+          "$date": "2026-03-20T21:10:27.593Z"
+        },
+        "updatedBy": {
+          "$oid": "69bc2119577a46359b97b857"
+        }
+      },
+      "marzo": {
+        "value": "NO",
+        "updatedAt": {
+          "$date": "2026-04-07T21:43:26.331Z"
+        },
+        "updatedBy": {
+          "$oid": "685aee77c1ac24e6a4c528fb"
+        }
+      },
+      "abril": {
+        "value": "",
+        "updatedAt": null,
+        "updatedBy": null
+      },
+      "mayo": {
+        "value": "",
+        "updatedAt": null,
+        "updatedBy": null
+      },
+      "junio": {
+        "value": "",
+        "updatedAt": null,
+        "updatedBy": null
+      }
+    },
+    "asistencia": "",
+    "motivo": "",
+    "notasAcademicas": "",
+    "notasAdministrativas": "",
+    "lastCajaUploadAt": {
+      "$date": "2026-04-07T21:43:26.331Z"
+    },
+    "lastCajaUploadBy": {
+      "$oid": "685aee77c1ac24e6a4c528fb"
+    },
+    "createdAt": {
+      "$date": "2026-03-17T23:14:00.338Z"
+    },
+    "updatedAt": {
+      "$date": "2026-04-07T21:43:26.568Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "69b9e038f7eac1cef42a34ec"
+    },
+    "studentId": null,
+    "matricula": "25AUT027",
+    "nombre": "MARTINEZ VELAZQUEZ DIEGO ADRIAN",
+    "grupo": "2B",
+    "seccion": "2B",
+    "cycleId": {
+      "$oid": "69b9d9b431b4c8909fe928e5"
+    },
+    "payments": {
+      "inscripcion": {
+        "value": "",
+        "updatedAt": null,
+        "updatedBy": null
+      },
+      "enero": {
+        "value": "",
+        "updatedAt": null,
+        "updatedBy": null
+      },
+      "febrero": {
+        "value": "SI",
+        "updatedAt": {
+          "$date": "2026-03-20T21:10:27.593Z"
+        },
+        "updatedBy": {
+          "$oid": "69bc2119577a46359b97b857"
+        }
+      },
+      "marzo": {
+        "value": "SI",
+        "updatedAt": {
+          "$date": "2026-04-07T21:43:26.331Z"
+        },
+        "updatedBy": {
+          "$oid": "685aee77c1ac24e6a4c528fb"
+        }
+      },
+      "abril": {
+        "value": "",
+        "updatedAt": null,
+        "updatedBy": null
+      },
+      "mayo": {
+        "value": "",
+        "updatedAt": null,
+        "updatedBy": null
+      },
+      "junio": {
+        "value": "",
+        "updatedAt": null,
+        "updatedBy": null
+      }
+    },
+    "asistencia": "",
+    "motivo": "",
+    "notasAcademicas": "",
+    "notasAdministrativas": "",
+    "lastCajaUploadAt": {
+      "$date": "2026-04-07T21:43:26.331Z"
+    },
+    "lastCajaUploadBy": {
+      "$oid": "685aee77c1ac24e6a4c528fb"
+    },
+    "createdAt": {
+      "$date": "2026-03-17T23:14:00.342Z"
+    },
+    "updatedAt": {
+      "$date": "2026-04-07T21:43:26.661Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "69b9e038f7eac1cef42a34ef"
+    },
+    "studentId": null,
+    "matricula": "25AUT040",
+    "nombre": "MORENO MORALES DIEGO JOVAN",
+    "grupo": "2B",
+    "seccion": "2B",
+    "cycleId": {
+      "$oid": "69b9d9b431b4c8909fe928e5"
+    },
+    "payments": {
+      "inscripcion": {
+        "value": "",
+        "updatedAt": null,
+        "updatedBy": null
+      },
+      "enero": {
+        "value": "",
+        "updatedAt": null,
+        "updatedBy": null
+      },
+      "febrero": {
+        "value": "SI",
+        "updatedAt": {
+          "$date": "2026-03-20T21:10:27.593Z"
+        },
+        "updatedBy": {
+          "$oid": "69bc2119577a46359b97b857"
+        }
+      },
+      "marzo": {
+        "value": "SI",
+        "updatedAt": {
+          "$date": "2026-04-07T21:43:26.331Z"
+        },
+        "updatedBy": {
+          "$oid": "685aee77c1ac24e6a4c528fb"
+        }
+      },
+      "abril": {
+        "value": "",
+        "updatedAt": null,
+        "updatedBy": null
+      },
+      "mayo": {
+        "value": "",
+        "updatedAt": null,
+        "updatedBy": null
+      },
+      "junio": {
+        "value": "",
+        "updatedAt": null,
+        "updatedBy": null
+      }
+    },
+    "asistencia": "",
+    "motivo": "",
+    "notasAcademicas": "",
+    "notasAdministrativas": "",
+    "lastCajaUploadAt": {
+      "$date": "2026-04-07T21:43:26.331Z"
+    },
+    "lastCajaUploadBy": {
+      "$oid": "685aee77c1ac24e6a4c528fb"
+    },
+    "createdAt": {
+      "$date": "2026-03-17T23:14:00.346Z"
+    },
+    "updatedAt": {
+      "$date": "2026-04-07T21:43:26.671Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "69b9e038f7eac1cef42a34f2"
+    },
+    "studentId": null,
+    "matricula": "25AUT026",
+    "nombre": "PARDO SORIANO RODRIGO JARED",
+    "grupo": "2B",
+    "seccion": "2B",
+    "cycleId": {
+      "$oid": "69b9d9b431b4c8909fe928e5"
+    },
+    "payments": {
+      "inscripcion": {
+        "value": "",
+        "updatedAt": null,
+        "updatedBy": null
+      },
+      "enero": {
+        "value": "",
+        "updatedAt": null,
+        "updatedBy": null
+      },
+      "febrero": {
+        "value": "SI",
+        "updatedAt": {
+          "$date": "2026-03-20T21:10:27.593Z"
+        },
+        "updatedBy": {
+          "$oid": "69bc2119577a46359b97b857"
+        }
+      },
+      "marzo": {
+        "value": "SI",
+        "updatedAt": {
+          "$date": "2026-04-07T21:43:26.331Z"
+        },
+        "updatedBy": {
+          "$oid": "685aee77c1ac24e6a4c528fb"
+        }
+      },
+      "abril": {
+        "value": "",
+        "updatedAt": null,
+        "updatedBy": null
+      },
+      "mayo": {
+        "value": "",
+        "updatedAt": null,
+        "updatedBy": null
+      },
+      "junio": {
+        "value": "",
+        "updatedAt": null,
+        "updatedBy": null
+      }
+    },
+    "asistencia": "",
+    "motivo": "",
+    "notasAcademicas": "",
+    "notasAdministrativas": "",
+    "lastCajaUploadAt": {
+      "$date": "2026-04-07T21:43:26.331Z"
+    },
+    "lastCajaUploadBy": {
+      "$oid": "685aee77c1ac24e6a4c528fb"
+    },
+    "createdAt": {
+      "$date": "2026-03-17T23:14:00.350Z"
+    },
+    "updatedAt": {
+      "$date": "2026-04-07T21:43:26.679Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "69b9e038f7eac1cef42a34f5"
+    },
+    "studentId": null,
+    "matricula": "25AUT056",
+    "nombre": "RAMIREZ DE LA ROSA JOSE ANTONIO",
+    "grupo": "2B",
+    "seccion": "2B",
+    "cycleId": {
+      "$oid": "69b9d9b431b4c8909fe928e5"
+    },
+    "payments": {
+      "inscripcion": {
+        "value": "",
+        "updatedAt": null,
+        "updatedBy": null
+      },
+      "enero": {
+        "value": "",
+        "updatedAt": null,
+        "updatedBy": null
+      },
+      "febrero": {
+        "value": "SI",
+        "updatedAt": {
+          "$date": "2026-03-20T21:10:27.593Z"
+        },
+        "updatedBy": {
+          "$oid": "69bc2119577a46359b97b857"
+        }
+      },
+      "marzo": {
+        "value": "SI",
+        "updatedAt": {
+          "$date": "2026-04-07T21:43:26.331Z"
+        },
+        "updatedBy": {
+          "$oid": "685aee77c1ac24e6a4c528fb"
+        }
+      },
+      "abril": {
+        "value": "",
+        "updatedAt": null,
+        "updatedBy": null
+      },
+      "mayo": {
+        "value": "",
+        "updatedAt": null,
+        "updatedBy": null
+      },
+      "junio": {
+        "value": "",
+        "updatedAt": null,
+        "updatedBy": null
+      }
+    },
+    "asistencia": "",
+    "motivo": "",
+    "notasAcademicas": "",
+    "notasAdministrativas": "",
+    "lastCajaUploadAt": {
+      "$date": "2026-04-07T21:43:26.331Z"
+    },
+    "lastCajaUploadBy": {
+      "$oid": "685aee77c1ac24e6a4c528fb"
+    },
+    "createdAt": {
+      "$date": "2026-03-17T23:14:00.354Z"
+    },
+    "updatedAt": {
+      "$date": "2026-04-07T21:43:26.684Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "69b9e038f7eac1cef42a34f8"
+    },
+    "studentId": null,
+    "matricula": "25MEC002",
+    "nombre": "ALEJANDRE GARCIA ABRAHAM ASAHEL",
+    "grupo": "2C",
+    "seccion": "2C",
+    "cycleId": {
+      "$oid": "69b9d9b431b4c8909fe928e5"
+    },
+    "payments": {
+      "inscripcion": {
+        "value": "",
+        "updatedAt": null,
+        "updatedBy": null
+      },
+      "enero": {
+        "value": "",
+        "updatedAt": null,
+        "updatedBy": null
+      },
+      "febrero": {
+        "value": "SI",
+        "updatedAt": {
+          "$date": "2026-03-20T21:10:27.593Z"
+        },
+        "updatedBy": {
+          "$oid": "69bc2119577a46359b97b857"
+        }
+      },
+      "marzo": {
+        "value": "SI",
+        "updatedAt": {
+          "$date": "2026-04-07T21:43:26.331Z"
+        },
+        "updatedBy": {
+          "$oid": "685aee77c1ac24e6a4c528fb"
+        }
+      },
+      "abril": {
+        "value": "",
+        "updatedAt": null,
+        "updatedBy": null
+      },
+      "mayo": {
+        "value": "",
+        "updatedAt": null,
+        "updatedBy": null
+      },
+      "junio": {
+        "value": "",
+        "updatedAt": null,
+        "updatedBy": null
+      }
+    },
+    "asistencia": "",
+    "motivo": "",
+    "notasAcademicas": "",
+    "notasAdministrativas": "",
+    "lastCajaUploadAt": {
+      "$date": "2026-04-07T21:43:26.331Z"
+    },
+    "lastCajaUploadBy": {
+      "$oid": "685aee77c1ac24e6a4c528fb"
+    },
+    "createdAt": {
+      "$date": "2026-03-17T23:14:00.358Z"
+    },
+    "updatedAt": {
+      "$date": "2026-04-07T21:43:26.690Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "69b9e038f7eac1cef42a34fb"
+    },
+    "studentId": null,
+    "matricula": "25MEC020",
+    "nombre": "GOMEZ CAMPOS AHSLY YAMILET",
+    "grupo": "2C",
+    "seccion": "2C",
+    "cycleId": {
+      "$oid": "69b9d9b431b4c8909fe928e5"
+    },
+    "payments": {
+      "inscripcion": {
+        "value": "",
+        "updatedAt": null,
+        "updatedBy": null
+      },
+      "enero": {
+        "value": "",
+        "updatedAt": null,
+        "updatedBy": null
+      },
+      "febrero": {
+        "value": "SI",
+        "updatedAt": {
+          "$date": "2026-03-20T21:10:27.593Z"
+        },
+        "updatedBy": {
+          "$oid": "69bc2119577a46359b97b857"
+        }
+      },
+      "marzo": {
+        "value": "SI",
+        "updatedAt": {
+          "$date": "2026-04-07T21:43:26.331Z"
+        },
+        "updatedBy": {
+          "$oid": "685aee77c1ac24e6a4c528fb"
+        }
+      },
+      "abril": {
+        "value": "",
+        "updatedAt": null,
+        "updatedBy": null
+      },
+      "mayo": {
+        "value": "",
+        "updatedAt": null,
+        "updatedBy": null
+      },
+      "junio": {
+        "value": "",
+        "updatedAt": null,
+        "updatedBy": null
+      }
+    },
+    "asistencia": "",
+    "motivo": "",
+    "notasAcademicas": "",
+    "notasAdministrativas": "",
+    "lastCajaUploadAt": {
+      "$date": "2026-04-07T21:43:26.331Z"
+    },
+    "lastCajaUploadBy": {
+      "$oid": "685aee77c1ac24e6a4c528fb"
+    },
+    "createdAt": {
+      "$date": "2026-03-17T23:14:00.362Z"
+    },
+    "updatedAt": {
+      "$date": "2026-04-07T21:43:26.695Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "69b9e038f7eac1cef42a34fe"
+    },
+    "studentId": null,
+    "matricula": "25MEC060",
+    "nombre": "GONZALEZ HERNANDEZ ALAN KALED",
+    "grupo": "2C",
+    "seccion": "2C",
+    "cycleId": {
+      "$oid": "69b9d9b431b4c8909fe928e5"
+    },
+    "payments": {
+      "inscripcion": {
+        "value": "",
+        "updatedAt": null,
+        "updatedBy": null
+      },
+      "enero": {
+        "value": "",
+        "updatedAt": null,
+        "updatedBy": null
+      },
+      "febrero": {
+        "value": "SI",
+        "updatedAt": {
+          "$date": "2026-03-20T21:10:27.593Z"
+        },
+        "updatedBy": {
+          "$oid": "69bc2119577a46359b97b857"
+        }
+      },
+      "marzo": {
+        "value": "SI",
+        "updatedAt": {
+          "$date": "2026-04-07T21:43:26.331Z"
+        },
+        "updatedBy": {
+          "$oid": "685aee77c1ac24e6a4c528fb"
+        }
+      },
+      "abril": {
+        "value": "",
+        "updatedAt": null,
+        "updatedBy": null
+      },
+      "mayo": {
+        "value": "",
+        "updatedAt": null,
+        "updatedBy": null
+      },
+      "junio": {
+        "value": "",
+        "updatedAt": null,
+        "updatedBy": null
+      }
+    },
+    "asistencia": "",
+    "motivo": "",
+    "notasAcademicas": "",
+    "notasAdministrativas": "",
+    "lastCajaUploadAt": {
+      "$date": "2026-04-07T21:43:26.331Z"
+    },
+    "lastCajaUploadBy": {
+      "$oid": "685aee77c1ac24e6a4c528fb"
+    },
+    "createdAt": {
+      "$date": "2026-03-17T23:14:00.369Z"
+    },
+    "updatedAt": {
+      "$date": "2026-04-07T21:43:26.699Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "69b9e038f7eac1cef42a3501"
+    },
+    "studentId": null,
+    "matricula": "25MEC018",
+    "nombre": "GONZALEZ CUELLAR EDSON EMILIO",
+    "grupo": "2C",
+    "seccion": "2C",
+    "cycleId": {
+      "$oid": "69b9d9b431b4c8909fe928e5"
+    },
+    "payments": {
+      "inscripcion": {
+        "value": "",
+        "updatedAt": null,
+        "updatedBy": null
+      },
+      "enero": {
+        "value": "",
+        "updatedAt": null,
+        "updatedBy": null
+      },
+      "febrero": {
+        "value": "SI",
+        "updatedAt": {
+          "$date": "2026-03-20T21:10:27.593Z"
+        },
+        "updatedBy": {
+          "$oid": "69bc2119577a46359b97b857"
+        }
+      },
+      "marzo": {
+        "value": "SI",
+        "updatedAt": {
+          "$date": "2026-04-07T21:43:26.331Z"
+        },
+        "updatedBy": {
+          "$oid": "685aee77c1ac24e6a4c528fb"
+        }
+      },
+      "abril": {
+        "value": "",
+        "updatedAt": null,
+        "updatedBy": null
+      },
+      "mayo": {
+        "value": "",
+        "updatedAt": null,
+        "updatedBy": null
+      },
+      "junio": {
+        "value": "",
+        "updatedAt": null,
+        "updatedBy": null
+      }
+    },
+    "asistencia": "",
+    "motivo": "",
+    "notasAcademicas": "",
+    "notasAdministrativas": "",
+    "lastCajaUploadAt": {
+      "$date": "2026-04-07T21:43:26.331Z"
+    },
+    "lastCajaUploadBy": {
+      "$oid": "685aee77c1ac24e6a4c528fb"
+    },
+    "createdAt": {
+      "$date": "2026-03-17T23:14:00.374Z"
+    },
+    "updatedAt": {
+      "$date": "2026-04-07T21:43:26.703Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "69b9e038f7eac1cef42a3504"
+    },
+    "studentId": null,
+    "matricula": "25AUT049",
+    "nombre": "ORTEGA GONZALEZ DHEYMY ALEXANDER",
+    "grupo": "2C",
+    "seccion": "2C",
+    "cycleId": {
+      "$oid": "69b9d9b431b4c8909fe928e5"
+    },
+    "payments": {
+      "inscripcion": {
+        "value": "",
+        "updatedAt": null,
+        "updatedBy": null
+      },
+      "enero": {
+        "value": "",
+        "updatedAt": null,
+        "updatedBy": null
+      },
+      "febrero": {
+        "value": "SI",
+        "updatedAt": {
+          "$date": "2026-03-20T21:10:27.593Z"
+        },
+        "updatedBy": {
+          "$oid": "69bc2119577a46359b97b857"
+        }
+      },
+      "marzo": {
+        "value": "NO",
+        "updatedAt": {
+          "$date": "2026-04-07T21:43:26.331Z"
+        },
+        "updatedBy": {
+          "$oid": "685aee77c1ac24e6a4c528fb"
+        }
+      },
+      "abril": {
+        "value": "",
+        "updatedAt": null,
+        "updatedBy": null
+      },
+      "mayo": {
+        "value": "",
+        "updatedAt": null,
+        "updatedBy": null
+      },
+      "junio": {
+        "value": "",
+        "updatedAt": null,
+        "updatedBy": null
+      }
+    },
+    "asistencia": "",
+    "motivo": "",
+    "notasAcademicas": "",
+    "notasAdministrativas": "",
+    "lastCajaUploadAt": {
+      "$date": "2026-04-07T21:43:26.331Z"
+    },
+    "lastCajaUploadBy": {
+      "$oid": "685aee77c1ac24e6a4c528fb"
+    },
+    "createdAt": {
+      "$date": "2026-03-17T23:14:00.379Z"
+    },
+    "updatedAt": {
+      "$date": "2026-04-07T21:43:26.573Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "69b9e038f7eac1cef42a3507"
+    },
+    "studentId": null,
+    "matricula": "25MEC043",
+    "nombre": "REYES ALISON XIMENA",
+    "grupo": "2C",
+    "seccion": "2C",
+    "cycleId": {
+      "$oid": "69b9d9b431b4c8909fe928e5"
+    },
+    "payments": {
+      "inscripcion": {
+        "value": "",
+        "updatedAt": null,
+        "updatedBy": null
+      },
+      "enero": {
+        "value": "",
+        "updatedAt": null,
+        "updatedBy": null
+      },
+      "febrero": {
+        "value": "SI",
+        "updatedAt": {
+          "$date": "2026-03-20T21:10:27.593Z"
+        },
+        "updatedBy": {
+          "$oid": "69bc2119577a46359b97b857"
+        }
+      },
+      "marzo": {
+        "value": "SI",
+        "updatedAt": {
+          "$date": "2026-04-07T21:43:26.331Z"
+        },
+        "updatedBy": {
+          "$oid": "685aee77c1ac24e6a4c528fb"
+        }
+      },
+      "abril": {
+        "value": "",
+        "updatedAt": null,
+        "updatedBy": null
+      },
+      "mayo": {
+        "value": "",
+        "updatedAt": null,
+        "updatedBy": null
+      },
+      "junio": {
+        "value": "",
+        "updatedAt": null,
+        "updatedBy": null
+      }
+    },
+    "asistencia": "",
+    "motivo": "",
+    "notasAcademicas": "",
+    "notasAdministrativas": "",
+    "lastCajaUploadAt": {
+      "$date": "2026-04-07T21:43:26.331Z"
+    },
+    "lastCajaUploadBy": {
+      "$oid": "685aee77c1ac24e6a4c528fb"
+    },
+    "createdAt": {
+      "$date": "2026-03-17T23:14:00.383Z"
+    },
+    "updatedAt": {
+      "$date": "2026-04-07T21:43:26.708Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "69b9e038f7eac1cef42a350a"
+    },
+    "studentId": null,
+    "matricula": "25MEC057",
+    "nombre": "TREVIÑO FLORES FRANCO ANDREE",
+    "grupo": "2C",
+    "seccion": "2C",
+    "cycleId": {
+      "$oid": "69b9d9b431b4c8909fe928e5"
+    },
+    "payments": {
+      "inscripcion": {
+        "value": "",
+        "updatedAt": null,
+        "updatedBy": null
+      },
+      "enero": {
+        "value": "",
+        "updatedAt": null,
+        "updatedBy": null
+      },
+      "febrero": {
+        "value": "SI",
+        "updatedAt": {
+          "$date": "2026-03-20T21:10:27.593Z"
+        },
+        "updatedBy": {
+          "$oid": "69bc2119577a46359b97b857"
+        }
+      },
+      "marzo": {
+        "value": "SI",
+        "updatedAt": {
+          "$date": "2026-04-07T21:43:26.331Z"
+        },
+        "updatedBy": {
+          "$oid": "685aee77c1ac24e6a4c528fb"
+        }
+      },
+      "abril": {
+        "value": "",
+        "updatedAt": null,
+        "updatedBy": null
+      },
+      "mayo": {
+        "value": "",
+        "updatedAt": null,
+        "updatedBy": null
+      },
+      "junio": {
+        "value": "",
+        "updatedAt": null,
+        "updatedBy": null
+      }
+    },
+    "asistencia": "",
+    "motivo": "",
+    "notasAcademicas": "",
+    "notasAdministrativas": "",
+    "lastCajaUploadAt": {
+      "$date": "2026-04-07T21:43:26.331Z"
+    },
+    "lastCajaUploadBy": {
+      "$oid": "685aee77c1ac24e6a4c528fb"
+    },
+    "createdAt": {
+      "$date": "2026-03-17T23:14:00.388Z"
+    },
+    "updatedAt": {
+      "$date": "2026-04-07T21:43:26.712Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "69b9e038f7eac1cef42a350d"
+    },
+    "studentId": null,
+    "matricula": "25MEC058",
+    "nombre": "VELAZQUEZ SERRANO GABRIEL ALEJANDRO",
+    "grupo": "2C",
+    "seccion": "2C",
+    "cycleId": {
+      "$oid": "69b9d9b431b4c8909fe928e5"
+    },
+    "payments": {
+      "inscripcion": {
+        "value": "",
+        "updatedAt": null,
+        "updatedBy": null
+      },
+      "enero": {
+        "value": "",
+        "updatedAt": null,
+        "updatedBy": null
+      },
+      "febrero": {
+        "value": "SI",
+        "updatedAt": {
+          "$date": "2026-03-20T21:10:27.593Z"
+        },
+        "updatedBy": {
+          "$oid": "69bc2119577a46359b97b857"
+        }
+      },
+      "marzo": {
+        "value": "SI",
+        "updatedAt": {
+          "$date": "2026-04-07T21:43:26.331Z"
+        },
+        "updatedBy": {
+          "$oid": "685aee77c1ac24e6a4c528fb"
+        }
+      },
+      "abril": {
+        "value": "",
+        "updatedAt": null,
+        "updatedBy": null
+      },
+      "mayo": {
+        "value": "",
+        "updatedAt": null,
+        "updatedBy": null
+      },
+      "junio": {
+        "value": "",
+        "updatedAt": null,
+        "updatedBy": null
+      }
+    },
+    "asistencia": "",
+    "motivo": "",
+    "notasAcademicas": "",
+    "notasAdministrativas": "",
+    "lastCajaUploadAt": {
+      "$date": "2026-04-07T21:43:26.331Z"
+    },
+    "lastCajaUploadBy": {
+      "$oid": "685aee77c1ac24e6a4c528fb"
+    },
+    "createdAt": {
+      "$date": "2026-03-17T23:14:00.395Z"
+    },
+    "updatedAt": {
+      "$date": "2026-04-07T21:43:26.718Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "69b9e038f7eac1cef42a3510"
+    },
+    "studentId": null,
+    "matricula": "25MEC004",
+    "nombre": "ALVARADO GARCIA JORGE SAID",
+    "grupo": "2D",
+    "seccion": "2D",
+    "cycleId": {
+      "$oid": "69b9d9b431b4c8909fe928e5"
+    },
+    "payments": {
+      "inscripcion": {
+        "value": "",
+        "updatedAt": null,
+        "updatedBy": null
+      },
+      "enero": {
+        "value": "",
+        "updatedAt": null,
+        "updatedBy": null
+      },
+      "febrero": {
+        "value": "SI",
+        "updatedAt": {
+          "$date": "2026-03-20T21:10:27.593Z"
+        },
+        "updatedBy": {
+          "$oid": "69bc2119577a46359b97b857"
+        }
+      },
+      "marzo": {
+        "value": "SI",
+        "updatedAt": {
+          "$date": "2026-04-07T21:43:26.331Z"
+        },
+        "updatedBy": {
+          "$oid": "685aee77c1ac24e6a4c528fb"
+        }
+      },
+      "abril": {
+        "value": "",
+        "updatedAt": null,
+        "updatedBy": null
+      },
+      "mayo": {
+        "value": "",
+        "updatedAt": null,
+        "updatedBy": null
+      },
+      "junio": {
+        "value": "",
+        "updatedAt": null,
+        "updatedBy": null
+      }
+    },
+    "asistencia": "",
+    "motivo": "",
+    "notasAcademicas": "",
+    "notasAdministrativas": "",
+    "lastCajaUploadAt": {
+      "$date": "2026-04-07T21:43:26.331Z"
+    },
+    "lastCajaUploadBy": {
+      "$oid": "685aee77c1ac24e6a4c528fb"
+    },
+    "createdAt": {
+      "$date": "2026-03-17T23:14:00.400Z"
+    },
+    "updatedAt": {
+      "$date": "2026-04-07T21:43:26.723Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "69b9e038f7eac1cef42a3513"
+    },
+    "studentId": null,
+    "matricula": "25MEC006",
+    "nombre": "CABRAL GARCIA MARCO ANTONIO",
+    "grupo": "2D",
+    "seccion": "2D",
+    "cycleId": {
+      "$oid": "69b9d9b431b4c8909fe928e5"
+    },
+    "payments": {
+      "inscripcion": {
+        "value": "",
+        "updatedAt": null,
+        "updatedBy": null
+      },
+      "enero": {
+        "value": "",
+        "updatedAt": null,
+        "updatedBy": null
+      },
+      "febrero": {
+        "value": "SI",
+        "updatedAt": {
+          "$date": "2026-03-20T21:10:27.593Z"
+        },
+        "updatedBy": {
+          "$oid": "69bc2119577a46359b97b857"
+        }
+      },
+      "marzo": {
+        "value": "SI",
+        "updatedAt": {
+          "$date": "2026-04-07T21:43:26.331Z"
+        },
+        "updatedBy": {
+          "$oid": "685aee77c1ac24e6a4c528fb"
+        }
+      },
+      "abril": {
+        "value": "",
+        "updatedAt": null,
+        "updatedBy": null
+      },
+      "mayo": {
+        "value": "",
+        "updatedAt": null,
+        "updatedBy": null
+      },
+      "junio": {
+        "value": "",
+        "updatedAt": null,
+        "updatedBy": null
+      }
+    },
+    "asistencia": "",
+    "motivo": "",
+    "notasAcademicas": "",
+    "notasAdministrativas": "",
+    "lastCajaUploadAt": {
+      "$date": "2026-04-07T21:43:26.331Z"
+    },
+    "lastCajaUploadBy": {
+      "$oid": "685aee77c1ac24e6a4c528fb"
+    },
+    "createdAt": {
+      "$date": "2026-03-17T23:14:00.406Z"
+    },
+    "updatedAt": {
+      "$date": "2026-04-07T21:43:26.727Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "69b9e038f7eac1cef42a3516"
+    },
+    "studentId": null,
+    "matricula": "25MEC019",
+    "nombre": "GONZALEZ GONZALEZ JONAS ALEJANDRO",
+    "grupo": "2D",
+    "seccion": "2D",
+    "cycleId": {
+      "$oid": "69b9d9b431b4c8909fe928e5"
+    },
+    "payments": {
+      "inscripcion": {
+        "value": "",
+        "updatedAt": null,
+        "updatedBy": null
+      },
+      "enero": {
+        "value": "",
+        "updatedAt": null,
+        "updatedBy": null
+      },
+      "febrero": {
+        "value": "SI",
+        "updatedAt": {
+          "$date": "2026-03-20T21:10:27.593Z"
+        },
+        "updatedBy": {
+          "$oid": "69bc2119577a46359b97b857"
+        }
+      },
+      "marzo": {
+        "value": "SI",
+        "updatedAt": {
+          "$date": "2026-04-07T21:43:26.331Z"
+        },
+        "updatedBy": {
+          "$oid": "685aee77c1ac24e6a4c528fb"
+        }
+      },
+      "abril": {
+        "value": "",
+        "updatedAt": null,
+        "updatedBy": null
+      },
+      "mayo": {
+        "value": "",
+        "updatedAt": null,
+        "updatedBy": null
+      },
+      "junio": {
+        "value": "",
+        "updatedAt": null,
+        "updatedBy": null
+      }
+    },
+    "asistencia": "",
+    "motivo": "",
+    "notasAcademicas": "",
+    "notasAdministrativas": "",
+    "lastCajaUploadAt": {
+      "$date": "2026-04-07T21:43:26.331Z"
+    },
+    "lastCajaUploadBy": {
+      "$oid": "685aee77c1ac24e6a4c528fb"
+    },
+    "createdAt": {
+      "$date": "2026-03-17T23:14:00.412Z"
+    },
+    "updatedAt": {
+      "$date": "2026-04-07T21:43:26.730Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "69b9e038f7eac1cef42a3519"
+    },
+    "studentId": null,
+    "matricula": "25AUT074",
+    "nombre": "HERNANDEZ ESCAMILLA LUIS ANTONIO",
+    "grupo": "2D",
+    "seccion": "2D",
+    "cycleId": {
+      "$oid": "69b9d9b431b4c8909fe928e5"
+    },
+    "payments": {
+      "inscripcion": {
+        "value": "",
+        "updatedAt": null,
+        "updatedBy": null
+      },
+      "enero": {
+        "value": "",
+        "updatedAt": null,
+        "updatedBy": null
+      },
+      "febrero": {
+        "value": "NO",
+        "updatedAt": {
+          "$date": "2026-03-20T21:10:27.593Z"
+        },
+        "updatedBy": {
+          "$oid": "69bc2119577a46359b97b857"
+        }
+      },
+      "marzo": {
+        "value": "SI",
+        "updatedAt": {
+          "$date": "2026-04-07T21:43:26.331Z"
+        },
+        "updatedBy": {
+          "$oid": "685aee77c1ac24e6a4c528fb"
+        }
+      },
+      "abril": {
+        "value": "",
+        "updatedAt": null,
+        "updatedBy": null
+      },
+      "mayo": {
+        "value": "",
+        "updatedAt": null,
+        "updatedBy": null
+      },
+      "junio": {
+        "value": "",
+        "updatedAt": null,
+        "updatedBy": null
+      }
+    },
+    "asistencia": "",
+    "motivo": "",
+    "notasAcademicas": "",
+    "notasAdministrativas": "",
+    "lastCajaUploadAt": {
+      "$date": "2026-04-07T21:43:26.331Z"
+    },
+    "lastCajaUploadBy": {
+      "$oid": "685aee77c1ac24e6a4c528fb"
+    },
+    "createdAt": {
+      "$date": "2026-03-17T23:14:00.417Z"
+    },
+    "updatedAt": {
+      "$date": "2026-04-07T21:43:26.733Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "69b9e038f7eac1cef42a351c"
+    },
+    "studentId": null,
+    "matricula": "25AUT041",
+    "nombre": "NAJERA FLORES CESAR EMILIO",
+    "grupo": "2D",
+    "seccion": "2D",
+    "cycleId": {
+      "$oid": "69b9d9b431b4c8909fe928e5"
+    },
+    "payments": {
+      "inscripcion": {
+        "value": "",
+        "updatedAt": null,
+        "updatedBy": null
+      },
+      "enero": {
+        "value": "",
+        "updatedAt": null,
+        "updatedBy": null
+      },
+      "febrero": {
+        "value": "SI",
+        "updatedAt": {
+          "$date": "2026-03-20T21:10:27.593Z"
+        },
+        "updatedBy": {
+          "$oid": "69bc2119577a46359b97b857"
+        }
+      },
+      "marzo": {
+        "value": "SI",
+        "updatedAt": {
+          "$date": "2026-04-07T21:43:26.331Z"
+        },
+        "updatedBy": {
+          "$oid": "685aee77c1ac24e6a4c528fb"
+        }
+      },
+      "abril": {
+        "value": "",
+        "updatedAt": null,
+        "updatedBy": null
+      },
+      "mayo": {
+        "value": "",
+        "updatedAt": null,
+        "updatedBy": null
+      },
+      "junio": {
+        "value": "",
+        "updatedAt": null,
+        "updatedBy": null
+      }
+    },
+    "asistencia": "",
+    "motivo": "",
+    "notasAcademicas": "",
+    "notasAdministrativas": "",
+    "lastCajaUploadAt": {
+      "$date": "2026-04-07T21:43:26.331Z"
+    },
+    "lastCajaUploadBy": {
+      "$oid": "685aee77c1ac24e6a4c528fb"
+    },
+    "createdAt": {
+      "$date": "2026-03-17T23:14:00.421Z"
+    },
+    "updatedAt": {
+      "$date": "2026-04-07T21:43:26.736Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "69b9e038f7eac1cef42a351f"
+    },
+    "studentId": null,
+    "matricula": "25AUT010",
+    "nombre": "CRUZ NIÑO ZURIEL CALEB",
+    "grupo": "2E",
+    "seccion": "2E",
+    "cycleId": {
+      "$oid": "69b9d9b431b4c8909fe928e5"
+    },
+    "payments": {
+      "inscripcion": {
+        "value": "",
+        "updatedAt": null,
+        "updatedBy": null
+      },
+      "enero": {
+        "value": "",
+        "updatedAt": null,
+        "updatedBy": null
+      },
+      "febrero": {
+        "value": "SI",
+        "updatedAt": {
+          "$date": "2026-03-20T21:10:27.593Z"
+        },
+        "updatedBy": {
+          "$oid": "69bc2119577a46359b97b857"
+        }
+      },
+      "marzo": {
+        "value": "SI",
+        "updatedAt": {
+          "$date": "2026-04-07T21:43:26.331Z"
+        },
+        "updatedBy": {
+          "$oid": "685aee77c1ac24e6a4c528fb"
+        }
+      },
+      "abril": {
+        "value": "",
+        "updatedAt": null,
+        "updatedBy": null
+      },
+      "mayo": {
+        "value": "",
+        "updatedAt": null,
+        "updatedBy": null
+      },
+      "junio": {
+        "value": "",
+        "updatedAt": null,
+        "updatedBy": null
+      }
+    },
+    "asistencia": "",
+    "motivo": "",
+    "notasAcademicas": "",
+    "notasAdministrativas": "",
+    "lastCajaUploadAt": {
+      "$date": "2026-04-07T21:43:26.331Z"
+    },
+    "lastCajaUploadBy": {
+      "$oid": "685aee77c1ac24e6a4c528fb"
+    },
+    "createdAt": {
+      "$date": "2026-03-17T23:14:00.425Z"
+    },
+    "updatedAt": {
+      "$date": "2026-04-07T21:43:26.739Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "69b9e038f7eac1cef42a3522"
+    },
+    "studentId": null,
+    "matricula": "25SIST010",
+    "nombre": "ORTEGA TREJO LUZ MARIANA",
+    "grupo": "2E",
+    "seccion": "2E",
+    "cycleId": {
+      "$oid": "69b9d9b431b4c8909fe928e5"
+    },
+    "payments": {
+      "inscripcion": {
+        "value": "",
+        "updatedAt": null,
+        "updatedBy": null
+      },
+      "enero": {
+        "value": "",
+        "updatedAt": null,
+        "updatedBy": null
+      },
+      "febrero": {
+        "value": "SI",
+        "updatedAt": {
+          "$date": "2026-03-20T21:10:27.593Z"
+        },
+        "updatedBy": {
+          "$oid": "69bc2119577a46359b97b857"
+        }
+      },
+      "marzo": {
+        "value": "SI",
+        "updatedAt": {
+          "$date": "2026-04-07T21:43:26.331Z"
+        },
+        "updatedBy": {
+          "$oid": "685aee77c1ac24e6a4c528fb"
+        }
+      },
+      "abril": {
+        "value": "",
+        "updatedAt": null,
+        "updatedBy": null
+      },
+      "mayo": {
+        "value": "",
+        "updatedAt": null,
+        "updatedBy": null
+      },
+      "junio": {
+        "value": "",
+        "updatedAt": null,
+        "updatedBy": null
+      }
+    },
+    "asistencia": "",
+    "motivo": "",
+    "notasAcademicas": "",
+    "notasAdministrativas": "",
+    "lastCajaUploadAt": {
+      "$date": "2026-04-07T21:43:26.331Z"
+    },
+    "lastCajaUploadBy": {
+      "$oid": "685aee77c1ac24e6a4c528fb"
+    },
+    "createdAt": {
+      "$date": "2026-03-17T23:14:00.429Z"
+    },
+    "updatedAt": {
+      "$date": "2026-04-07T21:43:26.741Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "69b9e038f7eac1cef42a3525"
+    },
+    "studentId": null,
+    "matricula": "25SIST008",
+    "nombre": "RIVAS CASTREJON CARLOS ISMAEL",
+    "grupo": "2E",
+    "seccion": "2E",
+    "cycleId": {
+      "$oid": "69b9d9b431b4c8909fe928e5"
+    },
+    "payments": {
+      "inscripcion": {
+        "value": "",
+        "updatedAt": null,
+        "updatedBy": null
+      },
+      "enero": {
+        "value": "",
+        "updatedAt": null,
+        "updatedBy": null
+      },
+      "febrero": {
+        "value": "SI",
+        "updatedAt": {
+          "$date": "2026-03-20T21:10:27.593Z"
+        },
+        "updatedBy": {
+          "$oid": "69bc2119577a46359b97b857"
+        }
+      },
+      "marzo": {
+        "value": "SI",
+        "updatedAt": {
+          "$date": "2026-04-07T21:43:26.331Z"
+        },
+        "updatedBy": {
+          "$oid": "685aee77c1ac24e6a4c528fb"
+        }
+      },
+      "abril": {
+        "value": "",
+        "updatedAt": null,
+        "updatedBy": null
+      },
+      "mayo": {
+        "value": "",
+        "updatedAt": null,
+        "updatedBy": null
+      },
+      "junio": {
+        "value": "",
+        "updatedAt": null,
+        "updatedBy": null
+      }
+    },
+    "asistencia": "",
+    "motivo": "",
+    "notasAcademicas": "",
+    "notasAdministrativas": "",
+    "lastCajaUploadAt": {
+      "$date": "2026-04-07T21:43:26.331Z"
+    },
+    "lastCajaUploadBy": {
+      "$oid": "685aee77c1ac24e6a4c528fb"
+    },
+    "createdAt": {
+      "$date": "2026-03-17T23:14:00.435Z"
+    },
+    "updatedAt": {
+      "$date": "2026-04-07T21:43:26.744Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "69b9e038f7eac1cef42a3528"
+    },
+    "studentId": null,
+    "matricula": "25MAQ016",
+    "nombre": "VAZQUEZ QUINTANILLA BRAYAN ARON",
+    "grupo": "2E",
+    "seccion": "2E",
+    "cycleId": {
+      "$oid": "69b9d9b431b4c8909fe928e5"
+    },
+    "payments": {
+      "inscripcion": {
+        "value": "",
+        "updatedAt": null,
+        "updatedBy": null
+      },
+      "enero": {
+        "value": "",
+        "updatedAt": null,
+        "updatedBy": null
+      },
+      "febrero": {
+        "value": "SI",
+        "updatedAt": {
+          "$date": "2026-03-20T21:10:27.593Z"
+        },
+        "updatedBy": {
+          "$oid": "69bc2119577a46359b97b857"
+        }
+      },
+      "marzo": {
+        "value": "SI",
+        "updatedAt": {
+          "$date": "2026-04-07T21:43:26.331Z"
+        },
+        "updatedBy": {
+          "$oid": "685aee77c1ac24e6a4c528fb"
+        }
+      },
+      "abril": {
+        "value": "",
+        "updatedAt": null,
+        "updatedBy": null
+      },
+      "mayo": {
+        "value": "",
+        "updatedAt": null,
+        "updatedBy": null
+      },
+      "junio": {
+        "value": "",
+        "updatedAt": null,
+        "updatedBy": null
+      }
+    },
+    "asistencia": "",
+    "motivo": "",
+    "notasAcademicas": "",
+    "notasAdministrativas": "",
+    "lastCajaUploadAt": {
+      "$date": "2026-04-07T21:43:26.331Z"
+    },
+    "lastCajaUploadBy": {
+      "$oid": "685aee77c1ac24e6a4c528fb"
+    },
+    "createdAt": {
+      "$date": "2026-03-17T23:14:00.440Z"
+    },
+    "updatedAt": {
+      "$date": "2026-04-07T21:43:26.746Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "69bdb7c3172938966f3d14f9"
+    },
+    "studentId": null,
+    "matricula": "25MAQ012",
+    "nombre": "MARTINEZ SOLIS SANTIAGO",
+    "grupo": "2D",
+    "seccion": "2D",
+    "cycleId": {
+      "$oid": "69b9d9b431b4c8909fe928e5"
+    },
+    "payments": {
+      "inscripcion": {
+        "value": "",
+        "updatedAt": null,
+        "updatedBy": null
+      },
+      "enero": {
+        "value": "",
+        "updatedAt": null,
+        "updatedBy": null
+      },
+      "febrero": {
+        "value": "NO",
+        "updatedAt": {
+          "$date": "2026-03-20T21:10:27.593Z"
+        },
+        "updatedBy": {
+          "$oid": "69bc2119577a46359b97b857"
+        }
+      },
+      "marzo": {
+        "value": "SI",
+        "updatedAt": {
+          "$date": "2026-04-07T21:43:26.331Z"
+        },
+        "updatedBy": {
+          "$oid": "685aee77c1ac24e6a4c528fb"
+        }
+      },
+      "abril": {
+        "value": "",
+        "updatedAt": null,
+        "updatedBy": null
+      },
+      "mayo": {
+        "value": "",
+        "updatedAt": null,
+        "updatedBy": null
+      },
+      "junio": {
+        "value": "",
+        "updatedAt": null,
+        "updatedBy": null
+      }
+    },
+    "asistencia": "",
+    "motivo": "",
+    "notasAcademicas": "",
+    "notasAdministrativas": "",
+    "lastCajaUploadAt": {
+      "$date": "2026-04-07T21:43:26.331Z"
+    },
+    "lastCajaUploadBy": {
+      "$oid": "685aee77c1ac24e6a4c528fb"
+    },
+    "createdAt": {
+      "$date": "2026-03-20T21:10:27.616Z"
+    },
+    "updatedAt": {
+      "$date": "2026-04-07T21:43:26.748Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "69bdb7c3172938966f3d14fc"
+    },
+    "studentId": null,
+    "matricula": "23ELE033",
+    "nombre": "FRAYRE MONTES CHRISTIAN ALEJANDRO",
+    "grupo": "ELE6",
+    "seccion": "ELE6",
+    "cycleId": {
+      "$oid": "69b9d9b431b4c8909fe928e5"
+    },
+    "payments": {
+      "inscripcion": {
+        "value": "",
+        "updatedAt": null,
+        "updatedBy": null
+      },
+      "enero": {
+        "value": "",
+        "updatedAt": null,
+        "updatedBy": null
+      },
+      "febrero": {
+        "value": "NO",
+        "updatedAt": {
+          "$date": "2026-03-20T21:10:27.593Z"
+        },
+        "updatedBy": {
+          "$oid": "69bc2119577a46359b97b857"
+        }
+      },
+      "marzo": {
+        "value": "SI",
+        "updatedAt": {
+          "$date": "2026-04-07T21:43:26.331Z"
+        },
+        "updatedBy": {
+          "$oid": "685aee77c1ac24e6a4c528fb"
+        }
+      },
+      "abril": {
+        "value": "",
+        "updatedAt": null,
+        "updatedBy": null
+      },
+      "mayo": {
+        "value": "",
+        "updatedAt": null,
+        "updatedBy": null
+      },
+      "junio": {
+        "value": "",
+        "updatedAt": null,
+        "updatedBy": null
+      }
+    },
+    "asistencia": "",
+    "motivo": "",
+    "notasAcademicas": "",
+    "notasAdministrativas": "",
+    "lastCajaUploadAt": {
+      "$date": "2026-04-07T21:43:26.331Z"
+    },
+    "lastCajaUploadBy": {
+      "$oid": "685aee77c1ac24e6a4c528fb"
+    },
+    "createdAt": {
+      "$date": "2026-03-20T21:10:27.624Z"
+    },
+    "updatedAt": {
+      "$date": "2026-04-07T21:43:26.751Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "69bdb7c3172938966f3d14ff"
+    },
+    "studentId": null,
+    "matricula": "23ELE034",
+    "nombre": "GOMEZ ALCANTARA CHRISTIAN ANDRE",
+    "grupo": "ELE6",
+    "seccion": "ELE6",
+    "cycleId": {
+      "$oid": "69b9d9b431b4c8909fe928e5"
+    },
+    "payments": {
+      "inscripcion": {
+        "value": "",
+        "updatedAt": null,
+        "updatedBy": null
+      },
+      "enero": {
+        "value": "",
+        "updatedAt": null,
+        "updatedBy": null
+      },
+      "febrero": {
+        "value": "NO",
+        "updatedAt": {
+          "$date": "2026-03-20T21:10:27.593Z"
+        },
+        "updatedBy": {
+          "$oid": "69bc2119577a46359b97b857"
+        }
+      },
+      "marzo": {
+        "value": "SI",
+        "updatedAt": {
+          "$date": "2026-04-07T21:43:26.331Z"
+        },
+        "updatedBy": {
+          "$oid": "685aee77c1ac24e6a4c528fb"
+        }
+      },
+      "abril": {
+        "value": "",
+        "updatedAt": null,
+        "updatedBy": null
+      },
+      "mayo": {
+        "value": "",
+        "updatedAt": null,
+        "updatedBy": null
+      },
+      "junio": {
+        "value": "",
+        "updatedAt": null,
+        "updatedBy": null
+      }
+    },
+    "asistencia": "",
+    "motivo": "",
+    "notasAcademicas": "",
+    "notasAdministrativas": "",
+    "lastCajaUploadAt": {
+      "$date": "2026-04-07T21:43:26.331Z"
+    },
+    "lastCajaUploadBy": {
+      "$oid": "685aee77c1ac24e6a4c528fb"
+    },
+    "createdAt": {
+      "$date": "2026-03-20T21:10:27.629Z"
+    },
+    "updatedAt": {
+      "$date": "2026-04-07T21:43:26.753Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "69bdb7c3172938966f3d1502"
+    },
+    "studentId": null,
+    "matricula": "24MH031",
+    "nombre": "CRUZ ALEMAN ALINA",
+    "grupo": "MH4",
+    "seccion": "MH4",
+    "cycleId": {
+      "$oid": "69b9d9b431b4c8909fe928e5"
+    },
+    "payments": {
+      "inscripcion": {
+        "value": "",
+        "updatedAt": null,
+        "updatedBy": null
+      },
+      "enero": {
+        "value": "",
+        "updatedAt": null,
+        "updatedBy": null
+      },
+      "febrero": {
+        "value": "NO",
+        "updatedAt": {
+          "$date": "2026-03-20T21:10:27.593Z"
+        },
+        "updatedBy": {
+          "$oid": "69bc2119577a46359b97b857"
+        }
+      },
+      "marzo": {
+        "value": "SI",
+        "updatedAt": {
+          "$date": "2026-04-07T21:43:26.331Z"
+        },
+        "updatedBy": {
+          "$oid": "685aee77c1ac24e6a4c528fb"
+        }
+      },
+      "abril": {
+        "value": "",
+        "updatedAt": null,
+        "updatedBy": null
+      },
+      "mayo": {
+        "value": "",
+        "updatedAt": null,
+        "updatedBy": null
+      },
+      "junio": {
+        "value": "",
+        "updatedAt": null,
+        "updatedBy": null
+      }
+    },
+    "asistencia": "",
+    "motivo": "",
+    "notasAcademicas": "",
+    "notasAdministrativas": "",
+    "lastCajaUploadAt": {
+      "$date": "2026-04-07T21:43:26.331Z"
+    },
+    "lastCajaUploadBy": {
+      "$oid": "685aee77c1ac24e6a4c528fb"
+    },
+    "createdAt": {
+      "$date": "2026-03-20T21:10:27.633Z"
+    },
+    "updatedAt": {
+      "$date": "2026-04-07T21:43:26.756Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "69d57a7e533213cc2a2e811d"
+    },
+    "studentId": null,
+    "matricula": "24CI026",
+    "nombre": "RODRIGUEZ ARGUIJO EDER AXEL",
+    "grupo": "CI4A",
+    "seccion": "CI4A",
+    "cycleId": {
+      "$oid": "69b9d9b431b4c8909fe928e5"
+    },
+    "payments": {
+      "inscripcion": {
+        "value": "",
+        "updatedAt": null,
+        "updatedBy": null
+      },
+      "enero": {
+        "value": "",
+        "updatedAt": null,
+        "updatedBy": null
+      },
+      "febrero": {
+        "value": "",
+        "updatedAt": null,
+        "updatedBy": null
+      },
+      "marzo": {
+        "value": "NO",
+        "updatedAt": {
+          "$date": "2026-04-07T21:43:26.331Z"
+        },
+        "updatedBy": {
+          "$oid": "685aee77c1ac24e6a4c528fb"
+        }
+      },
+      "abril": {
+        "value": "",
+        "updatedAt": null,
+        "updatedBy": null
+      },
+      "mayo": {
+        "value": "",
+        "updatedAt": null,
+        "updatedBy": null
+      },
+      "junio": {
+        "value": "",
+        "updatedAt": null,
+        "updatedBy": null
+      }
+    },
+    "asistencia": "",
+    "motivo": "",
+    "notasAcademicas": "",
+    "notasAdministrativas": "",
+    "lastCajaUploadAt": {
+      "$date": "2026-04-07T21:43:26.331Z"
+    },
+    "lastCajaUploadBy": {
+      "$oid": "685aee77c1ac24e6a4c528fb"
+    },
+    "createdAt": {
+      "$date": "2026-04-07T21:43:26.580Z"
+    },
+    "updatedAt": {
+      "$date": "2026-04-07T21:43:26.580Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "69d57a7e533213cc2a2e8120"
+    },
+    "studentId": null,
+    "matricula": "24MH021",
+    "nombre": "RIOS CORTES BRAYAN JOAN",
+    "grupo": "CI4B",
+    "seccion": "CI4B",
+    "cycleId": {
+      "$oid": "69b9d9b431b4c8909fe928e5"
+    },
+    "payments": {
+      "inscripcion": {
+        "value": "",
+        "updatedAt": null,
+        "updatedBy": null
+      },
+      "enero": {
+        "value": "",
+        "updatedAt": null,
+        "updatedBy": null
+      },
+      "febrero": {
+        "value": "",
+        "updatedAt": null,
+        "updatedBy": null
+      },
+      "marzo": {
+        "value": "NO",
+        "updatedAt": {
+          "$date": "2026-04-07T21:43:26.331Z"
+        },
+        "updatedBy": {
+          "$oid": "685aee77c1ac24e6a4c528fb"
+        }
+      },
+      "abril": {
+        "value": "",
+        "updatedAt": null,
+        "updatedBy": null
+      },
+      "mayo": {
+        "value": "",
+        "updatedAt": null,
+        "updatedBy": null
+      },
+      "junio": {
+        "value": "",
+        "updatedAt": null,
+        "updatedBy": null
+      }
+    },
+    "asistencia": "",
+    "motivo": "",
+    "notasAcademicas": "",
+    "notasAdministrativas": "",
+    "lastCajaUploadAt": {
+      "$date": "2026-04-07T21:43:26.331Z"
+    },
+    "lastCajaUploadBy": {
+      "$oid": "685aee77c1ac24e6a4c528fb"
+    },
+    "createdAt": {
+      "$date": "2026-04-07T21:43:26.610Z"
+    },
+    "updatedAt": {
+      "$date": "2026-04-07T21:43:26.610Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "69d57a7e533213cc2a2e8123"
+    },
+    "studentId": null,
+    "matricula": "22MCI69",
+    "nombre": "MORQUECHO SOTO KEVIN ENRIQUE",
+    "grupo": "CI6B",
+    "seccion": "CI6B",
+    "cycleId": {
+      "$oid": "69b9d9b431b4c8909fe928e5"
+    },
+    "payments": {
+      "inscripcion": {
+        "value": "",
+        "updatedAt": null,
+        "updatedBy": null
+      },
+      "enero": {
+        "value": "",
+        "updatedAt": null,
+        "updatedBy": null
+      },
+      "febrero": {
+        "value": "",
+        "updatedAt": null,
+        "updatedBy": null
+      },
+      "marzo": {
+        "value": "NO",
+        "updatedAt": {
+          "$date": "2026-04-07T21:43:26.331Z"
+        },
+        "updatedBy": {
+          "$oid": "685aee77c1ac24e6a4c528fb"
+        }
+      },
+      "abril": {
+        "value": "",
+        "updatedAt": null,
+        "updatedBy": null
+      },
+      "mayo": {
+        "value": "",
+        "updatedAt": null,
+        "updatedBy": null
+      },
+      "junio": {
+        "value": "",
+        "updatedAt": null,
+        "updatedBy": null
+      }
+    },
+    "asistencia": "",
+    "motivo": "",
+    "notasAcademicas": "",
+    "notasAdministrativas": "",
+    "lastCajaUploadAt": {
+      "$date": "2026-04-07T21:43:26.331Z"
+    },
+    "lastCajaUploadBy": {
+      "$oid": "685aee77c1ac24e6a4c528fb"
+    },
+    "createdAt": {
+      "$date": "2026-04-07T21:43:26.615Z"
+    },
+    "updatedAt": {
+      "$date": "2026-04-07T21:43:26.615Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "69d57a7e533213cc2a2e8126"
+    },
+    "studentId": null,
+    "matricula": "24MEC028",
+    "nombre": "MAULEON LOPEZ CAMILA",
+    "grupo": "MCA4",
+    "seccion": "MCA4",
+    "cycleId": {
+      "$oid": "69b9d9b431b4c8909fe928e5"
+    },
+    "payments": {
+      "inscripcion": {
+        "value": "",
+        "updatedAt": null,
+        "updatedBy": null
+      },
+      "enero": {
+        "value": "",
+        "updatedAt": null,
+        "updatedBy": null
+      },
+      "febrero": {
+        "value": "",
+        "updatedAt": null,
+        "updatedBy": null
+      },
+      "marzo": {
+        "value": "NO",
+        "updatedAt": {
+          "$date": "2026-04-07T21:43:26.331Z"
+        },
+        "updatedBy": {
+          "$oid": "685aee77c1ac24e6a4c528fb"
+        }
+      },
+      "abril": {
+        "value": "",
+        "updatedAt": null,
+        "updatedBy": null
+      },
+      "mayo": {
+        "value": "",
+        "updatedAt": null,
+        "updatedBy": null
+      },
+      "junio": {
+        "value": "",
+        "updatedAt": null,
+        "updatedBy": null
+      }
+    },
+    "asistencia": "",
+    "motivo": "",
+    "notasAcademicas": "",
+    "notasAdministrativas": "",
+    "lastCajaUploadAt": {
+      "$date": "2026-04-07T21:43:26.331Z"
+    },
+    "lastCajaUploadBy": {
+      "$oid": "685aee77c1ac24e6a4c528fb"
+    },
+    "createdAt": {
+      "$date": "2026-04-07T21:43:26.621Z"
+    },
+    "updatedAt": {
+      "$date": "2026-04-07T21:43:26.621Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "69d57a7e533213cc2a2e8129"
+    },
+    "studentId": null,
+    "matricula": "23MEC055",
+    "nombre": "IBARRA SANCHEZ JUAN FERNANDO",
+    "grupo": "MCA6A",
+    "seccion": "MCA6A",
+    "cycleId": {
+      "$oid": "69b9d9b431b4c8909fe928e5"
+    },
+    "payments": {
+      "inscripcion": {
+        "value": "",
+        "updatedAt": null,
+        "updatedBy": null
+      },
+      "enero": {
+        "value": "",
+        "updatedAt": null,
+        "updatedBy": null
+      },
+      "febrero": {
+        "value": "",
+        "updatedAt": null,
+        "updatedBy": null
+      },
+      "marzo": {
+        "value": "NO",
+        "updatedAt": {
+          "$date": "2026-04-07T21:43:26.331Z"
+        },
+        "updatedBy": {
+          "$oid": "685aee77c1ac24e6a4c528fb"
+        }
+      },
+      "abril": {
+        "value": "",
+        "updatedAt": null,
+        "updatedBy": null
+      },
+      "mayo": {
+        "value": "",
+        "updatedAt": null,
+        "updatedBy": null
+      },
+      "junio": {
+        "value": "",
+        "updatedAt": null,
+        "updatedBy": null
+      }
+    },
+    "asistencia": "",
+    "motivo": "",
+    "notasAcademicas": "",
+    "notasAdministrativas": "",
+    "lastCajaUploadAt": {
+      "$date": "2026-04-07T21:43:26.331Z"
+    },
+    "lastCajaUploadBy": {
+      "$oid": "685aee77c1ac24e6a4c528fb"
+    },
+    "createdAt": {
+      "$date": "2026-04-07T21:43:26.626Z"
+    },
+    "updatedAt": {
+      "$date": "2026-04-07T21:43:26.626Z"
+    },
+    "__v": 0
+  }
+]

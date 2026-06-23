@@ -11,7 +11,11 @@ const entradaAlmacenSchema = new Schema({
   cantidad: {
     type: Number,
     required: true,
-    min: 0
+    min: 0,
+    validate: {
+      validator: (valor) => Number.isFinite(valor) && valor > 0,
+      message: 'La cantidad de entrada debe ser mayor a cero.'
+    }
   },
   proveedor: {
     type: String,

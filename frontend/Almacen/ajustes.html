@@ -17,9 +17,12 @@
 
     <div class="d-flex justify-content-between align-items-center mb-3">
       <h2>Ajustes de Inventario</h2>
-      <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalAjuste" onclick="nuevoAjuste()">
-        + Registrar ajuste
-      </button>
+      <div class="d-flex gap-2">
+        <button class="btn btn-outline-success" type="button" onclick="exportarAjustes()">Exportar Excel</button>
+        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalAjuste" onclick="nuevoAjuste()">
+          + Registrar ajuste
+        </button>
+      </div>
     </div>
 
     <!-- FILTROS -->
@@ -42,6 +45,11 @@
               <option value="devolucion">Devolución</option>
               <option value="error">Corrección</option>
             </select>
+          </div>
+
+          <div class="col-md-3">
+            <label class="form-label">Buscar</label>
+            <input type="search" id="filtroBusqueda" class="form-control" placeholder="Producto o motivo">
           </div>
 
           <div class="col-md-2">
@@ -80,6 +88,8 @@
         </tbody>
       </table>
     </div>
+
+    <div id="paginacionAjustes" class="d-flex justify-content-between align-items-center mt-3"></div>
 
   </div>
 
@@ -143,6 +153,8 @@
     if (!token) window.location.href = "/login.html";
 
     const tablaBody = document.querySelector("#tablaAjustes tbody");
+    let paginaActual = 1;
+    const limitePagina = 25;
 
     function fmtFecha(dt) {
       const d = new Date(dt);
@@ -194,18 +206,53 @@
     /** ===========================
      *  Cargar ajustes
      =========================== */
-    async function cargarAjustes() {
+    function crearParametrosAjustes(incluirPaginacion = true) {
       const params = new URLSearchParams();
 
       const p = document.getElementById("filtroProducto").value;
       const tipo = document.getElementById("filtroTipo").value;
       const d = document.getElementById("filtroDesde").value;
       const h = document.getElementById("filtroHasta").value;
+      const q = document.getElementById("filtroBusqueda").value.trim();
 
       if (p) params.append("productoId", p);
       if (tipo) params.append("tipo", tipo);
       if (d) params.append("fechaInicio", d);
       if (h) params.append("fechaFin", h);
+      if (q) params.append("q", q);
+      if (incluirPaginacion) {
+        params.append("pagina", paginaActual);
+        params.append("limite", limitePagina);
+      }
+
+      return params;
+    }
+
+    function renderizarPaginacionAjustes(paginacion) {
+      const contenedor = document.getElementById("paginacionAjustes");
+      if (!paginacion || !paginacion.total) {
+        contenedor.innerHTML = "";
+        return;
+      }
+
+      contenedor.innerHTML = `
+        <span class="text-muted small">${paginacion.total} registros</span>
+        <div class="d-flex align-items-center gap-2">
+          <button class="btn btn-sm btn-outline-secondary" type="button" onclick="cambiarPaginaAjustes(-1)" ${paginacion.pagina <= 1 ? "disabled" : ""}>Anterior</button>
+          <span class="small">Página ${paginacion.pagina} de ${paginacion.totalPaginas}</span>
+          <button class="btn btn-sm btn-outline-secondary" type="button" onclick="cambiarPaginaAjustes(1)" ${paginacion.pagina >= paginacion.totalPaginas ? "disabled" : ""}>Siguiente</button>
+        </div>
+      `;
+    }
+
+    function cambiarPaginaAjustes(delta) {
+      paginaActual += delta;
+      cargarAjustes(paginaActual);
+    }
+
+    async function cargarAjustes(pagina = 1) {
+      paginaActual = pagina;
+      const params = crearParametrosAjustes();
 
       const res = await fetch("/api/almacen/ajustes?" + params.toString(), {
           headers: { "Authorization": "Bearer " + token }
@@ -231,6 +278,7 @@
       if (!data.ajustes.length) {
         tablaBody.innerHTML =
           `<tr><td colspan="6" class="text-center text-muted">Sin datos.</td></tr>`;
+        renderizarPaginacionAjustes(data.paginacion);
         return;
       }
 
@@ -246,6 +294,26 @@
           </tr>
         `;
       });
+
+      renderizarPaginacionAjustes(data.paginacion);
+    }
+
+    async function exportarAjustes() {
+      const res = await fetch("/api/almacen/ajustes/exportar?" + crearParametrosAjustes(false).toString(), {
+        headers: { "Authorization": "Bearer " + token }
+      });
+
+      if (!res.ok) {
+        const data = await res.json().catch(() => ({}));
+        alert(data.mensaje || "No se pudo exportar el reporte.");
+        return;
+      }
+
+      const enlace = document.createElement("a");
+      enlace.href = URL.createObjectURL(await res.blob());
+      enlace.download = "reporte-ajustes.xlsx";
+      enlace.click();
+      URL.revokeObjectURL(enlace.href);
     }
 
     /** ===========================
@@ -292,6 +360,10 @@
     /** ===========================
      *  Inicialización
      =========================== */
+    document.getElementById("filtroBusqueda").addEventListener("input", () => cargarAjustes(1));
+    document.getElementById("filtroProducto").addEventListener("change", () => cargarAjustes(1));
+    document.getElementById("filtroTipo").addEventListener("change", () => cargarAjustes(1));
+
     document.addEventListener("DOMContentLoaded", () => {
       cargarProductosSelect();
       cargarAjustes();

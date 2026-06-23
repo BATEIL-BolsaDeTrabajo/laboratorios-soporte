@@ -6,6 +6,7 @@ const { verifyToken, verifyRole } = require('../middlewares/auth');
 const Notification = require('../models/Notification');
 const User = require('../models/User');
 const { sendTicketNotificationEmail } = require('../utils/mailer');
+const { sendWhatsappNotification } = require('../utils/whatsapp');
 const { ensureTicketFolder, uploadTicketEvidence } = require('../utils/googleDrive');
 const uploadEvidence = require('../middlewares/uploadEvidence');
 const fs = require('fs');
@@ -135,6 +136,16 @@ function enviarCorreoTicketEnSegundoPlano({ to, subject, title, tipo = 'general'
     });
 }
 
+function enviarWhatsappTicketEnSegundoPlano({ to, title, tipo = 'general', ticketId = null }) {
+  if (!to) return;
+
+  buildTicketEmailMessage(title, tipo, ticketId)
+    .then(message => sendWhatsappNotification(to, { title, message }))
+    .catch(error => {
+      console.error('Error preparando WhatsApp de ticket:', error.message || error);
+    });
+}
+
 function formatFechaNotificacion(fecha) {
   return new Date(fecha).toLocaleString('es-MX', {
     year: '2-digit',
@@ -169,7 +180,7 @@ async function notificarAdminsFinanzas(io, titulo, tipo = 'general', ticketId = 
           { rol: { $in: ['admin', 'Admin', 'ADMIN', 'finanzas', 'Finanzas', 'FINANZAS'] } }
         ]
       },
-      '_id correo nombre'
+      '_id correo nombre telefonoWhatsapp'
     );
 
     if (!admins.length) return;
@@ -196,6 +207,12 @@ async function notificarAdminsFinanzas(io, titulo, tipo = 'general', ticketId = 
         tipo,
         ticketId
       });
+      enviarWhatsappTicketEnSegundoPlano({
+        to: user?.telefonoWhatsapp,
+        title: notifDoc.titulo,
+        tipo,
+        ticketId
+      });
     });
   } catch (e) {
     console.error('Error creando notificación para admin/finanzas:', e);
@@ -215,10 +232,16 @@ async function notificarUsuario(io, usuarioId, titulo, tipo = 'general', ticketI
 
     emitirNotificacion(io, notifDoc, tipo);
 
-    const user = await User.findById(usuarioId, 'correo nombre').lean();
+    const user = await User.findById(usuarioId, 'correo nombre telefonoWhatsapp').lean();
     enviarCorreoTicketEnSegundoPlano({
       to: user?.correo,
       subject: notifDoc.titulo,
+      title: notifDoc.titulo,
+      tipo,
+      ticketId
+    });
+    enviarWhatsappTicketEnSegundoPlano({
+      to: user?.telefonoWhatsapp,
       title: notifDoc.titulo,
       tipo,
       ticketId
@@ -355,6 +378,7 @@ router.put('/:id', verifyToken, async (req, res) => {
 
     const esSoporteOMantenimiento = roles.some(r => ['soporte', 'mantenimiento'].includes(r));
     const puedeTrabajar = roles.some(r => ['soporte', 'mantenimiento', 'admin'].includes(r));
+    const puedePasarAEnProceso = roles.includes('finanzas');
     const esCreadorDelTicket = String(ticket.creadoPor) === String(usuarioId);
 
     let cambioAResuelto = false;
@@ -408,7 +432,7 @@ router.put('/:id', verifyToken, async (req, res) => {
           return res.status(400).json({ mensaje: 'Estatus inválido.' });
         }
 
-        if (!puedeTrabajar) {
+        if (!puedeTrabajar && !(estatus === 'En proceso' && puedePasarAEnProceso)) {
           return res.status(403).json({
             mensaje: 'No autorizado para cambiar el estatus de este ticket.'
           });
@@ -589,7 +613,7 @@ router.put('/:id', verifyToken, async (req, res) => {
 
     if (ticketCerradoPorUsuario && ticket.asignadoA) {
       try {
-        const tecnico = await User.findById(ticket.asignadoA, 'roles rol correo');
+        const tecnico = await User.findById(ticket.asignadoA, 'roles rol correo telefonoWhatsapp');
 
         const rolesTec = [
           ...(tecnico?.roles || []),
@@ -662,6 +686,12 @@ router.put('/:id', verifyToken, async (req, res) => {
             tipo: 'prioridad',
             ticketId: ticket._id
           });
+          enviarWhatsappTicketEnSegundoPlano({
+            to: tecnico?.telefonoWhatsapp,
+            title: notifDoc.titulo,
+            tipo: 'prioridad',
+            ticketId: ticket._id
+          });
         }
       } catch (e) {
         console.error('Error creando notificación de cambio de prioridad:', e);
@@ -710,10 +740,16 @@ router.put('/:id', verifyToken, async (req, res) => {
           io.to(`user:${asignadoNuevo}`).emit('nuevaNotificacion', payload);
         }
 
-        const userAsignado = await User.findById(asignadoNuevo, 'correo nombre').lean();
+        const userAsignado = await User.findById(asignadoNuevo, 'correo nombre telefonoWhatsapp').lean();
         enviarCorreoTicketEnSegundoPlano({
           to: userAsignado?.correo,
           subject: notifDoc.titulo,
+          title: notifDoc.titulo,
+          tipo: 'asignado',
+          ticketId: ticket._id
+        });
+        enviarWhatsappTicketEnSegundoPlano({
+          to: userAsignado?.telefonoWhatsapp,
           title: notifDoc.titulo,
           tipo: 'asignado',
           ticketId: ticket._id
@@ -1051,12 +1087,14 @@ router.get('/:id/historial', verifyToken, async (req, res) => {
 /* ========= Listado principal ========= */
 router.get('/', verifyToken, async (req, res) => {
   try {
-    const rolesRaw = req.usuario?.roles || [req.usuario?.rol || ''];
+    const rolesRaw = Array.isArray(req.usuario?.roles)
+      ? req.usuario.roles
+      : [req.usuario?.roles || req.usuario?.rol || ''];
     const roles = rolesRaw
       .filter(Boolean)
       .map(r => String(r).toLowerCase());
 
-    const userId = req.usuario?.id;
+    const userId = req.usuario?.id || req.usuario?._id || req.usuario?.uid;
     const filtro = { archivado: { $ne: true } };
 
     const esAdminLike = roles.some(r =>
@@ -1077,7 +1115,8 @@ router.get('/', verifyToken, async (req, res) => {
 
     const tickets = await Ticket.find(filtro)
       .populate('creadoPor', 'nombre')
-      .populate('asignadoA', 'nombre');
+      .populate('asignadoA', 'nombre')
+      .sort({ fechaCreacion: -1, createdAt: -1, _id: -1 });
 
     res.json(tickets);
   } catch (err) {

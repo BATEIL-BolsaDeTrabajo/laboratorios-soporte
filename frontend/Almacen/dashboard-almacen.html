@@ -55,6 +55,14 @@
 
     <!-- Bajo stock -->
     <h4 class="mb-2">⚠ Productos en Bajo Stock</h4>
+    <ul class="nav nav-tabs mb-3" id="tabsBajoStock">
+      <li class="nav-item">
+        <button class="nav-link active" id="tab-bajo-stock-venta" type="button" onclick="seleccionarTipoBajoStock('venta')">Venta <span class="badge text-bg-secondary ms-1" id="contador-bajo-stock-venta">0</span></button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" id="tab-bajo-stock-interno" type="button" onclick="seleccionarTipoBajoStock('interno')">Interno <span class="badge text-bg-secondary ms-1" id="contador-bajo-stock-interno">0</span></button>
+      </li>
+    </ul>
     <div class="table-responsive mb-4">
       <table class="table table-bordered table-sm align-middle" id="tabla-bajo-stock">
         <thead class="table-light">
@@ -118,12 +126,37 @@
     // === Config base (igual lógica que panel-soporte) ===
     const token = localStorage.getItem("token");
     if (!token) window.location.href = "/login.html";
+    let productosBajoStock = [];
+    let tipoBajoStockActual = 'venta';
 
     function fmtFecha(dt) {
       if (!dt) return "—";
       const d = new Date(dt);
       const pad = n => String(n).padStart(2, "0");
       return `${pad(d.getDate())}/${pad(d.getMonth()+1)}/${d.getFullYear()} ${pad(d.getHours())}:${pad(d.getMinutes())}`;
+    }
+
+    function renderizarBajoStock() {
+      const tbody = document.querySelector("#tabla-bajo-stock tbody");
+      const productos = productosBajoStock.filter((producto) => (producto.tipoUso || 'interno') === tipoBajoStockActual);
+      tbody.innerHTML = "";
+
+      if (!productos.length) {
+        const etiqueta = tipoBajoStockActual === 'venta' ? 'venta' : 'uso interno';
+        tbody.innerHTML = `<tr><td colspan="4" class="text-center text-muted">Sin productos de ${etiqueta} en bajo stock.</td></tr>`;
+        return;
+      }
+
+      productos.forEach((producto) => {
+        tbody.innerHTML += `<tr><td>${producto.nombre}</td><td>${producto.categoria}</td><td>${producto.stockActual}</td><td>${producto.stockMinimo}</td></tr>`;
+      });
+    }
+
+    function seleccionarTipoBajoStock(tipo) {
+      tipoBajoStockActual = tipo;
+      document.getElementById('tab-bajo-stock-venta').classList.toggle('active', tipo === 'venta');
+      document.getElementById('tab-bajo-stock-interno').classList.toggle('active', tipo === 'interno');
+      renderizarBajoStock();
     }
 
     async function cargarResumen() {
@@ -149,26 +182,12 @@
         document.getElementById("kpi-bajo-stock").textContent =
           (data.productosBajoStock || []).length;
 
-        // Tabla bajo stock
-        const tbody = document.querySelector("#tabla-bajo-stock tbody");
-        tbody.innerHTML = "";
-
-        if (!data.productosBajoStock || !data.productosBajoStock.length) {
-          tbody.innerHTML =
-            '<tr><td colspan="4" class="text-center text-muted">Sin productos en bajo stock.</td></tr>';
-          return;
-        }
-
-        data.productosBajoStock.forEach(p => {
-          tbody.innerHTML += `
-            <tr>
-              <td>${p.nombre}</td>
-              <td>${p.categoria}</td>
-              <td>${p.stockActual}</td>
-              <td>${p.stockMinimo}</td>
-            </tr>
-          `;
-        });
+        productosBajoStock = data.productosBajoStock || [];
+        document.getElementById('contador-bajo-stock-venta').textContent =
+          productosBajoStock.filter((producto) => producto.tipoUso === 'venta').length;
+        document.getElementById('contador-bajo-stock-interno').textContent =
+          productosBajoStock.filter((producto) => (producto.tipoUso || 'interno') === 'interno').length;
+        renderizarBajoStock();
 
       } catch (err) {
         console.error("Error cargando resumen de almacén:", err);

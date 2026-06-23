@@ -8,6 +8,7 @@ const btnGuardar = document.getElementById("btnGuardar");
 const inputNombre = document.getElementById("nombre");
 const inputCorreo = document.getElementById("correo");
 const inputContraseña = document.getElementById("contraseña");
+const inputTelefonoWhatsapp = document.getElementById("telefonoWhatsapp");
 const inputRol = document.getElementById("rol");
 const inputFechaIngreso = document.getElementById("fechaIngreso");
 const inputDiasVacaciones = document.getElementById("diasVacacionesDisponibles");
@@ -51,12 +52,8 @@ function obtenerRolesDesdeStorageOToken() {
 }
 
 function mostrarAlerta(tipo, mensaje) {
-  alerta.innerHTML = `
-    <div class="alert alert-${tipo} alert-dismissible fade show" role="alert">
-      ${mensaje}
-      <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-    </div>
-  `;
+  if (alerta) alerta.innerHTML = "";
+  window.mostrarToast(mensaje, tipo);
 }
 
 function limpiarFormulario() {
@@ -89,6 +86,7 @@ form.addEventListener("submit", async (e) => {
   const nombre = inputNombre.value.trim();
   const correo = inputCorreo.value.trim().toLowerCase();
   const contraseña = inputContraseña.value.trim();
+  const telefonoWhatsapp = inputTelefonoWhatsapp.value.trim();
   const rol = inputRol.value;
   const fechaIngreso = inputFechaIngreso.value || null;
   const diasVacacionesDisponibles = Number(inputDiasVacaciones.value || 0);
@@ -114,6 +112,7 @@ form.addEventListener("submit", async (e) => {
         nombre,
         correo,
         contraseña,
+        telefonoWhatsapp,
         rol,
         fechaIngreso,
         diasVacacionesDisponibles,

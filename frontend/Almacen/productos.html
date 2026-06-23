@@ -22,6 +22,16 @@
       z-index: 2;
       background: #f8f9fa;
     }
+
+    #modalProducto .modal-dialog {
+      margin: 5.5rem auto 1.75rem;
+    }
+
+    @media (max-width: 575.98px) {
+      #modalProducto .modal-dialog {
+        margin-top: 4.5rem;
+      }
+    }
   </style>
 </head>
 
@@ -33,9 +43,12 @@
 
     <div class="d-flex justify-content-between align-items-center mb-3">
       <h2>Catalogo</h2>
-      <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalProducto" onclick="nuevoProducto()">
-        + Nuevo Producto
-      </button>
+      <div class="d-flex gap-2">
+        <button class="btn btn-outline-success" type="button" onclick="exportarProductos()">Exportar Excel</button>
+        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalProducto" onclick="nuevoProducto()">
+          + Nuevo Producto
+        </button>
+      </div>
     </div>
 
     <div class="card mb-3">
@@ -43,6 +56,10 @@
         <div class="row g-3">
           <div class="col-md-3">
             <input type="text" id="filtroNombre" class="form-control" placeholder="Buscar por nombre...">
+          </div>
+
+          <div class="col-md-3">
+            <input type="search" id="filtroBusqueda" class="form-control" placeholder="Buscar en catálogo...">
           </div>
 
           <div class="col-md-2">
@@ -95,6 +112,8 @@
       </table>
     </div>
 
+    <div id="paginacionProductos" class="d-flex justify-content-between align-items-center mt-3"></div>
+
   </div>
 
   <div class="modal fade" id="modalProducto" tabindex="-1">
@@ -119,12 +138,16 @@
 
               <div class="col-md-6">
                 <label class="form-label">Categoría</label>
-                <input type="text" id="productoCategoria" class="form-control" required>
+                <select id="productoCategoria" class="form-select" required>
+                  <option value="" disabled selected>Cargando categorías...</option>
+                </select>
               </div>
 
               <div class="col-md-4">
                 <label class="form-label">Unidad de medida</label>
-                <input type="text" id="productoUnidad" class="form-control" required>
+                <select id="productoUnidad" class="form-select" required>
+                  <option value="" disabled selected>Cargando unidades...</option>
+                </select>
               </div>
 
               <div class="col-md-4">
@@ -173,6 +196,8 @@
     if (!token) window.location.href = "/login.html";
 
     const tablaBody = document.querySelector("#tablaProductos tbody");
+    let paginaActual = 1;
+    const limitePagina = 25;
 
     function getEmailFromToken(token) {
       try {
@@ -189,6 +214,44 @@
       if (tipoUso === "venta") return "Venta";
       if (tipoUso === "interno") return "Interno";
       return "Interno";
+    }
+
+    function cargarOpcionesCatalogo(selectId, valores, seleccionado = "") {
+      const select = document.getElementById(selectId);
+      select.innerHTML = `<option value="" disabled ${seleccionado ? "" : "selected"}>Selecciona...</option>`;
+
+      valores.forEach((valor) => {
+        const option = document.createElement("option");
+        option.value = valor.nombre;
+        option.textContent = valor.nombre;
+        option.selected = valor.nombre === seleccionado;
+        select.appendChild(option);
+      });
+
+      if (seleccionado && !valores.some((valor) => valor.nombre === seleccionado)) {
+        const option = document.createElement("option");
+        option.value = seleccionado;
+        option.textContent = seleccionado + " (valor histórico)";
+        option.selected = true;
+        select.appendChild(option);
+      }
+    }
+
+    async function cargarCatalogosProducto(categoriaSeleccionada = "", unidadSeleccionada = "") {
+      const headers = { "Authorization": "Bearer " + token };
+      const [categoriasRes, unidadesRes] = await Promise.all([
+        fetch("/api/almacen/catalogos?tipo=categoria", { headers }),
+        fetch("/api/almacen/catalogos?tipo=unidadMedida", { headers })
+      ]);
+
+      if (!categoriasRes.ok || !unidadesRes.ok) {
+        alert("No se pudieron cargar los catálogos de producto.");
+        return;
+      }
+
+      const [categorias, unidades] = await Promise.all([categoriasRes.json(), unidadesRes.json()]);
+      cargarOpcionesCatalogo("productoCategoria", categorias.catalogos || [], categoriaSeleccionada);
+      cargarOpcionesCatalogo("productoUnidad", unidades.catalogos || [], unidadSeleccionada);
     }
 
     function filaProducto(p) {
@@ -223,8 +286,9 @@
       `;
     }
 
-    async function cargarProductos() {
+    function crearParametrosProductos(incluirPaginacion = true) {
       const nombre = document.getElementById("filtroNombre").value.trim();
+      const q = document.getElementById("filtroBusqueda").value.trim();
       const categoria = document.getElementById("filtroCategoria").value.trim();
       const estado = document.getElementById("filtroEstado").value;
       const fechaInicio = document.getElementById("filtroFechaInicio").value;
@@ -232,16 +296,52 @@
 
       if (fechaInicio && fechaFin && fechaInicio > fechaFin) {
         alert("La fecha inicial no puede ser mayor que la fecha final.");
-        return;
+        return null;
       }
 
       const params = new URLSearchParams();
 
       if (nombre) params.append("nombre", nombre);
+      if (q) params.append("q", q);
       if (categoria) params.append("categoria", categoria);
       if (estado) params.append("estado", estado);
       if (fechaInicio) params.append("fechaInicio", fechaInicio);
       if (fechaFin) params.append("fechaFin", fechaFin);
+
+      if (incluirPaginacion) {
+        params.append("pagina", paginaActual);
+        params.append("limite", limitePagina);
+      }
+
+      return params;
+    }
+
+    function renderizarPaginacionProductos(paginacion) {
+      const contenedor = document.getElementById("paginacionProductos");
+      if (!paginacion || !paginacion.total) {
+        contenedor.innerHTML = "";
+        return;
+      }
+
+      contenedor.innerHTML = `
+        <span class="text-muted small">${paginacion.total} registros</span>
+        <div class="d-flex align-items-center gap-2">
+          <button class="btn btn-sm btn-outline-secondary" type="button" onclick="cambiarPaginaProductos(-1)" ${paginacion.pagina <= 1 ? "disabled" : ""}>Anterior</button>
+          <span class="small">Página ${paginacion.pagina} de ${paginacion.totalPaginas}</span>
+          <button class="btn btn-sm btn-outline-secondary" type="button" onclick="cambiarPaginaProductos(1)" ${paginacion.pagina >= paginacion.totalPaginas ? "disabled" : ""}>Siguiente</button>
+        </div>
+      `;
+    }
+
+    function cambiarPaginaProductos(delta) {
+      paginaActual += delta;
+      cargarProductos();
+    }
+
+    async function cargarProductos(pagina = 1) {
+      paginaActual = pagina;
+      const params = crearParametrosProductos();
+      if (!params) return;
 
       const res = await fetch("/api/almacen/productos?" + params.toString(), {
         headers: { "Authorization": "Bearer " + token }
@@ -253,12 +353,36 @@
 
       if (!data.productos || !data.productos.length) {
         tablaBody.innerHTML = `<tr><td colspan="9" class="text-center text-muted">Sin datos.</td></tr>`;
+        renderizarPaginacionProductos(data.paginacion);
         return;
       }
 
       data.productos.forEach(p => {
         tablaBody.innerHTML += filaProducto(p);
       });
+
+      renderizarPaginacionProductos(data.paginacion);
+    }
+
+    async function exportarProductos() {
+      const params = crearParametrosProductos(false);
+      if (!params) return;
+
+      const res = await fetch("/api/almacen/productos/exportar?" + params.toString(), {
+        headers: { "Authorization": "Bearer " + token }
+      });
+
+      if (!res.ok) {
+        const data = await res.json().catch(() => ({}));
+        alert(data.mensaje || "No se pudo exportar el reporte.");
+        return;
+      }
+
+      const enlace = document.createElement("a");
+      enlace.href = URL.createObjectURL(await res.blob());
+      enlace.download = "reporte-productos.xlsx";
+      enlace.click();
+      URL.revokeObjectURL(enlace.href);
     }
 
     function nuevoProducto() {
@@ -281,6 +405,7 @@
       document.querySelector(".modal-title").textContent = "Editar Producto";
       document.getElementById("productoId").value = p._id;
       document.getElementById("productoNombre").value = p.nombre;
+      await cargarCatalogosProducto(p.categoria, p.unidadMedida);
       document.getElementById("productoCategoria").value = p.categoria;
       document.getElementById("productoUnidad").value = p.unidadMedida;
       document.getElementById("productoCodigo").value = p.codigo;
@@ -367,7 +492,14 @@
       }
     }
 
-    document.addEventListener("DOMContentLoaded", cargarProductos);
+    document.addEventListener("DOMContentLoaded", async () => {
+      await cargarCatalogosProducto();
+      cargarProductos();
+    });
+    document.getElementById("filtroNombre").addEventListener("input", () => cargarProductos(1));
+    document.getElementById("filtroBusqueda").addEventListener("input", () => cargarProductos(1));
+    document.getElementById("filtroCategoria").addEventListener("input", () => cargarProductos(1));
+    document.getElementById("filtroEstado").addEventListener("change", () => cargarProductos(1));
   </script>
 
 </body>

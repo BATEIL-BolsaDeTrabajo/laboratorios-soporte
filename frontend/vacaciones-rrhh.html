@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <title>Gestión de Vacaciones - RR.HH.</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="css/toasts.css" rel="stylesheet">
 </head>
 <body class="bg-light">
   <div id="navbar-container"></div>
@@ -25,13 +26,13 @@
       <thead class="table-dark">
         <tr>
           <th>Nombre</th>
-          <th>Rol</th>
           <th>Fecha inicio</th>
           <th>Fecha fin</th>
           <th>Días</th>
           <th>Estatus</th>
           <th>Motivo respuesta</th>
-          <th>Días por pagar</th>
+          <th>Dias disponibles</th>
+          <th>Dias acumulados</th>
           <th>Formato</th>
         </tr>
       </thead>
@@ -59,10 +60,16 @@
 
   </div>
 
+  <script src="js/toasts.js"></script>
   <script>
     const token = localStorage.getItem('token');
     const tabla = document.querySelector('#tablaRRHH tbody');
     const mensaje = document.getElementById('mensaje');
+
+    function mostrarMensaje(texto, tipo = 'info') {
+      mensaje.innerHTML = '';
+      window.mostrarToast(texto, tipo);
+    }
 
     async function cargarSolicitudesRRHH() {
       try {
@@ -75,7 +82,7 @@
         const datos = await res.json();
 
         if (!res.ok) {
-          mensaje.innerHTML = `<div class="alert alert-danger">❌ ${datos.mensaje || 'Error al obtener solicitudes'}</div>`;
+          mostrarMensaje(datos.mensaje || 'Error al obtener solicitudes', 'danger');
           return;
         }
 
@@ -87,11 +94,11 @@
         datos.forEach(s => {
           const fila = document.createElement('tr');
           const solicitante = s.solicitante?.nombre || '---';
-          const rol = s.solicitante?.roles?.[0] || '---';
+          const diasDisponibles = s.solicitante?.diasVacacionesDisponibles ?? 0;
+          const diasAcumulados = s.solicitante?.diasVacacionesAcumulados ?? 0;
 
           fila.innerHTML = `
             <td>${solicitante}</td>
-            <td>${rol}</td>
             <td>${new Date(s.fechaInicio).toLocaleDateString()}</td>
             <td>${new Date(s.fechaFin).toLocaleDateString()}</td>
             <td>${s.diasSolicitados}</td>
@@ -101,10 +108,14 @@
               </span>
             </td>
             <td>${s.motivoRespuesta || '-'}</td>
-            <td>${s.diasPorPagar ?? 0}</td>
+            <td>${diasDisponibles}</td>
+            <td>${diasAcumulados}</td>
             <td>
               ${s.estatus === 'Aceptado'
-                ? `<button class="btn btn-sm btn-outline-primary" onclick="generarPDF('${s._id}')">Imprimir</button>`
+                ? `<div class="d-flex gap-2 flex-wrap">
+                    <button class="btn btn-sm btn-outline-primary" onclick="generarPDF('${s._id}')">Imprimir</button>
+                    <button class="btn btn-sm btn-outline-success" onclick="descargarFormato('${s._id}')">Descargar</button>
+                  </div>`
                 : ''}
             </td>
           `;
@@ -112,12 +123,199 @@
           tabla.appendChild(fila);
         });
       } catch (err) {
-        mensaje.innerHTML = `<div class="alert alert-danger">⚠️ Error de red</div>`;
+        mostrarMensaje('Error de red', 'danger');
       }
     }
 
     function generarPDF(id) {
       window.open(`formato-vacaciones.html?id=${id}`, "_blank");
+    }
+
+    function formatoFecha(fecha) {
+      if (!fecha) return "";
+      return new Date(fecha).toLocaleDateString("es-MX");
+    }
+
+    function calcularAniosServicio(fechaIngreso) {
+      if (!fechaIngreso) return "";
+      const ingreso = new Date(fechaIngreso);
+      const hoy = new Date();
+      let anios = hoy.getFullYear() - ingreso.getFullYear();
+      const aniversarioEsteAnio = new Date(ingreso);
+      aniversarioEsteAnio.setFullYear(hoy.getFullYear());
+      if (hoy < aniversarioEsteAnio) anios -= 1;
+      return `${Math.max(anios, 0)} año${anios === 1 ? "" : "s"}`;
+    }
+
+    function descargarArchivoWord(nombreArchivo, html) {
+      const contenido = `
+        <html xmlns:o="urn:schemas-microsoft-com:office:office"
+              xmlns:w="urn:schemas-microsoft-com:office:word"
+              xmlns="http://www.w3.org/TR/REC-html40">
+          <head>
+            <meta charset="UTF-8">
+            <title>Solicitud de Vacaciones</title>
+          </head>
+          <body>${html}</body>
+        </html>`;
+      const blob = new Blob(["\ufeff", contenido], { type: "application/msword" });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = nombreArchivo;
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+      URL.revokeObjectURL(url);
+    }
+
+    function crearCopiaFormato(solicitud, etiquetaCopia) {
+      const user = solicitud.solicitante || {};
+      const hoy = new Date();
+      const inicio = new Date(solicitud.fechaInicio);
+      const fin = new Date(solicitud.fechaFin);
+      const reincorpora = new Date(fin);
+      reincorpora.setDate(reincorpora.getDate() + 1);
+
+      return `
+        <section class="formato-copy">
+          <table class="formato-vacaciones">
+            <tr>
+              <td colspan="7" class="titulo">SOLICITUD DE VACACIONES<br><span>${etiquetaCopia}</span></td>
+            </tr>
+            <tr>
+              <td colspan="3" class="subtitulo">FECHA DE ELABORACION</td>
+              <td>DIA</td>
+              <td>MES</td>
+              <td>AÑO</td>
+              <td></td>
+            </tr>
+            <tr>
+              <td colspan="3"></td>
+              <td>${String(hoy.getDate()).padStart(2, "0")}</td>
+              <td>${String(hoy.getMonth() + 1).padStart(2, "0")}</td>
+              <td>${hoy.getFullYear()}</td>
+              <td></td>
+            </tr>
+            <tr>
+              <td>Nombre:</td>
+              <td colspan="6">${user.nombre || ""}</td>
+            </tr>
+            <tr>
+              <td>Fecha de ingreso:</td>
+              <td colspan="2">${formatoFecha(user.fechaIngreso)}</td>
+              <td>Puesto:</td>
+              <td colspan="3">${user.puesto || ""}</td>
+            </tr>
+            <tr>
+              <td>Años de Servicio:</td>
+              <td colspan="2">${calcularAniosServicio(user.fechaIngreso)}</td>
+              <td>Departamento:</td>
+              <td colspan="3">${user.departamento || ""}</td>
+            </tr>
+            <tr>
+              <td>Dias habiles a disfrutar:</td>
+              <td colspan="2">${solicitud.diasSolicitados || 0}</td>
+              <td>Ejercicio:</td>
+              <td colspan="3">${hoy.getFullYear()}</td>
+            </tr>
+            <tr>
+              <td>Periodo a Disfrutar:</td>
+              <td>Del dia:</td>
+              <td>${formatoFecha(inicio)}</td>
+              <td>Al dia:</td>
+              <td colspan="3">${formatoFecha(fin)}</td>
+            </tr>
+            <tr>
+              <td>Se reincorpora:</td>
+              <td colspan="2">${formatoFecha(reincorpora)}</td>
+              <td colspan="4" class="subtitulo">Uso exclusivo de Recursos Humanos</td>
+            </tr>
+            <tr>
+              <td colspan="3">Observaciones:<br>${solicitud.motivo || ""}</td>
+              <td colspan="4">
+                Estado de cuenta de vacaciones<br>
+                Dias Disfrutados: ${solicitud.diasSolicitados || 0}<br>
+                Saldo: Dias: ${user.diasVacacionesDisponibles ?? ""}<br>
+                Politica: __________________
+              </td>
+            </tr>
+            <tr class="firmas">
+              <td colspan="2">_________________________<br>Empleado<br>Aceptante</td>
+              <td colspan="2">_________________________<br>Director del Plantel<br>Vo. Bo.</td>
+              <td>_________________________<br>Jefe Directo<br>Autorizacion</td>
+              <td colspan="2">_________________________<br>Subdireccion Administrativa<br>Vo. Bo.</td>
+            </tr>
+          </table>
+        </section>`;
+    }
+
+    async function descargarFormato(id) {
+      try {
+        const res = await fetch(`/api/vacaciones/solicitud/${id}`, {
+          headers: { Authorization: `Bearer ${token}` }
+        });
+        const data = await res.json();
+
+        if (!res.ok) {
+          mostrarMensaje(data.mensaje || "Error al generar formato", "danger");
+          return;
+        }
+
+        const solicitud = data.solicitud;
+        const nombre = (solicitud.solicitante?.nombre || "empleado").replace(/[^\w\s-]/g, "").trim();
+        const estilos = `
+          <style>
+            @page {
+              size: landscape;
+              margin: 0.25in;
+            }
+            body {
+              font-family: Arial, sans-serif;
+              font-size: 7.5pt;
+              margin: 0;
+            }
+            .formato-copy {
+              page-break-after: auto;
+              margin-bottom: 7px;
+            }
+            .formato-vacaciones {
+              width: 100%;
+              border-collapse: collapse;
+              table-layout: fixed;
+            }
+            .formato-vacaciones td {
+              border: 1px solid #000;
+              padding: 2px 3px;
+              vertical-align: top;
+              line-height: 1.05;
+            }
+            .titulo {
+              text-align: center;
+              font-weight: bold;
+              font-size: 10pt;
+              line-height: 1;
+            }
+            .titulo span { font-size: 7.5pt; }
+            .subtitulo { text-align: center; font-weight: bold; }
+            .firmas td {
+              text-align: center;
+              height: 38px;
+              vertical-align: bottom;
+              font-size: 6.5pt;
+              line-height: 1;
+            }
+          </style>`;
+        const html = `
+          ${estilos}
+          ${crearCopiaFormato(solicitud, "COPIA TRABAJADOR")}
+          ${crearCopiaFormato(solicitud, "COPIA RR.HH.")}`;
+
+        descargarArchivoWord(`Solicitud de Vacaciones - ${nombre || "empleado"}.doc`, html);
+      } catch (err) {
+        console.error(err);
+        mostrarMensaje("Error al descargar el formato", "danger");
+      }
     }
 
     //cargarSolicitudesRRHH();

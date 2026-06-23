@@ -1,0 +1,203 @@
+[
+  {
+    "_id": {
+      "$oid": "69b311663f57e4727f60514d"
+    },
+    "key": "docente",
+    "title": "🎓 Panel Docente",
+    "roles": [
+      "docente",
+      "talleres"
+    ],
+    "active": true,
+    "order": 1,
+    "items": [
+      {
+        "key": "docente-crear-ticket",
+        "label": "🛠️ Crear Ticket",
+        "href": "crear-ticket.html",
+        "roles": [
+          "docente",
+          "talleres"
+        ],
+        "active": true,
+        "badgeId": null,
+        "order": 1
+      },
+      {
+        "key": "docente-reservar",
+        "label": "📅 Reservar Laboratorio",
+        "href": "reservar.html",
+        "roles": [
+          "docente",
+          "talleres"
+        ],
+        "active": true,
+        "badgeId": null,
+        "order": 2
+      },
+      {
+        "key": "docente-mis-tickets",
+        "label": "🎫 Mis Tickets",
+        "href": "mis-tickets.html",
+        "roles": [
+          "docente",
+          "talleres"
+        ],
+        "active": true,
+        "badgeId": null,
+        "order": 3
+      },
+      {
+        "key": "docente-mis-reservas",
+        "label": "📋 Mis Reservas",
+        "href": "mis-reservas.html",
+        "roles": [
+          "docente",
+          "talleres"
+        ],
+        "active": true,
+        "badgeId": null,
+        "order": 4
+      }
+    ],
+    "__v": 0,
+    "createdAt": {
+      "$date": "2026-03-12T19:17:58.858Z"
+    },
+    "updatedAt": {
+      "$date": "2026-03-12T19:17:58.858Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "69b311663f57e4727f60514e"
+    },
+    "key": "admin",
+    "title": "👨‍💼 Panel Admin",
+    "roles": [
+      "admin"
+    ],
+    "active": true,
+    "order": 2,
+    "items": [
+      {
+        "key": "admin-dashboard",
+        "label": "📊 Dashboard",
+        "href": "dashboard.html",
+        "roles": [
+          "admin"
+        ],
+        "active": true,
+        "badgeId": null,
+        "order": 1
+      },
+      {
+        "key": "admin-usuarios",
+        "label": "👥 Usuarios",
+        "href": "usuarios.html",
+        "roles": [
+          "admin"
+        ],
+        "active": true,
+        "badgeId": null,
+        "order": 2
+      },
+      {
+        "key": "admin-tickets",
+        "label": "📁 Ver Tickets",
+        "href": "panel-admin.html",
+        "roles": [
+          "admin"
+        ],
+        "active": true,
+        "badgeId": null,
+        "order": 3
+      },
+      {
+        "key": "admin-asignables",
+        "label": "📝 Tickets Asignables",
+        "href": "tickets-asignables.html",
+        "roles": [
+          "admin"
+        ],
+        "active": true,
+        "badgeId": "badge-asignables",
+        "order": 4
+      },
+      {
+        "key": "admin-menu",
+        "label": "🧩 Administrar Menú",
+        "href": "menu-admin.html",
+        "roles": [
+          "admin"
+        ],
+        "active": true,
+        "badgeId": null,
+        "order": 99
+      }
+    ],
+    "createdAt": {
+      "$date": "2026-03-12T19:17:58.859Z"
+    },
+    "updatedAt": {
+      "$date": "2026-03-12T19:59:22.565Z"
+    },
+    "__ \"label\": \"🧩 Administrar Menú\",v": 0,
+    "__v": 1
+  },
+  {
+    "_id": {
+      "$oid": "69b4438ac454c473d610db46"
+    },
+    "key": "almacen,docente",
+    "title": "Panel Almacen",
+    "roles": [
+      "almacen"
+    ],
+    "active": true,
+    "order": 3,
+    "items": [
+      {
+        "key": "almacen",
+        "label": "🛠️ Crear Ticket",
+        "href": "crear-ticket.html",
+        "roles": [
+          "almacen"
+        ],
+        "active": true,
+        "badgeId": null,
+        "order": 1
+      },
+      {
+        "key": "almacen mis-tickets",
+        "label": "🎫 Mis Tickets",
+        "href": "mis-tickets.html",
+        "roles": [
+          "almacen"
+        ],
+        "active": true,
+        "badgeId": null,
+        "order": 1
+      },
+      {
+        "key": "almacen-Dashboard",
+        "label": "📊 Dashboard",
+        "href": "/almacen/dashboard-almacen.html",
+        "roles": [
+          "almacen"
+        ],
+        "active": true,
+        "badgeId": null,
+        "order": 1
+      }
+    ],
+    "createdAt": {
+      "$date": "2026-03-13T17:04:10.780Z"
+    },
+    "updatedAt": {
+      "$date": "2026-03-13T18:19:29.994Z"
+    },
+    "__v": 4
+  }
+]

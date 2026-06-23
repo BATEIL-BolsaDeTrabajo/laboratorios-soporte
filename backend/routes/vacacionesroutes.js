@@ -4,23 +4,85 @@ const Vacacion = require('../models/Vacacion');
 const User = require('../models/User');
 const { verifyToken, verifyRole } = require('../middlewares/auth');
 
+function normalizarDepartamento(departamento = '') {
+  return String(departamento)
+    .trim()
+    .toLowerCase()
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '');
+}
+
+function obtenerRolRevisorPermitido(departamento) {
+  const normalizado = normalizarDepartamento(departamento);
+  if (normalizado === 'academico') return 'subdireccion';
+  if (normalizado === 'administrativo') return 'finanzas';
+  return null;
+}
+
+function contarDiasVacaciones(fechaInicio, fechaFin) {
+  const inicio = new Date(fechaInicio);
+  const fin = new Date(fechaFin);
+  let total = 0;
+
+  for (const fecha = new Date(inicio); fecha <= fin; fecha.setDate(fecha.getDate() + 1)) {
+    const esDomingo = fecha.getDay() === 0;
+    if (!esDomingo) total += 1;
+  }
+
+  return total;
+}
+
+function calcularConsumoVacaciones(diasSolicitados, diasAcumulados, diasDisponibles) {
+  const acumuladosAntes = Math.max(diasAcumulados || 0, 0);
+  const disponiblesAntes = Math.max(diasDisponibles || 0, 0);
+  const usadosDeAcumulados = Math.min(diasSolicitados, acumuladosAntes);
+  const faltanteDespuesDeAcumulados = diasSolicitados - usadosDeAcumulados;
+  const usadosDeDisponibles = Math.min(faltanteDespuesDeAcumulados, disponiblesAntes);
+  const diasPorPagar = Math.max(faltanteDespuesDeAcumulados - usadosDeDisponibles, 0);
+
+  return {
+    acumuladosAntes,
+    disponiblesAntes,
+    acumuladosRestantes: acumuladosAntes - usadosDeAcumulados,
+    disponiblesRestantes: disponiblesAntes - usadosDeDisponibles,
+    saldoTotalAntes: acumuladosAntes + disponiblesAntes,
+    saldoTotalRestante: acumuladosAntes + disponiblesAntes - usadosDeAcumulados - usadosDeDisponibles,
+    diasPorPagar
+  };
+}
+
 // 🧑‍🏫 1. Solicitar vacaciones (docentes y talleres)
-router.post('/solicitar', verifyToken, verifyRole(['docente', 'talleres']), async (req, res) => {
+router.post('/solicitar', verifyToken, async (req, res) => {
   try {
     const { fechaInicio, fechaFin, motivo, detalles } = req.body;
 
     const fecha1 = new Date(`${fechaInicio}T12:00:00`);
     const fecha2 = new Date(`${fechaFin}T12:00:00`);
-    const diasSolicitados = Math.ceil((fecha2 - fecha1) / (1000 * 60 * 60 * 24)) + 1;
+
+    if (Number.isNaN(fecha1.getTime()) || Number.isNaN(fecha2.getTime())) {
+      return res.status(400).json({ mensaje: 'Fechas invalidas' });
+    }
+
+    if (fecha2 < fecha1) {
+      return res.status(400).json({ mensaje: 'La fecha de termino no puede ser anterior a la fecha de inicio' });
+    }
+
+    const diasSolicitados = contarDiasVacaciones(fecha1, fecha2);
 
     const usuario = await User.findById(req.usuario.id);
-    const diasDisponibles = usuario.diasVacacionesDisponibles ?? 0;
+    if (!usuario) return res.status(404).json({ mensaje: 'Usuario no encontrado' });
 
-    const diasPorPagar = diasSolicitados > diasDisponibles
-      ? diasSolicitados - diasDisponibles
-      : 0;
+    if (!obtenerRolRevisorPermitido(usuario.departamento)) {
+      return res.status(400).json({
+        mensaje: 'Tu usuario no tiene departamento academico o administrativo asignado'
+      });
+    }
 
-    const diasRestantes = Math.max(diasDisponibles - diasSolicitados, 0);
+    const consumoPreview = calcularConsumoVacaciones(
+      diasSolicitados,
+      usuario.diasVacacionesAcumulados,
+      usuario.diasVacacionesDisponibles
+    );
 
     const nueva = new Vacacion({
       solicitante: req.usuario.id,
@@ -29,9 +91,9 @@ router.post('/solicitar', verifyToken, verifyRole(['docente', 'talleres']), asyn
       motivo,
       detalles,
       diasSolicitados,
-      diasDisponiblesAntes: diasDisponibles,
-      diasRestantes,
-      diasPorPagar
+      diasDisponiblesAntes: consumoPreview.saldoTotalAntes,
+      diasRestantes: consumoPreview.saldoTotalRestante,
+      diasPorPagar: consumoPreview.diasPorPagar
     });
 
     await nueva.save();
@@ -45,7 +107,10 @@ router.post('/solicitar', verifyToken, verifyRole(['docente', 'talleres']), asyn
 // ✅ 2. Ver solicitudes (solo RR.HH.)
 router.get('/todas', verifyToken, verifyRole(['rrhh']), async (req, res) => {
   try {
-    const solicitudes = await Vacacion.find().populate('solicitante revisadoPor', 'nombre roles');
+    const solicitudes = await Vacacion.find().populate(
+      'solicitante revisadoPor',
+      'nombre roles diasVacacionesDisponibles diasVacacionesAcumulados'
+    );
     res.json(solicitudes);
   } catch (err) {
     res.status(500).json({ mensaje: 'Error al obtener solicitudes' });
@@ -53,10 +118,16 @@ router.get('/todas', verifyToken, verifyRole(['rrhh']), async (req, res) => {
 });
 
 // ✅ 3. Ver solicitudes propias (docente o talleres)
-router.get('/mis-solicitudes', verifyToken, verifyRole(['docente', 'talleres']), async (req, res) => {
+router.get('/mis-solicitudes', verifyToken, async (req, res) => {
   try {
-    const solicitudes = await Vacacion.find({ solicitante: req.usuario.id });
-    res.json(solicitudes);
+    const usuario = await User.findById(req.usuario.id).select('diasVacacionesAcumulados');
+    const diasAcumulados = usuario?.diasVacacionesAcumulados || 0;
+    const solicitudes = await Vacacion.find({ solicitante: req.usuario.id }).lean();
+
+    res.json(solicitudes.map((solicitud) => ({
+      ...solicitud,
+      diasAcumulados
+    })));
   } catch (err) {
     res.status(500).json({ mensaje: 'Error al obtener solicitudes' });
   }
@@ -75,21 +146,45 @@ router.put('/revisar/:id', verifyToken, verifyRole(['subdireccion', 'finanzas'])
 
     // Validar si el usuario revisor tiene permiso según el tipo de solicitante
     const solicitante = await User.findById(vacacion.solicitante);
-    const esDocente = solicitante.roles.includes('docente');
-    const esTaller = solicitante.roles.includes('talleres');
-    const rolRevisor = req.usuario.roles.includes('subdireccion') ? 'subdireccion' : 'finanzas';
+    if (!solicitante) return res.status(404).json({ mensaje: 'Solicitante no encontrado' });
 
-    if (esDocente && rolRevisor !== 'subdireccion') {
-      return res.status(403).json({ mensaje: 'Solo subdirección puede aprobar docentes' });
+    const rolesRevisor = req.usuario.roles || [];
+    const rolPermitido = obtenerRolRevisorPermitido(solicitante.departamento);
+
+    if (!rolPermitido) {
+      return res.status(400).json({
+        mensaje: 'El solicitante no tiene departamento academico o administrativo asignado'
+      });
     }
 
-    if (esTaller && rolRevisor !== 'finanzas') {
-      return res.status(403).json({ mensaje: 'Solo finanzas puede aprobar talleres' });
+    if (!rolesRevisor.includes(rolPermitido)) {
+      return res.status(403).json({
+        mensaje: rolPermitido === 'subdireccion'
+          ? 'Solo subdireccion puede aprobar solicitudes del departamento academico'
+          : 'Solo finanzas puede aprobar solicitudes del departamento administrativo'
+      });
+    }
+
+    const estatusAnterior = vacacion.estatus;
+
+    if (estatus === 'Aceptado' && estatusAnterior !== 'Aceptado') {
+      const consumo = calcularConsumoVacaciones(
+        vacacion.diasSolicitados,
+        solicitante.diasVacacionesAcumulados,
+        solicitante.diasVacacionesDisponibles
+      );
+
+      vacacion.diasDisponiblesAntes = consumo.saldoTotalAntes;
+      vacacion.diasRestantes = consumo.saldoTotalRestante;
+      vacacion.diasPorPagar = consumo.diasPorPagar;
+      solicitante.diasVacacionesAcumulados = consumo.acumuladosRestantes;
+      solicitante.diasVacacionesDisponibles = consumo.disponiblesRestantes;
+      await solicitante.save();
     }
 
     vacacion.estatus = estatus;
     vacacion.revisadoPor = req.usuario.id;
-    vacacion.rolRevisor = rolRevisor;
+    vacacion.rolRevisor = rolPermitido;
     vacacion.motivoRespuesta = motivoRespuesta;
 
     await vacacion.save();
@@ -106,10 +201,10 @@ router.get('/pendientes', verifyToken, verifyRole(['subdireccion', 'finanzas']),
     const esSubdireccion = req.usuario.roles.includes('subdireccion');
     const esFinanzas = req.usuario.roles.includes('finanzas');
 
-    const filtradas = todas.filter(s => {
-      const roles = s.solicitante?.roles || [];
-      if (roles.includes('docente') && esSubdireccion) return true;
-      if (roles.includes('talleres') && esFinanzas) return true;
+    const filtradas = todas.filter((s) => {
+      const rolPermitido = obtenerRolRevisorPermitido(s.solicitante?.departamento);
+      if (rolPermitido === 'subdireccion' && esSubdireccion) return true;
+      if (rolPermitido === 'finanzas' && esFinanzas) return true;
       return false;
     });
 

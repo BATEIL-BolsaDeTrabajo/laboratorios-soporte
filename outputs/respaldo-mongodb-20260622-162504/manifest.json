@@ -1,0 +1,101 @@
+{
+  "exportedAt": "2026-06-22T22:25:04.956Z",
+  "database": "laboratorios_db",
+  "collections": [
+    {
+      "name": "catalogoalmacens",
+      "file": "catalogoalmacens.ejson",
+      "documents": 16
+    },
+    {
+      "name": "reportefallas",
+      "file": "reportefallas.ejson",
+      "documents": 1
+    },
+    {
+      "name": "tickets",
+      "file": "tickets.ejson",
+      "documents": 41
+    },
+    {
+      "name": "counters",
+      "file": "counters.ejson",
+      "documents": 3
+    },
+    {
+      "name": "notifications",
+      "file": "notifications.ejson",
+      "documents": 274
+    },
+    {
+      "name": "studentpaymenttrackings",
+      "file": "studentpaymenttrackings.ejson",
+      "documents": 35
+    },
+    {
+      "name": "asignacionequipos",
+      "file": "asignacionequipos.ejson",
+      "documents": 2
+    },
+    {
+      "name": "users",
+      "file": "users.ejson",
+      "documents": 17
+    },
+    {
+      "name": "menuconfigs",
+      "file": "menuconfigs.ejson",
+      "documents": 3
+    },
+    {
+      "name": "salidaalmacens",
+      "file": "salidaalmacens.ejson",
+      "documents": 7
+    },
+    {
+      "name": "ajusteinventarios",
+      "file": "ajusteinventarios.ejson",
+      "documents": 4
+    },
+    {
+      "name": "productos",
+      "file": "productos.ejson",
+      "documents": 9
+    },
+    {
+      "name": "entradaalmacens",
+      "file": "entradaalmacens.ejson",
+      "documents": 4
+    },
+    {
+      "name": "tiempoportiempos",
+      "file": "tiempoportiempos.ejson",
+      "documents": 0
+    },
+    {
+      "name": "calificacions",
+      "file": "calificacions.ejson",
+      "documents": 333
+    },
+    {
+      "name": "cycles",
+      "file": "cycles.ejson",
+      "documents": 1
+    },
+    {
+      "name": "vacacions",
+      "file": "vacacions.ejson",
+      "documents": 3
+    },
+    {
+      "name": "auditoriainventarios",
+      "file": "auditoriainventarios.ejson",
+      "documents": 39
+    },
+    {
+      "name": "horarios",
+      "file": "horarios.ejson",
+      "documents": 13374
+    }
+  ]
+}

@@ -39,11 +39,21 @@ const productoSchema = new Schema({
   },
   stockMinimo: {
     type: Number,
-    default: 0
+    default: 0,
+    min: 0,
+    validate: {
+      validator: Number.isFinite,
+      message: 'El stock mínimo debe ser un número válido.'
+    }
   },
   stockActual: {
     type: Number,
-    default: 0
+    default: 0,
+    min: 0,
+    validate: {
+      validator: Number.isFinite,
+      message: 'El stock actual debe ser un número válido.'
+    }
   },
   estado: {
     type: String,

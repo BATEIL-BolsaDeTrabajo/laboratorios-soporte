@@ -1,0 +1,8660 @@
+[
+  {
+    "_id": {
+      "$oid": "6863efa013f0a98334be020d"
+    },
+    "nombre": "ARELLANO HARO ANGEL",
+    "matricula": "24CI034",
+    "especialidad": "COMBUSTION INTERNA",
+    "semestre": 2,
+    "grupo": "A",
+    "materia": "MATEMÁTICAS II",
+    "parciales": [
+      78,
+      70,
+      71,
+      72
+    ],
+    "final": 73,
+    "periodo": "2025-EneroJulio",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-01T14:24:32.475Z"
+    },
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:40.774Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6863efa013f0a98334be020e"
+    },
+    "nombre": "BUSTAMANTE GALLEGOS SANTIAGO",
+    "matricula": "24CI032",
+    "especialidad": "COMBUSTION INTERNA",
+    "semestre": 2,
+    "grupo": "A",
+    "materia": "MATEMÁTICAS II",
+    "parciales": [
+      93,
+      95,
+      94,
+      84
+    ],
+    "final": 92,
+    "periodo": "2025-EneroJulio",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-01T14:24:32.475Z"
+    },
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:40.776Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6863efa013f0a98334be020f"
+    },
+    "nombre": "CAMACHO AVILA MARIO",
+    "matricula": "24CI012",
+    "especialidad": "COMBUSTION INTERNA",
+    "semestre": 2,
+    "grupo": "A",
+    "materia": "MATEMÁTICAS II",
+    "parciales": [
+      72,
+      64,
+      92,
+      84
+    ],
+    "final": 78,
+    "periodo": "2025-EneroJulio",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-01T14:24:32.475Z"
+    },
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:40.777Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6863efa013f0a98334be0210"
+    },
+    "nombre": "CAMPOS RAMOS JOSTIN JAZIEL",
+    "matricula": "24CI047",
+    "especialidad": "COMBUSTION INTERNA",
+    "semestre": 2,
+    "grupo": "A",
+    "materia": "MATEMÁTICAS II",
+    "parciales": [
+      89,
+      71,
+      47,
+      74
+    ],
+    "final": 70,
+    "periodo": "2025-EneroJulio",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-01T14:24:32.475Z"
+    },
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:40.778Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6863efa013f0a98334be0211"
+    },
+    "nombre": "CARREON MARTINEZ SANTIAGO ALBERTO",
+    "matricula": "24CI046",
+    "especialidad": "COMBUSTION INTERNA",
+    "semestre": 2,
+    "grupo": "A",
+    "materia": "MATEMÁTICAS II",
+    "parciales": [
+      64,
+      51,
+      45,
+      7
+    ],
+    "final": 41,
+    "periodo": "2025-EneroJulio",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-01T14:24:32.475Z"
+    },
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:40.779Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6863efa013f0a98334be0212"
+    },
+    "nombre": "DIAZ LOPEZ EMILIANO",
+    "matricula": "24CI014",
+    "especialidad": "COMBUSTION INTERNA",
+    "semestre": 2,
+    "grupo": "A",
+    "materia": "MATEMÁTICAS II",
+    "parciales": [
+      72,
+      80,
+      94,
+      41
+    ],
+    "final": 72,
+    "periodo": "2025-EneroJulio",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-01T14:24:32.475Z"
+    },
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:40.780Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6863efa013f0a98334be0213"
+    },
+    "nombre": "HERNANDEZ CARDOZA DYLAN ALEXIS",
+    "matricula": "24CI017",
+    "especialidad": "COMBUSTION INTERNA",
+    "semestre": 2,
+    "grupo": "A",
+    "materia": "MATEMÁTICAS II",
+    "parciales": [
+      83,
+      71,
+      75,
+      66
+    ],
+    "final": 74,
+    "periodo": "2025-EneroJulio",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-01T14:24:32.476Z"
+    },
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:40.781Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6863efa013f0a98334be0214"
+    },
+    "nombre": "HERNANDEZ CARREON JOHAN EMIR",
+    "matricula": "24CI019",
+    "especialidad": "COMBUSTION INTERNA",
+    "semestre": 2,
+    "grupo": "A",
+    "materia": "MATEMÁTICAS II",
+    "parciales": [
+      74,
+      78,
+      70,
+      78
+    ],
+    "final": 75,
+    "periodo": "2025-EneroJulio",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-01T14:24:32.476Z"
+    },
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:40.782Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6863efa013f0a98334be0215"
+    },
+    "nombre": "HERNANDEZ JAQUEZ AARON",
+    "matricula": "24CI018",
+    "especialidad": "COMBUSTION INTERNA",
+    "semestre": 2,
+    "grupo": "A",
+    "materia": "MATEMÁTICAS II",
+    "parciales": [
+      83,
+      49,
+      80,
+      72
+    ],
+    "final": 71,
+    "periodo": "2025-EneroJulio",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-01T14:24:32.476Z"
+    },
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:40.783Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6863efa013f0a98334be0216"
+    },
+    "nombre": "IBARRA AYALA BERNARDO GAEL",
+    "matricula": "24CI045",
+    "especialidad": "COMBUSTION INTERNA",
+    "semestre": 2,
+    "grupo": "A",
+    "materia": "MATEMÁTICAS II",
+    "parciales": [
+      57,
+      34,
+      66,
+      53
+    ],
+    "final": 52,
+    "periodo": "2025-EneroJulio",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-01T14:24:32.476Z"
+    },
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:40.783Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6863efa013f0a98334be0217"
+    },
+    "nombre": "LOPEZ MONTELONGO EDGAR YIBRAM",
+    "matricula": "24CI021",
+    "especialidad": "COMBUSTION INTERNA",
+    "semestre": 2,
+    "grupo": "A",
+    "materia": "MATEMÁTICAS II",
+    "parciales": [
+      97,
+      91,
+      94,
+      96
+    ],
+    "final": 95,
+    "periodo": "2025-EneroJulio",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-01T14:24:32.476Z"
+    },
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:40.784Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6863efa013f0a98334be0218"
+    },
+    "nombre": "MARQUEZ LOPEZ MIGUEL ANGEL",
+    "matricula": "24CI022",
+    "especialidad": "COMBUSTION INTERNA",
+    "semestre": 2,
+    "grupo": "A",
+    "materia": "MATEMÁTICAS II",
+    "parciales": [
+      70,
+      92,
+      100,
+      61
+    ],
+    "final": 81,
+    "periodo": "2025-EneroJulio",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-01T14:24:32.476Z"
+    },
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:40.785Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6863efa013f0a98334be0219"
+    },
+    "nombre": "MENDEZ SALAS ANGEL ALFONSO",
+    "matricula": "24CI023",
+    "especialidad": "COMBUSTION INTERNA",
+    "semestre": 2,
+    "grupo": "A",
+    "materia": "MATEMÁTICAS II",
+    "parciales": [
+      32,
+      63,
+      46,
+      40
+    ],
+    "final": 45,
+    "periodo": "2025-EneroJulio",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-01T14:24:32.476Z"
+    },
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:40.786Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6863efa013f0a98334be021a"
+    },
+    "nombre": "OGAZON RUVALCABA EDGAR AQUILES",
+    "matricula": "24CI024",
+    "especialidad": "COMBUSTION INTERNA",
+    "semestre": 2,
+    "grupo": "A",
+    "materia": "MATEMÁTICAS II",
+    "parciales": [
+      62,
+      96,
+      93,
+      84
+    ],
+    "final": 84,
+    "periodo": "2025-EneroJulio",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-01T14:24:32.476Z"
+    },
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:40.788Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6863efa013f0a98334be021b"
+    },
+    "nombre": "PASILLAS FAVELA JORGE ADRIAN",
+    "matricula": "24CI033",
+    "especialidad": "COMBUSTION INTERNA",
+    "semestre": 2,
+    "grupo": "A",
+    "materia": "MATEMÁTICAS II",
+    "parciales": [
+      80,
+      81,
+      82,
+      73
+    ],
+    "final": 79,
+    "periodo": "2025-EneroJulio",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-01T14:24:32.476Z"
+    },
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:40.789Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6863efa013f0a98334be021c"
+    },
+    "nombre": "RAMIREZ GARCIA LUIS ANTONIO",
+    "matricula": "24CI043",
+    "especialidad": "COMBUSTION INTERNA",
+    "semestre": 2,
+    "grupo": "A",
+    "materia": "MATEMÁTICAS II",
+    "parciales": [
+      71,
+      66,
+      81,
+      80
+    ],
+    "final": 75,
+    "periodo": "2025-EneroJulio",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-01T14:24:32.476Z"
+    },
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:40.790Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6863efa013f0a98334be021d"
+    },
+    "nombre": "RAMIREZ SALAS RICARDO ISRRAEL",
+    "matricula": "24CI035",
+    "especialidad": "COMBUSTION INTERNA",
+    "semestre": 2,
+    "grupo": "A",
+    "materia": "MATEMÁTICAS II",
+    "parciales": [
+      37,
+      62,
+      58,
+      12
+    ],
+    "final": 42,
+    "periodo": "2025-EneroJulio",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-01T14:24:32.476Z"
+    },
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:40.791Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6863efa013f0a98334be021e"
+    },
+    "nombre": "RIOS CORTEZ KARLA JOSMARA",
+    "matricula": "24MH016",
+    "especialidad": "COMBUSTION INTERNA",
+    "semestre": 2,
+    "grupo": "A",
+    "materia": "MATEMÁTICAS II",
+    "parciales": [
+      84,
+      69,
+      82,
+      66
+    ],
+    "final": 75,
+    "periodo": "2025-EneroJulio",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-01T14:24:32.476Z"
+    },
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:40.792Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6863efa013f0a98334be021f"
+    },
+    "nombre": "RODRIGUEZ ARGUIJO EDER AXEL",
+    "matricula": "24CI026",
+    "especialidad": "COMBUSTION INTERNA",
+    "semestre": 2,
+    "grupo": "A",
+    "materia": "MATEMÁTICAS II",
+    "parciales": [
+      46,
+      73,
+      57,
+      5
+    ],
+    "final": 45,
+    "periodo": "2025-EneroJulio",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-01T14:24:32.476Z"
+    },
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:40.793Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6863efa013f0a98334be0220"
+    },
+    "nombre": "RODRIGUEZ VENEGAS MATIAS ALESSANDRO",
+    "matricula": "24CI027",
+    "especialidad": "COMBUSTION INTERNA",
+    "semestre": 2,
+    "grupo": "A",
+    "materia": "MATEMÁTICAS II",
+    "parciales": [
+      83,
+      84,
+      98,
+      82
+    ],
+    "final": 87,
+    "periodo": "2025-EneroJulio",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-01T14:24:32.476Z"
+    },
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:40.794Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6863efa013f0a98334be0221"
+    },
+    "nombre": "ROMERO DE LEON JESUS SEBASTIAN",
+    "matricula": "24CI028",
+    "especialidad": "COMBUSTION INTERNA",
+    "semestre": 2,
+    "grupo": "A",
+    "materia": "MATEMÁTICAS II",
+    "parciales": [
+      73,
+      66,
+      91,
+      73
+    ],
+    "final": 76,
+    "periodo": "2025-EneroJulio",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-01T14:24:32.477Z"
+    },
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:40.795Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6863efa013f0a98334be0222"
+    },
+    "nombre": "RUIZ BALDERAS CARLOS DANIEL DE JESUS",
+    "matricula": "24CI036",
+    "especialidad": "COMBUSTION INTERNA",
+    "semestre": 2,
+    "grupo": "A",
+    "materia": "MATEMÁTICAS II",
+    "parciales": [
+      86,
+      87,
+      93,
+      76
+    ],
+    "final": 86,
+    "periodo": "2025-EneroJulio",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-01T14:24:32.477Z"
+    },
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:40.796Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6863efa013f0a98334be0223"
+    },
+    "nombre": "SINECIO NUÑEZ SEBASTIAN ALEJANDRO",
+    "matricula": "24CI029",
+    "especialidad": "COMBUSTION INTERNA",
+    "semestre": 2,
+    "grupo": "A",
+    "materia": "MATEMÁTICAS II",
+    "parciales": [
+      70,
+      70,
+      80,
+      67
+    ],
+    "final": 72,
+    "periodo": "2025-EneroJulio",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-01T14:24:32.477Z"
+    },
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:40.797Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6863efa013f0a98334be0224"
+    },
+    "nombre": "ZATARAIN ELIZALDE ALAN",
+    "matricula": "24CI048",
+    "especialidad": "COMBUSTION INTERNA",
+    "semestre": 2,
+    "grupo": "A",
+    "materia": "MATEMÁTICAS II",
+    "parciales": [
+      71,
+      70,
+      66,
+      74
+    ],
+    "final": 70,
+    "periodo": "2025-EneroJulio",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-01T14:24:32.477Z"
+    },
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:40.797Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6863efa013f0a98334be0225"
+    },
+    "nombre": "ZUÑIGA ESQUIVEL RODRIGO NAHUM",
+    "matricula": "24CI037",
+    "especialidad": "COMBUSTION INTERNA",
+    "semestre": 2,
+    "grupo": "A",
+    "materia": "MATEMÁTICAS II",
+    "parciales": [
+      83,
+      82,
+      81,
+      74
+    ],
+    "final": 80,
+    "periodo": "2025-EneroJulio",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-01T14:24:32.477Z"
+    },
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:40.798Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6863efa013f0a98334be0226"
+    },
+    "nombre": "ARELLANO HARO ANGEL",
+    "matricula": "24CI034",
+    "especialidad": "COMBUSTION INTERNA",
+    "semestre": 2,
+    "grupo": "A",
+    "materia": "QUÍMICA II",
+    "parciales": [
+      80,
+      70,
+      78,
+      78
+    ],
+    "final": 77,
+    "periodo": "2025-EneroJulio",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-01T14:24:32.477Z"
+    },
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:40.799Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6863efa013f0a98334be0227"
+    },
+    "nombre": "BUSTAMANTE GALLEGOS SANTIAGO",
+    "matricula": "24CI032",
+    "especialidad": "COMBUSTION INTERNA",
+    "semestre": 2,
+    "grupo": "A",
+    "materia": "QUÍMICA II",
+    "parciales": [
+      91,
+      88,
+      89,
+      93
+    ],
+    "final": 90,
+    "periodo": "2025-EneroJulio",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-01T14:24:32.477Z"
+    },
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:40.800Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6863efa013f0a98334be0228"
+    },
+    "nombre": "CAMACHO AVILA MARIO",
+    "matricula": "24CI012",
+    "especialidad": "COMBUSTION INTERNA",
+    "semestre": 2,
+    "grupo": "A",
+    "materia": "QUÍMICA II",
+    "parciales": [
+      71,
+      79,
+      70,
+      89
+    ],
+    "final": 77,
+    "periodo": "2025-EneroJulio",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-01T14:24:32.477Z"
+    },
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:40.801Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6863efa013f0a98334be0229"
+    },
+    "nombre": "CAMPOS RAMOS JOSTIN JAZIEL",
+    "matricula": "24CI047",
+    "especialidad": "COMBUSTION INTERNA",
+    "semestre": 2,
+    "grupo": "A",
+    "materia": "QUÍMICA II",
+    "parciales": [
+      52,
+      80,
+      54,
+      83
+    ],
+    "final": 67,
+    "periodo": "2025-EneroJulio",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-01T14:24:32.477Z"
+    },
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:40.803Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6863efa013f0a98334be022a"
+    },
+    "nombre": "CARREON MARTINEZ SANTIAGO ALBERTO",
+    "matricula": "24CI046",
+    "especialidad": "COMBUSTION INTERNA",
+    "semestre": 2,
+    "grupo": "A",
+    "materia": "QUÍMICA II",
+    "parciales": [
+      53,
+      60,
+      54,
+      63
+    ],
+    "final": 57,
+    "periodo": "2025-EneroJulio",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-01T14:24:32.477Z"
+    },
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:40.804Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6863efa013f0a98334be022b"
+    },
+    "nombre": "DIAZ LOPEZ EMILIANO",
+    "matricula": "24CI014",
+    "especialidad": "COMBUSTION INTERNA",
+    "semestre": 2,
+    "grupo": "A",
+    "materia": "QUÍMICA II",
+    "parciales": [
+      79,
+      81,
+      80,
+      91
+    ],
+    "final": 83,
+    "periodo": "2025-EneroJulio",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-01T14:24:32.477Z"
+    },
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:40.805Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6863efa013f0a98334be022c"
+    },
+    "nombre": "HERNANDEZ CARDOZA DYLAN ALEXIS",
+    "matricula": "24CI017",
+    "especialidad": "COMBUSTION INTERNA",
+    "semestre": 2,
+    "grupo": "A",
+    "materia": "QUÍMICA II",
+    "parciales": [
+      74,
+      80,
+      70,
+      80
+    ],
+    "final": 76,
+    "periodo": "2025-EneroJulio",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-01T14:24:32.477Z"
+    },
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:40.806Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6863efa013f0a98334be022d"
+    },
+    "nombre": "HERNANDEZ CARREON JOHAN EMIR",
+    "matricula": "24CI019",
+    "especialidad": "COMBUSTION INTERNA",
+    "semestre": 2,
+    "grupo": "A",
+    "materia": "QUÍMICA II",
+    "parciales": [
+      56,
+      80,
+      83,
+      90
+    ],
+    "final": 77,
+    "periodo": "2025-EneroJulio",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-01T14:24:32.477Z"
+    },
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:40.807Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6863efa013f0a98334be022e"
+    },
+    "nombre": "HERNANDEZ JAQUEZ AARON",
+    "matricula": "24CI018",
+    "especialidad": "COMBUSTION INTERNA",
+    "semestre": 2,
+    "grupo": "A",
+    "materia": "QUÍMICA II",
+    "parciales": [
+      87,
+      70,
+      87,
+      89
+    ],
+    "final": 83,
+    "periodo": "2025-EneroJulio",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-01T14:24:32.477Z"
+    },
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:40.808Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6863efa013f0a98334be022f"
+    },
+    "nombre": "IBARRA AYALA BERNARDO GAEL",
+    "matricula": "24CI045",
+    "especialidad": "COMBUSTION INTERNA",
+    "semestre": 2,
+    "grupo": "A",
+    "materia": "QUÍMICA II",
+    "parciales": [
+      75,
+      70,
+      70,
+      90
+    ],
+    "final": 76,
+    "periodo": "2025-EneroJulio",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-01T14:24:32.477Z"
+    },
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:40.809Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6863efa013f0a98334be0230"
+    },
+    "nombre": "LOPEZ MONTELONGO EDGAR YIBRAM",
+    "matricula": "24CI021",
+    "especialidad": "COMBUSTION INTERNA",
+    "semestre": 2,
+    "grupo": "A",
+    "materia": "QUÍMICA II",
+    "parciales": [
+      94,
+      90,
+      91,
+      95
+    ],
+    "final": 93,
+    "periodo": "2025-EneroJulio",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-01T14:24:32.478Z"
+    },
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:40.810Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6863efa013f0a98334be0231"
+    },
+    "nombre": "MARQUEZ LOPEZ MIGUEL ANGEL",
+    "matricula": "24CI022",
+    "especialidad": "COMBUSTION INTERNA",
+    "semestre": 2,
+    "grupo": "A",
+    "materia": "QUÍMICA II",
+    "parciales": [
+      70,
+      80,
+      76,
+      79
+    ],
+    "final": 76,
+    "periodo": "2025-EneroJulio",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-01T14:24:32.478Z"
+    },
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:40.811Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6863efa013f0a98334be0232"
+    },
+    "nombre": "MENDEZ SALAS ANGEL ALFONSO",
+    "matricula": "24CI023",
+    "especialidad": "COMBUSTION INTERNA",
+    "semestre": 2,
+    "grupo": "A",
+    "materia": "QUÍMICA II",
+    "parciales": [
+      71,
+      73,
+      74,
+      82
+    ],
+    "final": 75,
+    "periodo": "2025-EneroJulio",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-01T14:24:32.478Z"
+    },
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:40.812Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6863efa013f0a98334be0233"
+    },
+    "nombre": "OGAZON RUVALCABA EDGAR AQUILES",
+    "matricula": "24CI024",
+    "especialidad": "COMBUSTION INTERNA",
+    "semestre": 2,
+    "grupo": "A",
+    "materia": "QUÍMICA II",
+    "parciales": [
+      90,
+      84,
+      80,
+      96
+    ],
+    "final": 88,
+    "periodo": "2025-EneroJulio",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-01T14:24:32.478Z"
+    },
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:40.813Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6863efa013f0a98334be0234"
+    },
+    "nombre": "PASILLAS FAVELA JORGE ADRIAN",
+    "matricula": "24CI033",
+    "especialidad": "COMBUSTION INTERNA",
+    "semestre": 2,
+    "grupo": "A",
+    "materia": "QUÍMICA II",
+    "parciales": [
+      75,
+      83,
+      78,
+      88
+    ],
+    "final": 81,
+    "periodo": "2025-EneroJulio",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-01T14:24:32.478Z"
+    },
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:40.814Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6863efa013f0a98334be0235"
+    },
+    "nombre": "RAMIREZ GARCIA LUIS ANTONIO",
+    "matricula": "24CI043",
+    "especialidad": "COMBUSTION INTERNA",
+    "semestre": 2,
+    "grupo": "A",
+    "materia": "QUÍMICA II",
+    "parciales": [
+      78,
+      71,
+      72,
+      89
+    ],
+    "final": 78,
+    "periodo": "2025-EneroJulio",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-01T14:24:32.478Z"
+    },
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:40.815Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6863efa013f0a98334be0236"
+    },
+    "nombre": "RAMIREZ SALAS RICARDO ISRRAEL",
+    "matricula": "24CI035",
+    "especialidad": "COMBUSTION INTERNA",
+    "semestre": 2,
+    "grupo": "A",
+    "materia": "QUÍMICA II",
+    "parciales": [
+      70,
+      73,
+      72,
+      88
+    ],
+    "final": 76,
+    "periodo": "2025-EneroJulio",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-01T14:24:32.478Z"
+    },
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:40.815Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6863efa013f0a98334be0237"
+    },
+    "nombre": "RIOS CORTEZ KARLA JOSMARA",
+    "matricula": "24MH016",
+    "especialidad": "COMBUSTION INTERNA",
+    "semestre": 2,
+    "grupo": "A",
+    "materia": "QUÍMICA II",
+    "parciales": [
+      82,
+      78,
+      78,
+      87
+    ],
+    "final": 81,
+    "periodo": "2025-EneroJulio",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-01T14:24:32.478Z"
+    },
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:40.816Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6863efa013f0a98334be0238"
+    },
+    "nombre": "RODRIGUEZ ARGUIJO EDER AXEL",
+    "matricula": "24CI026",
+    "especialidad": "COMBUSTION INTERNA",
+    "semestre": 2,
+    "grupo": "A",
+    "materia": "QUÍMICA II",
+    "parciales": [
+      50,
+      72,
+      42,
+      61
+    ],
+    "final": 56,
+    "periodo": "2025-EneroJulio",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-01T14:24:32.478Z"
+    },
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:40.817Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6863efa013f0a98334be0239"
+    },
+    "nombre": "RODRIGUEZ VENEGAS MATIAS ALESSANDRO",
+    "matricula": "24CI027",
+    "especialidad": "COMBUSTION INTERNA",
+    "semestre": 2,
+    "grupo": "A",
+    "materia": "QUÍMICA II",
+    "parciales": [
+      80,
+      81,
+      74,
+      89
+    ],
+    "final": 81,
+    "periodo": "2025-EneroJulio",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-01T14:24:32.478Z"
+    },
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:40.818Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6863efa013f0a98334be023a"
+    },
+    "nombre": "ROMERO DE LEON JESUS SEBASTIAN",
+    "matricula": "24CI028",
+    "especialidad": "COMBUSTION INTERNA",
+    "semestre": 2,
+    "grupo": "A",
+    "materia": "QUÍMICA II",
+    "parciales": [
+      75,
+      70,
+      70,
+      97
+    ],
+    "final": 78,
+    "periodo": "2025-EneroJulio",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-01T14:24:32.478Z"
+    },
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:40.819Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6863efa013f0a98334be023b"
+    },
+    "nombre": "RUIZ BALDERAS CARLOS DANIEL DE JESUS",
+    "matricula": "24CI036",
+    "especialidad": "COMBUSTION INTERNA",
+    "semestre": 2,
+    "grupo": "A",
+    "materia": "QUÍMICA II",
+    "parciales": [
+      94,
+      89,
+      80,
+      88
+    ],
+    "final": 88,
+    "periodo": "2025-EneroJulio",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-01T14:24:32.478Z"
+    },
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:40.821Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6863efa013f0a98334be023c"
+    },
+    "nombre": "SINECIO NUÑEZ SEBASTIAN ALEJANDRO",
+    "matricula": "24CI029",
+    "especialidad": "COMBUSTION INTERNA",
+    "semestre": 2,
+    "grupo": "A",
+    "materia": "QUÍMICA II",
+    "parciales": [
+      71,
+      78,
+      72,
+      75
+    ],
+    "final": 74,
+    "periodo": "2025-EneroJulio",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-01T14:24:32.478Z"
+    },
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:40.822Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6863efa013f0a98334be023d"
+    },
+    "nombre": "ZATARAIN ELIZALDE ALAN",
+    "matricula": "24CI048",
+    "especialidad": "COMBUSTION INTERNA",
+    "semestre": 2,
+    "grupo": "A",
+    "materia": "QUÍMICA II",
+    "parciales": [
+      52,
+      52,
+      57,
+      86
+    ],
+    "final": 61,
+    "periodo": "2025-EneroJulio",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-01T14:24:32.478Z"
+    },
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:40.823Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6863efa013f0a98334be023e"
+    },
+    "nombre": "ZUÑIGA ESQUIVEL RODRIGO NAHUM",
+    "matricula": "24CI037",
+    "especialidad": "COMBUSTION INTERNA",
+    "semestre": 2,
+    "grupo": "A",
+    "materia": "QUÍMICA II",
+    "parciales": [
+      70,
+      85,
+      75,
+      87
+    ],
+    "final": 79,
+    "periodo": "2025-EneroJulio",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-01T14:24:32.478Z"
+    },
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:40.825Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6863efa013f0a98334be023f"
+    },
+    "nombre": "ARELLANO HARO ANGEL",
+    "matricula": "24CI034",
+    "especialidad": "COMBUSTION INTERNA",
+    "semestre": 2,
+    "grupo": "A",
+    "materia": "ÉTICA Y VALORES II",
+    "parciales": [
+      86,
+      85,
+      80,
+      68
+    ],
+    "final": 80,
+    "periodo": "2025-EneroJulio",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-01T14:24:32.478Z"
+    },
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:40.826Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6863efa013f0a98334be0240"
+    },
+    "nombre": "BUSTAMANTE GALLEGOS SANTIAGO",
+    "matricula": "24CI032",
+    "especialidad": "COMBUSTION INTERNA",
+    "semestre": 2,
+    "grupo": "A",
+    "materia": "ÉTICA Y VALORES II",
+    "parciales": [
+      93,
+      83,
+      90,
+      99
+    ],
+    "final": 91,
+    "periodo": "2025-EneroJulio",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-01T14:24:32.478Z"
+    },
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:40.827Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6863efa013f0a98334be0241"
+    },
+    "nombre": "CAMACHO AVILA MARIO",
+    "matricula": "24CI012",
+    "especialidad": "COMBUSTION INTERNA",
+    "semestre": 2,
+    "grupo": "A",
+    "materia": "ÉTICA Y VALORES II",
+    "parciales": [
+      93,
+      98,
+      100,
+      81
+    ],
+    "final": 93,
+    "periodo": "2025-EneroJulio",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-01T14:24:32.479Z"
+    },
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:40.829Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6863efa013f0a98334be0242"
+    },
+    "nombre": "CAMPOS RAMOS JOSTIN JAZIEL",
+    "matricula": "24CI047",
+    "especialidad": "COMBUSTION INTERNA",
+    "semestre": 2,
+    "grupo": "A",
+    "materia": "ÉTICA Y VALORES II",
+    "parciales": [
+      79,
+      88,
+      46,
+      92
+    ],
+    "final": 76,
+    "periodo": "2025-EneroJulio",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-01T14:24:32.479Z"
+    },
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:40.830Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6863efa013f0a98334be0243"
+    },
+    "nombre": "CARREON MARTINEZ SANTIAGO ALBERTO",
+    "matricula": "24CI046",
+    "especialidad": "COMBUSTION INTERNA",
+    "semestre": 2,
+    "grupo": "A",
+    "materia": "ÉTICA Y VALORES II",
+    "parciales": [
+      63,
+      78,
+      27,
+      75
+    ],
+    "final": 60,
+    "periodo": "2025-EneroJulio",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-01T14:24:32.479Z"
+    },
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:40.830Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6863efa013f0a98334be0244"
+    },
+    "nombre": "DIAZ LOPEZ EMILIANO",
+    "matricula": "24CI014",
+    "especialidad": "COMBUSTION INTERNA",
+    "semestre": 2,
+    "grupo": "A",
+    "materia": "ÉTICA Y VALORES II",
+    "parciales": [
+      93,
+      80,
+      68,
+      82
+    ],
+    "final": 81,
+    "periodo": "2025-EneroJulio",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-01T14:24:32.479Z"
+    },
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:40.831Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6863efa013f0a98334be0245"
+    },
+    "nombre": "HERNANDEZ CARDOZA DYLAN ALEXIS",
+    "matricula": "24CI017",
+    "especialidad": "COMBUSTION INTERNA",
+    "semestre": 2,
+    "grupo": "A",
+    "materia": "ÉTICA Y VALORES II",
+    "parciales": [
+      83,
+      79,
+      100,
+      73
+    ],
+    "final": 84,
+    "periodo": "2025-EneroJulio",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-01T14:24:32.479Z"
+    },
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:40.833Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6863efa013f0a98334be0246"
+    },
+    "nombre": "HERNANDEZ CARREON JOHAN EMIR",
+    "matricula": "24CI019",
+    "especialidad": "COMBUSTION INTERNA",
+    "semestre": 2,
+    "grupo": "A",
+    "materia": "ÉTICA Y VALORES II",
+    "parciales": [
+      48,
+      76,
+      90,
+      77
+    ],
+    "final": 73,
+    "periodo": "2025-EneroJulio",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-01T14:24:32.479Z"
+    },
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:40.834Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6863efa013f0a98334be0247"
+    },
+    "nombre": "HERNANDEZ JAQUEZ AARON",
+    "matricula": "24CI018",
+    "especialidad": "COMBUSTION INTERNA",
+    "semestre": 2,
+    "grupo": "A",
+    "materia": "ÉTICA Y VALORES II",
+    "parciales": [
+      83,
+      86,
+      44,
+      69
+    ],
+    "final": 71,
+    "periodo": "2025-EneroJulio",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-01T14:24:32.479Z"
+    },
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:40.835Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6863efa013f0a98334be0248"
+    },
+    "nombre": "IBARRA AYALA BERNARDO GAEL",
+    "matricula": "24CI045",
+    "especialidad": "COMBUSTION INTERNA",
+    "semestre": 2,
+    "grupo": "A",
+    "materia": "ÉTICA Y VALORES II",
+    "parciales": [
+      84,
+      79,
+      59,
+      71
+    ],
+    "final": 73,
+    "periodo": "2025-EneroJulio",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-01T14:24:32.479Z"
+    },
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:40.837Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6863efa013f0a98334be0249"
+    },
+    "nombre": "LOPEZ MONTELONGO EDGAR YIBRAM",
+    "matricula": "24CI021",
+    "especialidad": "COMBUSTION INTERNA",
+    "semestre": 2,
+    "grupo": "A",
+    "materia": "ÉTICA Y VALORES II",
+    "parciales": [
+      93,
+      85,
+      100,
+      76
+    ],
+    "final": 89,
+    "periodo": "2025-EneroJulio",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-01T14:24:32.479Z"
+    },
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:40.839Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6863efa013f0a98334be024a"
+    },
+    "nombre": "MARQUEZ LOPEZ MIGUEL ANGEL",
+    "matricula": "24CI022",
+    "especialidad": "COMBUSTION INTERNA",
+    "semestre": 2,
+    "grupo": "A",
+    "materia": "ÉTICA Y VALORES II",
+    "parciales": [
+      86,
+      79,
+      90,
+      87
+    ],
+    "final": 86,
+    "periodo": "2025-EneroJulio",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-01T14:24:32.479Z"
+    },
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:40.841Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6863efa013f0a98334be024b"
+    },
+    "nombre": "MENDEZ SALAS ANGEL ALFONSO",
+    "matricula": "24CI023",
+    "especialidad": "COMBUSTION INTERNA",
+    "semestre": 2,
+    "grupo": "A",
+    "materia": "ÉTICA Y VALORES II",
+    "parciales": [
+      93,
+      81,
+      97,
+      75
+    ],
+    "final": 87,
+    "periodo": "2025-EneroJulio",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-01T14:24:32.479Z"
+    },
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:40.842Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6863efa013f0a98334be024c"
+    },
+    "nombre": "OGAZON RUVALCABA EDGAR AQUILES",
+    "matricula": "24CI024",
+    "especialidad": "COMBUSTION INTERNA",
+    "semestre": 2,
+    "grupo": "A",
+    "materia": "ÉTICA Y VALORES II",
+    "parciales": [
+      97,
+      89,
+      81,
+      92
+    ],
+    "final": 90,
+    "periodo": "2025-EneroJulio",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-01T14:24:32.479Z"
+    },
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:40.843Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6863efa013f0a98334be024d"
+    },
+    "nombre": "PASILLAS FAVELA JORGE ADRIAN",
+    "matricula": "24CI033",
+    "especialidad": "COMBUSTION INTERNA",
+    "semestre": 2,
+    "grupo": "A",
+    "materia": "ÉTICA Y VALORES II",
+    "parciales": [
+      83,
+      90,
+      83,
+      66
+    ],
+    "final": 81,
+    "periodo": "2025-EneroJulio",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-01T14:24:32.479Z"
+    },
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:40.844Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6863efa013f0a98334be024e"
+    },
+    "nombre": "RAMIREZ GARCIA LUIS ANTONIO",
+    "matricula": "24CI043",
+    "especialidad": "COMBUSTION INTERNA",
+    "semestre": 2,
+    "grupo": "A",
+    "materia": "ÉTICA Y VALORES II",
+    "parciales": [
+      96,
+      93,
+      86,
+      93
+    ],
+    "final": 92,
+    "periodo": "2025-EneroJulio",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-01T14:24:32.479Z"
+    },
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:40.845Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6863efa013f0a98334be024f"
+    },
+    "nombre": "RAMIREZ SALAS RICARDO ISRRAEL",
+    "matricula": "24CI035",
+    "especialidad": "COMBUSTION INTERNA",
+    "semestre": 2,
+    "grupo": "A",
+    "materia": "ÉTICA Y VALORES II",
+    "parciales": [
+      39,
+      90,
+      42,
+      79
+    ],
+    "final": 62,
+    "periodo": "2025-EneroJulio",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-01T14:24:32.479Z"
+    },
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:40.846Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6863efa013f0a98334be0250"
+    },
+    "nombre": "RIOS CORTEZ KARLA JOSMARA",
+    "matricula": "24MH016",
+    "especialidad": "COMBUSTION INTERNA",
+    "semestre": 2,
+    "grupo": "A",
+    "materia": "ÉTICA Y VALORES II",
+    "parciales": [
+      96,
+      93,
+      98,
+      77
+    ],
+    "final": 91,
+    "periodo": "2025-EneroJulio",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-01T14:24:32.479Z"
+    },
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:40.847Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6863efa013f0a98334be0251"
+    },
+    "nombre": "RODRIGUEZ ARGUIJO EDER AXEL",
+    "matricula": "24CI026",
+    "especialidad": "COMBUSTION INTERNA",
+    "semestre": 2,
+    "grupo": "A",
+    "materia": "ÉTICA Y VALORES II",
+    "parciales": [
+      83,
+      90,
+      44,
+      69
+    ],
+    "final": 72,
+    "periodo": "2025-EneroJulio",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-01T14:24:32.479Z"
+    },
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:40.848Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6863efa013f0a98334be0252"
+    },
+    "nombre": "RODRIGUEZ VENEGAS MATIAS ALESSANDRO",
+    "matricula": "24CI027",
+    "especialidad": "COMBUSTION INTERNA",
+    "semestre": 2,
+    "grupo": "A",
+    "materia": "ÉTICA Y VALORES II",
+    "parciales": [
+      93,
+      85,
+      88,
+      78
+    ],
+    "final": 86,
+    "periodo": "2025-EneroJulio",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-01T14:24:32.479Z"
+    },
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:40.849Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6863efa013f0a98334be0253"
+    },
+    "nombre": "ROMERO DE LEON JESUS SEBASTIAN",
+    "matricula": "24CI028",
+    "especialidad": "COMBUSTION INTERNA",
+    "semestre": 2,
+    "grupo": "A",
+    "materia": "ÉTICA Y VALORES II",
+    "parciales": [
+      93,
+      77,
+      47,
+      93
+    ],
+    "final": 78,
+    "periodo": "2025-EneroJulio",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-01T14:24:32.479Z"
+    },
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:40.850Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6863efa013f0a98334be0254"
+    },
+    "nombre": "RUIZ BALDERAS CARLOS DANIEL DE JESUS",
+    "matricula": "24CI036",
+    "especialidad": "COMBUSTION INTERNA",
+    "semestre": 2,
+    "grupo": "A",
+    "materia": "ÉTICA Y VALORES II",
+    "parciales": [
+      93,
+      90,
+      100,
+      97
+    ],
+    "final": 95,
+    "periodo": "2025-EneroJulio",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-01T14:24:32.479Z"
+    },
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:40.851Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6863efa013f0a98334be0255"
+    },
+    "nombre": "SINECIO NUÑEZ SEBASTIAN ALEJANDRO",
+    "matricula": "24CI029",
+    "especialidad": "COMBUSTION INTERNA",
+    "semestre": 2,
+    "grupo": "A",
+    "materia": "ÉTICA Y VALORES II",
+    "parciales": [
+      72,
+      98,
+      83,
+      98
+    ],
+    "final": 88,
+    "periodo": "2025-EneroJulio",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-01T14:24:32.479Z"
+    },
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:40.852Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6863efa013f0a98334be0256"
+    },
+    "nombre": "ZATARAIN ELIZALDE ALAN",
+    "matricula": "24CI048",
+    "especialidad": "COMBUSTION INTERNA",
+    "semestre": 2,
+    "grupo": "A",
+    "materia": "ÉTICA Y VALORES II",
+    "parciales": [
+      78,
+      90,
+      86,
+      91
+    ],
+    "final": 86,
+    "periodo": "2025-EneroJulio",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-01T14:24:32.479Z"
+    },
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:40.853Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6863efa013f0a98334be0257"
+    },
+    "nombre": "ZUÑIGA ESQUIVEL RODRIGO NAHUM",
+    "matricula": "24CI037",
+    "especialidad": "COMBUSTION INTERNA",
+    "semestre": 2,
+    "grupo": "A",
+    "materia": "ÉTICA Y VALORES II",
+    "parciales": [
+      93,
+      98,
+      100,
+      86
+    ],
+    "final": 94,
+    "periodo": "2025-EneroJulio",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-01T14:24:32.479Z"
+    },
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:40.854Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6863efa013f0a98334be0258"
+    },
+    "nombre": "AGUILAR DIAZ SEBASTIAN FERNANDO",
+    "matricula": "24CI061",
+    "especialidad": "COMBUSTION INTERNA",
+    "semestre": 2,
+    "grupo": "B",
+    "materia": "MATEMÁTICAS II",
+    "parciales": [
+      42,
+      72,
+      84,
+      82
+    ],
+    "final": 70,
+    "periodo": "2025-EneroJulio",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-01T14:24:32.479Z"
+    },
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:40.856Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6863efa013f0a98334be0259"
+    },
+    "nombre": "ANIMA VAQUERA MAURO ANTONIO",
+    "matricula": "24SCI011",
+    "especialidad": "COMBUSTION INTERNA",
+    "semestre": 2,
+    "grupo": "B",
+    "materia": "MATEMÁTICAS II",
+    "parciales": [
+      46,
+      75,
+      88,
+      71
+    ],
+    "final": 70,
+    "periodo": "2025-EneroJulio",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-01T14:24:32.479Z"
+    },
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:40.857Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6863efa013f0a98334be025a"
+    },
+    "nombre": "BENITEZ MARQUEZ GAEL ALONSO",
+    "matricula": "24CI059",
+    "especialidad": "COMBUSTION INTERNA",
+    "semestre": 2,
+    "grupo": "B",
+    "materia": "MATEMÁTICAS II",
+    "parciales": [
+      37,
+      64,
+      88,
+      67
+    ],
+    "final": 64,
+    "periodo": "2025-EneroJulio",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-01T14:24:32.479Z"
+    },
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:40.858Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6863efa013f0a98334be025b"
+    },
+    "nombre": "CALDERON GARCIA ELIAS TADEO",
+    "matricula": "24MEC044",
+    "especialidad": "COMBUSTION INTERNA",
+    "semestre": 2,
+    "grupo": "B",
+    "materia": "MATEMÁTICAS II",
+    "parciales": [
+      57,
+      80,
+      74,
+      71
+    ],
+    "final": 71,
+    "periodo": "2025-EneroJulio",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-01T14:24:32.479Z"
+    },
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:40.859Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6863efa013f0a98334be025c"
+    },
+    "nombre": "CARRILLO  BERNAL EDDY EMILIANO",
+    "matricula": "24CI052",
+    "especialidad": "COMBUSTION INTERNA",
+    "semestre": 2,
+    "grupo": "B",
+    "materia": "MATEMÁTICAS II",
+    "parciales": [
+      19,
+      37,
+      44,
+      31
+    ],
+    "final": 32,
+    "periodo": "2025-EneroJulio",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-01T14:24:32.480Z"
+    },
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:40.860Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6863efa013f0a98334be025d"
+    },
+    "nombre": "CHAVEZ MARTELL JARED ALEJANDRO",
+    "matricula": "24CI053",
+    "especialidad": "COMBUSTION INTERNA",
+    "semestre": 2,
+    "grupo": "B",
+    "materia": "MATEMÁTICAS II",
+    "parciales": [
+      62,
+      87,
+      89,
+      93
+    ],
+    "final": 83,
+    "periodo": "2025-EneroJulio",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-01T14:24:32.480Z"
+    },
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:40.861Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6863efa013f0a98334be025e"
+    },
+    "nombre": "CRUZ VARGAS ELIAS GABRIEL",
+    "matricula": "24MEC052",
+    "especialidad": "COMBUSTION INTERNA",
+    "semestre": 2,
+    "grupo": "B",
+    "materia": "MATEMÁTICAS II",
+    "parciales": [
+      34,
+      41,
+      88,
+      59
+    ],
+    "final": 55,
+    "periodo": "2025-EneroJulio",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-01T14:24:32.480Z"
+    },
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:40.862Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6863efa013f0a98334be025f"
+    },
+    "nombre": "GALLEGOS ORTEGA JOSE FRANCISCO",
+    "matricula": "24CI062",
+    "especialidad": "COMBUSTION INTERNA",
+    "semestre": 2,
+    "grupo": "B",
+    "materia": "MATEMÁTICAS II",
+    "parciales": [
+      58,
+      81,
+      82,
+      76
+    ],
+    "final": 74,
+    "periodo": "2025-EneroJulio",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-01T14:24:32.480Z"
+    },
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:40.863Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6863efa013f0a98334be0260"
+    },
+    "nombre": "HERRERA TELLEZ SERGIO SEBASTIAN",
+    "matricula": "24CI054",
+    "especialidad": "COMBUSTION INTERNA",
+    "semestre": 2,
+    "grupo": "B",
+    "materia": "MATEMÁTICAS II",
+    "parciales": [
+      76,
+      74,
+      89,
+      57
+    ],
+    "final": 74,
+    "periodo": "2025-EneroJulio",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-01T14:24:32.480Z"
+    },
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:40.865Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6863efa013f0a98334be0261"
+    },
+    "nombre": "MELCHOR RIOS DARIEN ARMANDO",
+    "matricula": "24CI063",
+    "especialidad": "COMBUSTION INTERNA",
+    "semestre": 2,
+    "grupo": "B",
+    "materia": "MATEMÁTICAS II",
+    "parciales": [
+      15,
+      49,
+      51,
+      26
+    ],
+    "final": 35,
+    "periodo": "2025-EneroJulio",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-01T14:24:32.480Z"
+    },
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:40.866Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6863efa013f0a98334be0262"
+    },
+    "nombre": "MONDRAGON GONZALEZ JENSEN YUREM",
+    "matricula": "24MH033",
+    "especialidad": "COMBUSTION INTERNA",
+    "semestre": 2,
+    "grupo": "B",
+    "materia": "MATEMÁTICAS II",
+    "parciales": [
+      33,
+      48,
+      44,
+      21
+    ],
+    "final": 36,
+    "periodo": "2025-EneroJulio",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-01T14:24:32.480Z"
+    },
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:40.867Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6863efa013f0a98334be0263"
+    },
+    "nombre": "MORENO MENDEZ ARTURO",
+    "matricula": "23CI036",
+    "especialidad": "COMBUSTION INTERNA",
+    "semestre": 2,
+    "grupo": "B",
+    "materia": "MATEMÁTICAS II",
+    "parciales": [
+      32,
+      30,
+      50,
+      33
+    ],
+    "final": 36,
+    "periodo": "2025-EneroJulio",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-01T14:24:32.480Z"
+    },
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:40.868Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6863efa013f0a98334be0264"
+    },
+    "nombre": "ORDAZ ROMERO GERARDO JOAQUIN",
+    "matricula": "24CI058",
+    "especialidad": "COMBUSTION INTERNA",
+    "semestre": 2,
+    "grupo": "B",
+    "materia": "MATEMÁTICAS II",
+    "parciales": [
+      56,
+      62,
+      46,
+      66
+    ],
+    "final": 57,
+    "periodo": "2025-EneroJulio",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-01T14:24:32.480Z"
+    },
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:40.869Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6863efa013f0a98334be0265"
+    },
+    "nombre": "ORTEGA HERNANDEZ KEVIN EMILIANO",
+    "matricula": "24CI064",
+    "especialidad": "COMBUSTION INTERNA",
+    "semestre": 2,
+    "grupo": "B",
+    "materia": "MATEMÁTICAS II",
+    "parciales": [
+      21,
+      55,
+      90,
+      68
+    ],
+    "final": 58,
+    "periodo": "2025-EneroJulio",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-01T14:24:32.480Z"
+    },
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:40.871Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6863efa013f0a98334be0266"
+    },
+    "nombre": "ORTIZ CASTRO USIEL",
+    "matricula": "24CI051",
+    "especialidad": "COMBUSTION INTERNA",
+    "semestre": 2,
+    "grupo": "B",
+    "materia": "MATEMÁTICAS II",
+    "parciales": [
+      80,
+      100,
+      89,
+      99
+    ],
+    "final": 92,
+    "periodo": "2025-EneroJulio",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-01T14:24:32.480Z"
+    },
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:40.872Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6863efa013f0a98334be0267"
+    },
+    "nombre": "PECINA MARTINEZ ABRAHAM RICARDO",
+    "matricula": "24CI069",
+    "especialidad": "COMBUSTION INTERNA",
+    "semestre": 2,
+    "grupo": "B",
+    "materia": "MATEMÁTICAS II",
+    "parciales": [
+      67,
+      84,
+      91,
+      74
+    ],
+    "final": 79,
+    "periodo": "2025-EneroJulio",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-01T14:24:32.480Z"
+    },
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:40.873Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6863efa013f0a98334be0268"
+    },
+    "nombre": "PEREZ GARCIA YOSGART EMMANUEL",
+    "matricula": "24CI056",
+    "especialidad": "COMBUSTION INTERNA",
+    "semestre": 2,
+    "grupo": "B",
+    "materia": "MATEMÁTICAS II",
+    "parciales": [
+      26,
+      53,
+      69,
+      71
+    ],
+    "final": 54,
+    "periodo": "2025-EneroJulio",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-01T14:24:32.480Z"
+    },
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:40.875Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6863efa013f0a98334be0269"
+    },
+    "nombre": "RAMOS GARCIA RAUL",
+    "matricula": "24MH007",
+    "especialidad": "COMBUSTION INTERNA",
+    "semestre": 2,
+    "grupo": "B",
+    "materia": "MATEMÁTICAS II",
+    "parciales": [
+      25,
+      42,
+      90,
+      28
+    ],
+    "final": 46,
+    "periodo": "2025-EneroJulio",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-01T14:24:32.480Z"
+    },
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:40.876Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6863efa013f0a98334be026a"
+    },
+    "nombre": "RIOS CORTES BRAYAN JOAN",
+    "matricula": "24MH021",
+    "especialidad": "COMBUSTION INTERNA",
+    "semestre": 2,
+    "grupo": "B",
+    "materia": "MATEMÁTICAS II",
+    "parciales": [
+      11,
+      25,
+      44,
+      47
+    ],
+    "final": 31,
+    "periodo": "2025-EneroJulio",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-01T14:24:32.480Z"
+    },
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:40.877Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6863efa013f0a98334be026b"
+    },
+    "nombre": "RODRIGUEZ GONZALEZ ULISES GABRIEL",
+    "matricula": "24CI049",
+    "especialidad": "COMBUSTION INTERNA",
+    "semestre": 2,
+    "grupo": "B",
+    "materia": "MATEMÁTICAS II",
+    "parciales": [
+      22,
+      72,
+      88,
+      23
+    ],
+    "final": 51,
+    "periodo": "2025-EneroJulio",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-01T14:24:32.480Z"
+    },
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:40.878Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6863efa013f0a98334be026c"
+    },
+    "nombre": "RODRIGUEZ MAYORGA JUVE ALBERTO",
+    "matricula": "24CI039",
+    "especialidad": "COMBUSTION INTERNA",
+    "semestre": 2,
+    "grupo": "B",
+    "materia": "MATEMÁTICAS II",
+    "parciales": [
+      21,
+      70,
+      85,
+      56
+    ],
+    "final": 58,
+    "periodo": "2025-EneroJulio",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-01T14:24:32.480Z"
+    },
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:40.879Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6863efa013f0a98334be026d"
+    },
+    "nombre": "RODRIGUEZ MORALES DEREK",
+    "matricula": "24MH017",
+    "especialidad": "COMBUSTION INTERNA",
+    "semestre": 2,
+    "grupo": "B",
+    "materia": "MATEMÁTICAS II",
+    "parciales": [
+      16,
+      32,
+      44,
+      31
+    ],
+    "final": 30,
+    "periodo": "2025-EneroJulio",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-01T14:24:32.480Z"
+    },
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:40.880Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6863efa013f0a98334be026e"
+    },
+    "nombre": "RODRIGUEZ PUENTES UZIEL",
+    "matricula": "24MEC027",
+    "especialidad": "COMBUSTION INTERNA",
+    "semestre": 2,
+    "grupo": "B",
+    "materia": "MATEMÁTICAS II",
+    "parciales": [
+      32,
+      48,
+      41,
+      21
+    ],
+    "final": 35,
+    "periodo": "2025-EneroJulio",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-01T14:24:32.480Z"
+    },
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:40.881Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6863efa013f0a98334be026f"
+    },
+    "nombre": "RODRIGUEZ VEGA ANGEL EMILIANO",
+    "matricula": "24CI071",
+    "especialidad": "COMBUSTION INTERNA",
+    "semestre": 2,
+    "grupo": "B",
+    "materia": "MATEMÁTICAS II",
+    "parciales": [
+      21,
+      24,
+      73,
+      22
+    ],
+    "final": 35,
+    "periodo": "2025-EneroJulio",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-01T14:24:32.480Z"
+    },
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:40.882Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6863efa013f0a98334be0270"
+    },
+    "nombre": "AGUILAR DIAZ SEBASTIAN FERNANDO",
+    "matricula": "24CI061",
+    "especialidad": "COMBUSTION INTERNA",
+    "semestre": 2,
+    "grupo": "B",
+    "materia": "QUÍMICA II",
+    "parciales": [
+      77,
+      80,
+      78,
+      90
+    ],
+    "final": 81,
+    "periodo": "2025-EneroJulio",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-01T14:24:32.480Z"
+    },
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:40.883Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6863efa013f0a98334be0271"
+    },
+    "nombre": "ANIMA VAQUERA MAURO ANTONIO",
+    "matricula": "24SCI011",
+    "especialidad": "COMBUSTION INTERNA",
+    "semestre": 2,
+    "grupo": "B",
+    "materia": "QUÍMICA II",
+    "parciales": [
+      74,
+      80,
+      75,
+      92
+    ],
+    "final": 80,
+    "periodo": "2025-EneroJulio",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-01T14:24:32.480Z"
+    },
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:40.884Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6863efa013f0a98334be0272"
+    },
+    "nombre": "BENITEZ MARQUEZ GAEL ALONSO",
+    "matricula": "24CI059",
+    "especialidad": "COMBUSTION INTERNA",
+    "semestre": 2,
+    "grupo": "B",
+    "materia": "QUÍMICA II",
+    "parciales": [
+      71,
+      70,
+      75,
+      90
+    ],
+    "final": 77,
+    "periodo": "2025-EneroJulio",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-01T14:24:32.480Z"
+    },
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:40.885Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6863efa013f0a98334be0273"
+    },
+    "nombre": "CALDERON GARCIA ELIAS TADEO",
+    "matricula": "24MEC044",
+    "especialidad": "COMBUSTION INTERNA",
+    "semestre": 2,
+    "grupo": "B",
+    "materia": "QUÍMICA II",
+    "parciales": [
+      87,
+      77,
+      76,
+      89
+    ],
+    "final": 82,
+    "periodo": "2025-EneroJulio",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-01T14:24:32.481Z"
+    },
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:40.886Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6863efa013f0a98334be0274"
+    },
+    "nombre": "CARRILLO  BERNAL EDDY EMILIANO",
+    "matricula": "24CI052",
+    "especialidad": "COMBUSTION INTERNA",
+    "semestre": 2,
+    "grupo": "B",
+    "materia": "QUÍMICA II",
+    "parciales": [
+      28,
+      48,
+      79,
+      95
+    ],
+    "final": 62,
+    "periodo": "2025-EneroJulio",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-01T14:24:32.481Z"
+    },
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:40.888Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6863efa013f0a98334be0275"
+    },
+    "nombre": "CHAVEZ MARTELL JARED ALEJANDRO",
+    "matricula": "24CI053",
+    "especialidad": "COMBUSTION INTERNA",
+    "semestre": 2,
+    "grupo": "B",
+    "materia": "QUÍMICA II",
+    "parciales": [
+      85,
+      85,
+      89,
+      89
+    ],
+    "final": 87,
+    "periodo": "2025-EneroJulio",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-01T14:24:32.481Z"
+    },
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:40.889Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6863efa013f0a98334be0276"
+    },
+    "nombre": "CRUZ VARGAS ELIAS GABRIEL",
+    "matricula": "24MEC052",
+    "especialidad": "COMBUSTION INTERNA",
+    "semestre": 2,
+    "grupo": "B",
+    "materia": "QUÍMICA II",
+    "parciales": [
+      74,
+      70,
+      89,
+      86
+    ],
+    "final": 80,
+    "periodo": "2025-EneroJulio",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-01T14:24:32.481Z"
+    },
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:40.890Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6863efa013f0a98334be0277"
+    },
+    "nombre": "GALLEGOS ORTEGA JOSE FRANCISCO",
+    "matricula": "24CI062",
+    "especialidad": "COMBUSTION INTERNA",
+    "semestre": 2,
+    "grupo": "B",
+    "materia": "QUÍMICA II",
+    "parciales": [
+      78,
+      76,
+      82,
+      85
+    ],
+    "final": 80,
+    "periodo": "2025-EneroJulio",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-01T14:24:32.481Z"
+    },
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:40.891Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6863efa013f0a98334be0278"
+    },
+    "nombre": "HERRERA TELLEZ SERGIO SEBASTIAN",
+    "matricula": "24CI054",
+    "especialidad": "COMBUSTION INTERNA",
+    "semestre": 2,
+    "grupo": "B",
+    "materia": "QUÍMICA II",
+    "parciales": [
+      70,
+      75,
+      76,
+      80
+    ],
+    "final": 75,
+    "periodo": "2025-EneroJulio",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-01T14:24:32.481Z"
+    },
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:40.892Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6863efa013f0a98334be0279"
+    },
+    "nombre": "MELCHOR RIOS DARIEN ARMANDO",
+    "matricula": "24CI063",
+    "especialidad": "COMBUSTION INTERNA",
+    "semestre": 2,
+    "grupo": "B",
+    "materia": "QUÍMICA II",
+    "parciales": [
+      31,
+      53,
+      30,
+      72
+    ],
+    "final": 46,
+    "periodo": "2025-EneroJulio",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-01T14:24:32.481Z"
+    },
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:40.893Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6863efa013f0a98334be027a"
+    },
+    "nombre": "MONDRAGON GONZALEZ JENSEN YUREM",
+    "matricula": "24MH033",
+    "especialidad": "COMBUSTION INTERNA",
+    "semestre": 2,
+    "grupo": "B",
+    "materia": "QUÍMICA II",
+    "parciales": [
+      52,
+      63,
+      73,
+      82
+    ],
+    "final": 67,
+    "periodo": "2025-EneroJulio",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-01T14:24:32.481Z"
+    },
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:40.894Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6863efa013f0a98334be027b"
+    },
+    "nombre": "MORENO MENDEZ ARTURO",
+    "matricula": "23CI036",
+    "especialidad": "COMBUSTION INTERNA",
+    "semestre": 2,
+    "grupo": "B",
+    "materia": "QUÍMICA II",
+    "parciales": [
+      77,
+      55,
+      81,
+      84
+    ],
+    "final": 74,
+    "periodo": "2025-EneroJulio",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-01T14:24:32.481Z"
+    },
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:40.895Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6863efa013f0a98334be027c"
+    },
+    "nombre": "ORDAZ ROMERO GERARDO JOAQUIN",
+    "matricula": "24CI058",
+    "especialidad": "COMBUSTION INTERNA",
+    "semestre": 2,
+    "grupo": "B",
+    "materia": "QUÍMICA II",
+    "parciales": [
+      67,
+      81,
+      90,
+      88
+    ],
+    "final": 82,
+    "periodo": "2025-EneroJulio",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-01T14:24:32.481Z"
+    },
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:40.896Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6863efa013f0a98334be027d"
+    },
+    "nombre": "ORTEGA HERNANDEZ KEVIN EMILIANO",
+    "matricula": "24CI064",
+    "especialidad": "COMBUSTION INTERNA",
+    "semestre": 2,
+    "grupo": "B",
+    "materia": "QUÍMICA II",
+    "parciales": [
+      70,
+      70,
+      70,
+      70
+    ],
+    "final": 70,
+    "periodo": "2025-EneroJulio",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-01T14:24:32.481Z"
+    },
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:40.897Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6863efa013f0a98334be027e"
+    },
+    "nombre": "ORTIZ CASTRO USIEL",
+    "matricula": "24CI051",
+    "especialidad": "COMBUSTION INTERNA",
+    "semestre": 2,
+    "grupo": "B",
+    "materia": "QUÍMICA II",
+    "parciales": [
+      71,
+      85,
+      94,
+      100
+    ],
+    "final": 88,
+    "periodo": "2025-EneroJulio",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-01T14:24:32.481Z"
+    },
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:40.898Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6863efa013f0a98334be027f"
+    },
+    "nombre": "PECINA MARTINEZ ABRAHAM RICARDO",
+    "matricula": "24CI069",
+    "especialidad": "COMBUSTION INTERNA",
+    "semestre": 2,
+    "grupo": "B",
+    "materia": "QUÍMICA II",
+    "parciales": [
+      82,
+      86,
+      81,
+      71
+    ],
+    "final": 80,
+    "periodo": "2025-EneroJulio",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-01T14:24:32.481Z"
+    },
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:40.899Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6863efa013f0a98334be0280"
+    },
+    "nombre": "PEREZ GARCIA YOSGART EMMANUEL",
+    "matricula": "24CI056",
+    "especialidad": "COMBUSTION INTERNA",
+    "semestre": 2,
+    "grupo": "B",
+    "materia": "QUÍMICA II",
+    "parciales": [
+      89,
+      91,
+      91,
+      85
+    ],
+    "final": 89,
+    "periodo": "2025-EneroJulio",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-01T14:24:32.481Z"
+    },
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:40.901Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6863efa013f0a98334be0281"
+    },
+    "nombre": "RAMOS GARCIA RAUL",
+    "matricula": "24MH007",
+    "especialidad": "COMBUSTION INTERNA",
+    "semestre": 2,
+    "grupo": "B",
+    "materia": "QUÍMICA II",
+    "parciales": [
+      52,
+      70,
+      52,
+      74
+    ],
+    "final": 62,
+    "periodo": "2025-EneroJulio",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-01T14:24:32.481Z"
+    },
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:40.902Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6863efa013f0a98334be0282"
+    },
+    "nombre": "RIOS CORTES BRAYAN JOAN",
+    "matricula": "24MH021",
+    "especialidad": "COMBUSTION INTERNA",
+    "semestre": 2,
+    "grupo": "B",
+    "materia": "QUÍMICA II",
+    "parciales": [
+      38,
+      51,
+      47,
+      63
+    ],
+    "final": 49,
+    "periodo": "2025-EneroJulio",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-01T14:24:32.481Z"
+    },
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:40.903Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6863efa013f0a98334be0283"
+    },
+    "nombre": "RODRIGUEZ GONZALEZ ULISES GABRIEL",
+    "matricula": "24CI049",
+    "especialidad": "COMBUSTION INTERNA",
+    "semestre": 2,
+    "grupo": "B",
+    "materia": "QUÍMICA II",
+    "parciales": [
+      71,
+      70,
+      84,
+      81
+    ],
+    "final": 77,
+    "periodo": "2025-EneroJulio",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-01T14:24:32.482Z"
+    },
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:40.904Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6863efa013f0a98334be0284"
+    },
+    "nombre": "RODRIGUEZ MAYORGA JUVE ALBERTO",
+    "matricula": "24CI039",
+    "especialidad": "COMBUSTION INTERNA",
+    "semestre": 2,
+    "grupo": "B",
+    "materia": "QUÍMICA II",
+    "parciales": [
+      52,
+      43,
+      55,
+      86
+    ],
+    "final": 59,
+    "periodo": "2025-EneroJulio",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-01T14:24:32.482Z"
+    },
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:40.906Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6863efa013f0a98334be0285"
+    },
+    "nombre": "RODRIGUEZ MORALES DEREK",
+    "matricula": "24MH017",
+    "especialidad": "COMBUSTION INTERNA",
+    "semestre": 2,
+    "grupo": "B",
+    "materia": "QUÍMICA II",
+    "parciales": [
+      53,
+      43,
+      74,
+      65
+    ],
+    "final": 58,
+    "periodo": "2025-EneroJulio",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-01T14:24:32.482Z"
+    },
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:40.907Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6863efa013f0a98334be0286"
+    },
+    "nombre": "RODRIGUEZ PUENTES UZIEL",
+    "matricula": "24MEC027",
+    "especialidad": "COMBUSTION INTERNA",
+    "semestre": 2,
+    "grupo": "B",
+    "materia": "QUÍMICA II",
+    "parciales": [
+      89,
+      99,
+      89,
+      86
+    ],
+    "final": 91,
+    "periodo": "2025-EneroJulio",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-01T14:24:32.482Z"
+    },
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:40.908Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6863efa013f0a98334be0287"
+    },
+    "nombre": "RODRIGUEZ VEGA ANGEL EMILIANO",
+    "matricula": "24CI071",
+    "especialidad": "COMBUSTION INTERNA",
+    "semestre": 2,
+    "grupo": "B",
+    "materia": "QUÍMICA II",
+    "parciales": [
+      42,
+      45,
+      74,
+      89
+    ],
+    "final": 62,
+    "periodo": "2025-EneroJulio",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-01T14:24:32.482Z"
+    },
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:40.909Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6863efa013f0a98334be0288"
+    },
+    "nombre": "AGUILAR DIAZ SEBASTIAN FERNANDO",
+    "matricula": "24CI061",
+    "especialidad": "COMBUSTION INTERNA",
+    "semestre": 2,
+    "grupo": "B",
+    "materia": "ÉTICA Y VALORES II",
+    "parciales": [
+      100,
+      96,
+      81,
+      91
+    ],
+    "final": 92,
+    "periodo": "2025-EneroJulio",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-01T14:24:32.482Z"
+    },
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:40.910Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6863efa013f0a98334be0289"
+    },
+    "nombre": "ANIMA VAQUERA MAURO ANTONIO",
+    "matricula": "24SCI011",
+    "especialidad": "COMBUSTION INTERNA",
+    "semestre": 2,
+    "grupo": "B",
+    "materia": "ÉTICA Y VALORES II",
+    "parciales": [
+      93,
+      91,
+      70,
+      85
+    ],
+    "final": 85,
+    "periodo": "2025-EneroJulio",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-01T14:24:32.482Z"
+    },
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:40.912Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6863efa013f0a98334be028a"
+    },
+    "nombre": "BENITEZ MARQUEZ GAEL ALONSO",
+    "matricula": "24CI059",
+    "especialidad": "COMBUSTION INTERNA",
+    "semestre": 2,
+    "grupo": "B",
+    "materia": "ÉTICA Y VALORES II",
+    "parciales": [
+      46,
+      82,
+      99,
+      97
+    ],
+    "final": 81,
+    "periodo": "2025-EneroJulio",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-01T14:24:32.482Z"
+    },
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:40.913Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6863efa013f0a98334be028b"
+    },
+    "nombre": "CALDERON GARCIA ELIAS TADEO",
+    "matricula": "24MEC044",
+    "especialidad": "COMBUSTION INTERNA",
+    "semestre": 2,
+    "grupo": "B",
+    "materia": "ÉTICA Y VALORES II",
+    "parciales": [
+      88,
+      86,
+      91,
+      62
+    ],
+    "final": 82,
+    "periodo": "2025-EneroJulio",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-01T14:24:32.482Z"
+    },
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:40.914Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6863efa013f0a98334be028c"
+    },
+    "nombre": "CARRILLO  BERNAL EDDY EMILIANO",
+    "matricula": "24CI052",
+    "especialidad": "COMBUSTION INTERNA",
+    "semestre": 2,
+    "grupo": "B",
+    "materia": "ÉTICA Y VALORES II",
+    "parciales": [
+      29,
+      81,
+      43,
+      79
+    ],
+    "final": 58,
+    "periodo": "2025-EneroJulio",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-01T14:24:32.482Z"
+    },
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:40.915Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6863efa013f0a98334be028d"
+    },
+    "nombre": "CHAVEZ MARTELL JARED ALEJANDRO",
+    "matricula": "24CI053",
+    "especialidad": "COMBUSTION INTERNA",
+    "semestre": 2,
+    "grupo": "B",
+    "materia": "ÉTICA Y VALORES II",
+    "parciales": [
+      93,
+      97,
+      100,
+      93
+    ],
+    "final": 96,
+    "periodo": "2025-EneroJulio",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-01T14:24:32.482Z"
+    },
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:40.916Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6863efa013f0a98334be028e"
+    },
+    "nombre": "CRUZ VARGAS ELIAS GABRIEL",
+    "matricula": "24MEC052",
+    "especialidad": "COMBUSTION INTERNA",
+    "semestre": 2,
+    "grupo": "B",
+    "materia": "ÉTICA Y VALORES II",
+    "parciales": [
+      52,
+      83,
+      65,
+      98
+    ],
+    "final": 75,
+    "periodo": "2025-EneroJulio",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-01T14:24:32.482Z"
+    },
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:40.916Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6863efa013f0a98334be028f"
+    },
+    "nombre": "GALLEGOS ORTEGA JOSE FRANCISCO",
+    "matricula": "24CI062",
+    "especialidad": "COMBUSTION INTERNA",
+    "semestre": 2,
+    "grupo": "B",
+    "materia": "ÉTICA Y VALORES II",
+    "parciales": [
+      36,
+      67,
+      100,
+      99
+    ],
+    "final": 76,
+    "periodo": "2025-EneroJulio",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-01T14:24:32.482Z"
+    },
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:40.917Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6863efa013f0a98334be0290"
+    },
+    "nombre": "HERRERA TELLEZ SERGIO SEBASTIAN",
+    "matricula": "24CI054",
+    "especialidad": "COMBUSTION INTERNA",
+    "semestre": 2,
+    "grupo": "B",
+    "materia": "ÉTICA Y VALORES II",
+    "parciales": [
+      56,
+      74,
+      91,
+      93
+    ],
+    "final": 79,
+    "periodo": "2025-EneroJulio",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-01T14:24:32.482Z"
+    },
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:40.918Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6863efa013f0a98334be0291"
+    },
+    "nombre": "MELCHOR RIOS DARIEN ARMANDO",
+    "matricula": "24CI063",
+    "especialidad": "COMBUSTION INTERNA",
+    "semestre": 2,
+    "grupo": "B",
+    "materia": "ÉTICA Y VALORES II",
+    "parciales": [
+      26,
+      69,
+      56,
+      90
+    ],
+    "final": 60,
+    "periodo": "2025-EneroJulio",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-01T14:24:32.482Z"
+    },
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:40.920Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6863efa013f0a98334be0292"
+    },
+    "nombre": "MONDRAGON GONZALEZ JENSEN YUREM",
+    "matricula": "24MH033",
+    "especialidad": "COMBUSTION INTERNA",
+    "semestre": 2,
+    "grupo": "B",
+    "materia": "ÉTICA Y VALORES II",
+    "parciales": [
+      28,
+      67,
+      90,
+      91
+    ],
+    "final": 69,
+    "periodo": "2025-EneroJulio",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-01T14:24:32.482Z"
+    },
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:40.921Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6863efa013f0a98334be0293"
+    },
+    "nombre": "MORENO MENDEZ ARTURO",
+    "matricula": "23CI036",
+    "especialidad": "COMBUSTION INTERNA",
+    "semestre": 2,
+    "grupo": "B",
+    "materia": "ÉTICA Y VALORES II",
+    "parciales": [
+      82,
+      90,
+      97,
+      93
+    ],
+    "final": 91,
+    "periodo": "2025-EneroJulio",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-01T14:24:32.482Z"
+    },
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:40.922Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6863efa013f0a98334be0294"
+    },
+    "nombre": "ORDAZ ROMERO GERARDO JOAQUIN",
+    "matricula": "24CI058",
+    "especialidad": "COMBUSTION INTERNA",
+    "semestre": 2,
+    "grupo": "B",
+    "materia": "ÉTICA Y VALORES II",
+    "parciales": [
+      58,
+      99,
+      100,
+      85
+    ],
+    "final": 86,
+    "periodo": "2025-EneroJulio",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-01T14:24:32.482Z"
+    },
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:40.923Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6863efa013f0a98334be0295"
+    },
+    "nombre": "ORTEGA HERNANDEZ KEVIN EMILIANO",
+    "matricula": "24CI064",
+    "especialidad": "COMBUSTION INTERNA",
+    "semestre": 2,
+    "grupo": "B",
+    "materia": "ÉTICA Y VALORES II",
+    "parciales": [
+      76,
+      80,
+      86,
+      75
+    ],
+    "final": 79,
+    "periodo": "2025-EneroJulio",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-01T14:24:32.483Z"
+    },
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:40.925Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6863efa013f0a98334be0296"
+    },
+    "nombre": "ORTIZ CASTRO USIEL",
+    "matricula": "24CI051",
+    "especialidad": "COMBUSTION INTERNA",
+    "semestre": 2,
+    "grupo": "B",
+    "materia": "ÉTICA Y VALORES II",
+    "parciales": [
+      65,
+      83,
+      68,
+      93
+    ],
+    "final": 77,
+    "periodo": "2025-EneroJulio",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-01T14:24:32.483Z"
+    },
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:40.926Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6863efa013f0a98334be0297"
+    },
+    "nombre": "PECINA MARTINEZ ABRAHAM RICARDO",
+    "matricula": "24CI069",
+    "especialidad": "COMBUSTION INTERNA",
+    "semestre": 2,
+    "grupo": "B",
+    "materia": "ÉTICA Y VALORES II",
+    "parciales": [
+      82,
+      96,
+      83,
+      89
+    ],
+    "final": 88,
+    "periodo": "2025-EneroJulio",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-01T14:24:32.483Z"
+    },
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:40.927Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6863efa013f0a98334be0298"
+    },
+    "nombre": "PEREZ GARCIA YOSGART EMMANUEL",
+    "matricula": "24CI056",
+    "especialidad": "COMBUSTION INTERNA",
+    "semestre": 2,
+    "grupo": "B",
+    "materia": "ÉTICA Y VALORES II",
+    "parciales": [
+      53,
+      80,
+      93,
+      87
+    ],
+    "final": 78,
+    "periodo": "2025-EneroJulio",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-01T14:24:32.483Z"
+    },
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:40.928Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6863efa013f0a98334be0299"
+    },
+    "nombre": "RAMOS GARCIA RAUL",
+    "matricula": "24MH007",
+    "especialidad": "COMBUSTION INTERNA",
+    "semestre": 2,
+    "grupo": "B",
+    "materia": "ÉTICA Y VALORES II",
+    "parciales": [
+      59,
+      76,
+      47,
+      100
+    ],
+    "final": 71,
+    "periodo": "2025-EneroJulio",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-01T14:24:32.483Z"
+    },
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:40.930Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6863efa013f0a98334be029a"
+    },
+    "nombre": "RIOS CORTES BRAYAN JOAN",
+    "matricula": "24MH021",
+    "especialidad": "COMBUSTION INTERNA",
+    "semestre": 2,
+    "grupo": "B",
+    "materia": "ÉTICA Y VALORES II",
+    "parciales": [
+      24,
+      55,
+      65,
+      87
+    ],
+    "final": 57,
+    "periodo": "2025-EneroJulio",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-01T14:24:32.483Z"
+    },
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:40.931Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6863efa013f0a98334be029b"
+    },
+    "nombre": "RODRIGUEZ GONZALEZ ULISES GABRIEL",
+    "matricula": "24CI049",
+    "especialidad": "COMBUSTION INTERNA",
+    "semestre": 2,
+    "grupo": "B",
+    "materia": "ÉTICA Y VALORES II",
+    "parciales": [
+      57,
+      74,
+      100,
+      93
+    ],
+    "final": 81,
+    "periodo": "2025-EneroJulio",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-01T14:24:32.483Z"
+    },
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:40.932Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6863efa013f0a98334be029c"
+    },
+    "nombre": "RODRIGUEZ MAYORGA JUVE ALBERTO",
+    "matricula": "24CI039",
+    "especialidad": "COMBUSTION INTERNA",
+    "semestre": 2,
+    "grupo": "B",
+    "materia": "ÉTICA Y VALORES II",
+    "parciales": [
+      43,
+      38,
+      76,
+      72
+    ],
+    "final": 57,
+    "periodo": "2025-EneroJulio",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-01T14:24:32.483Z"
+    },
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:40.933Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6863efa013f0a98334be029d"
+    },
+    "nombre": "RODRIGUEZ MORALES DEREK",
+    "matricula": "24MH017",
+    "especialidad": "COMBUSTION INTERNA",
+    "semestre": 2,
+    "grupo": "B",
+    "materia": "ÉTICA Y VALORES II",
+    "parciales": [
+      29,
+      31,
+      34,
+      71
+    ],
+    "final": 41,
+    "periodo": "2025-EneroJulio",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-01T14:24:32.484Z"
+    },
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:40.934Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6863efa013f0a98334be029e"
+    },
+    "nombre": "RODRIGUEZ PUENTES UZIEL",
+    "matricula": "24MEC027",
+    "especialidad": "COMBUSTION INTERNA",
+    "semestre": 2,
+    "grupo": "B",
+    "materia": "ÉTICA Y VALORES II",
+    "parciales": [
+      61,
+      76,
+      45,
+      95
+    ],
+    "final": 69,
+    "periodo": "2025-EneroJulio",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-01T14:24:32.484Z"
+    },
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:40.935Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6863efa013f0a98334be029f"
+    },
+    "nombre": "RODRIGUEZ VEGA ANGEL EMILIANO",
+    "matricula": "24CI071",
+    "especialidad": "COMBUSTION INTERNA",
+    "semestre": 2,
+    "grupo": "B",
+    "materia": "ÉTICA Y VALORES II",
+    "parciales": [
+      19,
+      60,
+      70,
+      88
+    ],
+    "final": 59,
+    "periodo": "2025-EneroJulio",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-01T14:24:32.484Z"
+    },
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:40.936Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6863efa013f0a98334be02a0"
+    },
+    "nombre": "CONTRERAS CASTILLO CESAR",
+    "matricula": "24MH014",
+    "especialidad": "MAQUINAS HTA",
+    "semestre": 2,
+    "grupo": "A",
+    "materia": "MATEMÁTICAS II",
+    "parciales": [
+      38,
+      65,
+      97,
+      63
+    ],
+    "final": 65,
+    "periodo": "2025-EneroJulio",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-01T14:24:32.484Z"
+    },
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:40.938Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6863efa013f0a98334be02a1"
+    },
+    "nombre": "CRUZ ALEMAN ALINA",
+    "matricula": "24MH031",
+    "especialidad": "MAQUINAS HTA",
+    "semestre": 2,
+    "grupo": "A",
+    "materia": "MATEMÁTICAS II",
+    "parciales": [
+      90,
+      76,
+      97,
+      61
+    ],
+    "final": 81,
+    "periodo": "2025-EneroJulio",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-01T14:24:32.484Z"
+    },
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:40.939Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6863efa013f0a98334be02a2"
+    },
+    "nombre": "DE AVILA HERNANDEZ SERGIO OMAR",
+    "matricula": "24MH035",
+    "especialidad": "MAQUINAS HTA",
+    "semestre": 2,
+    "grupo": "A",
+    "materia": "MATEMÁTICAS II",
+    "parciales": [
+      15,
+      54,
+      76,
+      56
+    ],
+    "final": 50,
+    "periodo": "2025-EneroJulio",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-01T14:24:32.484Z"
+    },
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:40.940Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6863efa013f0a98334be02a3"
+    },
+    "nombre": "DOMINGUEZ CARREON WILLIAM",
+    "matricula": "24MH002",
+    "especialidad": "MAQUINAS HTA",
+    "semestre": 2,
+    "grupo": "A",
+    "materia": "MATEMÁTICAS II",
+    "parciales": [
+      28,
+      65,
+      90,
+      82
+    ],
+    "final": 66,
+    "periodo": "2025-EneroJulio",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-01T14:24:32.484Z"
+    },
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:40.942Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6863efa013f0a98334be02a4"
+    },
+    "nombre": "GONZALEZ SORIA EDUARDO",
+    "matricula": "24MH004",
+    "especialidad": "MAQUINAS HTA",
+    "semestre": 2,
+    "grupo": "A",
+    "materia": "MATEMÁTICAS II",
+    "parciales": [
+      50,
+      71,
+      93,
+      73
+    ],
+    "final": 72,
+    "periodo": "2025-EneroJulio",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-01T14:24:32.484Z"
+    },
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:40.944Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6863efa013f0a98334be02a5"
+    },
+    "nombre": "HERNANDEZ FELIX JOSGART GIOVANNY",
+    "matricula": "24MH034",
+    "especialidad": "MAQUINAS HTA",
+    "semestre": 2,
+    "grupo": "A",
+    "materia": "MATEMÁTICAS II",
+    "parciales": [
+      57,
+      81,
+      97,
+      78
+    ],
+    "final": 78,
+    "periodo": "2025-EneroJulio",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-01T14:24:32.484Z"
+    },
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:40.945Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6863efa013f0a98334be02a6"
+    },
+    "nombre": "HERNANDEZ QUIROZ ANDRE HERIBERTO",
+    "matricula": "24MH023",
+    "especialidad": "MAQUINAS HTA",
+    "semestre": 2,
+    "grupo": "A",
+    "materia": "MATEMÁTICAS II",
+    "parciales": [
+      42,
+      78,
+      93,
+      84
+    ],
+    "final": 74,
+    "periodo": "2025-EneroJulio",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-01T14:24:32.484Z"
+    },
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:40.946Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6863efa013f0a98334be02a7"
+    },
+    "nombre": "HUERTA MENDOZA RUBEN ALEJANDRO",
+    "matricula": "24MH015",
+    "especialidad": "MAQUINAS HTA",
+    "semestre": 2,
+    "grupo": "A",
+    "materia": "MATEMÁTICAS II",
+    "parciales": [
+      32,
+      81,
+      97,
+      77
+    ],
+    "final": 72,
+    "periodo": "2025-EneroJulio",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-01T14:24:32.484Z"
+    },
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:40.947Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6863efa013f0a98334be02a8"
+    },
+    "nombre": "MARTINEZ RANGEL FRANCO DANIEL",
+    "matricula": "24MH020",
+    "especialidad": "MAQUINAS HTA",
+    "semestre": 2,
+    "grupo": "A",
+    "materia": "MATEMÁTICAS II",
+    "parciales": [
+      100,
+      96,
+      100,
+      97
+    ],
+    "final": 98,
+    "periodo": "2025-EneroJulio",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-01T14:24:32.484Z"
+    },
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:40.949Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6863efa013f0a98334be02a9"
+    },
+    "nombre": "NEVAREZ HERNANDEZ CESAR",
+    "matricula": "24MH005",
+    "especialidad": "MAQUINAS HTA",
+    "semestre": 2,
+    "grupo": "A",
+    "materia": "MATEMÁTICAS II",
+    "parciales": [
+      45,
+      58,
+      94,
+      79
+    ],
+    "final": 69,
+    "periodo": "2025-EneroJulio",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-01T14:24:32.484Z"
+    },
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:40.950Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6863efa013f0a98334be02aa"
+    },
+    "nombre": "OCHOA VALLES ISMAEL",
+    "matricula": "24MH013",
+    "especialidad": "MAQUINAS HTA",
+    "semestre": 2,
+    "grupo": "A",
+    "materia": "MATEMÁTICAS II",
+    "parciales": [
+      41,
+      66,
+      74,
+      51
+    ],
+    "final": 58,
+    "periodo": "2025-EneroJulio",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-01T14:24:32.484Z"
+    },
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:40.951Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6863efa013f0a98334be02ab"
+    },
+    "nombre": "OVIEDO CAMACHO LUIS ELADIO",
+    "matricula": "24MH006",
+    "especialidad": "MAQUINAS HTA",
+    "semestre": 2,
+    "grupo": "A",
+    "materia": "MATEMÁTICAS II",
+    "parciales": [
+      61,
+      57,
+      79,
+      61
+    ],
+    "final": 64,
+    "periodo": "2025-EneroJulio",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-01T14:24:32.484Z"
+    },
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:40.952Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6863efa013f0a98334be02ac"
+    },
+    "nombre": "PERALES MARTINEZ MATIAS",
+    "matricula": "24MH029",
+    "especialidad": "MAQUINAS HTA",
+    "semestre": 2,
+    "grupo": "A",
+    "materia": "MATEMÁTICAS II",
+    "parciales": [
+      41,
+      81,
+      97,
+      83
+    ],
+    "final": 76,
+    "periodo": "2025-EneroJulio",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-01T14:24:32.484Z"
+    },
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:40.953Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6863efa013f0a98334be02ad"
+    },
+    "nombre": "RIVERA DE SANTIAGO JUAN RODRIGO",
+    "matricula": "24MH025",
+    "especialidad": "MAQUINAS HTA",
+    "semestre": 2,
+    "grupo": "A",
+    "materia": "MATEMÁTICAS II",
+    "parciales": [
+      55,
+      73,
+      94,
+      60
+    ],
+    "final": 71,
+    "periodo": "2025-EneroJulio",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-01T14:24:32.484Z"
+    },
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:40.955Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6863efa013f0a98334be02ae"
+    },
+    "nombre": "ROBLEDO PEREZ HECTOR ADRIAN",
+    "matricula": "24MH030",
+    "especialidad": "MAQUINAS HTA",
+    "semestre": 2,
+    "grupo": "A",
+    "materia": "MATEMÁTICAS II",
+    "parciales": [
+      18,
+      64,
+      74,
+      53
+    ],
+    "final": 52,
+    "periodo": "2025-EneroJulio",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-01T14:24:32.484Z"
+    },
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:40.956Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6863efa013f0a98334be02af"
+    },
+    "nombre": "RODRIGUEZ ALTAMIRANO CRISTIAN ANDRES",
+    "matricula": "24MH008",
+    "especialidad": "MAQUINAS HTA",
+    "semestre": 2,
+    "grupo": "A",
+    "materia": "MATEMÁTICAS II",
+    "parciales": [
+      95,
+      98,
+      98,
+      98
+    ],
+    "final": 97,
+    "periodo": "2025-EneroJulio",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-01T14:24:32.484Z"
+    },
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:40.957Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6863efa013f0a98334be02b0"
+    },
+    "nombre": "ROMAN SALAS JOSE MARIA DE JESUS",
+    "matricula": "24MH009",
+    "especialidad": "MAQUINAS HTA",
+    "semestre": 2,
+    "grupo": "A",
+    "materia": "MATEMÁTICAS II",
+    "parciales": [
+      83,
+      86,
+      98,
+      78
+    ],
+    "final": 86,
+    "periodo": "2025-EneroJulio",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-01T14:24:32.485Z"
+    },
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:40.959Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6863efa013f0a98334be02b1"
+    },
+    "nombre": "ROSALES OCHOA ANDRES",
+    "matricula": "24MH012",
+    "especialidad": "MAQUINAS HTA",
+    "semestre": 2,
+    "grupo": "A",
+    "materia": "MATEMÁTICAS II",
+    "parciales": [
+      60,
+      78,
+      83,
+      71
+    ],
+    "final": 73,
+    "periodo": "2025-EneroJulio",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-01T14:24:32.485Z"
+    },
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:40.960Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6863efa013f0a98334be02b2"
+    },
+    "nombre": "RUIZ CABRERA GERARDO EMANUEL",
+    "matricula": "24MH019",
+    "especialidad": "MAQUINAS HTA",
+    "semestre": 2,
+    "grupo": "A",
+    "materia": "MATEMÁTICAS II",
+    "parciales": [
+      64,
+      67,
+      95,
+      62
+    ],
+    "final": 72,
+    "periodo": "2025-EneroJulio",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-01T14:24:32.485Z"
+    },
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:40.961Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6863efa013f0a98334be02b3"
+    },
+    "nombre": "TENORIO MORENO YURET ALEXIS",
+    "matricula": "24MH010",
+    "especialidad": "MAQUINAS HTA",
+    "semestre": 2,
+    "grupo": "A",
+    "materia": "MATEMÁTICAS II",
+    "parciales": [
+      19,
+      58,
+      93,
+      44
+    ],
+    "final": 53,
+    "periodo": "2025-EneroJulio",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-01T14:24:32.485Z"
+    },
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:40.962Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6863efa013f0a98334be02b4"
+    },
+    "nombre": "VARELA PINEDA JORGE YAEL",
+    "matricula": "24MH011",
+    "especialidad": "MAQUINAS HTA",
+    "semestre": 2,
+    "grupo": "A",
+    "materia": "MATEMÁTICAS II",
+    "parciales": [
+      44,
+      58,
+      83,
+      81
+    ],
+    "final": 66,
+    "periodo": "2025-EneroJulio",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-01T14:24:32.485Z"
+    },
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:40.963Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6863efa013f0a98334be02b5"
+    },
+    "nombre": "CONTRERAS CASTILLO CESAR",
+    "matricula": "24MH014",
+    "especialidad": "MAQUINAS HTA",
+    "semestre": 2,
+    "grupo": "A",
+    "materia": "QUÍMICA II",
+    "parciales": [
+      79,
+      100,
+      74,
+      80
+    ],
+    "final": 83,
+    "periodo": "2025-EneroJulio",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-01T14:24:32.485Z"
+    },
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:40.965Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6863efa013f0a98334be02b6"
+    },
+    "nombre": "CRUZ ALEMAN ALINA",
+    "matricula": "24MH031",
+    "especialidad": "MAQUINAS HTA",
+    "semestre": 2,
+    "grupo": "A",
+    "materia": "QUÍMICA II",
+    "parciales": [
+      94,
+      87,
+      92,
+      74
+    ],
+    "final": 87,
+    "periodo": "2025-EneroJulio",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-01T14:24:32.485Z"
+    },
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:40.966Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6863efa013f0a98334be02b7"
+    },
+    "nombre": "DE AVILA HERNANDEZ SERGIO OMAR",
+    "matricula": "24MH035",
+    "especialidad": "MAQUINAS HTA",
+    "semestre": 2,
+    "grupo": "A",
+    "materia": "QUÍMICA II",
+    "parciales": [
+      31,
+      69,
+      70,
+      65
+    ],
+    "final": 58,
+    "periodo": "2025-EneroJulio",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-01T14:24:32.485Z"
+    },
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:40.967Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6863efa013f0a98334be02b8"
+    },
+    "nombre": "DOMINGUEZ CARREON WILLIAM",
+    "matricula": "24MH002",
+    "especialidad": "MAQUINAS HTA",
+    "semestre": 2,
+    "grupo": "A",
+    "materia": "QUÍMICA II",
+    "parciales": [
+      60,
+      72,
+      66,
+      82
+    ],
+    "final": 70,
+    "periodo": "2025-EneroJulio",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-01T14:24:32.485Z"
+    },
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:40.968Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6863efa013f0a98334be02b9"
+    },
+    "nombre": "GONZALEZ SORIA EDUARDO",
+    "matricula": "24MH004",
+    "especialidad": "MAQUINAS HTA",
+    "semestre": 2,
+    "grupo": "A",
+    "materia": "QUÍMICA II",
+    "parciales": [
+      74,
+      75,
+      79,
+      85
+    ],
+    "final": 78,
+    "periodo": "2025-EneroJulio",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-01T14:24:32.485Z"
+    },
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:40.969Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6863efa013f0a98334be02ba"
+    },
+    "nombre": "HERNANDEZ FELIX JOSGART GIOVANNY",
+    "matricula": "24MH034",
+    "especialidad": "MAQUINAS HTA",
+    "semestre": 2,
+    "grupo": "A",
+    "materia": "QUÍMICA II",
+    "parciales": [
+      91,
+      96,
+      85,
+      72
+    ],
+    "final": 86,
+    "periodo": "2025-EneroJulio",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-01T14:24:32.485Z"
+    },
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:40.971Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6863efa013f0a98334be02bb"
+    },
+    "nombre": "HERNANDEZ QUIROZ ANDRE HERIBERTO",
+    "matricula": "24MH023",
+    "especialidad": "MAQUINAS HTA",
+    "semestre": 2,
+    "grupo": "A",
+    "materia": "QUÍMICA II",
+    "parciales": [
+      73,
+      87,
+      85,
+      74
+    ],
+    "final": 80,
+    "periodo": "2025-EneroJulio",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-01T14:24:32.486Z"
+    },
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:40.972Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6863efa013f0a98334be02bc"
+    },
+    "nombre": "HUERTA MENDOZA RUBEN ALEJANDRO",
+    "matricula": "24MH015",
+    "especialidad": "MAQUINAS HTA",
+    "semestre": 2,
+    "grupo": "A",
+    "materia": "QUÍMICA II",
+    "parciales": [
+      77,
+      100,
+      90,
+      75
+    ],
+    "final": 86,
+    "periodo": "2025-EneroJulio",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-01T14:24:32.486Z"
+    },
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:40.973Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6863efa013f0a98334be02bd"
+    },
+    "nombre": "MARTINEZ RANGEL FRANCO DANIEL",
+    "matricula": "24MH020",
+    "especialidad": "MAQUINAS HTA",
+    "semestre": 2,
+    "grupo": "A",
+    "materia": "QUÍMICA II",
+    "parciales": [
+      99,
+      100,
+      98,
+      76
+    ],
+    "final": 93,
+    "periodo": "2025-EneroJulio",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-01T14:24:32.486Z"
+    },
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:40.974Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6863efa013f0a98334be02be"
+    },
+    "nombre": "NEVAREZ HERNANDEZ CESAR",
+    "matricula": "24MH005",
+    "especialidad": "MAQUINAS HTA",
+    "semestre": 2,
+    "grupo": "A",
+    "materia": "QUÍMICA II",
+    "parciales": [
+      56,
+      100,
+      80,
+      84
+    ],
+    "final": 80,
+    "periodo": "2025-EneroJulio",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-01T14:24:32.486Z"
+    },
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:40.976Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6863efa013f0a98334be02bf"
+    },
+    "nombre": "OCHOA VALLES ISMAEL",
+    "matricula": "24MH013",
+    "especialidad": "MAQUINAS HTA",
+    "semestre": 2,
+    "grupo": "A",
+    "materia": "QUÍMICA II",
+    "parciales": [
+      59,
+      64,
+      85,
+      68
+    ],
+    "final": 69,
+    "periodo": "2025-EneroJulio",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-01T14:24:32.486Z"
+    },
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:40.977Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6863efa013f0a98334be02c0"
+    },
+    "nombre": "OVIEDO CAMACHO LUIS ELADIO",
+    "matricula": "24MH006",
+    "especialidad": "MAQUINAS HTA",
+    "semestre": 2,
+    "grupo": "A",
+    "materia": "QUÍMICA II",
+    "parciales": [
+      78,
+      56,
+      71,
+      64
+    ],
+    "final": 67,
+    "periodo": "2025-EneroJulio",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-01T14:24:32.486Z"
+    },
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:40.978Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6863efa013f0a98334be02c1"
+    },
+    "nombre": "PERALES MARTINEZ MATIAS",
+    "matricula": "24MH029",
+    "especialidad": "MAQUINAS HTA",
+    "semestre": 2,
+    "grupo": "A",
+    "materia": "QUÍMICA II",
+    "parciales": [
+      76,
+      94,
+      95,
+      86
+    ],
+    "final": 88,
+    "periodo": "2025-EneroJulio",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-01T14:24:32.486Z"
+    },
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:40.979Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6863efa013f0a98334be02c2"
+    },
+    "nombre": "RIVERA DE SANTIAGO JUAN RODRIGO",
+    "matricula": "24MH025",
+    "especialidad": "MAQUINAS HTA",
+    "semestre": 2,
+    "grupo": "A",
+    "materia": "QUÍMICA II",
+    "parciales": [
+      74,
+      100,
+      76,
+      72
+    ],
+    "final": 81,
+    "periodo": "2025-EneroJulio",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-01T14:24:32.486Z"
+    },
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:40.980Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6863efa013f0a98334be02c3"
+    },
+    "nombre": "ROBLEDO PEREZ HECTOR ADRIAN",
+    "matricula": "24MH030",
+    "especialidad": "MAQUINAS HTA",
+    "semestre": 2,
+    "grupo": "A",
+    "materia": "QUÍMICA II",
+    "parciales": [
+      50,
+      82,
+      47,
+      72
+    ],
+    "final": 62,
+    "periodo": "2025-EneroJulio",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-01T14:24:32.486Z"
+    },
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:40.981Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6863efa013f0a98334be02c4"
+    },
+    "nombre": "RODRIGUEZ ALTAMIRANO CRISTIAN ANDRES",
+    "matricula": "24MH008",
+    "especialidad": "MAQUINAS HTA",
+    "semestre": 2,
+    "grupo": "A",
+    "materia": "QUÍMICA II",
+    "parciales": [
+      86,
+      100,
+      100,
+      72
+    ],
+    "final": 90,
+    "periodo": "2025-EneroJulio",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-01T14:24:32.486Z"
+    },
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:40.982Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6863efa013f0a98334be02c5"
+    },
+    "nombre": "ROMAN SALAS JOSE MARIA DE JESUS",
+    "matricula": "24MH009",
+    "especialidad": "MAQUINAS HTA",
+    "semestre": 2,
+    "grupo": "A",
+    "materia": "QUÍMICA II",
+    "parciales": [
+      85,
+      98,
+      97,
+      80
+    ],
+    "final": 90,
+    "periodo": "2025-EneroJulio",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-01T14:24:32.486Z"
+    },
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:40.983Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6863efa013f0a98334be02c6"
+    },
+    "nombre": "ROSALES OCHOA ANDRES",
+    "matricula": "24MH012",
+    "especialidad": "MAQUINAS HTA",
+    "semestre": 2,
+    "grupo": "A",
+    "materia": "QUÍMICA II",
+    "parciales": [
+      82,
+      96,
+      90,
+      71
+    ],
+    "final": 85,
+    "periodo": "2025-EneroJulio",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-01T14:24:32.486Z"
+    },
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:40.984Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6863efa013f0a98334be02c7"
+    },
+    "nombre": "RUIZ CABRERA GERARDO EMANUEL",
+    "matricula": "24MH019",
+    "especialidad": "MAQUINAS HTA",
+    "semestre": 2,
+    "grupo": "A",
+    "materia": "QUÍMICA II",
+    "parciales": [
+      86,
+      90,
+      82,
+      78
+    ],
+    "final": 84,
+    "periodo": "2025-EneroJulio",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-01T14:24:32.486Z"
+    },
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:40.986Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6863efa013f0a98334be02c8"
+    },
+    "nombre": "TENORIO MORENO YURET ALEXIS",
+    "matricula": "24MH010",
+    "especialidad": "MAQUINAS HTA",
+    "semestre": 2,
+    "grupo": "A",
+    "materia": "QUÍMICA II",
+    "parciales": [
+      71,
+      44,
+      66,
+      66
+    ],
+    "final": 61,
+    "periodo": "2025-EneroJulio",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-01T14:24:32.486Z"
+    },
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:40.987Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6863efa013f0a98334be02c9"
+    },
+    "nombre": "VARELA PINEDA JORGE YAEL",
+    "matricula": "24MH011",
+    "especialidad": "MAQUINAS HTA",
+    "semestre": 2,
+    "grupo": "A",
+    "materia": "QUÍMICA II",
+    "parciales": [
+      80,
+      84,
+      89,
+      74
+    ],
+    "final": 82,
+    "periodo": "2025-EneroJulio",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-01T14:24:32.487Z"
+    },
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:40.988Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6863efa013f0a98334be02ca"
+    },
+    "nombre": "CONTRERAS CASTILLO CESAR",
+    "matricula": "24MH014",
+    "especialidad": "MAQUINAS HTA",
+    "semestre": 2,
+    "grupo": "A",
+    "materia": "ÉTICA Y VALORES II",
+    "parciales": [
+      97,
+      94,
+      93,
+      89
+    ],
+    "final": 93,
+    "periodo": "2025-EneroJulio",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-01T14:24:32.487Z"
+    },
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:40.990Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6863efa013f0a98334be02cb"
+    },
+    "nombre": "CRUZ ALEMAN ALINA",
+    "matricula": "24MH031",
+    "especialidad": "MAQUINAS HTA",
+    "semestre": 2,
+    "grupo": "A",
+    "materia": "ÉTICA Y VALORES II",
+    "parciales": [
+      96,
+      76,
+      96,
+      81
+    ],
+    "final": 87,
+    "periodo": "2025-EneroJulio",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-01T14:24:32.487Z"
+    },
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:40.991Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6863efa013f0a98334be02cc"
+    },
+    "nombre": "DE AVILA HERNANDEZ SERGIO OMAR",
+    "matricula": "24MH035",
+    "especialidad": "MAQUINAS HTA",
+    "semestre": 2,
+    "grupo": "A",
+    "materia": "ÉTICA Y VALORES II",
+    "parciales": [
+      44,
+      92,
+      79,
+      82
+    ],
+    "final": 74,
+    "periodo": "2025-EneroJulio",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-01T14:24:32.487Z"
+    },
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:40.992Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6863efa013f0a98334be02cd"
+    },
+    "nombre": "DOMINGUEZ CARREON WILLIAM",
+    "matricula": "24MH002",
+    "especialidad": "MAQUINAS HTA",
+    "semestre": 2,
+    "grupo": "A",
+    "materia": "ÉTICA Y VALORES II",
+    "parciales": [
+      59,
+      74,
+      79,
+      80
+    ],
+    "final": 73,
+    "periodo": "2025-EneroJulio",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-01T14:24:32.487Z"
+    },
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:40.993Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6863efa013f0a98334be02ce"
+    },
+    "nombre": "GONZALEZ SORIA EDUARDO",
+    "matricula": "24MH004",
+    "especialidad": "MAQUINAS HTA",
+    "semestre": 2,
+    "grupo": "A",
+    "materia": "ÉTICA Y VALORES II",
+    "parciales": [
+      87,
+      80,
+      93,
+      85
+    ],
+    "final": 86,
+    "periodo": "2025-EneroJulio",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-01T14:24:32.487Z"
+    },
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:40.994Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6863efa013f0a98334be02cf"
+    },
+    "nombre": "HERNANDEZ FELIX JOSGART GIOVANNY",
+    "matricula": "24MH034",
+    "especialidad": "MAQUINAS HTA",
+    "semestre": 2,
+    "grupo": "A",
+    "materia": "ÉTICA Y VALORES II",
+    "parciales": [
+      93,
+      82,
+      90,
+      85
+    ],
+    "final": 88,
+    "periodo": "2025-EneroJulio",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-01T14:24:32.487Z"
+    },
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:40.995Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6863efa013f0a98334be02d0"
+    },
+    "nombre": "HERNANDEZ QUIROZ ANDRE HERIBERTO",
+    "matricula": "24MH023",
+    "especialidad": "MAQUINAS HTA",
+    "semestre": 2,
+    "grupo": "A",
+    "materia": "ÉTICA Y VALORES II",
+    "parciales": [
+      81,
+      97,
+      72,
+      87
+    ],
+    "final": 84,
+    "periodo": "2025-EneroJulio",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-01T14:24:32.487Z"
+    },
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:40.996Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6863efa013f0a98334be02d1"
+    },
+    "nombre": "HUERTA MENDOZA RUBEN ALEJANDRO",
+    "matricula": "24MH015",
+    "especialidad": "MAQUINAS HTA",
+    "semestre": 2,
+    "grupo": "A",
+    "materia": "ÉTICA Y VALORES II",
+    "parciales": [
+      85,
+      98,
+      100,
+      90
+    ],
+    "final": 93,
+    "periodo": "2025-EneroJulio",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-01T14:24:32.487Z"
+    },
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:40.998Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6863efa013f0a98334be02d2"
+    },
+    "nombre": "MARTINEZ RANGEL FRANCO DANIEL",
+    "matricula": "24MH020",
+    "especialidad": "MAQUINAS HTA",
+    "semestre": 2,
+    "grupo": "A",
+    "materia": "ÉTICA Y VALORES II",
+    "parciales": [
+      100,
+      98,
+      100,
+      90
+    ],
+    "final": 97,
+    "periodo": "2025-EneroJulio",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-01T14:24:32.487Z"
+    },
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:40.999Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6863efa013f0a98334be02d3"
+    },
+    "nombre": "NEVAREZ HERNANDEZ CESAR",
+    "matricula": "24MH005",
+    "especialidad": "MAQUINAS HTA",
+    "semestre": 2,
+    "grupo": "A",
+    "materia": "ÉTICA Y VALORES II",
+    "parciales": [
+      89,
+      96,
+      83,
+      86
+    ],
+    "final": 89,
+    "periodo": "2025-EneroJulio",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-01T14:24:32.487Z"
+    },
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:41Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6863efa013f0a98334be02d4"
+    },
+    "nombre": "OCHOA VALLES ISMAEL",
+    "matricula": "24MH013",
+    "especialidad": "MAQUINAS HTA",
+    "semestre": 2,
+    "grupo": "A",
+    "materia": "ÉTICA Y VALORES II",
+    "parciales": [
+      42,
+      84,
+      79,
+      79
+    ],
+    "final": 71,
+    "periodo": "2025-EneroJulio",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-01T14:24:32.487Z"
+    },
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:41.001Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6863efa013f0a98334be02d5"
+    },
+    "nombre": "OVIEDO CAMACHO LUIS ELADIO",
+    "matricula": "24MH006",
+    "especialidad": "MAQUINAS HTA",
+    "semestre": 2,
+    "grupo": "A",
+    "materia": "ÉTICA Y VALORES II",
+    "parciales": [
+      90,
+      66,
+      65,
+      87
+    ],
+    "final": 77,
+    "periodo": "2025-EneroJulio",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-01T14:24:32.487Z"
+    },
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:41.002Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6863efa013f0a98334be02d6"
+    },
+    "nombre": "PERALES MARTINEZ MATIAS",
+    "matricula": "24MH029",
+    "especialidad": "MAQUINAS HTA",
+    "semestre": 2,
+    "grupo": "A",
+    "materia": "ÉTICA Y VALORES II",
+    "parciales": [
+      79,
+      99,
+      100,
+      88
+    ],
+    "final": 92,
+    "periodo": "2025-EneroJulio",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-01T14:24:32.488Z"
+    },
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:41.003Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6863efa013f0a98334be02d7"
+    },
+    "nombre": "RIVERA DE SANTIAGO JUAN RODRIGO",
+    "matricula": "24MH025",
+    "especialidad": "MAQUINAS HTA",
+    "semestre": 2,
+    "grupo": "A",
+    "materia": "ÉTICA Y VALORES II",
+    "parciales": [
+      73,
+      82,
+      65,
+      100
+    ],
+    "final": 80,
+    "periodo": "2025-EneroJulio",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-01T14:24:32.488Z"
+    },
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:41.004Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6863efa013f0a98334be02d8"
+    },
+    "nombre": "ROBLEDO PEREZ HECTOR ADRIAN",
+    "matricula": "24MH030",
+    "especialidad": "MAQUINAS HTA",
+    "semestre": 2,
+    "grupo": "A",
+    "materia": "ÉTICA Y VALORES II",
+    "parciales": [
+      59,
+      83,
+      93,
+      73
+    ],
+    "final": 77,
+    "periodo": "2025-EneroJulio",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-01T14:24:32.488Z"
+    },
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:41.005Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6863efa013f0a98334be02d9"
+    },
+    "nombre": "RODRIGUEZ ALTAMIRANO CRISTIAN ANDRES",
+    "matricula": "24MH008",
+    "especialidad": "MAQUINAS HTA",
+    "semestre": 2,
+    "grupo": "A",
+    "materia": "ÉTICA Y VALORES II",
+    "parciales": [
+      100,
+      100,
+      100,
+      89
+    ],
+    "final": 97,
+    "periodo": "2025-EneroJulio",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-01T14:24:32.488Z"
+    },
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:41.006Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6863efa013f0a98334be02da"
+    },
+    "nombre": "ROMAN SALAS JOSE MARIA DE JESUS",
+    "matricula": "24MH009",
+    "especialidad": "MAQUINAS HTA",
+    "semestre": 2,
+    "grupo": "A",
+    "materia": "ÉTICA Y VALORES II",
+    "parciales": [
+      99,
+      100,
+      100,
+      100
+    ],
+    "final": 100,
+    "periodo": "2025-EneroJulio",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-01T14:24:32.488Z"
+    },
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:41.007Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6863efa013f0a98334be02db"
+    },
+    "nombre": "ROSALES OCHOA ANDRES",
+    "matricula": "24MH012",
+    "especialidad": "MAQUINAS HTA",
+    "semestre": 2,
+    "grupo": "A",
+    "materia": "ÉTICA Y VALORES II",
+    "parciales": [
+      82,
+      100,
+      97,
+      89
+    ],
+    "final": 92,
+    "periodo": "2025-EneroJulio",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-01T14:24:32.488Z"
+    },
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:41.009Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6863efa013f0a98334be02dc"
+    },
+    "nombre": "RUIZ CABRERA GERARDO EMANUEL",
+    "matricula": "24MH019",
+    "especialidad": "MAQUINAS HTA",
+    "semestre": 2,
+    "grupo": "A",
+    "materia": "ÉTICA Y VALORES II",
+    "parciales": [
+      82,
+      98,
+      90,
+      85
+    ],
+    "final": 89,
+    "periodo": "2025-EneroJulio",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-01T14:24:32.488Z"
+    },
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:41.010Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6863efa013f0a98334be02dd"
+    },
+    "nombre": "TENORIO MORENO YURET ALEXIS",
+    "matricula": "24MH010",
+    "especialidad": "MAQUINAS HTA",
+    "semestre": 2,
+    "grupo": "A",
+    "materia": "ÉTICA Y VALORES II",
+    "parciales": [
+      50,
+      42,
+      90,
+      98
+    ],
+    "final": 70,
+    "periodo": "2025-EneroJulio",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-01T14:24:32.488Z"
+    },
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:41.011Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6863efa013f0a98334be02de"
+    },
+    "nombre": "VARELA PINEDA JORGE YAEL",
+    "matricula": "24MH011",
+    "especialidad": "MAQUINAS HTA",
+    "semestre": 2,
+    "grupo": "A",
+    "materia": "ÉTICA Y VALORES II",
+    "parciales": [
+      89,
+      91,
+      100,
+      82
+    ],
+    "final": 91,
+    "periodo": "2025-EneroJulio",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-01T14:24:32.488Z"
+    },
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:41.012Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6863efa013f0a98334be02df"
+    },
+    "nombre": "ACOSTA SALDIVAR SANTIAGO",
+    "matricula": "24SCI001",
+    "especialidad": "SERVICIOS COMPUTACIONALES E INFORMÁTICOS",
+    "semestre": 2,
+    "grupo": "A",
+    "materia": "MATEMÁTICAS II",
+    "parciales": [
+      68,
+      71,
+      71,
+      92
+    ],
+    "final": 81,
+    "periodo": "2025-EneroJulio",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-01T14:24:32.488Z"
+    },
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:41.013Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6863efa013f0a98334be02e0"
+    },
+    "nombre": "AYALA DEL RIO KAREM AYLIN",
+    "matricula": "24SCI018",
+    "especialidad": "SERVICIOS COMPUTACIONALES E INFORMÁTICOS",
+    "semestre": 2,
+    "grupo": "A",
+    "materia": "MATEMÁTICAS II",
+    "parciales": [
+      92,
+      91,
+      91,
+      92
+    ],
+    "final": 94,
+    "periodo": "2025-EneroJulio",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-01T14:24:32.488Z"
+    },
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:41.015Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6863efa013f0a98334be02e1"
+    },
+    "nombre": "CERROS RAMIREZ OMAR",
+    "matricula": "24SCI023",
+    "especialidad": "SERVICIOS COMPUTACIONALES E INFORMÁTICOS",
+    "semestre": 2,
+    "grupo": "A",
+    "materia": "MATEMÁTICAS II",
+    "parciales": [
+      57,
+      82,
+      82,
+      89
+    ],
+    "final": 75,
+    "periodo": "2025-EneroJulio",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-01T14:24:32.488Z"
+    },
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:41.016Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6863efa013f0a98334be02e2"
+    },
+    "nombre": "CHAVEZ ELIAS PAOLA JOHANA",
+    "matricula": "24SCI032",
+    "especialidad": "SERVICIOS COMPUTACIONALES E INFORMÁTICOS",
+    "semestre": 2,
+    "grupo": "A",
+    "materia": "MATEMÁTICAS II",
+    "parciales": [
+      19,
+      30,
+      30,
+      63
+    ],
+    "final": 33,
+    "periodo": "2025-EneroJulio",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-01T14:24:32.488Z"
+    },
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:41.017Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6863efa013f0a98334be02e3"
+    },
+    "nombre": "CRISPIN ALCALA DANIELA NOVALY",
+    "matricula": "24SCI003",
+    "especialidad": "SERVICIOS COMPUTACIONALES E INFORMÁTICOS",
+    "semestre": 2,
+    "grupo": "A",
+    "materia": "MATEMÁTICAS II",
+    "parciales": [
+      100,
+      100,
+      100,
+      97
+    ],
+    "final": 99,
+    "periodo": "2025-EneroJulio",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-01T14:24:32.488Z"
+    },
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:41.018Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6863efa013f0a98334be02e4"
+    },
+    "nombre": "DE LA CRUZ DEL VALLE JIOVANNY",
+    "matricula": "24SCI028",
+    "especialidad": "SERVICIOS COMPUTACIONALES E INFORMÁTICOS",
+    "semestre": 2,
+    "grupo": "A",
+    "materia": "MATEMÁTICAS II",
+    "parciales": [
+      61,
+      96,
+      96,
+      65
+    ],
+    "final": 75,
+    "periodo": "2025-EneroJulio",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-01T14:24:32.488Z"
+    },
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:41.019Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6863efa013f0a98334be02e5"
+    },
+    "nombre": "DURAN DE LA CRUZ ERIK DAVID",
+    "matricula": "24SCI015",
+    "especialidad": "SERVICIOS COMPUTACIONALES E INFORMÁTICOS",
+    "semestre": 2,
+    "grupo": "A",
+    "materia": "MATEMÁTICAS II",
+    "parciales": [
+      63,
+      63,
+      63,
+      97
+    ],
+    "final": 77,
+    "periodo": "2025-EneroJulio",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-01T14:24:32.489Z"
+    },
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:41.020Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6863efa013f0a98334be02e6"
+    },
+    "nombre": "ESCOBAR HIDALGO IAN RICARDO",
+    "matricula": "24SCI020",
+    "especialidad": "SERVICIOS COMPUTACIONALES E INFORMÁTICOS",
+    "semestre": 2,
+    "grupo": "A",
+    "materia": "MATEMÁTICAS II",
+    "parciales": [
+      41,
+      43,
+      43,
+      64
+    ],
+    "final": 50,
+    "periodo": "2025-EneroJulio",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-01T14:24:32.489Z"
+    },
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:41.022Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6863efa013f0a98334be02e7"
+    },
+    "nombre": "GUTIERREZ HERNANDEZ DANIELA MICHELLE",
+    "matricula": "24SCI012",
+    "especialidad": "SERVICIOS COMPUTACIONALES E INFORMÁTICOS",
+    "semestre": 2,
+    "grupo": "A",
+    "materia": "MATEMÁTICAS II",
+    "parciales": [
+      37,
+      90,
+      90,
+      90
+    ],
+    "final": 73,
+    "periodo": "2025-EneroJulio",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-01T14:24:32.489Z"
+    },
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:41.023Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6863efa013f0a98334be02e8"
+    },
+    "nombre": "GUZMAN ALONSO AZUL ALEJANDRA",
+    "matricula": "24SCI006",
+    "especialidad": "SERVICIOS COMPUTACIONALES E INFORMÁTICOS",
+    "semestre": 2,
+    "grupo": "A",
+    "materia": "MATEMÁTICAS II",
+    "parciales": [
+      53,
+      84,
+      84,
+      93
+    ],
+    "final": 75,
+    "periodo": "2025-EneroJulio",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-01T14:24:32.489Z"
+    },
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:41.024Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6863efa013f0a98334be02e9"
+    },
+    "nombre": "JUAREZ TORRES JESUS GERARDO",
+    "matricula": "24SCI021",
+    "especialidad": "SERVICIOS COMPUTACIONALES E INFORMÁTICOS",
+    "semestre": 2,
+    "grupo": "A",
+    "materia": "MATEMÁTICAS II",
+    "parciales": [
+      24,
+      41,
+      41,
+      70
+    ],
+    "final": 46,
+    "periodo": "2025-EneroJulio",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-01T14:24:32.489Z"
+    },
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:41.025Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6863efa013f0a98334be02ea"
+    },
+    "nombre": "MORENO ROSALES KARIME YOCELIN",
+    "matricula": "24SCI027",
+    "especialidad": "SERVICIOS COMPUTACIONALES E INFORMÁTICOS",
+    "semestre": 2,
+    "grupo": "A",
+    "materia": "MATEMÁTICAS II",
+    "parciales": [
+      17,
+      56,
+      56,
+      92
+    ],
+    "final": 60,
+    "periodo": "2025-EneroJulio",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-01T14:24:32.489Z"
+    },
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:41.027Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6863efa013f0a98334be02eb"
+    },
+    "nombre": "RANGEL CANIZALES OSCAR ALAN",
+    "matricula": "24SCI022",
+    "especialidad": "SERVICIOS COMPUTACIONALES E INFORMÁTICOS",
+    "semestre": 2,
+    "grupo": "A",
+    "materia": "MATEMÁTICAS II",
+    "parciales": [
+      31,
+      53,
+      53,
+      94
+    ],
+    "final": 66,
+    "periodo": "2025-EneroJulio",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-01T14:24:32.489Z"
+    },
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:41.028Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6863efa013f0a98334be02ec"
+    },
+    "nombre": "REYES ORTIZ ADRIAN MABAHEL",
+    "matricula": "24SCI016",
+    "especialidad": "SERVICIOS COMPUTACIONALES E INFORMÁTICOS",
+    "semestre": 2,
+    "grupo": "A",
+    "materia": "MATEMÁTICAS II",
+    "parciales": [
+      39,
+      59,
+      59,
+      83
+    ],
+    "final": 62,
+    "periodo": "2025-EneroJulio",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-01T14:24:32.489Z"
+    },
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:41.029Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6863efa013f0a98334be02ed"
+    },
+    "nombre": "RIOS RUIZ YAZMIN",
+    "matricula": "24SCI008",
+    "especialidad": "SERVICIOS COMPUTACIONALES E INFORMÁTICOS",
+    "semestre": 2,
+    "grupo": "A",
+    "materia": "MATEMÁTICAS II",
+    "parciales": [
+      61,
+      63,
+      63,
+      86
+    ],
+    "final": 68,
+    "periodo": "2025-EneroJulio",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-01T14:24:32.489Z"
+    },
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:41.030Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6863efa013f0a98334be02ee"
+    },
+    "nombre": "RIVAS HARO DANIEL ALEJANDRO",
+    "matricula": "24SCI026",
+    "especialidad": "SERVICIOS COMPUTACIONALES E INFORMÁTICOS",
+    "semestre": 2,
+    "grupo": "A",
+    "materia": "MATEMÁTICAS II",
+    "parciales": [
+      31,
+      35,
+      35,
+      66
+    ],
+    "final": 45,
+    "periodo": "2025-EneroJulio",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-01T14:24:32.489Z"
+    },
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:41.031Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6863efa013f0a98334be02ef"
+    },
+    "nombre": "RIVAS SOLIS LILIANA JOSELYN",
+    "matricula": "24SCI017",
+    "especialidad": "SERVICIOS COMPUTACIONALES E INFORMÁTICOS",
+    "semestre": 2,
+    "grupo": "A",
+    "materia": "MATEMÁTICAS II",
+    "parciales": [
+      86,
+      100,
+      100,
+      90
+    ],
+    "final": 94,
+    "periodo": "2025-EneroJulio",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-01T14:24:32.489Z"
+    },
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:41.032Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6863efa013f0a98334be02f0"
+    },
+    "nombre": "RODRIGUEZ FLORES VANNYA",
+    "matricula": "24SCI007",
+    "especialidad": "SERVICIOS COMPUTACIONALES E INFORMÁTICOS",
+    "semestre": 2,
+    "grupo": "A",
+    "materia": "MATEMÁTICAS II",
+    "parciales": [
+      18,
+      23,
+      23,
+      53
+    ],
+    "final": 31,
+    "periodo": "2025-EneroJulio",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-01T14:24:32.489Z"
+    },
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:41.033Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6863efa013f0a98334be02f1"
+    },
+    "nombre": "RUBIO ROJAS CHRISTIAN TADEO",
+    "matricula": "24SCI014",
+    "especialidad": "SERVICIOS COMPUTACIONALES E INFORMÁTICOS",
+    "semestre": 2,
+    "grupo": "A",
+    "materia": "MATEMÁTICAS II",
+    "parciales": [
+      33,
+      87,
+      87,
+      86
+    ],
+    "final": 66,
+    "periodo": "2025-EneroJulio",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-01T14:24:32.489Z"
+    },
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:41.035Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6863efa013f0a98334be02f2"
+    },
+    "nombre": "SALAZAR MUÑOZ DAIRA CELESTE",
+    "matricula": "24SCI025",
+    "especialidad": "SERVICIOS COMPUTACIONALES E INFORMÁTICOS",
+    "semestre": 2,
+    "grupo": "A",
+    "materia": "MATEMÁTICAS II",
+    "parciales": [
+      31,
+      56,
+      56,
+      89
+    ],
+    "final": 59,
+    "periodo": "2025-EneroJulio",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-01T14:24:32.489Z"
+    },
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:41.036Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6863efa013f0a98334be02f3"
+    },
+    "nombre": "SAUCEDO SANCHEZ ANDREA",
+    "matricula": "24SCI013",
+    "especialidad": "SERVICIOS COMPUTACIONALES E INFORMÁTICOS",
+    "semestre": 2,
+    "grupo": "A",
+    "materia": "MATEMÁTICAS II",
+    "parciales": [
+      97,
+      100,
+      100,
+      97
+    ],
+    "final": 99,
+    "periodo": "2025-EneroJulio",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-01T14:24:32.489Z"
+    },
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:41.037Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6863efa013f0a98334be02f4"
+    },
+    "nombre": "SOLIS GARCIA ISMAEL",
+    "matricula": "24SCI010",
+    "especialidad": "SERVICIOS COMPUTACIONALES E INFORMÁTICOS",
+    "semestre": 2,
+    "grupo": "A",
+    "materia": "MATEMÁTICAS II",
+    "parciales": [
+      27,
+      43,
+      43,
+      94
+    ],
+    "final": 55,
+    "periodo": "2025-EneroJulio",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-01T14:24:32.489Z"
+    },
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:41.039Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6863efa013f0a98334be02f5"
+    },
+    "nombre": "ACOSTA SALDIVAR SANTIAGO",
+    "matricula": "24SCI001",
+    "especialidad": "SERVICIOS COMPUTACIONALES E INFORMÁTICOS",
+    "semestre": 2,
+    "grupo": "A",
+    "materia": "QUÍMICA II",
+    "parciales": [
+      71,
+      70,
+      71,
+      73
+    ],
+    "final": 71,
+    "periodo": "2025-EneroJulio",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-01T14:24:32.489Z"
+    },
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:41.040Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6863efa013f0a98334be02f6"
+    },
+    "nombre": "AYALA DEL RIO KAREM AYLIN",
+    "matricula": "24SCI018",
+    "especialidad": "SERVICIOS COMPUTACIONALES E INFORMÁTICOS",
+    "semestre": 2,
+    "grupo": "A",
+    "materia": "QUÍMICA II",
+    "parciales": [
+      81,
+      81,
+      63,
+      92
+    ],
+    "final": 79,
+    "periodo": "2025-EneroJulio",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-01T14:24:32.489Z"
+    },
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:41.041Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6863efa013f0a98334be02f7"
+    },
+    "nombre": "CERROS RAMIREZ OMAR",
+    "matricula": "24SCI023",
+    "especialidad": "SERVICIOS COMPUTACIONALES E INFORMÁTICOS",
+    "semestre": 2,
+    "grupo": "A",
+    "materia": "QUÍMICA II",
+    "parciales": [
+      82,
+      91,
+      82,
+      88
+    ],
+    "final": 86,
+    "periodo": "2025-EneroJulio",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-01T14:24:32.490Z"
+    },
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:41.042Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6863efa013f0a98334be02f8"
+    },
+    "nombre": "CHAVEZ ELIAS PAOLA JOHANA",
+    "matricula": "24SCI032",
+    "especialidad": "SERVICIOS COMPUTACIONALES E INFORMÁTICOS",
+    "semestre": 2,
+    "grupo": "A",
+    "materia": "QUÍMICA II",
+    "parciales": [
+      48,
+      52,
+      31,
+      null
+    ],
+    "final": 32,
+    "periodo": "2025-EneroJulio",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-01T14:24:32.490Z"
+    },
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:41.044Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6863efa013f0a98334be02f9"
+    },
+    "nombre": "CRISPIN ALCALA DANIELA NOVALY",
+    "matricula": "24SCI003",
+    "especialidad": "SERVICIOS COMPUTACIONALES E INFORMÁTICOS",
+    "semestre": 2,
+    "grupo": "A",
+    "materia": "QUÍMICA II",
+    "parciales": [
+      82,
+      96,
+      77,
+      89
+    ],
+    "final": 86,
+    "periodo": "2025-EneroJulio",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-01T14:24:32.490Z"
+    },
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:41.045Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6863efa013f0a98334be02fa"
+    },
+    "nombre": "DE LA CRUZ DEL VALLE JIOVANNY",
+    "matricula": "24SCI028",
+    "especialidad": "SERVICIOS COMPUTACIONALES E INFORMÁTICOS",
+    "semestre": 2,
+    "grupo": "A",
+    "materia": "QUÍMICA II",
+    "parciales": [
+      91,
+      84,
+      64,
+      94
+    ],
+    "final": 83,
+    "periodo": "2025-EneroJulio",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-01T14:24:32.490Z"
+    },
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:41.046Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6863efa013f0a98334be02fb"
+    },
+    "nombre": "DURAN DE LA CRUZ ERIK DAVID",
+    "matricula": "24SCI015",
+    "especialidad": "SERVICIOS COMPUTACIONALES E INFORMÁTICOS",
+    "semestre": 2,
+    "grupo": "A",
+    "materia": "QUÍMICA II",
+    "parciales": [
+      95,
+      95,
+      95,
+      87
+    ],
+    "final": 93,
+    "periodo": "2025-EneroJulio",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-01T14:24:32.490Z"
+    },
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:41.047Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6863efa013f0a98334be02fc"
+    },
+    "nombre": "ESCOBAR HIDALGO IAN RICARDO",
+    "matricula": "24SCI020",
+    "especialidad": "SERVICIOS COMPUTACIONALES E INFORMÁTICOS",
+    "semestre": 2,
+    "grupo": "A",
+    "materia": "QUÍMICA II",
+    "parciales": [
+      60,
+      73,
+      31,
+      74
+    ],
+    "final": 59,
+    "periodo": "2025-EneroJulio",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-01T14:24:32.490Z"
+    },
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:41.048Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6863efa013f0a98334be02fd"
+    },
+    "nombre": "GUTIERREZ HERNANDEZ DANIELA MICHELLE",
+    "matricula": "24SCI012",
+    "especialidad": "SERVICIOS COMPUTACIONALES E INFORMÁTICOS",
+    "semestre": 2,
+    "grupo": "A",
+    "materia": "QUÍMICA II",
+    "parciales": [
+      53,
+      89,
+      80,
+      85
+    ],
+    "final": 77,
+    "periodo": "2025-EneroJulio",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-01T14:24:32.490Z"
+    },
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:41.049Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6863efa013f0a98334be02fe"
+    },
+    "nombre": "GUZMAN ALONSO AZUL ALEJANDRA",
+    "matricula": "24SCI006",
+    "especialidad": "SERVICIOS COMPUTACIONALES E INFORMÁTICOS",
+    "semestre": 2,
+    "grupo": "A",
+    "materia": "QUÍMICA II",
+    "parciales": [
+      80,
+      81,
+      79,
+      89
+    ],
+    "final": 82,
+    "periodo": "2025-EneroJulio",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-01T14:24:32.490Z"
+    },
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:41.050Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6863efa013f0a98334be02ff"
+    },
+    "nombre": "JUAREZ TORRES JESUS GERARDO",
+    "matricula": "24SCI021",
+    "especialidad": "SERVICIOS COMPUTACIONALES E INFORMÁTICOS",
+    "semestre": 2,
+    "grupo": "A",
+    "materia": "QUÍMICA II",
+    "parciales": [
+      61,
+      60,
+      64,
+      65
+    ],
+    "final": 62,
+    "periodo": "2025-EneroJulio",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-01T14:24:32.490Z"
+    },
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:41.052Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6863efa013f0a98334be0300"
+    },
+    "nombre": "MORENO ROSALES KARIME YOCELIN",
+    "matricula": "24SCI027",
+    "especialidad": "SERVICIOS COMPUTACIONALES E INFORMÁTICOS",
+    "semestre": 2,
+    "grupo": "A",
+    "materia": "QUÍMICA II",
+    "parciales": [
+      24,
+      55,
+      79,
+      84
+    ],
+    "final": 60,
+    "periodo": "2025-EneroJulio",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-01T14:24:32.490Z"
+    },
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:41.053Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6863efa013f0a98334be0301"
+    },
+    "nombre": "RANGEL CANIZALES OSCAR ALAN",
+    "matricula": "24SCI022",
+    "especialidad": "SERVICIOS COMPUTACIONALES E INFORMÁTICOS",
+    "semestre": 2,
+    "grupo": "A",
+    "materia": "QUÍMICA II",
+    "parciales": [
+      68,
+      85,
+      78,
+      91
+    ],
+    "final": 81,
+    "periodo": "2025-EneroJulio",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-01T14:24:32.490Z"
+    },
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:41.054Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6863efa013f0a98334be0302"
+    },
+    "nombre": "REYES ORTIZ ADRIAN MABAHEL",
+    "matricula": "24SCI016",
+    "especialidad": "SERVICIOS COMPUTACIONALES E INFORMÁTICOS",
+    "semestre": 2,
+    "grupo": "A",
+    "materia": "QUÍMICA II",
+    "parciales": [
+      71,
+      98,
+      94,
+      77
+    ],
+    "final": 85,
+    "periodo": "2025-EneroJulio",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-01T14:24:32.490Z"
+    },
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:41.055Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6863efa013f0a98334be0303"
+    },
+    "nombre": "RIOS RUIZ YAZMIN",
+    "matricula": "24SCI008",
+    "especialidad": "SERVICIOS COMPUTACIONALES E INFORMÁTICOS",
+    "semestre": 2,
+    "grupo": "A",
+    "materia": "QUÍMICA II",
+    "parciales": [
+      84,
+      73,
+      65,
+      80
+    ],
+    "final": 76,
+    "periodo": "2025-EneroJulio",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-01T14:24:32.490Z"
+    },
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:41.056Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6863efa013f0a98334be0304"
+    },
+    "nombre": "RIVAS HARO DANIEL ALEJANDRO",
+    "matricula": "24SCI026",
+    "especialidad": "SERVICIOS COMPUTACIONALES E INFORMÁTICOS",
+    "semestre": 2,
+    "grupo": "A",
+    "materia": "QUÍMICA II",
+    "parciales": [
+      62,
+      52,
+      34,
+      73
+    ],
+    "final": 55,
+    "periodo": "2025-EneroJulio",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-01T14:24:32.490Z"
+    },
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:41.057Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6863efa013f0a98334be0305"
+    },
+    "nombre": "RIVAS SOLIS LILIANA JOSELYN",
+    "matricula": "24SCI017",
+    "especialidad": "SERVICIOS COMPUTACIONALES E INFORMÁTICOS",
+    "semestre": 2,
+    "grupo": "A",
+    "materia": "QUÍMICA II",
+    "parciales": [
+      84,
+      80,
+      82,
+      84
+    ],
+    "final": 83,
+    "periodo": "2025-EneroJulio",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-01T14:24:32.490Z"
+    },
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:41.059Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6863efa013f0a98334be0306"
+    },
+    "nombre": "RODRIGUEZ FLORES VANNYA",
+    "matricula": "24SCI007",
+    "especialidad": "SERVICIOS COMPUTACIONALES E INFORMÁTICOS",
+    "semestre": 2,
+    "grupo": "A",
+    "materia": "QUÍMICA II",
+    "parciales": [
+      76,
+      85,
+      70,
+      54
+    ],
+    "final": 71,
+    "periodo": "2025-EneroJulio",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-01T14:24:32.490Z"
+    },
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:41.060Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6863efa013f0a98334be0307"
+    },
+    "nombre": "RUBIO ROJAS CHRISTIAN TADEO",
+    "matricula": "24SCI014",
+    "especialidad": "SERVICIOS COMPUTACIONALES E INFORMÁTICOS",
+    "semestre": 2,
+    "grupo": "A",
+    "materia": "QUÍMICA II",
+    "parciales": [
+      75,
+      72,
+      47,
+      69
+    ],
+    "final": 65,
+    "periodo": "2025-EneroJulio",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-01T14:24:32.490Z"
+    },
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:41.061Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6863efa013f0a98334be0308"
+    },
+    "nombre": "SALAZAR MUÑOZ DAIRA CELESTE",
+    "matricula": "24SCI025",
+    "especialidad": "SERVICIOS COMPUTACIONALES E INFORMÁTICOS",
+    "semestre": 2,
+    "grupo": "A",
+    "materia": "QUÍMICA II",
+    "parciales": [
+      57,
+      70,
+      70,
+      88
+    ],
+    "final": 71,
+    "periodo": "2025-EneroJulio",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-01T14:24:32.490Z"
+    },
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:41.062Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6863efa013f0a98334be0309"
+    },
+    "nombre": "SAUCEDO SANCHEZ ANDREA",
+    "matricula": "24SCI013",
+    "especialidad": "SERVICIOS COMPUTACIONALES E INFORMÁTICOS",
+    "semestre": 2,
+    "grupo": "A",
+    "materia": "QUÍMICA II",
+    "parciales": [
+      83,
+      90,
+      82,
+      93
+    ],
+    "final": 87,
+    "periodo": "2025-EneroJulio",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-01T14:24:32.490Z"
+    },
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:41.063Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6863efa013f0a98334be030a"
+    },
+    "nombre": "SOLIS GARCIA ISMAEL",
+    "matricula": "24SCI010",
+    "especialidad": "SERVICIOS COMPUTACIONALES E INFORMÁTICOS",
+    "semestre": 2,
+    "grupo": "A",
+    "materia": "QUÍMICA II",
+    "parciales": [
+      74,
+      86,
+      43,
+      86
+    ],
+    "final": 72,
+    "periodo": "2025-EneroJulio",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-01T14:24:32.490Z"
+    },
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:41.064Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6863efa013f0a98334be030b"
+    },
+    "nombre": "ACOSTA SALDIVAR SANTIAGO",
+    "matricula": "24SCI001",
+    "especialidad": "SERVICIOS COMPUTACIONALES E INFORMÁTICOS",
+    "semestre": 2,
+    "grupo": "A",
+    "materia": "ÉTICA Y VALORES II",
+    "parciales": [
+      86,
+      79,
+      90,
+      81
+    ],
+    "final": 84,
+    "periodo": "2025-EneroJulio",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-01T14:24:32.490Z"
+    },
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:41.065Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6863efa013f0a98334be030c"
+    },
+    "nombre": "AYALA DEL RIO KAREM AYLIN",
+    "matricula": "24SCI018",
+    "especialidad": "SERVICIOS COMPUTACIONALES E INFORMÁTICOS",
+    "semestre": 2,
+    "grupo": "A",
+    "materia": "ÉTICA Y VALORES II",
+    "parciales": [
+      93,
+      100,
+      97,
+      99
+    ],
+    "final": 97,
+    "periodo": "2025-EneroJulio",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-01T14:24:32.490Z"
+    },
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:41.067Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6863efa013f0a98334be030d"
+    },
+    "nombre": "CERROS RAMIREZ OMAR",
+    "matricula": "24SCI023",
+    "especialidad": "SERVICIOS COMPUTACIONALES E INFORMÁTICOS",
+    "semestre": 2,
+    "grupo": "A",
+    "materia": "ÉTICA Y VALORES II",
+    "parciales": [
+      82,
+      87,
+      88,
+      93
+    ],
+    "final": 88,
+    "periodo": "2025-EneroJulio",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-01T14:24:32.490Z"
+    },
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:41.068Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6863efa013f0a98334be030e"
+    },
+    "nombre": "CHAVEZ ELIAS PAOLA JOHANA",
+    "matricula": "24SCI032",
+    "especialidad": "SERVICIOS COMPUTACIONALES E INFORMÁTICOS",
+    "semestre": 2,
+    "grupo": "A",
+    "materia": "ÉTICA Y VALORES II",
+    "parciales": [
+      74,
+      77,
+      26,
+      5
+    ],
+    "final": 45,
+    "periodo": "2025-EneroJulio",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-01T14:24:32.490Z"
+    },
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:41.069Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6863efa013f0a98334be030f"
+    },
+    "nombre": "CRISPIN ALCALA DANIELA NOVALY",
+    "matricula": "24SCI003",
+    "especialidad": "SERVICIOS COMPUTACIONALES E INFORMÁTICOS",
+    "semestre": 2,
+    "grupo": "A",
+    "materia": "ÉTICA Y VALORES II",
+    "parciales": [
+      93,
+      100,
+      100,
+      85
+    ],
+    "final": 95,
+    "periodo": "2025-EneroJulio",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-01T14:24:32.490Z"
+    },
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:41.070Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6863efa013f0a98334be0310"
+    },
+    "nombre": "DE LA CRUZ DEL VALLE JIOVANNY",
+    "matricula": "24SCI028",
+    "especialidad": "SERVICIOS COMPUTACIONALES E INFORMÁTICOS",
+    "semestre": 2,
+    "grupo": "A",
+    "materia": "ÉTICA Y VALORES II",
+    "parciales": [
+      91,
+      46,
+      100,
+      86
+    ],
+    "final": 81,
+    "periodo": "2025-EneroJulio",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-01T14:24:32.491Z"
+    },
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:41.071Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6863efa013f0a98334be0311"
+    },
+    "nombre": "DURAN DE LA CRUZ ERIK DAVID",
+    "matricula": "24SCI015",
+    "especialidad": "SERVICIOS COMPUTACIONALES E INFORMÁTICOS",
+    "semestre": 2,
+    "grupo": "A",
+    "materia": "ÉTICA Y VALORES II",
+    "parciales": [
+      81,
+      81,
+      83,
+      99
+    ],
+    "final": 86,
+    "periodo": "2025-EneroJulio",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-01T14:24:32.491Z"
+    },
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:41.072Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6863efa013f0a98334be0312"
+    },
+    "nombre": "ESCOBAR HIDALGO IAN RICARDO",
+    "matricula": "24SCI020",
+    "especialidad": "SERVICIOS COMPUTACIONALES E INFORMÁTICOS",
+    "semestre": 2,
+    "grupo": "A",
+    "materia": "ÉTICA Y VALORES II",
+    "parciales": [
+      51,
+      83,
+      55,
+      51
+    ],
+    "final": 60,
+    "periodo": "2025-EneroJulio",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-01T14:24:32.491Z"
+    },
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:41.074Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6863efa013f0a98334be0313"
+    },
+    "nombre": "GUTIERREZ HERNANDEZ DANIELA MICHELLE",
+    "matricula": "24SCI012",
+    "especialidad": "SERVICIOS COMPUTACIONALES E INFORMÁTICOS",
+    "semestre": 2,
+    "grupo": "A",
+    "materia": "ÉTICA Y VALORES II",
+    "parciales": [
+      51,
+      97,
+      93,
+      82
+    ],
+    "final": 81,
+    "periodo": "2025-EneroJulio",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-01T14:24:32.491Z"
+    },
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:41.075Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6863efa013f0a98334be0314"
+    },
+    "nombre": "GUZMAN ALONSO AZUL ALEJANDRA",
+    "matricula": "24SCI006",
+    "especialidad": "SERVICIOS COMPUTACIONALES E INFORMÁTICOS",
+    "semestre": 2,
+    "grupo": "A",
+    "materia": "ÉTICA Y VALORES II",
+    "parciales": [
+      86,
+      96,
+      100,
+      93
+    ],
+    "final": 94,
+    "periodo": "2025-EneroJulio",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-01T14:24:32.491Z"
+    },
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:41.076Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6863efa013f0a98334be0315"
+    },
+    "nombre": "JUAREZ TORRES JESUS GERARDO",
+    "matricula": "24SCI021",
+    "especialidad": "SERVICIOS COMPUTACIONALES E INFORMÁTICOS",
+    "semestre": 2,
+    "grupo": "A",
+    "materia": "ÉTICA Y VALORES II",
+    "parciales": [
+      70,
+      85,
+      90,
+      69
+    ],
+    "final": 79,
+    "periodo": "2025-EneroJulio",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-01T14:24:32.491Z"
+    },
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:41.077Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6863efa013f0a98334be0316"
+    },
+    "nombre": "MORENO ROSALES KARIME YOCELIN",
+    "matricula": "24SCI027",
+    "especialidad": "SERVICIOS COMPUTACIONALES E INFORMÁTICOS",
+    "semestre": 2,
+    "grupo": "A",
+    "materia": "ÉTICA Y VALORES II",
+    "parciales": [
+      92,
+      100,
+      93,
+      98
+    ],
+    "final": 96,
+    "periodo": "2025-EneroJulio",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-01T14:24:32.491Z"
+    },
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:41.078Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6863efa013f0a98334be0317"
+    },
+    "nombre": "RANGEL CANIZALES OSCAR ALAN",
+    "matricula": "24SCI022",
+    "especialidad": "SERVICIOS COMPUTACIONALES E INFORMÁTICOS",
+    "semestre": 2,
+    "grupo": "A",
+    "materia": "ÉTICA Y VALORES II",
+    "parciales": [
+      20,
+      91,
+      100,
+      78
+    ],
+    "final": 72,
+    "periodo": "2025-EneroJulio",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-01T14:24:32.491Z"
+    },
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:41.079Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6863efa013f0a98334be0318"
+    },
+    "nombre": "REYES ORTIZ ADRIAN MABAHEL",
+    "matricula": "24SCI016",
+    "especialidad": "SERVICIOS COMPUTACIONALES E INFORMÁTICOS",
+    "semestre": 2,
+    "grupo": "A",
+    "materia": "ÉTICA Y VALORES II",
+    "parciales": [
+      83,
+      81,
+      90,
+      75
+    ],
+    "final": 82,
+    "periodo": "2025-EneroJulio",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-01T14:24:32.491Z"
+    },
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:41.080Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6863efa013f0a98334be0319"
+    },
+    "nombre": "RIOS RUIZ YAZMIN",
+    "matricula": "24SCI008",
+    "especialidad": "SERVICIOS COMPUTACIONALES E INFORMÁTICOS",
+    "semestre": 2,
+    "grupo": "A",
+    "materia": "ÉTICA Y VALORES II",
+    "parciales": [
+      84,
+      74,
+      93,
+      94
+    ],
+    "final": 86,
+    "periodo": "2025-EneroJulio",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-01T14:24:32.491Z"
+    },
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:41.082Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6863efa013f0a98334be031a"
+    },
+    "nombre": "RIVAS HARO DANIEL ALEJANDRO",
+    "matricula": "24SCI026",
+    "especialidad": "SERVICIOS COMPUTACIONALES E INFORMÁTICOS",
+    "semestre": 2,
+    "grupo": "A",
+    "materia": "ÉTICA Y VALORES II",
+    "parciales": [
+      91,
+      82,
+      83,
+      83
+    ],
+    "final": 85,
+    "periodo": "2025-EneroJulio",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-01T14:24:32.491Z"
+    },
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:41.083Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6863efa013f0a98334be031b"
+    },
+    "nombre": "RIVAS SOLIS LILIANA JOSELYN",
+    "matricula": "24SCI017",
+    "especialidad": "SERVICIOS COMPUTACIONALES E INFORMÁTICOS",
+    "semestre": 2,
+    "grupo": "A",
+    "materia": "ÉTICA Y VALORES II",
+    "parciales": [
+      93,
+      88,
+      100,
+      100
+    ],
+    "final": 95,
+    "periodo": "2025-EneroJulio",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-01T14:24:32.491Z"
+    },
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:41.084Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6863efa013f0a98334be031c"
+    },
+    "nombre": "RODRIGUEZ FLORES VANNYA",
+    "matricula": "24SCI007",
+    "especialidad": "SERVICIOS COMPUTACIONALES E INFORMÁTICOS",
+    "semestre": 2,
+    "grupo": "A",
+    "materia": "ÉTICA Y VALORES II",
+    "parciales": [
+      58,
+      63,
+      68,
+      95
+    ],
+    "final": 71,
+    "periodo": "2025-EneroJulio",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-01T14:24:32.491Z"
+    },
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:41.086Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6863efa013f0a98334be031d"
+    },
+    "nombre": "RUBIO ROJAS CHRISTIAN TADEO",
+    "matricula": "24SCI014",
+    "especialidad": "SERVICIOS COMPUTACIONALES E INFORMÁTICOS",
+    "semestre": 2,
+    "grupo": "A",
+    "materia": "ÉTICA Y VALORES II",
+    "parciales": [
+      86,
+      100,
+      100,
+      79
+    ],
+    "final": 91,
+    "periodo": "2025-EneroJulio",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-01T14:24:32.491Z"
+    },
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:41.087Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6863efa013f0a98334be031e"
+    },
+    "nombre": "SALAZAR MUÑOZ DAIRA CELESTE",
+    "matricula": "24SCI025",
+    "especialidad": "SERVICIOS COMPUTACIONALES E INFORMÁTICOS",
+    "semestre": 2,
+    "grupo": "A",
+    "materia": "ÉTICA Y VALORES II",
+    "parciales": [
+      54,
+      79,
+      80,
+      97
+    ],
+    "final": 78,
+    "periodo": "2025-EneroJulio",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-01T14:24:32.491Z"
+    },
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:41.089Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6863efa013f0a98334be031f"
+    },
+    "nombre": "SAUCEDO SANCHEZ ANDREA",
+    "matricula": "24SCI013",
+    "especialidad": "SERVICIOS COMPUTACIONALES E INFORMÁTICOS",
+    "semestre": 2,
+    "grupo": "A",
+    "materia": "ÉTICA Y VALORES II",
+    "parciales": [
+      90,
+      92,
+      97,
+      92
+    ],
+    "final": 93,
+    "periodo": "2025-EneroJulio",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-01T14:24:32.491Z"
+    },
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:41.090Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6863efa013f0a98334be0320"
+    },
+    "nombre": "SOLIS GARCIA ISMAEL",
+    "matricula": "24SCI010",
+    "especialidad": "SERVICIOS COMPUTACIONALES E INFORMÁTICOS",
+    "semestre": 2,
+    "grupo": "A",
+    "materia": "ÉTICA Y VALORES II",
+    "parciales": [
+      67,
+      99,
+      77,
+      93
+    ],
+    "final": 84,
+    "periodo": "2025-EneroJulio",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-01T14:24:32.491Z"
+    },
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:41.091Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "686551fd8e19570d4ee92b74"
+    },
+    "matricula": "24ELE001",
+    "periodo": "2025-EneroJulio",
+    "materia": "MATEMÁTICAS II",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-02T15:36:29.055Z"
+    },
+    "especialidad": "ELECTRICIDAD",
+    "final": 74,
+    "grupo": "A",
+    "parciales": [
+      61,
+      56,
+      100,
+      77
+    ],
+    "semestre": 2,
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:41.092Z"
+    },
+    "nombre": "ALVARADO ROJAS JORGE SANTIAGO"
+  },
+  {
+    "_id": {
+      "$oid": "686551fd8e19570d4ee92b75"
+    },
+    "matricula": "24ELE024",
+    "periodo": "2025-EneroJulio",
+    "materia": "MATEMÁTICAS II",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-02T15:36:29.062Z"
+    },
+    "especialidad": "ELECTRICIDAD",
+    "final": 75,
+    "grupo": "A",
+    "parciales": [
+      65,
+      55,
+      100,
+      78
+    ],
+    "semestre": 2,
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:41.094Z"
+    },
+    "nombre": "ANGUIANO TREVIÑO SERGIO SAUL"
+  },
+  {
+    "_id": {
+      "$oid": "686551fd8e19570d4ee92b76"
+    },
+    "matricula": "24ELE002",
+    "periodo": "2025-EneroJulio",
+    "materia": "MATEMÁTICAS II",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-02T15:36:29.064Z"
+    },
+    "especialidad": "ELECTRICIDAD",
+    "final": 93,
+    "grupo": "A",
+    "parciales": [
+      77,
+      100,
+      100,
+      95
+    ],
+    "semestre": 2,
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:41.095Z"
+    },
+    "nombre": "ARANDA RODRIGUEZ EDDY FABIAN"
+  },
+  {
+    "_id": {
+      "$oid": "686551fd8e19570d4ee92b77"
+    },
+    "matricula": "24ELE016",
+    "periodo": "2025-EneroJulio",
+    "materia": "MATEMÁTICAS II",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-02T15:36:29.066Z"
+    },
+    "especialidad": "ELECTRICIDAD",
+    "final": 77,
+    "grupo": "A",
+    "parciales": [
+      62,
+      71,
+      100,
+      75
+    ],
+    "semestre": 2,
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:41.096Z"
+    },
+    "nombre": "CHAVEZ YAÑEZ JOSE ALEJANDRO"
+  },
+  {
+    "_id": {
+      "$oid": "686551fd8e19570d4ee92b78"
+    },
+    "matricula": "24CI031",
+    "periodo": "2025-EneroJulio",
+    "materia": "MATEMÁTICAS II",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-02T15:36:29.067Z"
+    },
+    "especialidad": "ELECTRICIDAD",
+    "final": 49,
+    "grupo": "A",
+    "parciales": [
+      54,
+      33,
+      100,
+      10
+    ],
+    "semestre": 2,
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:41.098Z"
+    },
+    "nombre": "COBOS ESCOBEDO DIEGO"
+  },
+  {
+    "_id": {
+      "$oid": "686551fd8e19570d4ee92b79"
+    },
+    "matricula": "24ELE010",
+    "periodo": "2025-EneroJulio",
+    "materia": "MATEMÁTICAS II",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-02T15:36:29.069Z"
+    },
+    "especialidad": "ELECTRICIDAD",
+    "final": 80,
+    "grupo": "A",
+    "parciales": [
+      70,
+      72,
+      100,
+      76
+    ],
+    "semestre": 2,
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:41.099Z"
+    },
+    "nombre": "GONZALEZ MARTINEZ CARLOS ADRIAN"
+  },
+  {
+    "_id": {
+      "$oid": "686551fd8e19570d4ee92b7a"
+    },
+    "matricula": "24ELE003",
+    "periodo": "2025-EneroJulio",
+    "materia": "MATEMÁTICAS II",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-02T15:36:29.070Z"
+    },
+    "especialidad": "ELECTRICIDAD",
+    "final": 91,
+    "grupo": "A",
+    "parciales": [
+      94,
+      81,
+      100,
+      90
+    ],
+    "semestre": 2,
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:41.100Z"
+    },
+    "nombre": "HERNANDEZ MAXIMO OMAR ALEJANDRO"
+  },
+  {
+    "_id": {
+      "$oid": "686551fd8e19570d4ee92b7b"
+    },
+    "matricula": "24ELE023",
+    "periodo": "2025-EneroJulio",
+    "materia": "MATEMÁTICAS II",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-02T15:36:29.072Z"
+    },
+    "especialidad": "ELECTRICIDAD",
+    "final": 47,
+    "grupo": "A",
+    "parciales": [
+      48,
+      21,
+      100,
+      22
+    ],
+    "semestre": 2,
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:41.102Z"
+    },
+    "nombre": "HERRERA REYES DAVID"
+  },
+  {
+    "_id": {
+      "$oid": "686551fd8e19570d4ee92b7c"
+    },
+    "matricula": "24ELE009",
+    "periodo": "2025-EneroJulio",
+    "materia": "MATEMÁTICAS II",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-02T15:36:29.073Z"
+    },
+    "especialidad": "ELECTRICIDAD",
+    "final": 75,
+    "grupo": "A",
+    "parciales": [
+      57,
+      74,
+      100,
+      70
+    ],
+    "semestre": 2,
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:41.103Z"
+    },
+    "nombre": "LOPEZ GUTIERREZ JOSE ISAI"
+  },
+  {
+    "_id": {
+      "$oid": "686551fd8e19570d4ee92b7d"
+    },
+    "matricula": "24ELE004",
+    "periodo": "2025-EneroJulio",
+    "materia": "MATEMÁTICAS II",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-02T15:36:29.075Z"
+    },
+    "especialidad": "ELECTRICIDAD",
+    "final": 96,
+    "grupo": "A",
+    "parciales": [
+      96,
+      90,
+      100,
+      97
+    ],
+    "semestre": 2,
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:41.104Z"
+    },
+    "nombre": "LOPEZ SANCHEZ GIOVANI ANTONIO"
+  },
+  {
+    "_id": {
+      "$oid": "686551fd8e19570d4ee92b7e"
+    },
+    "matricula": "24ELE008",
+    "periodo": "2025-EneroJulio",
+    "materia": "MATEMÁTICAS II",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-02T15:36:29.077Z"
+    },
+    "especialidad": "ELECTRICIDAD",
+    "final": 58,
+    "grupo": "A",
+    "parciales": [
+      71,
+      63,
+      100,
+      null
+    ],
+    "semestre": 2,
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:41.105Z"
+    },
+    "nombre": "MARTINEZ MARTINEZ JUAN ANTONIO"
+  },
+  {
+    "_id": {
+      "$oid": "686551fd8e19570d4ee92b7f"
+    },
+    "matricula": "24ELE021",
+    "periodo": "2025-EneroJulio",
+    "materia": "MATEMÁTICAS II",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-02T15:36:29.079Z"
+    },
+    "especialidad": "ELECTRICIDAD",
+    "final": 81,
+    "grupo": "A",
+    "parciales": [
+      84,
+      72,
+      100,
+      67
+    ],
+    "semestre": 2,
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:41.107Z"
+    },
+    "nombre": "MIRELES DEL TORO YADAM ALEJANDRO"
+  },
+  {
+    "_id": {
+      "$oid": "686551fd8e19570d4ee92b80"
+    },
+    "matricula": "24ELE012",
+    "periodo": "2025-EneroJulio",
+    "materia": "MATEMÁTICAS II",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-02T15:36:29.081Z"
+    },
+    "especialidad": "ELECTRICIDAD",
+    "final": 100,
+    "grupo": "A",
+    "parciales": [
+      100,
+      100,
+      100,
+      99
+    ],
+    "semestre": 2,
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:41.108Z"
+    },
+    "nombre": "PEREZ DE LA CRUZ VERONICA YAZMIN"
+  },
+  {
+    "_id": {
+      "$oid": "686551fd8e19570d4ee92b81"
+    },
+    "matricula": "24ELE019",
+    "periodo": "2025-EneroJulio",
+    "materia": "MATEMÁTICAS II",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-02T15:36:29.082Z"
+    },
+    "especialidad": "ELECTRICIDAD",
+    "final": 71,
+    "grupo": "A",
+    "parciales": [
+      58,
+      62,
+      100,
+      64
+    ],
+    "semestre": 2,
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:41.109Z"
+    },
+    "nombre": "PINTO SILVA KEVIN ALEJANDRO"
+  },
+  {
+    "_id": {
+      "$oid": "686551fd8e19570d4ee92b82"
+    },
+    "matricula": "24ELE014",
+    "periodo": "2025-EneroJulio",
+    "materia": "MATEMÁTICAS II",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-02T15:36:29.084Z"
+    },
+    "especialidad": "ELECTRICIDAD",
+    "final": 94,
+    "grupo": "A",
+    "parciales": [
+      93,
+      86,
+      100,
+      95
+    ],
+    "semestre": 2,
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:41.110Z"
+    },
+    "nombre": "RAMIREZ CASTILLO CARLOS SANTIAGO"
+  },
+  {
+    "_id": {
+      "$oid": "686551fd8e19570d4ee92b83"
+    },
+    "matricula": "24ELE005",
+    "periodo": "2025-EneroJulio",
+    "materia": "MATEMÁTICAS II",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-02T15:36:29.085Z"
+    },
+    "especialidad": "ELECTRICIDAD",
+    "final": 88,
+    "grupo": "A",
+    "parciales": [
+      86,
+      83,
+      100,
+      81
+    ],
+    "semestre": 2,
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:41.111Z"
+    },
+    "nombre": "REBOLLOSO RAMIREZ GERARDO"
+  },
+  {
+    "_id": {
+      "$oid": "686551fd8e19570d4ee92b84"
+    },
+    "matricula": "24ELE020",
+    "periodo": "2025-EneroJulio",
+    "materia": "MATEMÁTICAS II",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-02T15:36:29.087Z"
+    },
+    "especialidad": "ELECTRICIDAD",
+    "final": 70,
+    "grupo": "A",
+    "parciales": [
+      80,
+      53,
+      100,
+      48
+    ],
+    "semestre": 2,
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:41.113Z"
+    },
+    "nombre": "REYES RABAGO YOSGART KARIM"
+  },
+  {
+    "_id": {
+      "$oid": "686551fd8e19570d4ee92b85"
+    },
+    "matricula": "24ELE011",
+    "periodo": "2025-EneroJulio",
+    "materia": "MATEMÁTICAS II",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-02T15:36:29.088Z"
+    },
+    "especialidad": "ELECTRICIDAD",
+    "final": 93,
+    "grupo": "A",
+    "parciales": [
+      80,
+      100,
+      100,
+      90
+    ],
+    "semestre": 2,
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:41.114Z"
+    },
+    "nombre": "RUIZ GARCIA JOB ESAU"
+  },
+  {
+    "_id": {
+      "$oid": "686551fd8e19570d4ee92b86"
+    },
+    "matricula": "24ELE013",
+    "periodo": "2025-EneroJulio",
+    "materia": "MATEMÁTICAS II",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-02T15:36:29.090Z"
+    },
+    "especialidad": "ELECTRICIDAD",
+    "final": 79,
+    "grupo": "A",
+    "parciales": [
+      77,
+      72,
+      100,
+      67
+    ],
+    "semestre": 2,
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:41.115Z"
+    },
+    "nombre": "TORRES RIOS ROBERTO EDUARDO"
+  },
+  {
+    "_id": {
+      "$oid": "686551fd8e19570d4ee92b87"
+    },
+    "matricula": "24ELE001",
+    "periodo": "2025-EneroJulio",
+    "materia": "QUÍMICA II",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-02T15:36:29.091Z"
+    },
+    "especialidad": "ELECTRICIDAD",
+    "final": 77,
+    "grupo": "A",
+    "parciales": [
+      72,
+      74,
+      73,
+      90
+    ],
+    "semestre": 2,
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:41.116Z"
+    },
+    "nombre": "ALVARADO ROJAS JORGE SANTIAGO"
+  },
+  {
+    "_id": {
+      "$oid": "686551fd8e19570d4ee92b88"
+    },
+    "matricula": "24ELE024",
+    "periodo": "2025-EneroJulio",
+    "materia": "QUÍMICA II",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-02T15:36:29.093Z"
+    },
+    "especialidad": "ELECTRICIDAD",
+    "final": 77,
+    "grupo": "A",
+    "parciales": [
+      70,
+      74,
+      76,
+      88
+    ],
+    "semestre": 2,
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:41.118Z"
+    },
+    "nombre": "ANGUIANO TREVIÑO SERGIO SAUL"
+  },
+  {
+    "_id": {
+      "$oid": "686551fd8e19570d4ee92b89"
+    },
+    "matricula": "24ELE002",
+    "periodo": "2025-EneroJulio",
+    "materia": "QUÍMICA II",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-02T15:36:29.095Z"
+    },
+    "especialidad": "ELECTRICIDAD",
+    "final": 89,
+    "grupo": "A",
+    "parciales": [
+      95,
+      92,
+      81,
+      88
+    ],
+    "semestre": 2,
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:41.119Z"
+    },
+    "nombre": "ARANDA RODRIGUEZ EDDY FABIAN"
+  },
+  {
+    "_id": {
+      "$oid": "686551fd8e19570d4ee92b8a"
+    },
+    "matricula": "24ELE016",
+    "periodo": "2025-EneroJulio",
+    "materia": "QUÍMICA II",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-02T15:36:29.097Z"
+    },
+    "especialidad": "ELECTRICIDAD",
+    "final": 76,
+    "grupo": "A",
+    "parciales": [
+      85,
+      73,
+      60,
+      85
+    ],
+    "semestre": 2,
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:41.121Z"
+    },
+    "nombre": "CHAVEZ YAÑEZ JOSE ALEJANDRO"
+  },
+  {
+    "_id": {
+      "$oid": "686551fd8e19570d4ee92b8b"
+    },
+    "matricula": "24CI031",
+    "periodo": "2025-EneroJulio",
+    "materia": "QUÍMICA II",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-02T15:36:29.098Z"
+    },
+    "especialidad": "ELECTRICIDAD",
+    "final": 71,
+    "grupo": "A",
+    "parciales": [
+      75,
+      70,
+      51,
+      88
+    ],
+    "semestre": 2,
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:41.122Z"
+    },
+    "nombre": "COBOS ESCOBEDO DIEGO"
+  },
+  {
+    "_id": {
+      "$oid": "686551fd8e19570d4ee92b8c"
+    },
+    "matricula": "24ELE010",
+    "periodo": "2025-EneroJulio",
+    "materia": "QUÍMICA II",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-02T15:36:29.100Z"
+    },
+    "especialidad": "ELECTRICIDAD",
+    "final": 82,
+    "grupo": "A",
+    "parciales": [
+      82,
+      80,
+      77,
+      90
+    ],
+    "semestre": 2,
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:41.124Z"
+    },
+    "nombre": "GONZALEZ MARTINEZ CARLOS ADRIAN"
+  },
+  {
+    "_id": {
+      "$oid": "686551fd8e19570d4ee92b8d"
+    },
+    "matricula": "24ELE003",
+    "periodo": "2025-EneroJulio",
+    "materia": "QUÍMICA II",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-02T15:36:29.101Z"
+    },
+    "especialidad": "ELECTRICIDAD",
+    "final": 93,
+    "grupo": "A",
+    "parciales": [
+      93,
+      90,
+      93,
+      94
+    ],
+    "semestre": 2,
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:41.125Z"
+    },
+    "nombre": "HERNANDEZ MAXIMO OMAR ALEJANDRO"
+  },
+  {
+    "_id": {
+      "$oid": "686551fd8e19570d4ee92b8e"
+    },
+    "matricula": "24ELE023",
+    "periodo": "2025-EneroJulio",
+    "materia": "QUÍMICA II",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-02T15:36:29.102Z"
+    },
+    "especialidad": "ELECTRICIDAD",
+    "final": 62,
+    "grupo": "A",
+    "parciales": [
+      70,
+      46,
+      70,
+      63
+    ],
+    "semestre": 2,
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:41.126Z"
+    },
+    "nombre": "HERRERA REYES DAVID"
+  },
+  {
+    "_id": {
+      "$oid": "686551fd8e19570d4ee92b8f"
+    },
+    "matricula": "24ELE009",
+    "periodo": "2025-EneroJulio",
+    "materia": "QUÍMICA II",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-02T15:36:29.104Z"
+    },
+    "especialidad": "ELECTRICIDAD",
+    "final": 76,
+    "grupo": "A",
+    "parciales": [
+      71,
+      70,
+      80,
+      84
+    ],
+    "semestre": 2,
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:41.127Z"
+    },
+    "nombre": "LOPEZ GUTIERREZ JOSE ISAI"
+  },
+  {
+    "_id": {
+      "$oid": "686551fd8e19570d4ee92b90"
+    },
+    "matricula": "24ELE004",
+    "periodo": "2025-EneroJulio",
+    "materia": "QUÍMICA II",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-02T15:36:29.105Z"
+    },
+    "especialidad": "ELECTRICIDAD",
+    "final": 92,
+    "grupo": "A",
+    "parciales": [
+      94,
+      88,
+      89,
+      95
+    ],
+    "semestre": 2,
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:41.128Z"
+    },
+    "nombre": "LOPEZ SANCHEZ GIOVANI ANTONIO"
+  },
+  {
+    "_id": {
+      "$oid": "686551fd8e19570d4ee92b91"
+    },
+    "matricula": "24ELE008",
+    "periodo": "2025-EneroJulio",
+    "materia": "QUÍMICA II",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-02T15:36:29.107Z"
+    },
+    "especialidad": "ELECTRICIDAD",
+    "final": 40,
+    "grupo": "A",
+    "parciales": [
+      76,
+      70,
+      14,
+      null
+    ],
+    "semestre": 2,
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:41.130Z"
+    },
+    "nombre": "MARTINEZ MARTINEZ JUAN ANTONIO"
+  },
+  {
+    "_id": {
+      "$oid": "686551fd8e19570d4ee92b92"
+    },
+    "matricula": "24ELE021",
+    "periodo": "2025-EneroJulio",
+    "materia": "QUÍMICA II",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-02T15:36:29.108Z"
+    },
+    "especialidad": "ELECTRICIDAD",
+    "final": 80,
+    "grupo": "A",
+    "parciales": [
+      76,
+      76,
+      79,
+      90
+    ],
+    "semestre": 2,
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:41.131Z"
+    },
+    "nombre": "MIRELES DEL TORO YADAM ALEJANDRO"
+  },
+  {
+    "_id": {
+      "$oid": "686551fd8e19570d4ee92b93"
+    },
+    "matricula": "24ELE012",
+    "periodo": "2025-EneroJulio",
+    "materia": "QUÍMICA II",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-02T15:36:29.110Z"
+    },
+    "especialidad": "ELECTRICIDAD",
+    "final": 92,
+    "grupo": "A",
+    "parciales": [
+      91,
+      91,
+      89,
+      96
+    ],
+    "semestre": 2,
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:41.132Z"
+    },
+    "nombre": "PEREZ DE LA CRUZ VERONICA YAZMIN"
+  },
+  {
+    "_id": {
+      "$oid": "686551fd8e19570d4ee92b94"
+    },
+    "matricula": "24ELE019",
+    "periodo": "2025-EneroJulio",
+    "materia": "QUÍMICA II",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-02T15:36:29.113Z"
+    },
+    "especialidad": "ELECTRICIDAD",
+    "final": 70,
+    "grupo": "A",
+    "parciales": [
+      70,
+      70,
+      70,
+      71
+    ],
+    "semestre": 2,
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:41.133Z"
+    },
+    "nombre": "PINTO SILVA KEVIN ALEJANDRO"
+  },
+  {
+    "_id": {
+      "$oid": "686551fd8e19570d4ee92b95"
+    },
+    "matricula": "24ELE014",
+    "periodo": "2025-EneroJulio",
+    "materia": "QUÍMICA II",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-02T15:36:29.114Z"
+    },
+    "especialidad": "ELECTRICIDAD",
+    "final": 87,
+    "grupo": "A",
+    "parciales": [
+      89,
+      85,
+      80,
+      94
+    ],
+    "semestre": 2,
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:41.134Z"
+    },
+    "nombre": "RAMIREZ CASTILLO CARLOS SANTIAGO"
+  },
+  {
+    "_id": {
+      "$oid": "686551fd8e19570d4ee92b96"
+    },
+    "matricula": "24ELE005",
+    "periodo": "2025-EneroJulio",
+    "materia": "QUÍMICA II",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-02T15:36:29.116Z"
+    },
+    "especialidad": "ELECTRICIDAD",
+    "final": 86,
+    "grupo": "A",
+    "parciales": [
+      87,
+      81,
+      89,
+      86
+    ],
+    "semestre": 2,
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:41.136Z"
+    },
+    "nombre": "REBOLLOSO RAMIREZ GERARDO"
+  },
+  {
+    "_id": {
+      "$oid": "686551fd8e19570d4ee92b97"
+    },
+    "matricula": "24ELE020",
+    "periodo": "2025-EneroJulio",
+    "materia": "QUÍMICA II",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-02T15:36:29.117Z"
+    },
+    "especialidad": "ELECTRICIDAD",
+    "final": 84,
+    "grupo": "A",
+    "parciales": [
+      89,
+      82,
+      89,
+      75
+    ],
+    "semestre": 2,
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:41.137Z"
+    },
+    "nombre": "REYES RABAGO YOSGART KARIM"
+  },
+  {
+    "_id": {
+      "$oid": "686551fd8e19570d4ee92b98"
+    },
+    "matricula": "24ELE011",
+    "periodo": "2025-EneroJulio",
+    "materia": "QUÍMICA II",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-02T15:36:29.119Z"
+    },
+    "especialidad": "ELECTRICIDAD",
+    "final": 84,
+    "grupo": "A",
+    "parciales": [
+      81,
+      88,
+      76,
+      90
+    ],
+    "semestre": 2,
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:41.138Z"
+    },
+    "nombre": "RUIZ GARCIA JOB ESAU"
+  },
+  {
+    "_id": {
+      "$oid": "686551fd8e19570d4ee92b99"
+    },
+    "matricula": "24ELE013",
+    "periodo": "2025-EneroJulio",
+    "materia": "QUÍMICA II",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-02T15:36:29.120Z"
+    },
+    "especialidad": "ELECTRICIDAD",
+    "final": 75,
+    "grupo": "A",
+    "parciales": [
+      58,
+      75,
+      76,
+      90
+    ],
+    "semestre": 2,
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:41.140Z"
+    },
+    "nombre": "TORRES RIOS ROBERTO EDUARDO"
+  },
+  {
+    "_id": {
+      "$oid": "686551fd8e19570d4ee92b9a"
+    },
+    "matricula": "24ELE001",
+    "periodo": "2025-EneroJulio",
+    "materia": "ÉTICA Y VALORES II",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-02T15:36:29.122Z"
+    },
+    "especialidad": "ELECTRICIDAD",
+    "final": 83,
+    "grupo": "A",
+    "parciales": [
+      75,
+      76,
+      85,
+      96
+    ],
+    "semestre": 2,
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:41.141Z"
+    },
+    "nombre": "ALVARADO ROJAS JORGE SANTIAGO"
+  },
+  {
+    "_id": {
+      "$oid": "686551fd8e19570d4ee92b9b"
+    },
+    "matricula": "24ELE024",
+    "periodo": "2025-EneroJulio",
+    "materia": "ÉTICA Y VALORES II",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-02T15:36:29.123Z"
+    },
+    "especialidad": "ELECTRICIDAD",
+    "final": 83,
+    "grupo": "A",
+    "parciales": [
+      85,
+      98,
+      74,
+      76
+    ],
+    "semestre": 2,
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:41.142Z"
+    },
+    "nombre": "ANGUIANO TREVIÑO SERGIO SAUL"
+  },
+  {
+    "_id": {
+      "$oid": "686551fd8e19570d4ee92b9c"
+    },
+    "matricula": "24ELE002",
+    "periodo": "2025-EneroJulio",
+    "materia": "ÉTICA Y VALORES II",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-02T15:36:29.125Z"
+    },
+    "especialidad": "ELECTRICIDAD",
+    "final": 90,
+    "grupo": "A",
+    "parciales": [
+      97,
+      93,
+      86,
+      83
+    ],
+    "semestre": 2,
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:41.143Z"
+    },
+    "nombre": "ARANDA RODRIGUEZ EDDY FABIAN"
+  },
+  {
+    "_id": {
+      "$oid": "686551fd8e19570d4ee92b9d"
+    },
+    "matricula": "24ELE016",
+    "periodo": "2025-EneroJulio",
+    "materia": "ÉTICA Y VALORES II",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-02T15:36:29.128Z"
+    },
+    "especialidad": "ELECTRICIDAD",
+    "final": 70,
+    "grupo": "A",
+    "parciales": [
+      48,
+      81,
+      81,
+      71
+    ],
+    "semestre": 2,
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:41.145Z"
+    },
+    "nombre": "CHAVEZ YAÑEZ JOSE ALEJANDRO"
+  },
+  {
+    "_id": {
+      "$oid": "686551fd8e19570d4ee92b9e"
+    },
+    "matricula": "24CI031",
+    "periodo": "2025-EneroJulio",
+    "materia": "ÉTICA Y VALORES II",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-02T15:36:29.130Z"
+    },
+    "especialidad": "ELECTRICIDAD",
+    "final": 58,
+    "grupo": "A",
+    "parciales": [
+      54,
+      75,
+      35,
+      69
+    ],
+    "semestre": 2,
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:41.146Z"
+    },
+    "nombre": "COBOS ESCOBEDO DIEGO"
+  },
+  {
+    "_id": {
+      "$oid": "686551fd8e19570d4ee92b9f"
+    },
+    "matricula": "24ELE010",
+    "periodo": "2025-EneroJulio",
+    "materia": "ÉTICA Y VALORES II",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-02T15:36:29.131Z"
+    },
+    "especialidad": "ELECTRICIDAD",
+    "final": 76,
+    "grupo": "A",
+    "parciales": [
+      87,
+      77,
+      41,
+      98
+    ],
+    "semestre": 2,
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:41.147Z"
+    },
+    "nombre": "GONZALEZ MARTINEZ CARLOS ADRIAN"
+  },
+  {
+    "_id": {
+      "$oid": "686551fd8e19570d4ee92ba0"
+    },
+    "matricula": "24ELE003",
+    "periodo": "2025-EneroJulio",
+    "materia": "ÉTICA Y VALORES II",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-02T15:36:29.133Z"
+    },
+    "especialidad": "ELECTRICIDAD",
+    "final": 83,
+    "grupo": "A",
+    "parciales": [
+      97,
+      79,
+      71,
+      85
+    ],
+    "semestre": 2,
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:41.148Z"
+    },
+    "nombre": "HERNANDEZ MAXIMO OMAR ALEJANDRO"
+  },
+  {
+    "_id": {
+      "$oid": "686551fd8e19570d4ee92ba1"
+    },
+    "matricula": "24ELE023",
+    "periodo": "2025-EneroJulio",
+    "materia": "ÉTICA Y VALORES II",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-02T15:36:29.134Z"
+    },
+    "especialidad": "ELECTRICIDAD",
+    "final": 54,
+    "grupo": "A",
+    "parciales": [
+      47,
+      85,
+      46,
+      40
+    ],
+    "semestre": 2,
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:41.150Z"
+    },
+    "nombre": "HERRERA REYES DAVID"
+  },
+  {
+    "_id": {
+      "$oid": "686551fd8e19570d4ee92ba2"
+    },
+    "matricula": "24ELE009",
+    "periodo": "2025-EneroJulio",
+    "materia": "ÉTICA Y VALORES II",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-02T15:36:29.136Z"
+    },
+    "especialidad": "ELECTRICIDAD",
+    "final": 80,
+    "grupo": "A",
+    "parciales": [
+      68,
+      79,
+      72,
+      99
+    ],
+    "semestre": 2,
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:41.151Z"
+    },
+    "nombre": "LOPEZ GUTIERREZ JOSE ISAI"
+  },
+  {
+    "_id": {
+      "$oid": "686551fd8e19570d4ee92ba3"
+    },
+    "matricula": "24ELE004",
+    "periodo": "2025-EneroJulio",
+    "materia": "ÉTICA Y VALORES II",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-02T15:36:29.137Z"
+    },
+    "especialidad": "ELECTRICIDAD",
+    "final": 92,
+    "grupo": "A",
+    "parciales": [
+      91,
+      100,
+      93,
+      85
+    ],
+    "semestre": 2,
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:41.152Z"
+    },
+    "nombre": "LOPEZ SANCHEZ GIOVANI ANTONIO"
+  },
+  {
+    "_id": {
+      "$oid": "686551fd8e19570d4ee92ba4"
+    },
+    "matricula": "24ELE008",
+    "periodo": "2025-EneroJulio",
+    "materia": "ÉTICA Y VALORES II",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-02T15:36:29.138Z"
+    },
+    "especialidad": "ELECTRICIDAD",
+    "final": 45,
+    "grupo": "A",
+    "parciales": [
+      38,
+      78,
+      58,
+      7
+    ],
+    "semestre": 2,
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:41.154Z"
+    },
+    "nombre": "MARTINEZ MARTINEZ JUAN ANTONIO"
+  },
+  {
+    "_id": {
+      "$oid": "686551fd8e19570d4ee92ba5"
+    },
+    "matricula": "24ELE021",
+    "periodo": "2025-EneroJulio",
+    "materia": "ÉTICA Y VALORES II",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-02T15:36:29.140Z"
+    },
+    "especialidad": "ELECTRICIDAD",
+    "final": 91,
+    "grupo": "A",
+    "parciales": [
+      81,
+      96,
+      97,
+      91
+    ],
+    "semestre": 2,
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:41.155Z"
+    },
+    "nombre": "MIRELES DEL TORO YADAM ALEJANDRO"
+  },
+  {
+    "_id": {
+      "$oid": "686551fd8e19570d4ee92ba6"
+    },
+    "matricula": "24ELE012",
+    "periodo": "2025-EneroJulio",
+    "materia": "ÉTICA Y VALORES II",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-02T15:36:29.141Z"
+    },
+    "especialidad": "ELECTRICIDAD",
+    "final": 96,
+    "grupo": "A",
+    "parciales": [
+      89,
+      100,
+      97,
+      98
+    ],
+    "semestre": 2,
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:41.156Z"
+    },
+    "nombre": "PEREZ DE LA CRUZ VERONICA YAZMIN"
+  },
+  {
+    "_id": {
+      "$oid": "686551fd8e19570d4ee92ba7"
+    },
+    "matricula": "24ELE019",
+    "periodo": "2025-EneroJulio",
+    "materia": "ÉTICA Y VALORES II",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-02T15:36:29.142Z"
+    },
+    "especialidad": "ELECTRICIDAD",
+    "final": 78,
+    "grupo": "A",
+    "parciales": [
+      79,
+      79,
+      79,
+      74
+    ],
+    "semestre": 2,
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:41.157Z"
+    },
+    "nombre": "PINTO SILVA KEVIN ALEJANDRO"
+  },
+  {
+    "_id": {
+      "$oid": "686551fd8e19570d4ee92ba8"
+    },
+    "matricula": "24ELE014",
+    "periodo": "2025-EneroJulio",
+    "materia": "ÉTICA Y VALORES II",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-02T15:36:29.145Z"
+    },
+    "especialidad": "ELECTRICIDAD",
+    "final": 94,
+    "grupo": "A",
+    "parciales": [
+      96,
+      100,
+      88,
+      93
+    ],
+    "semestre": 2,
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:41.158Z"
+    },
+    "nombre": "RAMIREZ CASTILLO CARLOS SANTIAGO"
+  },
+  {
+    "_id": {
+      "$oid": "686551fd8e19570d4ee92ba9"
+    },
+    "matricula": "24ELE005",
+    "periodo": "2025-EneroJulio",
+    "materia": "ÉTICA Y VALORES II",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-02T15:36:29.147Z"
+    },
+    "especialidad": "ELECTRICIDAD",
+    "final": 85,
+    "grupo": "A",
+    "parciales": [
+      100,
+      98,
+      78,
+      62
+    ],
+    "semestre": 2,
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:41.160Z"
+    },
+    "nombre": "REBOLLOSO RAMIREZ GERARDO"
+  },
+  {
+    "_id": {
+      "$oid": "686551fd8e19570d4ee92baa"
+    },
+    "matricula": "24ELE020",
+    "periodo": "2025-EneroJulio",
+    "materia": "ÉTICA Y VALORES II",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-02T15:36:29.148Z"
+    },
+    "especialidad": "ELECTRICIDAD",
+    "final": 75,
+    "grupo": "A",
+    "parciales": [
+      99,
+      78,
+      78,
+      46
+    ],
+    "semestre": 2,
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:41.161Z"
+    },
+    "nombre": "REYES RABAGO YOSGART KARIM"
+  },
+  {
+    "_id": {
+      "$oid": "686551fd8e19570d4ee92bab"
+    },
+    "matricula": "24ELE011",
+    "periodo": "2025-EneroJulio",
+    "materia": "ÉTICA Y VALORES II",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-02T15:36:29.149Z"
+    },
+    "especialidad": "ELECTRICIDAD",
+    "final": 81,
+    "grupo": "A",
+    "parciales": [
+      88,
+      76,
+      81,
+      80
+    ],
+    "semestre": 2,
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:41.162Z"
+    },
+    "nombre": "RUIZ GARCIA JOB ESAU"
+  },
+  {
+    "_id": {
+      "$oid": "686551fd8e19570d4ee92bac"
+    },
+    "matricula": "24ELE013",
+    "periodo": "2025-EneroJulio",
+    "materia": "ÉTICA Y VALORES II",
+    "__v": 0,
+    "createdAt": {
+      "$date": "2025-07-02T15:36:29.151Z"
+    },
+    "especialidad": "ELECTRICIDAD",
+    "final": 81,
+    "grupo": "A",
+    "parciales": [
+      56,
+      92,
+      81,
+      93
+    ],
+    "semestre": 2,
+    "updatedAt": {
+      "$date": "2025-07-02T16:11:41.163Z"
+    },
+    "nombre": "TORRES RIOS ROBERTO EDUARDO"
+  }
+]

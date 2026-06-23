@@ -1,0 +1,183 @@
+[
+  {
+    "_id": {
+      "$oid": "6931ce0e58536cb4a40d7005"
+    },
+    "nombre": "Cloro 1L",
+    "categoria": "limpieza",
+    "unidadMedida": "litro",
+    "codigo": "CL-001",
+    "descripcion": "Cloro marca X presentación 1L",
+    "stockMinimo": 5,
+    "stockActual": 17,
+    "estado": "activo",
+    "createdAt": {
+      "$date": "2025-12-04T18:08:14.865Z"
+    },
+    "updatedAt": {
+      "$date": "2026-06-19T18:17:32.781Z"
+    },
+    "__v": 0,
+    "tipoUso": "interno"
+  },
+  {
+    "_id": {
+      "$oid": "69320c16eeeab73ba5206917"
+    },
+    "nombre": "RJ-45",
+    "categoria": "Red",
+    "unidadMedida": "Bote",
+    "codigo": "RJ-1",
+    "descripcion": "Conector para cable de red",
+    "stockMinimo": 20,
+    "stockActual": 204,
+    "estado": "activo",
+    "createdAt": {
+      "$date": "2025-12-04T22:32:54.690Z"
+    },
+    "updatedAt": {
+      "$date": "2026-03-26T19:58:24.949Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "69778fffa8c20c0d15dd318d"
+    },
+    "nombre": "PINTURA ESMALTE GRIS OSCURO C/NATA",
+    "categoria": "limpieza",
+    "unidadMedida": "litro",
+    "codigo": "CL-005",
+    "descripcion": "asas",
+    "stockMinimo": 20,
+    "stockActual": 0,
+    "estado": "activo",
+    "createdAt": {
+      "$date": "2026-01-26T16:02:07.221Z"
+    },
+    "updatedAt": {
+      "$date": "2026-01-26T16:02:07.221Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "6977abcb7a55df114749be68"
+    },
+    "nombre": "soleras",
+    "categoria": "soldadura",
+    "unidadMedida": "60",
+    "codigo": "btl-123",
+    "descripcion": "Soleras para soldar",
+    "stockMinimo": 5,
+    "stockActual": 0,
+    "estado": "activo",
+    "createdAt": {
+      "$date": "2026-01-26T18:00:43.382Z"
+    },
+    "updatedAt": {
+      "$date": "2026-03-04T19:55:51.066Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "698f7268c2307ca07e585338"
+    },
+    "nombre": "agua2",
+    "categoria": "Almacen",
+    "unidadMedida": "Litros",
+    "codigo": "agua12121",
+    "descripcion": "agua 2",
+    "stockMinimo": 1,
+    "stockActual": 0,
+    "estado": "activo",
+    "createdAt": {
+      "$date": "2026-02-13T18:50:16.713Z"
+    },
+    "updatedAt": {
+      "$date": "2026-02-13T18:50:16.713Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "69a879177edbd029e35cb6a3"
+    },
+    "nombre": "Prueba para ver si puede agregar productos",
+    "categoria": "prueba",
+    "unidadMedida": "litro",
+    "codigo": "asdadqq",
+    "descripcion": "asdasfdafa",
+    "stockMinimo": 5,
+    "stockActual": 0,
+    "estado": "activo",
+    "createdAt": {
+      "$date": "2026-03-04T18:25:27.098Z"
+    },
+    "updatedAt": {
+      "$date": "2026-03-04T18:25:27.098Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "69ac5d7918385446d3184395"
+    },
+    "nombre": "adasd",
+    "categoria": "asdasd",
+    "unidadMedida": "adasd",
+    "codigo": "112qas",
+    "descripcion": "asad",
+    "stockMinimo": 20,
+    "stockActual": 0,
+    "estado": "activo",
+    "createdAt": {
+      "$date": "2026-03-07T17:16:41.582Z"
+    },
+    "updatedAt": {
+      "$date": "2026-03-07T17:16:41.582Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "69ac5d9918385446d318439a"
+    },
+    "nombre": "prueba del 7 de marzo",
+    "categoria": "prueba",
+    "unidadMedida": "PIEZA",
+    "codigo": "2270",
+    "descripcion": "sdfsdf",
+    "stockMinimo": 20,
+    "stockActual": 0,
+    "estado": "activo",
+    "createdAt": {
+      "$date": "2026-03-07T17:17:13.893Z"
+    },
+    "updatedAt": {
+      "$date": "2026-03-07T17:17:13.893Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "69b18c9b2aaa26a0b1112753"
+    },
+    "nombre": "as",
+    "categoria": "as",
+    "unidadMedida": "as",
+    "codigo": "as",
+    "descripcion": "2w3",
+    "stockMinimo": 20,
+    "stockActual": 0,
+    "estado": "activo",
+    "createdAt": {
+      "$date": "2026-03-11T15:39:07.539Z"
+    },
+    "updatedAt": {
+      "$date": "2026-03-11T15:39:07.539Z"
+    },
+    "__v": 0
+  }
+]

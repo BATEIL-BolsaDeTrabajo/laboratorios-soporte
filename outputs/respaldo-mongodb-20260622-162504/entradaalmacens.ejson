@@ -1,0 +1,119 @@
+[
+  {
+    "_id": {
+      "$oid": "6931d0ec71c047f8e5d17992"
+    },
+    "producto": {
+      "$oid": "6931ce0e58536cb4a40d7005"
+    },
+    "cantidad": 5,
+    "proveedor": "Papelería XYZ",
+    "folio": "FAC-1234",
+    "fecha": {
+      "$date": "2025-12-04T18:20:28.949Z"
+    },
+    "registradoPor": {
+      "$oid": "6862a623c9b690df50d6f884"
+    },
+    "createdAt": {
+      "$date": "2025-12-04T18:20:28.951Z"
+    },
+    "updatedAt": {
+      "$date": "2025-12-04T18:20:28.951Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "69320d0feeeab73ba5206947"
+    },
+    "producto": {
+      "$oid": "69320c16eeeab73ba5206917"
+    },
+    "cantidad": 100,
+    "proveedor": "Solo Pc",
+    "folio": "12354",
+    "fecha": {
+      "$date": "2025-12-04T22:37:03.099Z"
+    },
+    "registradoPor": {
+      "$oid": "6862a623c9b690df50d6f884"
+    },
+    "createdAt": {
+      "$date": "2025-12-04T22:37:03.100Z"
+    },
+    "updatedAt": {
+      "$date": "2026-04-24T16:50:13.027Z"
+    },
+    "__v": 0,
+    "fechaRecibido": {
+      "$date": "2026-04-24T16:50:13.026Z"
+    },
+    "recibido": true,
+    "recibidoPor": {
+      "$oid": "69778f89a8c20c0d15dd3176"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "69a88e88a78d426d7eb18b65"
+    },
+    "producto": {
+      "$oid": "69320c16eeeab73ba5206917"
+    },
+    "cantidad": 150,
+    "proveedor": "Rosario",
+    "folio": "bt-0012222222",
+    "fecha": {
+      "$date": "2026-03-04T19:56:56.712Z"
+    },
+    "registradoPor": {
+      "$oid": "685aebb013bf3eff09f102ec"
+    },
+    "recibido": true,
+    "fechaRecibido": {
+      "$date": "2026-03-04T19:57:29.198Z"
+    },
+    "recibidoPor": {
+      "$oid": "685aebb013bf3eff09f102ec"
+    },
+    "createdAt": {
+      "$date": "2026-03-04T19:56:56.713Z"
+    },
+    "updatedAt": {
+      "$date": "2026-03-04T19:57:29.199Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "69ab54fbac13ef6834d00b88"
+    },
+    "producto": {
+      "$oid": "69320c16eeeab73ba5206917"
+    },
+    "cantidad": 10,
+    "proveedor": "Rosario",
+    "folio": "bt-0012",
+    "fecha": {
+      "$date": "2026-03-06T22:28:11.087Z"
+    },
+    "registradoPor": {
+      "$oid": "685aebb013bf3eff09f102ec"
+    },
+    "recibido": true,
+    "fechaRecibido": {
+      "$date": "2026-03-06T22:28:24.684Z"
+    },
+    "recibidoPor": {
+      "$oid": "685aebb013bf3eff09f102ec"
+    },
+    "createdAt": {
+      "$date": "2026-03-06T22:28:11.089Z"
+    },
+    "updatedAt": {
+      "$date": "2026-03-06T22:28:24.685Z"
+    },
+    "__v": 0
+  }
+]

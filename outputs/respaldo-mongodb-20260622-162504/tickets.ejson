@@ -1,0 +1,3738 @@
+[
+  {
+    "_id": {
+      "$oid": "685c9422224f457c6fc1f30e"
+    },
+    "descripcion": "Los aires no enfrian.",
+    "tipo": "Mantenimiento",
+    "estatus": "Tiempo excedido",
+    "requiereMaterial": "",
+    "creadoPor": {
+      "$oid": "685aebb013bf3eff09f102ec"
+    },
+    "asignadoA": {
+      "$oid": "685b153258a86a8b63b7b883"
+    },
+    "fechaCierre": null,
+    "fechaCreacion": {
+      "$date": "2025-06-26T00:28:18.038Z"
+    },
+    "__v": 4,
+    "comentariosAdmin": [],
+    "folio": "MNT-2025-000001",
+    "historial": [
+      {
+        "fecha": {
+          "$date": "2025-11-19T21:15:21.258Z"
+        },
+        "usuario": {
+          "$oid": "685aee77c1ac24e6a4c528fb"
+        },
+        "usuarioNombre": "Administrador",
+        "de": "En proceso",
+        "a": "En proceso",
+        "comentario": "Cambio de prioridad: Sin prioridad → Media",
+        "requiereMaterial": "",
+        "resolucion": ""
+      },
+      {
+        "fecha": {
+          "$date": "2025-11-24T22:28:19.464Z"
+        },
+        "usuario": {
+          "$oid": "6862a623c9b690df50d6f884"
+        },
+        "usuarioNombre": "rosario",
+        "de": "En proceso",
+        "a": "Tiempo excedido",
+        "comentario": "",
+        "requiereMaterial": "",
+        "resolucion": ""
+      },
+      {
+        "fecha": {
+          "$date": "2025-12-02T18:35:28.054Z"
+        },
+        "usuario": {
+          "$oid": "6862a623c9b690df50d6f884"
+        },
+        "usuarioNombre": "rosario",
+        "de": "Tiempo excedido",
+        "a": "Tiempo excedido",
+        "comentario": "Asignado a usuario 685b153258a86a8b63b7b883",
+        "requiereMaterial": "",
+        "resolucion": ""
+      },
+      {
+        "fecha": {
+          "$date": "2026-02-12T19:13:08.895Z"
+        },
+        "usuario": {
+          "$oid": "6862a623c9b690df50d6f884"
+        },
+        "usuarioNombre": "rosario",
+        "de": "Tiempo excedido",
+        "a": "Archivado",
+        "comentario": "Ticket archivado",
+        "requiereMaterial": "",
+        "resolucion": ""
+      }
+    ],
+    "prioridad": "Media",
+    "resolucion": "",
+    "tipoFalla": "",
+    "ubicacion": "",
+    "updatedAt": {
+      "$date": "2026-02-12T19:13:08.899Z"
+    },
+    "fechaExcedido": {
+      "$date": "2025-11-24T22:28:19.464Z"
+    },
+    "archivado": true,
+    "archivadoPor": {
+      "$oid": "6862a623c9b690df50d6f884"
+    },
+    "evidencias": [],
+    "fechaArchivado": {
+      "$date": "2026-02-12T19:13:08.894Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "691ddf016ca25cd2019cf665"
+    },
+    "descripcion": "No enciende",
+    "tipo": "Sistemas",
+    "subtipo": "laboratorio",
+    "laboratorio": "Laboratorio A",
+    "equipo": "PC3",
+    "ubicacion": null,
+    "salon": null,
+    "tipoFalla": "No enciende",
+    "prioridad": "Alta",
+    "estatus": "Cerrado",
+    "requiereMaterial": "",
+    "resolucion": "jhihj",
+    "creadoPor": {
+      "$oid": "685aebb013bf3eff09f102ec"
+    },
+    "asignadoA": {
+      "$oid": "685aebb013bf3eff09f102ec"
+    },
+    "fechaInicio": null,
+    "fechaPausa": null,
+    "fechaReanudacion": null,
+    "fechaExcedido": null,
+    "fechaCierre": {
+      "$date": "2025-12-03T22:24:48.974Z"
+    },
+    "comentariosAdmin": [],
+    "fechaCreacion": {
+      "$date": "2025-11-19T15:15:13.830Z"
+    },
+    "historial": [
+      {
+        "fecha": {
+          "$date": "2025-11-21T18:48:19.684Z"
+        },
+        "usuario": {
+          "$oid": "685aee77c1ac24e6a4c528fb"
+        },
+        "usuarioNombre": "Administrador",
+        "de": "Abierto",
+        "a": "Abierto",
+        "comentario": "Asignado a usuario 685aebb013bf3eff09f102ec",
+        "requiereMaterial": "",
+        "resolucion": ""
+      },
+      {
+        "fecha": {
+          "$date": "2025-11-21T18:48:24.815Z"
+        },
+        "usuario": {
+          "$oid": "685aee77c1ac24e6a4c528fb"
+        },
+        "usuarioNombre": "Administrador",
+        "de": "Abierto",
+        "a": "Abierto",
+        "comentario": "Asignado a usuario 685b151858a86a8b63b7b880",
+        "requiereMaterial": "",
+        "resolucion": ""
+      },
+      {
+        "fecha": {
+          "$date": "2025-11-24T18:22:47.372Z"
+        },
+        "usuario": {
+          "$oid": "6862a623c9b690df50d6f884"
+        },
+        "usuarioNombre": "rosario",
+        "de": "Abierto",
+        "a": "Abierto",
+        "comentario": "Asignado a usuario 685aebb013bf3eff09f102ec",
+        "requiereMaterial": "",
+        "resolucion": ""
+      },
+      {
+        "fecha": {
+          "$date": "2025-11-24T19:41:51.969Z"
+        },
+        "usuario": {
+          "$oid": "6862a623c9b690df50d6f884"
+        },
+        "usuarioNombre": "rosario",
+        "de": "Abierto",
+        "a": "Abierto",
+        "comentario": "Cambio de prioridad: Sin prioridad → Alta",
+        "requiereMaterial": "",
+        "resolucion": ""
+      },
+      {
+        "fecha": {
+          "$date": "2025-11-24T19:42:26.675Z"
+        },
+        "usuario": {
+          "$oid": "6862a623c9b690df50d6f884"
+        },
+        "usuarioNombre": "rosario",
+        "de": "Abierto",
+        "a": "Abierto",
+        "comentario": "Cambio de prioridad: Alta → Media",
+        "requiereMaterial": "",
+        "resolucion": ""
+      },
+      {
+        "fecha": {
+          "$date": "2025-11-24T19:43:02.286Z"
+        },
+        "usuario": {
+          "$oid": "6862a623c9b690df50d6f884"
+        },
+        "usuarioNombre": "rosario",
+        "de": "Abierto",
+        "a": "Abierto",
+        "comentario": "Cambio de prioridad: Media → Alta",
+        "requiereMaterial": "",
+        "resolucion": ""
+      },
+      {
+        "fecha": {
+          "$date": "2025-11-24T19:43:23.278Z"
+        },
+        "usuario": {
+          "$oid": "6862a623c9b690df50d6f884"
+        },
+        "usuarioNombre": "rosario",
+        "de": "Abierto",
+        "a": "Abierto",
+        "comentario": "Asignado a usuario 685b151858a86a8b63b7b880",
+        "requiereMaterial": "",
+        "resolucion": ""
+      },
+      {
+        "fecha": {
+          "$date": "2025-11-24T19:43:25.781Z"
+        },
+        "usuario": {
+          "$oid": "6862a623c9b690df50d6f884"
+        },
+        "usuarioNombre": "rosario",
+        "de": "Abierto",
+        "a": "Abierto",
+        "comentario": "Asignado a usuario 685aebb013bf3eff09f102ec",
+        "requiereMaterial": "",
+        "resolucion": ""
+      },
+      {
+        "fecha": {
+          "$date": "2025-11-24T22:25:40.448Z"
+        },
+        "usuario": {
+          "$oid": "6862a623c9b690df50d6f884"
+        },
+        "usuarioNombre": "rosario",
+        "de": "Abierto",
+        "a": "Abierto",
+        "comentario": "Asignado a usuario 685b151858a86a8b63b7b880",
+        "requiereMaterial": "",
+        "resolucion": ""
+      },
+      {
+        "fecha": {
+          "$date": "2025-11-24T22:25:44.645Z"
+        },
+        "usuario": {
+          "$oid": "6862a623c9b690df50d6f884"
+        },
+        "usuarioNombre": "rosario",
+        "de": "Abierto",
+        "a": "Abierto",
+        "comentario": "Asignado a usuario 685aebb013bf3eff09f102ec",
+        "requiereMaterial": "",
+        "resolucion": ""
+      },
+      {
+        "fecha": {
+          "$date": "2025-11-24T22:25:50.381Z"
+        },
+        "usuario": {
+          "$oid": "6862a623c9b690df50d6f884"
+        },
+        "usuarioNombre": "rosario",
+        "de": "Abierto",
+        "a": "Abierto",
+        "comentario": "Cambio de prioridad: Alta → Baja",
+        "requiereMaterial": "",
+        "resolucion": ""
+      },
+      {
+        "fecha": {
+          "$date": "2025-11-24T23:06:01.540Z"
+        },
+        "usuario": {
+          "$oid": "6862a623c9b690df50d6f884"
+        },
+        "usuarioNombre": "rosario",
+        "de": "Abierto",
+        "a": "Abierto",
+        "comentario": "Cambio de prioridad: Baja → Media",
+        "requiereMaterial": "",
+        "resolucion": ""
+      },
+      {
+        "fecha": {
+          "$date": "2025-11-24T23:26:02.114Z"
+        },
+        "usuario": {
+          "$oid": "6862a623c9b690df50d6f884"
+        },
+        "usuarioNombre": "rosario",
+        "de": "Abierto",
+        "a": "Abierto",
+        "comentario": "Cambio de prioridad: Media → Alta",
+        "requiereMaterial": "",
+        "resolucion": ""
+      },
+      {
+        "fecha": {
+          "$date": "2025-11-24T23:26:11.153Z"
+        },
+        "usuario": {
+          "$oid": "685aebb013bf3eff09f102ec"
+        },
+        "usuarioNombre": "Jose Manuel",
+        "de": "Abierto",
+        "a": "Resuelto",
+        "comentario": "",
+        "requiereMaterial": "",
+        "resolucion": "jhihj",
+        "fechaCierre": {
+          "$date": "2025-11-24T23:26:11.153Z"
+        },
+        "tiempoSolucionMin": 7691
+      },
+      {
+        "fecha": {
+          "$date": "2025-11-24T23:26:11.154Z"
+        },
+        "usuario": {
+          "$oid": "685aebb013bf3eff09f102ec"
+        },
+        "usuarioNombre": "Jose Manuel",
+        "de": "Resuelto",
+        "a": "Resuelto",
+        "comentario": "Actualización de resolución",
+        "requiereMaterial": "",
+        "resolucion": "jhihj",
+        "fechaCierre": {
+          "$date": "2025-11-24T23:26:11.153Z"
+        },
+        "tiempoSolucionMin": 7691
+      },
+      {
+        "fecha": {
+          "$date": "2025-12-03T22:24:48.974Z"
+        },
+        "usuario": {
+          "$oid": "6862a623c9b690df50d6f884"
+        },
+        "usuarioNombre": "rosario",
+        "de": "Resuelto",
+        "a": "Cerrado",
+        "comentario": "",
+        "requiereMaterial": "",
+        "resolucion": "",
+        "fechaCierre": {
+          "$date": "2025-12-03T22:24:48.974Z"
+        },
+        "tiempoSolucionMin": 20590
+      },
+      {
+        "fecha": {
+          "$date": "2026-02-12T19:23:11.403Z"
+        },
+        "usuario": {
+          "$oid": "6862a623c9b690df50d6f884"
+        },
+        "usuarioNombre": "rosario",
+        "de": "Cerrado",
+        "a": "Archivado",
+        "comentario": "Ticket archivado",
+        "requiereMaterial": "",
+        "resolucion": "",
+        "fechaCierre": {
+          "$date": "2025-12-03T22:24:48.974Z"
+        }
+      }
+    ],
+    "createdAt": {
+      "$date": "2025-11-19T15:15:13.831Z"
+    },
+    "updatedAt": {
+      "$date": "2026-02-12T19:23:11.413Z"
+    },
+    "folio": "SYS-2025-000003",
+    "__v": 16,
+    "archivado": true,
+    "archivadoPor": {
+      "$oid": "6862a623c9b690df50d6f884"
+    },
+    "evidencias": [],
+    "fechaArchivado": {
+      "$date": "2026-02-12T19:23:11.402Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "691de375bb0267b4e2815158"
+    },
+    "descripcion": "ddcsdsd",
+    "tipo": "Sistemas",
+    "subtipo": "laboratorio",
+    "laboratorio": "Laboratorio A",
+    "equipo": "PC3",
+    "ubicacion": null,
+    "salon": null,
+    "tipoFalla": "No enciende",
+    "prioridad": "Alta",
+    "estatus": "Resuelto",
+    "requiereMaterial": "",
+    "resolucion": "dssdsdsd",
+    "creadoPor": {
+      "$oid": "685aebb013bf3eff09f102ec"
+    },
+    "asignadoA": {
+      "$oid": "685aebb013bf3eff09f102ec"
+    },
+    "fechaInicio": null,
+    "fechaPausa": null,
+    "fechaReanudacion": null,
+    "fechaExcedido": null,
+    "fechaCierre": {
+      "$date": "2025-11-25T18:58:36.142Z"
+    },
+    "comentariosAdmin": [
+      {
+        "usuario": {
+          "$oid": "6862a623c9b690df50d6f884"
+        },
+        "usuarioNombre": "rosario",
+        "texto": "Rechazado por x causa",
+        "fecha": {
+          "$date": "2026-02-12T19:50:18.753Z"
+        }
+      }
+    ],
+    "fechaCreacion": {
+      "$date": "2025-11-19T15:34:13.127Z"
+    },
+    "historial": [
+      {
+        "fecha": {
+          "$date": "2025-11-21T22:39:31.047Z"
+        },
+        "usuario": {
+          "$oid": "685aee77c1ac24e6a4c528fb"
+        },
+        "usuarioNombre": "Administrador",
+        "de": "Abierto",
+        "a": "Abierto",
+        "comentario": "Asignado a usuario 685aebb013bf3eff09f102ec",
+        "requiereMaterial": "",
+        "resolucion": ""
+      },
+      {
+        "fecha": {
+          "$date": "2025-11-21T22:39:49.642Z"
+        },
+        "usuario": {
+          "$oid": "685aee77c1ac24e6a4c528fb"
+        },
+        "usuarioNombre": "Administrador",
+        "de": "Abierto",
+        "a": "Abierto",
+        "comentario": "Asignado a usuario 685b151858a86a8b63b7b880",
+        "requiereMaterial": "",
+        "resolucion": ""
+      },
+      {
+        "fecha": {
+          "$date": "2025-11-22T15:26:32.979Z"
+        },
+        "usuario": {
+          "$oid": "685aee77c1ac24e6a4c528fb"
+        },
+        "usuarioNombre": "Administrador",
+        "de": "Abierto",
+        "a": "Abierto",
+        "comentario": "Asignado a usuario 685aebb013bf3eff09f102ec",
+        "requiereMaterial": "",
+        "resolucion": ""
+      },
+      {
+        "fecha": {
+          "$date": "2025-11-22T15:26:36.694Z"
+        },
+        "usuario": {
+          "$oid": "685aee77c1ac24e6a4c528fb"
+        },
+        "usuarioNombre": "Administrador",
+        "de": "Abierto",
+        "a": "Abierto",
+        "comentario": "Asignado a usuario 685dc9c7f90f5b2d43462d47",
+        "requiereMaterial": "",
+        "resolucion": ""
+      },
+      {
+        "fecha": {
+          "$date": "2025-11-25T14:33:58.549Z"
+        },
+        "usuario": {
+          "$oid": "6862a623c9b690df50d6f884"
+        },
+        "usuarioNombre": "rosario",
+        "de": "Abierto",
+        "a": "Abierto",
+        "comentario": "Cambio de prioridad: Sin prioridad → Alta",
+        "requiereMaterial": "",
+        "resolucion": ""
+      },
+      {
+        "fecha": {
+          "$date": "2025-11-25T18:56:20.624Z"
+        },
+        "usuario": {
+          "$oid": "6862a623c9b690df50d6f884"
+        },
+        "usuarioNombre": "rosario",
+        "de": "Abierto",
+        "a": "Abierto",
+        "comentario": "Asignado a usuario 685aebb013bf3eff09f102ec",
+        "requiereMaterial": "",
+        "resolucion": ""
+      },
+      {
+        "fecha": {
+          "$date": "2025-11-25T18:56:26.466Z"
+        },
+        "usuario": {
+          "$oid": "6862a623c9b690df50d6f884"
+        },
+        "usuarioNombre": "rosario",
+        "de": "Abierto",
+        "a": "Abierto",
+        "comentario": "Cambio de prioridad: Alta → Media",
+        "requiereMaterial": "",
+        "resolucion": ""
+      },
+      {
+        "fecha": {
+          "$date": "2025-11-25T18:58:10.492Z"
+        },
+        "usuario": {
+          "$oid": "6862a623c9b690df50d6f884"
+        },
+        "usuarioNombre": "rosario",
+        "de": "Abierto",
+        "a": "Abierto",
+        "comentario": "Cambio de prioridad: Media → Alta",
+        "requiereMaterial": "",
+        "resolucion": ""
+      },
+      {
+        "fecha": {
+          "$date": "2025-11-25T18:58:36.143Z"
+        },
+        "usuario": {
+          "$oid": "685aebb013bf3eff09f102ec"
+        },
+        "usuarioNombre": "Jose Manuel",
+        "de": "Abierto",
+        "a": "Resuelto",
+        "comentario": "",
+        "requiereMaterial": "",
+        "resolucion": "dssdsdsd",
+        "fechaCierre": {
+          "$date": "2025-11-25T18:58:36.142Z"
+        },
+        "tiempoSolucionMin": 8844
+      },
+      {
+        "fecha": {
+          "$date": "2025-11-25T18:58:36.143Z"
+        },
+        "usuario": {
+          "$oid": "685aebb013bf3eff09f102ec"
+        },
+        "usuarioNombre": "Jose Manuel",
+        "de": "Resuelto",
+        "a": "Resuelto",
+        "comentario": "Actualización de resolución",
+        "requiereMaterial": "",
+        "resolucion": "dssdsdsd",
+        "fechaCierre": {
+          "$date": "2025-11-25T18:58:36.142Z"
+        },
+        "tiempoSolucionMin": 8844
+      }
+    ],
+    "createdAt": {
+      "$date": "2025-11-19T15:34:13.128Z"
+    },
+    "updatedAt": {
+      "$date": "2026-02-12T19:50:18.758Z"
+    },
+    "folio": "SYS-2025-000004",
+    "__v": 10,
+    "archivado": false,
+    "evidencias": []
+  },
+  {
+    "_id": {
+      "$oid": "691dfd679ed45f93b9ac05b6"
+    },
+    "descripcion": "Ahora no enciende esta computadora",
+    "tipo": "Sistemas",
+    "subtipo": "laboratorio",
+    "laboratorio": "Laboratorio A",
+    "equipo": "PC-4",
+    "ubicacion": null,
+    "salon": null,
+    "tipoFalla": "No enciende",
+    "prioridad": "Media",
+    "estatus": "Cerrado",
+    "requiereMaterial": "",
+    "resolucion": "sdsdsd",
+    "creadoPor": {
+      "$oid": "685aebb013bf3eff09f102ec"
+    },
+    "asignadoA": {
+      "$oid": "685aebb013bf3eff09f102ec"
+    },
+    "fechaInicio": {
+      "$date": "2025-11-25T20:51:55.352Z"
+    },
+    "fechaPausa": null,
+    "fechaReanudacion": null,
+    "fechaExcedido": null,
+    "fechaCierre": {
+      "$date": "2025-12-03T22:24:53.794Z"
+    },
+    "comentariosAdmin": [
+      {
+        "usuario": {
+          "$oid": "6862a623c9b690df50d6f884"
+        },
+        "usuarioNombre": "rosario",
+        "texto": "Vamos a rechazar este ticcket",
+        "fecha": {
+          "$date": "2026-02-12T19:51:34.774Z"
+        }
+      }
+    ],
+    "fechaCreacion": {
+      "$date": "2025-11-19T17:24:55.783Z"
+    },
+    "historial": [
+      {
+        "fecha": {
+          "$date": "2025-11-25T20:51:55.354Z"
+        },
+        "usuario": {
+          "$oid": "6862a623c9b690df50d6f884"
+        },
+        "usuarioNombre": "rosario",
+        "de": "Abierto",
+        "a": "En proceso",
+        "comentario": "",
+        "requiereMaterial": "",
+        "resolucion": "",
+        "fechaInicio": {
+          "$date": "2025-11-25T20:51:55.352Z"
+        }
+      },
+      {
+        "fecha": {
+          "$date": "2025-11-25T20:52:37.021Z"
+        },
+        "usuario": {
+          "$oid": "6862a623c9b690df50d6f884"
+        },
+        "usuarioNombre": "rosario",
+        "de": "En proceso",
+        "a": "En proceso",
+        "comentario": "Asignado a usuario 685aebb013bf3eff09f102ec",
+        "requiereMaterial": "",
+        "resolucion": "",
+        "fechaInicio": {
+          "$date": "2025-11-25T20:51:55.352Z"
+        }
+      },
+      {
+        "fecha": {
+          "$date": "2025-11-25T20:52:40.199Z"
+        },
+        "usuario": {
+          "$oid": "6862a623c9b690df50d6f884"
+        },
+        "usuarioNombre": "rosario",
+        "de": "En proceso",
+        "a": "En proceso",
+        "comentario": "Cambio de prioridad: Sin prioridad → Media",
+        "requiereMaterial": "",
+        "resolucion": "",
+        "fechaInicio": {
+          "$date": "2025-11-25T20:51:55.352Z"
+        }
+      },
+      {
+        "fecha": {
+          "$date": "2025-11-25T20:52:59.283Z"
+        },
+        "usuario": {
+          "$oid": "685aebb013bf3eff09f102ec"
+        },
+        "usuarioNombre": "Jose Manuel",
+        "de": "En proceso",
+        "a": "Resuelto",
+        "comentario": "",
+        "requiereMaterial": "",
+        "resolucion": "sdsdsd",
+        "fechaInicio": {
+          "$date": "2025-11-25T20:51:55.352Z"
+        },
+        "fechaCierre": {
+          "$date": "2025-11-25T20:52:59.283Z"
+        },
+        "tiempoSolucionMin": 1
+      },
+      {
+        "fecha": {
+          "$date": "2025-11-25T20:52:59.284Z"
+        },
+        "usuario": {
+          "$oid": "685aebb013bf3eff09f102ec"
+        },
+        "usuarioNombre": "Jose Manuel",
+        "de": "Resuelto",
+        "a": "Resuelto",
+        "comentario": "Actualización de resolución",
+        "requiereMaterial": "",
+        "resolucion": "sdsdsd",
+        "fechaInicio": {
+          "$date": "2025-11-25T20:51:55.352Z"
+        },
+        "fechaCierre": {
+          "$date": "2025-11-25T20:52:59.283Z"
+        },
+        "tiempoSolucionMin": 1
+      },
+      {
+        "fecha": {
+          "$date": "2025-12-03T22:24:53.794Z"
+        },
+        "usuario": {
+          "$oid": "6862a623c9b690df50d6f884"
+        },
+        "usuarioNombre": "rosario",
+        "de": "Resuelto",
+        "a": "Cerrado",
+        "comentario": "",
+        "requiereMaterial": "",
+        "resolucion": "",
+        "fechaInicio": {
+          "$date": "2025-11-25T20:51:55.352Z"
+        },
+        "fechaCierre": {
+          "$date": "2025-12-03T22:24:53.794Z"
+        },
+        "tiempoSolucionMin": 11613
+      }
+    ],
+    "createdAt": {
+      "$date": "2025-11-19T17:24:55.785Z"
+    },
+    "updatedAt": {
+      "$date": "2026-02-12T19:51:34.776Z"
+    },
+    "folio": "SYS-2025-000005",
+    "__v": 6,
+    "archivado": false,
+    "evidencias": []
+  },
+  {
+    "_id": {
+      "$oid": "691dfdb49ed45f93b9ac05cf"
+    },
+    "descripcion": "adads",
+    "tipo": "Sistemas",
+    "subtipo": "laboratorio",
+    "laboratorio": "Laboratorio B",
+    "equipo": "PC3",
+    "ubicacion": null,
+    "salon": null,
+    "tipoFalla": "No enciende",
+    "prioridad": "Media",
+    "estatus": "Tiempo excedido",
+    "requiereMaterial": "",
+    "resolucion": "",
+    "creadoPor": {
+      "$oid": "685aebb013bf3eff09f102ec"
+    },
+    "asignadoA": {
+      "$oid": "685aebb013bf3eff09f102ec"
+    },
+    "fechaInicio": {
+      "$date": "2025-11-25T20:52:08.968Z"
+    },
+    "fechaPausa": null,
+    "fechaReanudacion": null,
+    "fechaExcedido": {
+      "$date": "2025-12-02T18:03:46.961Z"
+    },
+    "fechaCierre": null,
+    "comentariosAdmin": [
+      {
+        "usuario": {
+          "$oid": "685aebb013bf3eff09f102ec"
+        },
+        "usuarioNombre": "Jose Manuel",
+        "texto": "wewewewe",
+        "fecha": {
+          "$date": "2025-12-02T15:11:19.618Z"
+        }
+      },
+      {
+        "usuario": {
+          "$oid": "6862a623c9b690df50d6f884"
+        },
+        "usuarioNombre": "rosario",
+        "texto": "gfgfgfgfg",
+        "fecha": {
+          "$date": "2025-12-02T23:11:32.328Z"
+        }
+      },
+      {
+        "usuario": {
+          "$oid": "6862a623c9b690df50d6f884"
+        },
+        "usuarioNombre": "rosario",
+        "texto": "fgfergfe",
+        "fecha": {
+          "$date": "2025-12-02T23:11:37.829Z"
+        }
+      },
+      {
+        "usuario": {
+          "$oid": "6862a623c9b690df50d6f884"
+        },
+        "usuarioNombre": "rosario",
+        "texto": "asasasasasa",
+        "fecha": {
+          "$date": "2026-02-12T19:51:41.314Z"
+        }
+      }
+    ],
+    "fechaCreacion": {
+      "$date": "2025-11-19T17:26:12.950Z"
+    },
+    "historial": [
+      {
+        "fecha": {
+          "$date": "2025-11-22T15:26:46.501Z"
+        },
+        "usuario": {
+          "$oid": "685aee77c1ac24e6a4c528fb"
+        },
+        "usuarioNombre": "Administrador",
+        "de": "Abierto",
+        "a": "Abierto",
+        "comentario": "Asignado a usuario 685b151858a86a8b63b7b880",
+        "requiereMaterial": "",
+        "resolucion": ""
+      },
+      {
+        "fecha": {
+          "$date": "2025-11-25T20:52:08.969Z"
+        },
+        "usuario": {
+          "$oid": "6862a623c9b690df50d6f884"
+        },
+        "usuarioNombre": "rosario",
+        "de": "Abierto",
+        "a": "En proceso",
+        "comentario": "",
+        "requiereMaterial": "",
+        "resolucion": "",
+        "fechaInicio": {
+          "$date": "2025-11-25T20:52:08.968Z"
+        }
+      },
+      {
+        "fecha": {
+          "$date": "2025-11-25T20:53:16.007Z"
+        },
+        "usuario": {
+          "$oid": "6862a623c9b690df50d6f884"
+        },
+        "usuarioNombre": "rosario",
+        "de": "En proceso",
+        "a": "En proceso",
+        "comentario": "Cambio de prioridad: Sin prioridad → Media",
+        "requiereMaterial": "",
+        "resolucion": "",
+        "fechaInicio": {
+          "$date": "2025-11-25T20:52:08.968Z"
+        }
+      },
+      {
+        "fecha": {
+          "$date": "2025-11-25T20:53:18.382Z"
+        },
+        "usuario": {
+          "$oid": "6862a623c9b690df50d6f884"
+        },
+        "usuarioNombre": "rosario",
+        "de": "En proceso",
+        "a": "En proceso",
+        "comentario": "Asignado a usuario 685aebb013bf3eff09f102ec",
+        "requiereMaterial": "",
+        "resolucion": "",
+        "fechaInicio": {
+          "$date": "2025-11-25T20:52:08.968Z"
+        }
+      },
+      {
+        "fecha": {
+          "$date": "2025-12-02T18:03:46.962Z"
+        },
+        "usuario": {
+          "$oid": "6862a623c9b690df50d6f884"
+        },
+        "usuarioNombre": "rosario",
+        "de": "En proceso",
+        "a": "Tiempo excedido",
+        "comentario": "",
+        "requiereMaterial": "",
+        "resolucion": "",
+        "fechaInicio": {
+          "$date": "2025-11-25T20:52:08.968Z"
+        }
+      }
+    ],
+    "createdAt": {
+      "$date": "2025-11-19T17:26:12.950Z"
+    },
+    "updatedAt": {
+      "$date": "2026-02-12T19:51:41.315Z"
+    },
+    "folio": "SYS-2025-000006",
+    "__v": 9,
+    "archivado": false,
+    "evidencias": []
+  },
+  {
+    "_id": {
+      "$oid": "691e4d3b0b2dbed87e3f50b5"
+    },
+    "descripcion": "DEREWRER",
+    "tipo": "Mantenimiento",
+    "subtipo": null,
+    "laboratorio": null,
+    "equipo": null,
+    "ubicacion": null,
+    "salon": "C2",
+    "tipoFalla": "No funciona aire acondicionado",
+    "prioridad": "Alta",
+    "estatus": "Tiempo excedido",
+    "requiereMaterial": "",
+    "resolucion": "",
+    "creadoPor": {
+      "$oid": "685aebb013bf3eff09f102ec"
+    },
+    "asignadoA": {
+      "$oid": "685b153258a86a8b63b7b883"
+    },
+    "fechaInicio": null,
+    "fechaPausa": null,
+    "fechaReanudacion": null,
+    "fechaExcedido": {
+      "$date": "2025-12-02T18:36:48.751Z"
+    },
+    "fechaCierre": null,
+    "comentariosAdmin": [],
+    "fechaCreacion": {
+      "$date": "2025-11-19T23:05:31.460Z"
+    },
+    "historial": [
+      {
+        "fecha": {
+          "$date": "2025-12-02T18:36:48.751Z"
+        },
+        "usuario": {
+          "$oid": "6862a623c9b690df50d6f884"
+        },
+        "usuarioNombre": "rosario",
+        "de": "Abierto",
+        "a": "Tiempo excedido",
+        "comentario": "",
+        "requiereMaterial": "",
+        "resolucion": ""
+      },
+      {
+        "fecha": {
+          "$date": "2025-12-02T18:36:59.093Z"
+        },
+        "usuario": {
+          "$oid": "6862a623c9b690df50d6f884"
+        },
+        "usuarioNombre": "rosario",
+        "de": "Tiempo excedido",
+        "a": "Tiempo excedido",
+        "comentario": "Asignado a usuario 685b153258a86a8b63b7b883",
+        "requiereMaterial": "",
+        "resolucion": ""
+      },
+      {
+        "fecha": {
+          "$date": "2025-12-02T18:37:01.067Z"
+        },
+        "usuario": {
+          "$oid": "6862a623c9b690df50d6f884"
+        },
+        "usuarioNombre": "rosario",
+        "de": "Tiempo excedido",
+        "a": "Tiempo excedido",
+        "comentario": "Cambio de prioridad: Sin prioridad → Alta",
+        "requiereMaterial": "",
+        "resolucion": ""
+      }
+    ],
+    "createdAt": {
+      "$date": "2025-11-19T23:05:31.461Z"
+    },
+    "updatedAt": {
+      "$date": "2025-12-02T18:37:01.068Z"
+    },
+    "folio": "MNT-2025-000002",
+    "__v": 3
+  },
+  {
+    "_id": {
+      "$oid": "691e4d5b0b2dbed87e3f50bf"
+    },
+    "descripcion": "JKJKJK",
+    "tipo": "Mantenimiento",
+    "subtipo": null,
+    "laboratorio": null,
+    "equipo": null,
+    "ubicacion": null,
+    "salon": "C2",
+    "tipoFalla": "No funciona aire acondicionado",
+    "prioridad": "Sin prioridad",
+    "estatus": "Abierto",
+    "requiereMaterial": "",
+    "resolucion": "",
+    "creadoPor": {
+      "$oid": "685aebb013bf3eff09f102ec"
+    },
+    "asignadoA": {
+      "$oid": "685b153258a86a8b63b7b883"
+    },
+    "fechaInicio": null,
+    "fechaPausa": null,
+    "fechaReanudacion": null,
+    "fechaExcedido": null,
+    "fechaCierre": null,
+    "comentariosAdmin": [
+      {
+        "usuario": {
+          "$oid": "6862a623c9b690df50d6f884"
+        },
+        "usuarioNombre": "rosario",
+        "texto": "aaaaaaaaaaaaaaaaaaa",
+        "fecha": {
+          "$date": "2026-02-12T19:53:38.017Z"
+        }
+      }
+    ],
+    "fechaCreacion": {
+      "$date": "2025-11-19T23:06:03.789Z"
+    },
+    "historial": [
+      {
+        "fecha": {
+          "$date": "2025-11-20T19:39:07.676Z"
+        },
+        "usuario": {
+          "$oid": "685aee77c1ac24e6a4c528fb"
+        },
+        "usuarioNombre": "Administrador",
+        "de": "Abierto",
+        "a": "Abierto",
+        "comentario": "Asignado a usuario 685b153258a86a8b63b7b883",
+        "requiereMaterial": "",
+        "resolucion": ""
+      }
+    ],
+    "createdAt": {
+      "$date": "2025-11-19T23:06:03.790Z"
+    },
+    "updatedAt": {
+      "$date": "2026-02-12T19:53:38.017Z"
+    },
+    "folio": "MNT-2025-000003",
+    "__v": 2,
+    "archivado": false,
+    "evidencias": []
+  },
+  {
+    "_id": {
+      "$oid": "691f6b732cf85340ecbc6dd0"
+    },
+    "descripcion": "fddfff",
+    "tipo": "Sistemas",
+    "subtipo": "laboratorio",
+    "laboratorio": "Laboratorio D",
+    "equipo": "PC3",
+    "ubicacion": null,
+    "salon": null,
+    "tipoFalla": "No enciende",
+    "prioridad": "Sin prioridad",
+    "estatus": "Resuelto",
+    "requiereMaterial": "",
+    "resolucion": "ooo",
+    "creadoPor": {
+      "$oid": "685aebb013bf3eff09f102ec"
+    },
+    "asignadoA": {
+      "$oid": "685aebb013bf3eff09f102ec"
+    },
+    "fechaInicio": null,
+    "fechaPausa": null,
+    "fechaReanudacion": null,
+    "fechaExcedido": null,
+    "fechaCierre": {
+      "$date": "2025-11-24T18:19:28.605Z"
+    },
+    "comentariosAdmin": [],
+    "fechaCreacion": {
+      "$date": "2025-11-20T19:26:43.900Z"
+    },
+    "historial": [
+      {
+        "fecha": {
+          "$date": "2025-11-21T18:26:47.464Z"
+        },
+        "usuario": {
+          "$oid": "685aee77c1ac24e6a4c528fb"
+        },
+        "usuarioNombre": "Administrador",
+        "de": "Abierto",
+        "a": "Abierto",
+        "comentario": "Asignado a usuario 685aebb013bf3eff09f102ec",
+        "requiereMaterial": "",
+        "resolucion": ""
+      },
+      {
+        "fecha": {
+          "$date": "2025-11-24T18:19:28.607Z"
+        },
+        "usuario": {
+          "$oid": "685aebb013bf3eff09f102ec"
+        },
+        "usuarioNombre": "Jose Manuel",
+        "de": "Abierto",
+        "a": "Resuelto",
+        "comentario": "",
+        "requiereMaterial": "",
+        "resolucion": "ooo",
+        "fechaCierre": {
+          "$date": "2025-11-24T18:19:28.605Z"
+        },
+        "tiempoSolucionMin": 5693
+      },
+      {
+        "fecha": {
+          "$date": "2025-11-24T18:19:28.610Z"
+        },
+        "usuario": {
+          "$oid": "685aebb013bf3eff09f102ec"
+        },
+        "usuarioNombre": "Jose Manuel",
+        "de": "Resuelto",
+        "a": "Resuelto",
+        "comentario": "Actualización de resolución",
+        "requiereMaterial": "",
+        "resolucion": "ooo",
+        "fechaCierre": {
+          "$date": "2025-11-24T18:19:28.605Z"
+        },
+        "tiempoSolucionMin": 5693
+      }
+    ],
+    "createdAt": {
+      "$date": "2025-11-20T19:26:43.901Z"
+    },
+    "updatedAt": {
+      "$date": "2025-11-24T18:19:28.612Z"
+    },
+    "folio": "SYS-2025-000009",
+    "__v": 2
+  },
+  {
+    "_id": {
+      "$oid": "691f6c422cf85340ecbc6e15"
+    },
+    "descripcion": "nmmnnhhnhnhn",
+    "tipo": "Mantenimiento",
+    "subtipo": null,
+    "laboratorio": null,
+    "equipo": null,
+    "ubicacion": null,
+    "salon": "C2",
+    "tipoFalla": "No funciona aire acondicionado",
+    "prioridad": "Sin prioridad",
+    "estatus": "Rechazado",
+    "requiereMaterial": "",
+    "resolucion": "",
+    "creadoPor": {
+      "$oid": "685aebb013bf3eff09f102ec"
+    },
+    "asignadoA": {
+      "$oid": "685dc9e7f90f5b2d43462d4a"
+    },
+    "fechaInicio": null,
+    "fechaPausa": null,
+    "fechaReanudacion": null,
+    "fechaExcedido": null,
+    "fechaCierre": null,
+    "comentariosAdmin": [],
+    "fechaCreacion": {
+      "$date": "2025-11-20T19:30:10.678Z"
+    },
+    "historial": [
+      {
+        "fecha": {
+          "$date": "2025-11-20T19:39:01.502Z"
+        },
+        "usuario": {
+          "$oid": "685aee77c1ac24e6a4c528fb"
+        },
+        "usuarioNombre": "Administrador",
+        "de": "Abierto",
+        "a": "Abierto",
+        "comentario": "Asignado a usuario 685dc9e7f90f5b2d43462d4a",
+        "requiereMaterial": "",
+        "resolucion": ""
+      },
+      {
+        "fecha": {
+          "$date": "2026-02-12T20:51:36.881Z"
+        },
+        "usuario": {
+          "$oid": "6862a623c9b690df50d6f884"
+        },
+        "usuarioNombre": "rosario",
+        "de": "Abierto",
+        "a": "Rechazado",
+        "comentario": "RECHAZADO: Pruebas de rechazar",
+        "requiereMaterial": "",
+        "resolucion": ""
+      }
+    ],
+    "createdAt": {
+      "$date": "2025-11-20T19:30:10.678Z"
+    },
+    "updatedAt": {
+      "$date": "2026-02-12T20:51:36.885Z"
+    },
+    "folio": "MNT-2025-000004",
+    "__v": 2,
+    "archivado": true,
+    "archivadoPor": {
+      "$oid": "6862a623c9b690df50d6f884"
+    },
+    "evidencias": [],
+    "fechaArchivado": {
+      "$date": "2026-02-12T20:51:36.883Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "691f70099df2b4dd09eb1c88"
+    },
+    "descripcion": "sdsdsdsd",
+    "tipo": "Mantenimiento",
+    "subtipo": null,
+    "laboratorio": null,
+    "equipo": null,
+    "ubicacion": null,
+    "salon": "C2",
+    "tipoFalla": "No hay luz eléctrica",
+    "prioridad": "Sin prioridad",
+    "estatus": "Abierto",
+    "requiereMaterial": "",
+    "resolucion": "",
+    "creadoPor": {
+      "$oid": "685aebb013bf3eff09f102ec"
+    },
+    "asignadoA": {
+      "$oid": "685b153258a86a8b63b7b883"
+    },
+    "fechaInicio": null,
+    "fechaPausa": null,
+    "fechaReanudacion": null,
+    "fechaExcedido": null,
+    "fechaCierre": null,
+    "comentariosAdmin": [],
+    "fechaCreacion": {
+      "$date": "2025-11-20T19:46:17.618Z"
+    },
+    "historial": [
+      {
+        "fecha": {
+          "$date": "2025-11-20T19:46:32.741Z"
+        },
+        "usuario": {
+          "$oid": "685aee77c1ac24e6a4c528fb"
+        },
+        "usuarioNombre": "Administrador",
+        "de": "Abierto",
+        "a": "Abierto",
+        "comentario": "Asignado a usuario 685b153258a86a8b63b7b883",
+        "requiereMaterial": "",
+        "resolucion": ""
+      }
+    ],
+    "createdAt": {
+      "$date": "2025-11-20T19:46:17.619Z"
+    },
+    "updatedAt": {
+      "$date": "2025-11-20T19:46:32.744Z"
+    },
+    "folio": "MNT-2025-000005",
+    "__v": 1
+  },
+  {
+    "_id": {
+      "$oid": "69249f0d85954bab87a00fe8"
+    },
+    "descripcion": "asdasd",
+    "tipo": "Sistemas",
+    "subtipo": "otro",
+    "laboratorio": null,
+    "equipo": null,
+    "ubicacion": "dsdsd",
+    "salon": null,
+    "tipoFalla": "No tengo internet (área/oficina)",
+    "prioridad": "Sin prioridad",
+    "estatus": "En proceso",
+    "requiereMaterial": "",
+    "resolucion": "",
+    "creadoPor": {
+      "$oid": "685aebb013bf3eff09f102ec"
+    },
+    "asignadoA": {
+      "$oid": "685aebb013bf3eff09f102ec"
+    },
+    "fechaInicio": {
+      "$date": "2025-12-03T22:22:14.802Z"
+    },
+    "fechaPausa": null,
+    "fechaReanudacion": null,
+    "fechaExcedido": null,
+    "fechaCierre": null,
+    "comentariosAdmin": [
+      {
+        "usuario": {
+          "$oid": "6862a623c9b690df50d6f884"
+        },
+        "usuarioNombre": "rosario",
+        "texto": "aaaaaaa",
+        "fecha": {
+          "$date": "2026-02-12T19:52:54.388Z"
+        }
+      },
+      {
+        "usuario": {
+          "$oid": "6862a623c9b690df50d6f884"
+        },
+        "usuarioNombre": "rosario",
+        "texto": "aaaaa",
+        "fecha": {
+          "$date": "2026-02-12T19:53:08.340Z"
+        }
+      },
+      {
+        "usuario": {
+          "$oid": "6862a623c9b690df50d6f884"
+        },
+        "usuarioNombre": "rosario",
+        "texto": "aaaaaaaaaaaaaaaaaaaa",
+        "fecha": {
+          "$date": "2026-02-12T19:53:15.675Z"
+        }
+      }
+    ],
+    "fechaCreacion": {
+      "$date": "2025-11-24T18:08:13.433Z"
+    },
+    "historial": [
+      {
+        "fecha": {
+          "$date": "2025-12-03T22:21:55.536Z"
+        },
+        "usuario": {
+          "$oid": "6862a623c9b690df50d6f884"
+        },
+        "usuarioNombre": "rosario",
+        "de": "Abierto",
+        "a": "Abierto",
+        "comentario": "Asignado a usuario 685aebb013bf3eff09f102ec",
+        "requiereMaterial": "",
+        "resolucion": ""
+      },
+      {
+        "fecha": {
+          "$date": "2025-12-03T22:22:14.803Z"
+        },
+        "usuario": {
+          "$oid": "685aebb013bf3eff09f102ec"
+        },
+        "usuarioNombre": "Jose Manuel",
+        "de": "Abierto",
+        "a": "En proceso",
+        "comentario": "",
+        "requiereMaterial": "",
+        "resolucion": "",
+        "fechaInicio": {
+          "$date": "2025-12-03T22:22:14.802Z"
+        }
+      }
+    ],
+    "createdAt": {
+      "$date": "2025-11-24T18:08:13.434Z"
+    },
+    "updatedAt": {
+      "$date": "2026-02-12T19:53:15.677Z"
+    },
+    "folio": "SYS-2025-000010",
+    "__v": 7,
+    "driveFolderId": "10Ngq6Q73doYfwYcqdKlpnQ7wcBRh3zZT",
+    "driveFolderLink": "https://drive.google.com/file/d/1TRtnmfmSEASd_ke1lTGdzEGdIvXTY_fs/view?usp=drivesdk",
+    "evidencias": [
+      {
+        "fileId": "1HEfqZnNALW0_K795rB8juWdJ5K_qrepY",
+        "fileName": "Benito con logo de loa escuela.png",
+        "webViewLink": "https://drive.google.com/file/d/1HEfqZnNALW0_K795rB8juWdJ5K_qrepY/view?usp=drivesdk",
+        "webContentLink": "https://drive.google.com/uc?id=1HEfqZnNALW0_K795rB8juWdJ5K_qrepY&export=download",
+        "uploadedAt": {
+          "$date": "2025-12-09T19:20:22.459Z"
+        }
+      },
+      {
+        "fileId": "1TRtnmfmSEASd_ke1lTGdzEGdIvXTY_fs",
+        "fileName": "Bateil.jpg",
+        "webViewLink": "https://drive.google.com/file/d/1TRtnmfmSEASd_ke1lTGdzEGdIvXTY_fs/view?usp=drivesdk",
+        "webContentLink": "https://drive.google.com/uc?id=1TRtnmfmSEASd_ke1lTGdzEGdIvXTY_fs&export=download",
+        "uploadedAt": {
+          "$date": "2025-12-22T22:32:19.739Z"
+        }
+      }
+    ],
+    "archivado": false
+  },
+  {
+    "_id": {
+      "$oid": "69249f2285954bab87a00ffb"
+    },
+    "descripcion": "dddd",
+    "tipo": "Sistemas",
+    "subtipo": "otro",
+    "laboratorio": null,
+    "equipo": null,
+    "ubicacion": "dsdsd",
+    "salon": null,
+    "tipoFalla": "No tengo internet (área/oficina)",
+    "prioridad": "Alta",
+    "estatus": "En proceso",
+    "requiereMaterial": "",
+    "resolucion": "",
+    "creadoPor": {
+      "$oid": "685aebb013bf3eff09f102ec"
+    },
+    "asignadoA": {
+      "$oid": "685aebb013bf3eff09f102ec"
+    },
+    "fechaInicio": {
+      "$date": "2025-12-03T22:24:33.649Z"
+    },
+    "fechaPausa": null,
+    "fechaReanudacion": null,
+    "fechaExcedido": null,
+    "fechaCierre": null,
+    "comentariosAdmin": [
+      {
+        "usuario": {
+          "$oid": "6862a623c9b690df50d6f884"
+        },
+        "usuarioNombre": "rosario",
+        "texto": "aaaaa",
+        "fecha": {
+          "$date": "2026-02-12T19:53:05.617Z"
+        }
+      }
+    ],
+    "fechaCreacion": {
+      "$date": "2025-11-24T18:08:34.172Z"
+    },
+    "historial": [
+      {
+        "fecha": {
+          "$date": "2025-12-03T22:23:54.804Z"
+        },
+        "usuario": {
+          "$oid": "6862a623c9b690df50d6f884"
+        },
+        "usuarioNombre": "rosario",
+        "de": "Abierto",
+        "a": "Abierto",
+        "comentario": "Asignado a usuario 685aebb013bf3eff09f102ec",
+        "requiereMaterial": "",
+        "resolucion": ""
+      },
+      {
+        "fecha": {
+          "$date": "2025-12-03T22:24:33.649Z"
+        },
+        "usuario": {
+          "$oid": "685aebb013bf3eff09f102ec"
+        },
+        "usuarioNombre": "Jose Manuel",
+        "de": "Abierto",
+        "a": "En proceso",
+        "comentario": "",
+        "requiereMaterial": "",
+        "resolucion": "",
+        "fechaInicio": {
+          "$date": "2025-12-03T22:24:33.649Z"
+        }
+      },
+      {
+        "fecha": {
+          "$date": "2026-04-21T19:30:25.067Z"
+        },
+        "usuario": {
+          "$oid": "6862a623c9b690df50d6f884"
+        },
+        "usuarioNombre": "rosario",
+        "de": "En proceso",
+        "a": "En proceso",
+        "comentario": "Cambio de prioridad: Sin prioridad → Alta",
+        "requiereMaterial": "",
+        "resolucion": "",
+        "fechaInicio": {
+          "$date": "2025-12-03T22:24:33.649Z"
+        }
+      }
+    ],
+    "createdAt": {
+      "$date": "2025-11-24T18:08:34.172Z"
+    },
+    "updatedAt": {
+      "$date": "2026-04-21T19:30:25.069Z"
+    },
+    "folio": "SYS-2025-000011",
+    "__v": 6,
+    "driveFolderId": "17DcsUA-XW8d7ZdRyHc3WXL4kR0INrAeM",
+    "driveFolderLink": "https://drive.google.com/file/d/1tVs8RmIMv7mz-cOC36QsPaDzOGBZuivj/view?usp=drivesdk",
+    "evidencias": [
+      {
+        "fileId": "1mmUcDIxzYkHV4AjLHB4LZWY-HloAqg2e",
+        "fileName": "Bateil.jpg",
+        "webViewLink": "https://drive.google.com/file/d/1mmUcDIxzYkHV4AjLHB4LZWY-HloAqg2e/view?usp=drivesdk",
+        "webContentLink": "https://drive.google.com/uc?id=1mmUcDIxzYkHV4AjLHB4LZWY-HloAqg2e&export=download",
+        "uploadedAt": {
+          "$date": "2025-12-09T22:54:56.334Z"
+        }
+      },
+      {
+        "fileId": "1tVs8RmIMv7mz-cOC36QsPaDzOGBZuivj",
+        "fileName": "Benito con logo de loa escuela.png",
+        "webViewLink": "https://drive.google.com/file/d/1tVs8RmIMv7mz-cOC36QsPaDzOGBZuivj/view?usp=drivesdk",
+        "webContentLink": "https://drive.google.com/uc?id=1tVs8RmIMv7mz-cOC36QsPaDzOGBZuivj&export=download",
+        "uploadedAt": {
+          "$date": "2025-12-09T22:58:20.767Z"
+        }
+      }
+    ],
+    "archivado": false
+  },
+  {
+    "_id": {
+      "$oid": "6924a2516d5276377748f82b"
+    },
+    "descripcion": "asdad",
+    "tipo": "Sistemas",
+    "subtipo": "laboratorio",
+    "laboratorio": "Laboratorio A",
+    "equipo": "sd",
+    "ubicacion": null,
+    "salon": null,
+    "tipoFalla": "Sin imagen / monitor",
+    "prioridad": "Sin prioridad",
+    "estatus": "Abierto",
+    "requiereMaterial": "",
+    "resolucion": "",
+    "creadoPor": {
+      "$oid": "685aebb013bf3eff09f102ec"
+    },
+    "asignadoA": {
+      "$oid": "685aebb013bf3eff09f102ec"
+    },
+    "fechaInicio": null,
+    "fechaPausa": null,
+    "fechaReanudacion": null,
+    "fechaExcedido": null,
+    "fechaCierre": null,
+    "comentariosAdmin": [],
+    "fechaCreacion": {
+      "$date": "2025-11-24T18:22:09.082Z"
+    },
+    "historial": [
+      {
+        "fecha": {
+          "$date": "2025-12-03T22:24:11.884Z"
+        },
+        "usuario": {
+          "$oid": "6862a623c9b690df50d6f884"
+        },
+        "usuarioNombre": "rosario",
+        "de": "Abierto",
+        "a": "Abierto",
+        "comentario": "Asignado a usuario 685aebb013bf3eff09f102ec",
+        "requiereMaterial": "",
+        "resolucion": ""
+      }
+    ],
+    "createdAt": {
+      "$date": "2025-11-24T18:22:09.082Z"
+    },
+    "updatedAt": {
+      "$date": "2025-12-03T22:24:11.885Z"
+    },
+    "folio": "SYS-2025-000012",
+    "__v": 1
+  },
+  {
+    "_id": {
+      "$oid": "6924daf97aaf628245fdd4c7"
+    },
+    "descripcion": "KKK",
+    "tipo": "Sistemas",
+    "subtipo": "laboratorio",
+    "laboratorio": "Laboratorio A",
+    "equipo": "KK",
+    "ubicacion": null,
+    "salon": null,
+    "tipoFalla": "No enciende",
+    "prioridad": "Sin prioridad",
+    "estatus": "Abierto",
+    "requiereMaterial": "",
+    "resolucion": "",
+    "creadoPor": {
+      "$oid": "685aebb013bf3eff09f102ec"
+    },
+    "asignadoA": null,
+    "fechaInicio": null,
+    "fechaPausa": null,
+    "fechaReanudacion": null,
+    "fechaExcedido": null,
+    "fechaCierre": null,
+    "comentariosAdmin": [],
+    "fechaCreacion": {
+      "$date": "2025-11-24T22:23:53.346Z"
+    },
+    "historial": [],
+    "createdAt": {
+      "$date": "2025-11-24T22:23:53.347Z"
+    },
+    "updatedAt": {
+      "$date": "2025-11-24T22:23:53.347Z"
+    },
+    "folio": "SYS-2025-000013",
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "6925be28ce060a06d597b167"
+    },
+    "descripcion": "qwqqw",
+    "tipo": "Sistemas",
+    "subtipo": "laboratorio",
+    "laboratorio": "Laboratorio A",
+    "equipo": "PC3",
+    "ubicacion": null,
+    "salon": null,
+    "tipoFalla": "Sin imagen / monitor",
+    "prioridad": "Sin prioridad",
+    "estatus": "Abierto",
+    "requiereMaterial": "",
+    "resolucion": "",
+    "creadoPor": {
+      "$oid": "685aebb013bf3eff09f102ec"
+    },
+    "asignadoA": null,
+    "fechaInicio": null,
+    "fechaPausa": null,
+    "fechaReanudacion": null,
+    "fechaExcedido": null,
+    "fechaCierre": null,
+    "comentariosAdmin": [],
+    "fechaCreacion": {
+      "$date": "2025-11-25T14:33:12.462Z"
+    },
+    "historial": [],
+    "createdAt": {
+      "$date": "2025-11-25T14:33:12.463Z"
+    },
+    "updatedAt": {
+      "$date": "2025-11-25T14:33:12.463Z"
+    },
+    "folio": "SYS-2025-000014",
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "6925be62ce060a06d597b1dd"
+    },
+    "descripcion": "wdswd",
+    "tipo": "Sistemas",
+    "subtipo": "laboratorio",
+    "laboratorio": "Laboratorio A",
+    "equipo": "PC3",
+    "ubicacion": null,
+    "salon": null,
+    "tipoFalla": "No enciende",
+    "prioridad": "Sin prioridad",
+    "estatus": "Abierto",
+    "requiereMaterial": "",
+    "resolucion": "",
+    "creadoPor": {
+      "$oid": "685aebb013bf3eff09f102ec"
+    },
+    "asignadoA": null,
+    "fechaInicio": null,
+    "fechaPausa": null,
+    "fechaReanudacion": null,
+    "fechaExcedido": null,
+    "fechaCierre": null,
+    "comentariosAdmin": [],
+    "fechaCreacion": {
+      "$date": "2025-11-25T14:34:10.292Z"
+    },
+    "historial": [],
+    "createdAt": {
+      "$date": "2025-11-25T14:34:10.292Z"
+    },
+    "updatedAt": {
+      "$date": "2025-11-25T14:34:10.292Z"
+    },
+    "folio": "SYS-2025-000015",
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "6926175377d572716542ce36"
+    },
+    "descripcion": "asas",
+    "tipo": "Sistemas",
+    "subtipo": "laboratorio",
+    "laboratorio": "Laboratorio A",
+    "equipo": "aaa",
+    "ubicacion": null,
+    "salon": null,
+    "tipoFalla": "Sin imagen / monitor",
+    "prioridad": "Sin prioridad",
+    "estatus": "Rechazado",
+    "requiereMaterial": "",
+    "resolucion": "",
+    "creadoPor": {
+      "$oid": "6862a623c9b690df50d6f884"
+    },
+    "asignadoA": null,
+    "fechaInicio": null,
+    "fechaPausa": null,
+    "fechaReanudacion": null,
+    "fechaExcedido": null,
+    "fechaCierre": null,
+    "comentariosAdmin": [],
+    "fechaCreacion": {
+      "$date": "2025-11-25T20:53:39.450Z"
+    },
+    "historial": [
+      {
+        "fecha": {
+          "$date": "2026-02-12T20:54:36.347Z"
+        },
+        "usuario": {
+          "$oid": "6862a623c9b690df50d6f884"
+        },
+        "usuarioNombre": "rosario",
+        "de": "Abierto",
+        "a": "Rechazado",
+        "comentario": "RECHAZADO: rechazado",
+        "requiereMaterial": "",
+        "resolucion": ""
+      }
+    ],
+    "createdAt": {
+      "$date": "2025-11-25T20:53:39.451Z"
+    },
+    "updatedAt": {
+      "$date": "2026-02-12T20:54:36.348Z"
+    },
+    "folio": "SYS-2025-000016",
+    "__v": 1,
+    "archivado": true,
+    "archivadoPor": {
+      "$oid": "6862a623c9b690df50d6f884"
+    },
+    "evidencias": [],
+    "fechaArchivado": {
+      "$date": "2026-02-12T20:54:36.348Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6926178677d572716542ce92"
+    },
+    "descripcion": "sdsdsd",
+    "tipo": "Sistemas",
+    "subtipo": "laboratorio",
+    "laboratorio": "Laboratorio B",
+    "equipo": "PC3",
+    "ubicacion": null,
+    "salon": null,
+    "tipoFalla": "No enciende",
+    "prioridad": "Sin prioridad",
+    "estatus": "Abierto",
+    "requiereMaterial": "",
+    "resolucion": "",
+    "creadoPor": {
+      "$oid": "685aebb013bf3eff09f102ec"
+    },
+    "asignadoA": null,
+    "fechaInicio": null,
+    "fechaPausa": null,
+    "fechaReanudacion": null,
+    "fechaExcedido": null,
+    "fechaCierre": null,
+    "comentariosAdmin": [
+      {
+        "usuario": {
+          "$oid": "685aebb013bf3eff09f102ec"
+        },
+        "usuarioNombre": "Jose Manuel",
+        "texto": "sssss",
+        "fecha": {
+          "$date": "2025-12-02T15:53:13.628Z"
+        }
+      },
+      {
+        "usuario": {
+          "$oid": "685aebb013bf3eff09f102ec"
+        },
+        "usuarioNombre": "Jose Manuel",
+        "texto": "sasasasas",
+        "fecha": {
+          "$date": "2025-12-02T17:49:16.512Z"
+        }
+      }
+    ],
+    "fechaCreacion": {
+      "$date": "2025-11-25T20:54:30.412Z"
+    },
+    "historial": [],
+    "createdAt": {
+      "$date": "2025-11-25T20:54:30.413Z"
+    },
+    "updatedAt": {
+      "$date": "2025-12-02T17:49:16.513Z"
+    },
+    "folio": "SYS-2025-000017",
+    "__v": 2
+  },
+  {
+    "_id": {
+      "$oid": "6930b840a9a15386abbf69eb"
+    },
+    "descripcion": "WEEEWE",
+    "tipo": "Sistemas",
+    "subtipo": "laboratorio",
+    "laboratorio": "Laboratorio A",
+    "equipo": "PC3",
+    "ubicacion": null,
+    "salon": null,
+    "tipoFalla": "No enciende",
+    "prioridad": "Sin prioridad",
+    "estatus": "Abierto",
+    "requiereMaterial": "",
+    "resolucion": "",
+    "creadoPor": {
+      "$oid": "685aebb013bf3eff09f102ec"
+    },
+    "asignadoA": null,
+    "fechaInicio": null,
+    "fechaPausa": null,
+    "fechaReanudacion": null,
+    "fechaExcedido": null,
+    "fechaCierre": null,
+    "comentariosAdmin": [
+      {
+        "usuario": {
+          "$oid": "6862a623c9b690df50d6f884"
+        },
+        "usuarioNombre": "rosario",
+        "texto": "DSD",
+        "fecha": {
+          "$date": "2025-12-03T22:23:22.560Z"
+        }
+      }
+    ],
+    "fechaCreacion": {
+      "$date": "2025-12-03T22:22:56.833Z"
+    },
+    "historial": [],
+    "createdAt": {
+      "$date": "2025-12-03T22:22:56.833Z"
+    },
+    "updatedAt": {
+      "$date": "2025-12-03T22:23:22.561Z"
+    },
+    "folio": "SYS-2025-000018",
+    "__v": 1
+  },
+  {
+    "_id": {
+      "$oid": "69371b0896712f5f6cfc1714"
+    },
+    "descripcion": "ljhkluhhku",
+    "tipo": "Sistemas",
+    "subtipo": "laboratorio",
+    "laboratorio": "Laboratorio A",
+    "equipo": "PC3",
+    "ubicacion": null,
+    "salon": null,
+    "tipoFalla": "No enciende",
+    "prioridad": "Sin prioridad",
+    "estatus": "Abierto",
+    "requiereMaterial": "",
+    "resolucion": "",
+    "creadoPor": {
+      "$oid": "685aebb013bf3eff09f102ec"
+    },
+    "asignadoA": null,
+    "fechaInicio": null,
+    "fechaPausa": null,
+    "fechaReanudacion": null,
+    "fechaExcedido": null,
+    "fechaCierre": null,
+    "driveFolderId": null,
+    "driveFolderLink": null,
+    "comentariosAdmin": [],
+    "fechaCreacion": {
+      "$date": "2025-12-08T18:38:00.517Z"
+    },
+    "evidencias": [],
+    "historial": [],
+    "createdAt": {
+      "$date": "2025-12-08T18:38:00.518Z"
+    },
+    "updatedAt": {
+      "$date": "2025-12-08T18:38:00.518Z"
+    },
+    "folio": "SYS-2025-000019",
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "693720258e68ea52ca758a6e"
+    },
+    "descripcion": "fjgjfjh",
+    "tipo": "Sistemas",
+    "subtipo": "laboratorio",
+    "laboratorio": "Laboratorio A",
+    "equipo": "PC3",
+    "ubicacion": null,
+    "salon": null,
+    "tipoFalla": "No enciende",
+    "prioridad": "Sin prioridad",
+    "estatus": "Abierto",
+    "requiereMaterial": "",
+    "resolucion": "",
+    "creadoPor": {
+      "$oid": "685aebb013bf3eff09f102ec"
+    },
+    "asignadoA": null,
+    "fechaInicio": null,
+    "fechaPausa": null,
+    "fechaReanudacion": null,
+    "fechaExcedido": null,
+    "fechaCierre": null,
+    "driveFolderId": null,
+    "driveFolderLink": null,
+    "comentariosAdmin": [],
+    "fechaCreacion": {
+      "$date": "2025-12-08T18:59:49.972Z"
+    },
+    "evidencias": [],
+    "historial": [],
+    "createdAt": {
+      "$date": "2025-12-08T18:59:49.973Z"
+    },
+    "updatedAt": {
+      "$date": "2025-12-08T18:59:49.973Z"
+    },
+    "folio": "SYS-2025-000020",
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "6937217510a6a023e276c8a5"
+    },
+    "descripcion": "asdasdasd",
+    "tipo": "Sistemas",
+    "subtipo": "laboratorio",
+    "laboratorio": "Laboratorio A",
+    "equipo": "PC3",
+    "ubicacion": null,
+    "salon": null,
+    "tipoFalla": "No enciende",
+    "prioridad": "Alta",
+    "estatus": "Abierto",
+    "requiereMaterial": "",
+    "resolucion": "",
+    "creadoPor": {
+      "$oid": "685aebb013bf3eff09f102ec"
+    },
+    "asignadoA": {
+      "$oid": "685dc9c7f90f5b2d43462d47"
+    },
+    "fechaInicio": null,
+    "fechaPausa": null,
+    "fechaReanudacion": null,
+    "fechaExcedido": null,
+    "fechaCierre": null,
+    "driveFolderId": null,
+    "driveFolderLink": null,
+    "comentariosAdmin": [],
+    "fechaCreacion": {
+      "$date": "2025-12-08T19:05:25.735Z"
+    },
+    "evidencias": [],
+    "historial": [
+      {
+        "fecha": {
+          "$date": "2026-04-24T16:20:01.179Z"
+        },
+        "usuario": {
+          "$oid": "6862a623c9b690df50d6f884"
+        },
+        "usuarioNombre": "rosario",
+        "de": "Abierto",
+        "a": "Abierto",
+        "comentario": "Cambio de prioridad: Sin prioridad → Alta",
+        "requiereMaterial": "",
+        "resolucion": ""
+      },
+      {
+        "fecha": {
+          "$date": "2026-04-24T16:20:01.179Z"
+        },
+        "usuario": {
+          "$oid": "6862a623c9b690df50d6f884"
+        },
+        "usuarioNombre": "rosario",
+        "de": "Abierto",
+        "a": "Abierto",
+        "comentario": "Asignado a usuario 685aebb013bf3eff09f102ec",
+        "requiereMaterial": "",
+        "resolucion": ""
+      },
+      {
+        "fecha": {
+          "$date": "2026-04-24T16:20:05.714Z"
+        },
+        "usuario": {
+          "$oid": "6862a623c9b690df50d6f884"
+        },
+        "usuarioNombre": "rosario",
+        "de": "Abierto",
+        "a": "Abierto",
+        "comentario": "Asignado a usuario 685dc9c7f90f5b2d43462d47",
+        "requiereMaterial": "",
+        "resolucion": ""
+      }
+    ],
+    "createdAt": {
+      "$date": "2025-12-08T19:05:25.736Z"
+    },
+    "updatedAt": {
+      "$date": "2026-04-24T16:20:05.716Z"
+    },
+    "folio": "SYS-2025-000021",
+    "__v": 2,
+    "archivado": false
+  },
+  {
+    "_id": {
+      "$oid": "6937228f212c6e69817b953c"
+    },
+    "descripcion": "asdasdasd",
+    "tipo": "Sistemas",
+    "subtipo": "laboratorio",
+    "laboratorio": "Laboratorio B",
+    "equipo": "PC3",
+    "ubicacion": null,
+    "salon": null,
+    "tipoFalla": "No enciende",
+    "prioridad": "Sin prioridad",
+    "estatus": "Abierto",
+    "requiereMaterial": "",
+    "resolucion": "",
+    "creadoPor": {
+      "$oid": "685aebb013bf3eff09f102ec"
+    },
+    "asignadoA": null,
+    "fechaInicio": null,
+    "fechaPausa": null,
+    "fechaReanudacion": null,
+    "fechaExcedido": null,
+    "fechaCierre": null,
+    "driveFolderId": "1nMD8MtAIOdaxSJ13MidJQ5ekP9SXimO9",
+    "driveFolderLink": "https://drive.google.com/file/d/176sCx15ul5C3n35Jjm2bP8Jd-jDUV1Ap/view?usp=drivesdk",
+    "comentariosAdmin": [],
+    "fechaCreacion": {
+      "$date": "2025-12-08T19:10:07.244Z"
+    },
+    "evidencias": [
+      {
+        "fileId": "176sCx15ul5C3n35Jjm2bP8Jd-jDUV1Ap",
+        "fileName": "Benito con logo de loa escuela.png",
+        "webViewLink": "https://drive.google.com/file/d/176sCx15ul5C3n35Jjm2bP8Jd-jDUV1Ap/view?usp=drivesdk",
+        "webContentLink": "https://drive.google.com/uc?id=176sCx15ul5C3n35Jjm2bP8Jd-jDUV1Ap&export=download",
+        "uploadedAt": {
+          "$date": "2025-12-09T18:35:36.455Z"
+        }
+      }
+    ],
+    "historial": [
+      {
+        "fecha": {
+          "$date": "2026-02-10T18:59:29.372Z"
+        },
+        "usuario": {
+          "$oid": "6862a623c9b690df50d6f884"
+        },
+        "usuarioNombre": "rosario",
+        "de": "Abierto",
+        "a": "Archivado",
+        "comentario": "Ticket archivado",
+        "requiereMaterial": "",
+        "resolucion": ""
+      }
+    ],
+    "createdAt": {
+      "$date": "2025-12-08T19:10:07.245Z"
+    },
+    "updatedAt": {
+      "$date": "2026-02-10T18:59:29.385Z"
+    },
+    "folio": "SYS-2025-000022",
+    "__v": 2,
+    "archivado": true,
+    "archivadoPor": {
+      "$oid": "6862a623c9b690df50d6f884"
+    },
+    "fechaArchivado": {
+      "$date": "2026-02-10T18:59:29.368Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "69389efb27e44551d59e1154"
+    },
+    "descripcion": "jhhj",
+    "tipo": "Sistemas",
+    "subtipo": "laboratorio",
+    "laboratorio": "Laboratorio A",
+    "equipo": "PC3",
+    "ubicacion": null,
+    "salon": null,
+    "tipoFalla": "No enciende",
+    "prioridad": "Alta",
+    "estatus": "Abierto",
+    "requiereMaterial": "",
+    "resolucion": "",
+    "creadoPor": {
+      "$oid": "685aebb013bf3eff09f102ec"
+    },
+    "asignadoA": {
+      "$oid": "685aebb013bf3eff09f102ec"
+    },
+    "fechaInicio": null,
+    "fechaPausa": null,
+    "fechaReanudacion": null,
+    "fechaExcedido": null,
+    "fechaCierre": null,
+    "driveFolderId": "1G6Zn1XqvrIReUNaON0WSh_wlZMXfutev",
+    "driveFolderLink": "https://drive.google.com/file/d/1ZybGGMjcjpqSXhUvJrOxla7HgaJ-ZRpF/view?usp=drivesdk",
+    "comentariosAdmin": [],
+    "fechaCreacion": {
+      "$date": "2025-12-09T22:13:15.642Z"
+    },
+    "evidencias": [
+      {
+        "fileId": "1ZybGGMjcjpqSXhUvJrOxla7HgaJ-ZRpF",
+        "fileName": "Bateil.jpg",
+        "webViewLink": "https://drive.google.com/file/d/1ZybGGMjcjpqSXhUvJrOxla7HgaJ-ZRpF/view?usp=drivesdk",
+        "webContentLink": "https://drive.google.com/uc?id=1ZybGGMjcjpqSXhUvJrOxla7HgaJ-ZRpF&export=download",
+        "uploadedAt": {
+          "$date": "2025-12-09T22:14:37.107Z"
+        }
+      }
+    ],
+    "historial": [
+      {
+        "fecha": {
+          "$date": "2025-12-09T22:14:08.134Z"
+        },
+        "usuario": {
+          "$oid": "6862a623c9b690df50d6f884"
+        },
+        "usuarioNombre": "rosario",
+        "de": "Abierto",
+        "a": "Abierto",
+        "comentario": "Asignado a usuario 685aebb013bf3eff09f102ec",
+        "requiereMaterial": "",
+        "resolucion": ""
+      },
+      {
+        "fecha": {
+          "$date": "2025-12-09T22:14:10.269Z"
+        },
+        "usuario": {
+          "$oid": "6862a623c9b690df50d6f884"
+        },
+        "usuarioNombre": "rosario",
+        "de": "Abierto",
+        "a": "Abierto",
+        "comentario": "Cambio de prioridad: Sin prioridad → Alta",
+        "requiereMaterial": "",
+        "resolucion": ""
+      },
+      {
+        "fecha": {
+          "$date": "2026-04-24T16:19:52.518Z"
+        },
+        "usuario": {
+          "$oid": "6862a623c9b690df50d6f884"
+        },
+        "usuarioNombre": "rosario",
+        "de": "Abierto",
+        "a": "Abierto",
+        "comentario": "Cambio de prioridad: Alta → Media",
+        "requiereMaterial": "",
+        "resolucion": ""
+      },
+      {
+        "fecha": {
+          "$date": "2026-04-24T16:24:30.495Z"
+        },
+        "usuario": {
+          "$oid": "6862a623c9b690df50d6f884"
+        },
+        "usuarioNombre": "rosario",
+        "de": "Abierto",
+        "a": "Abierto",
+        "comentario": "Cambio de prioridad: Media → Alta",
+        "requiereMaterial": "",
+        "resolucion": ""
+      }
+    ],
+    "createdAt": {
+      "$date": "2025-12-09T22:13:15.642Z"
+    },
+    "updatedAt": {
+      "$date": "2026-04-24T16:24:30.496Z"
+    },
+    "folio": "SYS-2025-000023",
+    "__v": 5,
+    "archivado": false
+  },
+  {
+    "_id": {
+      "$oid": "698e3e4a4b20c6abe16307e3"
+    },
+    "descripcion": "ASASASASasdad",
+    "tipo": "Sistemas",
+    "subtipo": "laboratorio",
+    "laboratorio": "Laboratorio A",
+    "equipo": "PC-01",
+    "ubicacion": null,
+    "salon": null,
+    "tipoFalla": "No enciende",
+    "prioridad": "Sin prioridad",
+    "estatus": "Cerrado",
+    "requiereMaterial": "",
+    "resolucion": "aaaa",
+    "creadoPor": {
+      "$oid": "6862a623c9b690df50d6f884"
+    },
+    "asignadoA": {
+      "$oid": "685aebb013bf3eff09f102ec"
+    },
+    "fechaInicio": null,
+    "fechaPausa": null,
+    "fechaReanudacion": null,
+    "fechaExcedido": null,
+    "fechaCierre": {
+      "$date": "2026-04-21T19:40:57.738Z"
+    },
+    "driveFolderId": "1HExYeJVMtZiIQLt4sDlis-pptQskiIc4",
+    "driveFolderLink": "https://drive.google.com/drive/folders/1HExYeJVMtZiIQLt4sDlis-pptQskiIc4",
+    "archivado": false,
+    "fechaArchivado": null,
+    "archivadoPor": null,
+    "comentariosAdmin": [],
+    "fechaCreacion": {
+      "$date": "2026-02-12T20:55:38.559Z"
+    },
+    "evidencias": [],
+    "historial": [
+      {
+        "fecha": {
+          "$date": "2026-04-21T19:30:13.589Z"
+        },
+        "usuario": {
+          "$oid": "6862a623c9b690df50d6f884"
+        },
+        "usuarioNombre": "rosario",
+        "de": "Abierto",
+        "a": "Abierto",
+        "comentario": "Asignado a usuario 685aebb013bf3eff09f102ec",
+        "requiereMaterial": "",
+        "resolucion": ""
+      },
+      {
+        "fecha": {
+          "$date": "2026-04-21T19:32:25.953Z"
+        },
+        "usuario": {
+          "$oid": "685aebb013bf3eff09f102ec"
+        },
+        "usuarioNombre": "Jose Manuel",
+        "de": "Abierto",
+        "a": "Resuelto",
+        "comentario": "",
+        "requiereMaterial": "",
+        "resolucion": "aaaa",
+        "fechaCierre": {
+          "$date": "2026-04-21T19:32:25.952Z"
+        },
+        "tiempoSolucionMin": 97837
+      },
+      {
+        "fecha": {
+          "$date": "2026-04-21T19:32:25.953Z"
+        },
+        "usuario": {
+          "$oid": "685aebb013bf3eff09f102ec"
+        },
+        "usuarioNombre": "Jose Manuel",
+        "de": "Resuelto",
+        "a": "Resuelto",
+        "comentario": "Actualización de resolución",
+        "requiereMaterial": "",
+        "resolucion": "aaaa",
+        "fechaCierre": {
+          "$date": "2026-04-21T19:32:25.952Z"
+        },
+        "tiempoSolucionMin": 97837
+      },
+      {
+        "fecha": {
+          "$date": "2026-04-21T19:40:57.740Z"
+        },
+        "usuario": {
+          "$oid": "6862a623c9b690df50d6f884"
+        },
+        "usuarioNombre": "rosario",
+        "de": "Resuelto",
+        "a": "Cerrado",
+        "comentario": "Ticket cerrado por el usuario solicitante",
+        "requiereMaterial": "",
+        "resolucion": "",
+        "fechaCierre": {
+          "$date": "2026-04-21T19:40:57.738Z"
+        },
+        "tiempoSolucionMin": 97845
+      }
+    ],
+    "createdAt": {
+      "$date": "2026-02-12T20:55:38.559Z"
+    },
+    "updatedAt": {
+      "$date": "2026-04-21T19:40:57.745Z"
+    },
+    "folio": "SYS-2026-000001",
+    "__v": 3
+  },
+  {
+    "_id": {
+      "$oid": "698f3a3ac2307ca07e5852e4"
+    },
+    "descripcion": "hhjhjhj",
+    "tipo": "Sistemas",
+    "subtipo": "laboratorio",
+    "laboratorio": "Laboratorio A",
+    "equipo": "PC3",
+    "ubicacion": null,
+    "salon": null,
+    "tipoFalla": "No enciende",
+    "prioridad": "Sin prioridad",
+    "estatus": "Abierto",
+    "requiereMaterial": "",
+    "resolucion": "",
+    "creadoPor": {
+      "$oid": "6862a623c9b690df50d6f884"
+    },
+    "asignadoA": null,
+    "fechaInicio": null,
+    "fechaPausa": null,
+    "fechaReanudacion": null,
+    "fechaExcedido": null,
+    "fechaCierre": null,
+    "driveFolderId": "1IzKqy7FJGBm6cdc55buc6Yq7JTtDVf8T",
+    "driveFolderLink": "https://drive.google.com/drive/folders/1IzKqy7FJGBm6cdc55buc6Yq7JTtDVf8T",
+    "archivado": true,
+    "fechaArchivado": {
+      "$date": "2026-02-13T14:59:27.577Z"
+    },
+    "archivadoPor": {
+      "$oid": "6862a623c9b690df50d6f884"
+    },
+    "comentariosAdmin": [],
+    "fechaCreacion": {
+      "$date": "2026-02-13T14:50:34.607Z"
+    },
+    "evidencias": [],
+    "historial": [
+      {
+        "fecha": {
+          "$date": "2026-02-13T14:59:27.577Z"
+        },
+        "usuario": {
+          "$oid": "6862a623c9b690df50d6f884"
+        },
+        "usuarioNombre": "rosario",
+        "de": "Abierto",
+        "a": "Archivado",
+        "comentario": "Ticket archivado",
+        "requiereMaterial": "",
+        "resolucion": ""
+      }
+    ],
+    "createdAt": {
+      "$date": "2026-02-13T14:50:34.608Z"
+    },
+    "updatedAt": {
+      "$date": "2026-02-13T14:59:27.580Z"
+    },
+    "folio": "SYS-2026-000002",
+    "__v": 1
+  },
+  {
+    "_id": {
+      "$oid": "6a28620f22554f89d8dc41ff"
+    },
+    "descripcion": "Prueba de correo",
+    "tipo": "Sistemas",
+    "subtipo": "laboratorio",
+    "laboratorio": "Laboratorio A",
+    "equipo": "PC3",
+    "ubicacion": null,
+    "salon": null,
+    "tipoFalla": "No enciende",
+    "prioridad": "Alta",
+    "estatus": "Resuelto",
+    "requiereMaterial": "",
+    "resolucion": "Prueba de correo",
+    "creadoPor": {
+      "$oid": "6862a623c9b690df50d6f884"
+    },
+    "asignadoA": {
+      "$oid": "685aebb013bf3eff09f102ec"
+    },
+    "fechaInicio": null,
+    "fechaPausa": null,
+    "fechaReanudacion": null,
+    "fechaExcedido": null,
+    "fechaCierre": {
+      "$date": "2026-06-09T19:00:25.761Z"
+    },
+    "driveFolderId": "1sQ3lPwrFcmBQlucTq4zl8xvXkTQaBWgp",
+    "driveFolderLink": "https://drive.google.com/drive/folders/1sQ3lPwrFcmBQlucTq4zl8xvXkTQaBWgp",
+    "archivado": false,
+    "fechaArchivado": null,
+    "archivadoPor": null,
+    "comentariosAdmin": [],
+    "fechaCreacion": {
+      "$date": "2026-06-09T18:57:19.745Z"
+    },
+    "evidencias": [],
+    "historial": [
+      {
+        "fecha": {
+          "$date": "2026-06-09T18:57:47.223Z"
+        },
+        "usuario": {
+          "$oid": "6862a623c9b690df50d6f884"
+        },
+        "usuarioNombre": "rosario",
+        "de": "Abierto",
+        "a": "Abierto",
+        "comentario": "Cambio de prioridad: Sin prioridad → Alta",
+        "requiereMaterial": "",
+        "resolucion": ""
+      },
+      {
+        "fecha": {
+          "$date": "2026-06-09T18:57:47.226Z"
+        },
+        "usuario": {
+          "$oid": "6862a623c9b690df50d6f884"
+        },
+        "usuarioNombre": "rosario",
+        "de": "Abierto",
+        "a": "Abierto",
+        "comentario": "Asignado a usuario 685aebb013bf3eff09f102ec",
+        "requiereMaterial": "",
+        "resolucion": ""
+      },
+      {
+        "fecha": {
+          "$date": "2026-06-09T19:00:25.761Z"
+        },
+        "usuario": {
+          "$oid": "685aebb013bf3eff09f102ec"
+        },
+        "usuarioNombre": "Jose Manuel",
+        "de": "Abierto",
+        "a": "Resuelto",
+        "comentario": "",
+        "requiereMaterial": "",
+        "resolucion": "Prueba de correo",
+        "fechaCierre": {
+          "$date": "2026-06-09T19:00:25.761Z"
+        },
+        "tiempoSolucionMin": 3
+      },
+      {
+        "fecha": {
+          "$date": "2026-06-09T19:00:25.761Z"
+        },
+        "usuario": {
+          "$oid": "685aebb013bf3eff09f102ec"
+        },
+        "usuarioNombre": "Jose Manuel",
+        "de": "Resuelto",
+        "a": "Resuelto",
+        "comentario": "Actualización de resolución",
+        "requiereMaterial": "",
+        "resolucion": "Prueba de correo",
+        "fechaCierre": {
+          "$date": "2026-06-09T19:00:25.761Z"
+        },
+        "tiempoSolucionMin": 3
+      }
+    ],
+    "createdAt": {
+      "$date": "2026-06-09T18:57:19.746Z"
+    },
+    "updatedAt": {
+      "$date": "2026-06-09T19:00:25.763Z"
+    },
+    "folio": "SYS-2026-000003",
+    "__v": 2
+  },
+  {
+    "_id": {
+      "$oid": "6a2865062816c969db2d056e"
+    },
+    "descripcion": "Otra prueba para correo",
+    "tipo": "Sistemas",
+    "subtipo": "laboratorio",
+    "laboratorio": "Laboratorio A",
+    "equipo": "PC3",
+    "ubicacion": null,
+    "salon": null,
+    "tipoFalla": "No enciende",
+    "prioridad": "Alta",
+    "estatus": "Abierto",
+    "requiereMaterial": "",
+    "resolucion": "",
+    "creadoPor": {
+      "$oid": "6862a623c9b690df50d6f884"
+    },
+    "asignadoA": {
+      "$oid": "685aebb013bf3eff09f102ec"
+    },
+    "fechaInicio": null,
+    "fechaPausa": null,
+    "fechaReanudacion": null,
+    "fechaExcedido": null,
+    "fechaCierre": null,
+    "driveFolderId": "1ipLEvKqe29jlFOz3EFkhRZkfuO9zK8Bc",
+    "driveFolderLink": "https://drive.google.com/drive/folders/1ipLEvKqe29jlFOz3EFkhRZkfuO9zK8Bc",
+    "archivado": false,
+    "fechaArchivado": null,
+    "archivadoPor": null,
+    "comentariosAdmin": [],
+    "fechaCreacion": {
+      "$date": "2026-06-09T19:09:58.663Z"
+    },
+    "evidencias": [],
+    "historial": [
+      {
+        "fecha": {
+          "$date": "2026-06-09T19:10:39.015Z"
+        },
+        "usuario": {
+          "$oid": "6862a623c9b690df50d6f884"
+        },
+        "usuarioNombre": "rosario",
+        "de": "Abierto",
+        "a": "Abierto",
+        "comentario": "Cambio de prioridad: Sin prioridad → Alta",
+        "requiereMaterial": "",
+        "resolucion": ""
+      },
+      {
+        "fecha": {
+          "$date": "2026-06-09T19:10:39.016Z"
+        },
+        "usuario": {
+          "$oid": "6862a623c9b690df50d6f884"
+        },
+        "usuarioNombre": "rosario",
+        "de": "Abierto",
+        "a": "Abierto",
+        "comentario": "Asignado a usuario 685aebb013bf3eff09f102ec",
+        "requiereMaterial": "",
+        "resolucion": ""
+      }
+    ],
+    "createdAt": {
+      "$date": "2026-06-09T19:09:58.664Z"
+    },
+    "updatedAt": {
+      "$date": "2026-06-09T19:10:39.018Z"
+    },
+    "folio": "SYS-2026-000004",
+    "__v": 1
+  },
+  {
+    "_id": {
+      "$oid": "6a286912ee2982f4af77ba96"
+    },
+    "descripcion": "3era prueba de correo",
+    "tipo": "Sistemas",
+    "subtipo": "laboratorio",
+    "laboratorio": "Laboratorio A",
+    "equipo": "PC3",
+    "ubicacion": null,
+    "salon": null,
+    "tipoFalla": "No enciende",
+    "prioridad": "Media",
+    "estatus": "Abierto",
+    "requiereMaterial": "",
+    "resolucion": "",
+    "creadoPor": {
+      "$oid": "6862a623c9b690df50d6f884"
+    },
+    "asignadoA": {
+      "$oid": "685aebb013bf3eff09f102ec"
+    },
+    "fechaInicio": null,
+    "fechaPausa": null,
+    "fechaReanudacion": null,
+    "fechaExcedido": null,
+    "fechaCierre": null,
+    "driveFolderId": "1pdi4gvRea5OO3Osm1TmY1OLCyZHa5DPX",
+    "driveFolderLink": "https://drive.google.com/drive/folders/1pdi4gvRea5OO3Osm1TmY1OLCyZHa5DPX",
+    "archivado": false,
+    "fechaArchivado": null,
+    "archivadoPor": null,
+    "comentariosAdmin": [],
+    "fechaCreacion": {
+      "$date": "2026-06-09T19:27:14.449Z"
+    },
+    "evidencias": [],
+    "historial": [
+      {
+        "fecha": {
+          "$date": "2026-06-09T19:27:54.818Z"
+        },
+        "usuario": {
+          "$oid": "6862a623c9b690df50d6f884"
+        },
+        "usuarioNombre": "rosario",
+        "de": "Abierto",
+        "a": "Abierto",
+        "comentario": "Cambio de prioridad: Sin prioridad → Media",
+        "requiereMaterial": "",
+        "resolucion": ""
+      },
+      {
+        "fecha": {
+          "$date": "2026-06-09T19:27:54.820Z"
+        },
+        "usuario": {
+          "$oid": "6862a623c9b690df50d6f884"
+        },
+        "usuarioNombre": "rosario",
+        "de": "Abierto",
+        "a": "Abierto",
+        "comentario": "Asignado a usuario 685aebb013bf3eff09f102ec",
+        "requiereMaterial": "",
+        "resolucion": ""
+      }
+    ],
+    "createdAt": {
+      "$date": "2026-06-09T19:27:14.450Z"
+    },
+    "updatedAt": {
+      "$date": "2026-06-09T19:27:54.822Z"
+    },
+    "folio": "SYS-2026-000005",
+    "__v": 1
+  },
+  {
+    "_id": {
+      "$oid": "6a2ae893f1344ec9b6d45d28"
+    },
+    "descripcion": "Prueba de whatsapp",
+    "tipo": "Sistemas",
+    "subtipo": "laboratorio",
+    "laboratorio": "Laboratorio A",
+    "equipo": "PC3",
+    "ubicacion": null,
+    "salon": null,
+    "tipoFalla": "No enciende",
+    "prioridad": "Sin prioridad",
+    "estatus": "Abierto",
+    "requiereMaterial": "",
+    "resolucion": "",
+    "creadoPor": {
+      "$oid": "6862a623c9b690df50d6f884"
+    },
+    "asignadoA": null,
+    "fechaInicio": null,
+    "fechaPausa": null,
+    "fechaReanudacion": null,
+    "fechaExcedido": null,
+    "fechaCierre": null,
+    "driveFolderId": "1rBWwX86v8guvL3TADCjvAtFQZl0K0C0m",
+    "driveFolderLink": "https://drive.google.com/drive/folders/1rBWwX86v8guvL3TADCjvAtFQZl0K0C0m",
+    "archivado": false,
+    "fechaArchivado": null,
+    "archivadoPor": null,
+    "canal": "web",
+    "whatsapp": {
+      "from": "",
+      "contactName": "",
+      "lastMessageId": "",
+      "lastMessageAt": null
+    },
+    "comentariosAdmin": [],
+    "fechaCreacion": {
+      "$date": "2026-06-11T16:55:47.190Z"
+    },
+    "evidencias": [],
+    "historial": [],
+    "createdAt": {
+      "$date": "2026-06-11T16:55:47.191Z"
+    },
+    "updatedAt": {
+      "$date": "2026-06-11T16:55:48.444Z"
+    },
+    "folio": "SYS-2026-000006",
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "6a2aeb4210e59f699bf78481"
+    },
+    "descripcion": "Prueba 2 de whatsapp",
+    "tipo": "Sistemas",
+    "subtipo": "laboratorio",
+    "laboratorio": "Laboratorio A",
+    "equipo": "PC3",
+    "ubicacion": null,
+    "salon": null,
+    "tipoFalla": "No enciende",
+    "prioridad": "Sin prioridad",
+    "estatus": "Abierto",
+    "requiereMaterial": "",
+    "resolucion": "",
+    "creadoPor": {
+      "$oid": "6862a623c9b690df50d6f884"
+    },
+    "asignadoA": null,
+    "fechaInicio": null,
+    "fechaPausa": null,
+    "fechaReanudacion": null,
+    "fechaExcedido": null,
+    "fechaCierre": null,
+    "driveFolderId": "1PI_amAY8th45lNZqPqJRVDvbKSiDOYrU",
+    "driveFolderLink": "https://drive.google.com/drive/folders/1PI_amAY8th45lNZqPqJRVDvbKSiDOYrU",
+    "archivado": false,
+    "fechaArchivado": null,
+    "archivadoPor": null,
+    "canal": "web",
+    "whatsapp": {
+      "from": "",
+      "contactName": "",
+      "lastMessageId": "",
+      "lastMessageAt": null
+    },
+    "comentariosAdmin": [],
+    "fechaCreacion": {
+      "$date": "2026-06-11T17:07:14.285Z"
+    },
+    "evidencias": [],
+    "historial": [],
+    "createdAt": {
+      "$date": "2026-06-11T17:07:14.287Z"
+    },
+    "updatedAt": {
+      "$date": "2026-06-11T17:07:15.703Z"
+    },
+    "folio": "SYS-2026-000007",
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "6a2c8d5b1f45978316fbef13"
+    },
+    "descripcion": "Prueba de whatsapp ya tiken permanente",
+    "tipo": "Sistemas",
+    "subtipo": "laboratorio",
+    "laboratorio": "Laboratorio A",
+    "equipo": "PC3",
+    "ubicacion": null,
+    "salon": null,
+    "tipoFalla": "No enciende",
+    "prioridad": "Alta",
+    "estatus": "Abierto",
+    "requiereMaterial": "",
+    "resolucion": "",
+    "creadoPor": {
+      "$oid": "6862a623c9b690df50d6f884"
+    },
+    "asignadoA": {
+      "$oid": "685aebb013bf3eff09f102ec"
+    },
+    "fechaInicio": null,
+    "fechaPausa": null,
+    "fechaReanudacion": null,
+    "fechaExcedido": null,
+    "fechaCierre": null,
+    "driveFolderId": "1f0ICnSNdApo3b7fhED1EUufHNxg-lT-w",
+    "driveFolderLink": "https://drive.google.com/drive/folders/1f0ICnSNdApo3b7fhED1EUufHNxg-lT-w",
+    "archivado": false,
+    "fechaArchivado": null,
+    "archivadoPor": null,
+    "canal": "web",
+    "whatsapp": {
+      "from": "",
+      "contactName": "",
+      "lastMessageId": "",
+      "lastMessageAt": null
+    },
+    "comentariosAdmin": [],
+    "fechaCreacion": {
+      "$date": "2026-06-12T22:51:07.532Z"
+    },
+    "evidencias": [],
+    "historial": [
+      {
+        "fecha": {
+          "$date": "2026-06-12T22:52:54.244Z"
+        },
+        "usuario": {
+          "$oid": "6862a623c9b690df50d6f884"
+        },
+        "usuarioNombre": "rosario",
+        "de": "Abierto",
+        "a": "Abierto",
+        "comentario": "Cambio de prioridad: Sin prioridad → Alta",
+        "requiereMaterial": "",
+        "resolucion": ""
+      },
+      {
+        "fecha": {
+          "$date": "2026-06-12T22:52:54.247Z"
+        },
+        "usuario": {
+          "$oid": "6862a623c9b690df50d6f884"
+        },
+        "usuarioNombre": "rosario",
+        "de": "Abierto",
+        "a": "Abierto",
+        "comentario": "Asignado a usuario 685aebb013bf3eff09f102ec",
+        "requiereMaterial": "",
+        "resolucion": ""
+      }
+    ],
+    "createdAt": {
+      "$date": "2026-06-12T22:51:07.534Z"
+    },
+    "updatedAt": {
+      "$date": "2026-06-12T22:52:54.249Z"
+    },
+    "folio": "SYS-2026-000008",
+    "__v": 1
+  },
+  {
+    "_id": {
+      "$oid": "6a3057b3191efb9dd44741ee"
+    },
+    "descripcion": "Prueba celular ticket rosario",
+    "tipo": "Sistemas",
+    "subtipo": "laboratorio",
+    "laboratorio": "Laboratorio A",
+    "equipo": "PC3",
+    "ubicacion": null,
+    "salon": null,
+    "tipoFalla": "No enciende",
+    "prioridad": "Media",
+    "estatus": "Abierto",
+    "requiereMaterial": "",
+    "resolucion": "",
+    "creadoPor": {
+      "$oid": "685aebb013bf3eff09f102ec"
+    },
+    "asignadoA": {
+      "$oid": "685aebb013bf3eff09f102ec"
+    },
+    "fechaInicio": null,
+    "fechaPausa": null,
+    "fechaReanudacion": null,
+    "fechaExcedido": null,
+    "fechaCierre": null,
+    "driveFolderId": "1WPmkb_NwLsrItCq0l73bV1iDgYJqLK2L",
+    "driveFolderLink": "https://drive.google.com/drive/folders/1WPmkb_NwLsrItCq0l73bV1iDgYJqLK2L",
+    "archivado": false,
+    "fechaArchivado": null,
+    "archivadoPor": null,
+    "canal": "web",
+    "whatsapp": {
+      "from": "",
+      "contactName": "",
+      "lastMessageId": "",
+      "lastMessageAt": null
+    },
+    "comentariosAdmin": [],
+    "fechaCreacion": {
+      "$date": "2026-06-15T19:51:15.316Z"
+    },
+    "evidencias": [],
+    "historial": [
+      {
+        "fecha": {
+          "$date": "2026-06-15T19:54:48.757Z"
+        },
+        "usuario": {
+          "$oid": "6862a623c9b690df50d6f884"
+        },
+        "usuarioNombre": "rosario",
+        "de": "Abierto",
+        "a": "Abierto",
+        "comentario": "Cambio de prioridad: Sin prioridad → Media",
+        "requiereMaterial": "",
+        "resolucion": ""
+      },
+      {
+        "fecha": {
+          "$date": "2026-06-15T19:54:48.759Z"
+        },
+        "usuario": {
+          "$oid": "6862a623c9b690df50d6f884"
+        },
+        "usuarioNombre": "rosario",
+        "de": "Abierto",
+        "a": "Abierto",
+        "comentario": "Asignado a usuario 685aebb013bf3eff09f102ec",
+        "requiereMaterial": "",
+        "resolucion": ""
+      }
+    ],
+    "createdAt": {
+      "$date": "2026-06-15T19:51:15.317Z"
+    },
+    "updatedAt": {
+      "$date": "2026-06-15T19:54:48.761Z"
+    },
+    "folio": "SYS-2026-000009",
+    "__v": 1
+  },
+  {
+    "_id": {
+      "$oid": "6a3072574adcea9b3a33ef82"
+    },
+    "descripcion": "prueba de tickets con rasario V2",
+    "tipo": "Sistemas",
+    "subtipo": "laboratorio",
+    "laboratorio": "Laboratorio A",
+    "equipo": "PC3",
+    "ubicacion": null,
+    "salon": null,
+    "tipoFalla": "No enciende",
+    "prioridad": "Sin prioridad",
+    "estatus": "Abierto",
+    "requiereMaterial": "",
+    "resolucion": "",
+    "creadoPor": {
+      "$oid": "685aebb013bf3eff09f102ec"
+    },
+    "asignadoA": null,
+    "fechaInicio": null,
+    "fechaPausa": null,
+    "fechaReanudacion": null,
+    "fechaExcedido": null,
+    "fechaCierre": null,
+    "driveFolderId": "1buLfU6YduyDpFebyHe2SMj8Tljo-q2lW",
+    "driveFolderLink": "https://drive.google.com/drive/folders/1buLfU6YduyDpFebyHe2SMj8Tljo-q2lW",
+    "archivado": false,
+    "fechaArchivado": null,
+    "archivadoPor": null,
+    "canal": "web",
+    "whatsapp": {
+      "from": "",
+      "contactName": "",
+      "lastMessageId": "",
+      "lastMessageAt": null
+    },
+    "comentariosAdmin": [],
+    "fechaCreacion": {
+      "$date": "2026-06-15T21:44:55.862Z"
+    },
+    "evidencias": [],
+    "historial": [],
+    "createdAt": {
+      "$date": "2026-06-15T21:44:55.863Z"
+    },
+    "updatedAt": {
+      "$date": "2026-06-15T21:44:57.058Z"
+    },
+    "folio": "SYS-2026-000010",
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "6a3073a2036a9c155eb6f941"
+    },
+    "descripcion": "Prueba whatsapp v3 rosario",
+    "tipo": "Sistemas",
+    "subtipo": "laboratorio",
+    "laboratorio": "Laboratorio A",
+    "equipo": "PC3",
+    "ubicacion": null,
+    "salon": null,
+    "tipoFalla": "No enciende",
+    "prioridad": "Sin prioridad",
+    "estatus": "Abierto",
+    "requiereMaterial": "",
+    "resolucion": "",
+    "creadoPor": {
+      "$oid": "685aebb013bf3eff09f102ec"
+    },
+    "asignadoA": null,
+    "fechaInicio": null,
+    "fechaPausa": null,
+    "fechaReanudacion": null,
+    "fechaExcedido": null,
+    "fechaCierre": null,
+    "driveFolderId": "1lwzCbReNt2znr2_XUkAgI8unIsej7JFp",
+    "driveFolderLink": "https://drive.google.com/drive/folders/1lwzCbReNt2znr2_XUkAgI8unIsej7JFp",
+    "archivado": false,
+    "fechaArchivado": null,
+    "archivadoPor": null,
+    "canal": "web",
+    "whatsapp": {
+      "from": "",
+      "contactName": "",
+      "lastMessageId": "",
+      "lastMessageAt": null
+    },
+    "comentariosAdmin": [],
+    "fechaCreacion": {
+      "$date": "2026-06-15T21:50:26.402Z"
+    },
+    "evidencias": [],
+    "historial": [],
+    "createdAt": {
+      "$date": "2026-06-15T21:50:26.404Z"
+    },
+    "updatedAt": {
+      "$date": "2026-06-15T21:50:27.594Z"
+    },
+    "folio": "SYS-2026-000011",
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "6a307707773863a9e853fd65"
+    },
+    "descripcion": "Prueba de tickets V4",
+    "tipo": "Sistemas",
+    "subtipo": "laboratorio",
+    "laboratorio": "Laboratorio A",
+    "equipo": "PC3",
+    "ubicacion": null,
+    "salon": null,
+    "tipoFalla": "No enciende",
+    "prioridad": "Sin prioridad",
+    "estatus": "En proceso",
+    "requiereMaterial": "",
+    "resolucion": "",
+    "creadoPor": {
+      "$oid": "685aebb013bf3eff09f102ec"
+    },
+    "asignadoA": {
+      "$oid": "685aebb013bf3eff09f102ec"
+    },
+    "fechaInicio": {
+      "$date": "2026-06-17T19:50:14.711Z"
+    },
+    "fechaPausa": null,
+    "fechaReanudacion": null,
+    "fechaExcedido": null,
+    "fechaCierre": null,
+    "driveFolderId": "15d8tYDH9qHU_l30smgHQrzLd0tbMDOAE",
+    "driveFolderLink": "https://drive.google.com/drive/folders/15d8tYDH9qHU_l30smgHQrzLd0tbMDOAE",
+    "archivado": false,
+    "fechaArchivado": null,
+    "archivadoPor": null,
+    "canal": "web",
+    "whatsapp": {
+      "from": "",
+      "contactName": "",
+      "lastMessageId": "",
+      "lastMessageAt": null
+    },
+    "comentariosAdmin": [],
+    "fechaCreacion": {
+      "$date": "2026-06-15T22:04:55.190Z"
+    },
+    "evidencias": [],
+    "historial": [
+      {
+        "fecha": {
+          "$date": "2026-06-17T19:50:14.711Z"
+        },
+        "usuario": {
+          "$oid": "6862a623c9b690df50d6f884"
+        },
+        "usuarioNombre": "rosario",
+        "de": "Abierto",
+        "a": "En proceso",
+        "comentario": "",
+        "requiereMaterial": "",
+        "resolucion": "",
+        "fechaInicio": {
+          "$date": "2026-06-17T19:50:14.711Z"
+        }
+      },
+      {
+        "fecha": {
+          "$date": "2026-06-17T19:50:14.713Z"
+        },
+        "usuario": {
+          "$oid": "6862a623c9b690df50d6f884"
+        },
+        "usuarioNombre": "rosario",
+        "de": "En proceso",
+        "a": "En proceso",
+        "comentario": "Asignado a usuario 685aebb013bf3eff09f102ec",
+        "requiereMaterial": "",
+        "resolucion": "",
+        "fechaInicio": {
+          "$date": "2026-06-17T19:50:14.711Z"
+        }
+      }
+    ],
+    "createdAt": {
+      "$date": "2026-06-15T22:04:55.191Z"
+    },
+    "updatedAt": {
+      "$date": "2026-06-17T19:50:14.715Z"
+    },
+    "folio": "SYS-2026-000012",
+    "__v": 1
+  },
+  {
+    "_id": {
+      "$oid": "6a3082fd3c4eebe871c44bfd"
+    },
+    "descripcion": "Prueba de tickets whatsaapp rosario V5",
+    "tipo": "Sistemas",
+    "subtipo": "laboratorio",
+    "laboratorio": "Laboratorio A",
+    "equipo": "PC3",
+    "ubicacion": null,
+    "salon": null,
+    "tipoFalla": "No enciende",
+    "prioridad": "Sin prioridad",
+    "estatus": "Rechazado",
+    "requiereMaterial": "",
+    "resolucion": "",
+    "creadoPor": {
+      "$oid": "685aebb013bf3eff09f102ec"
+    },
+    "asignadoA": null,
+    "fechaInicio": null,
+    "fechaPausa": null,
+    "fechaReanudacion": null,
+    "fechaExcedido": null,
+    "fechaCierre": null,
+    "driveFolderId": "1xxHGKFX4eEqxa2wKzFHZ84lVURaCduDy",
+    "driveFolderLink": "https://drive.google.com/drive/folders/1xxHGKFX4eEqxa2wKzFHZ84lVURaCduDy",
+    "archivado": true,
+    "fechaArchivado": {
+      "$date": "2026-06-17T19:33:19.651Z"
+    },
+    "archivadoPor": {
+      "$oid": "6862a623c9b690df50d6f884"
+    },
+    "canal": "web",
+    "whatsapp": {
+      "from": "",
+      "contactName": "",
+      "lastMessageId": "",
+      "lastMessageAt": null
+    },
+    "comentariosAdmin": [],
+    "fechaCreacion": {
+      "$date": "2026-06-15T22:55:57.734Z"
+    },
+    "evidencias": [],
+    "historial": [
+      {
+        "fecha": {
+          "$date": "2026-06-17T19:33:19.650Z"
+        },
+        "usuario": {
+          "$oid": "6862a623c9b690df50d6f884"
+        },
+        "usuarioNombre": "rosario",
+        "de": "Abierto",
+        "a": "Rechazado",
+        "comentario": "RECHAZADO: Prueba",
+        "requiereMaterial": "",
+        "resolucion": ""
+      }
+    ],
+    "createdAt": {
+      "$date": "2026-06-15T22:55:57.735Z"
+    },
+    "updatedAt": {
+      "$date": "2026-06-17T19:33:19.653Z"
+    },
+    "folio": "SYS-2026-000013",
+    "__v": 1
+  },
+  {
+    "_id": {
+      "$oid": "6a31c88fc32d2bc36a47310d"
+    },
+    "descripcion": "Prueba por los cambios en el diseño",
+    "tipo": "Sistemas",
+    "subtipo": "laboratorio",
+    "laboratorio": "Laboratorio A",
+    "equipo": "PC3",
+    "ubicacion": null,
+    "salon": null,
+    "tipoFalla": "Sin imagen / monitor",
+    "prioridad": "Media",
+    "estatus": "Cerrado",
+    "requiereMaterial": "",
+    "resolucion": "Ver si llega el mensaje de resuelto",
+    "creadoPor": {
+      "$oid": "685aebb013bf3eff09f102ec"
+    },
+    "asignadoA": {
+      "$oid": "685aebb013bf3eff09f102ec"
+    },
+    "fechaInicio": {
+      "$date": "2026-06-17T19:37:27.009Z"
+    },
+    "fechaPausa": null,
+    "fechaReanudacion": null,
+    "fechaExcedido": null,
+    "fechaCierre": {
+      "$date": "2026-06-17T19:54:18.477Z"
+    },
+    "driveFolderId": "1NqVdDHg8QWv_vUd3uhtzPK9qzd-GpupW",
+    "driveFolderLink": "https://drive.google.com/drive/folders/1NqVdDHg8QWv_vUd3uhtzPK9qzd-GpupW",
+    "archivado": false,
+    "fechaArchivado": null,
+    "archivadoPor": null,
+    "canal": "web",
+    "whatsapp": {
+      "from": "",
+      "contactName": "",
+      "lastMessageId": "",
+      "lastMessageAt": null
+    },
+    "comentariosAdmin": [],
+    "fechaCreacion": {
+      "$date": "2026-06-16T22:05:03.374Z"
+    },
+    "evidencias": [],
+    "historial": [
+      {
+        "fecha": {
+          "$date": "2026-06-17T19:37:27.011Z"
+        },
+        "usuario": {
+          "$oid": "6862a623c9b690df50d6f884"
+        },
+        "usuarioNombre": "rosario",
+        "de": "Abierto",
+        "a": "En proceso",
+        "comentario": "",
+        "requiereMaterial": "",
+        "resolucion": "",
+        "fechaInicio": {
+          "$date": "2026-06-17T19:37:27.009Z"
+        }
+      },
+      {
+        "fecha": {
+          "$date": "2026-06-17T19:37:27.013Z"
+        },
+        "usuario": {
+          "$oid": "6862a623c9b690df50d6f884"
+        },
+        "usuarioNombre": "rosario",
+        "de": "En proceso",
+        "a": "En proceso",
+        "comentario": "Cambio de prioridad: Sin prioridad → Alta",
+        "requiereMaterial": "",
+        "resolucion": "",
+        "fechaInicio": {
+          "$date": "2026-06-17T19:37:27.009Z"
+        }
+      },
+      {
+        "fecha": {
+          "$date": "2026-06-17T19:37:27.014Z"
+        },
+        "usuario": {
+          "$oid": "6862a623c9b690df50d6f884"
+        },
+        "usuarioNombre": "rosario",
+        "de": "En proceso",
+        "a": "En proceso",
+        "comentario": "Asignado a usuario 685aebb013bf3eff09f102ec",
+        "requiereMaterial": "",
+        "resolucion": "",
+        "fechaInicio": {
+          "$date": "2026-06-17T19:37:27.009Z"
+        }
+      },
+      {
+        "fecha": {
+          "$date": "2026-06-17T19:42:09.511Z"
+        },
+        "usuario": {
+          "$oid": "6862a623c9b690df50d6f884"
+        },
+        "usuarioNombre": "rosario",
+        "de": "En proceso",
+        "a": "En proceso",
+        "comentario": "Cambio de prioridad: Alta → Media",
+        "requiereMaterial": "",
+        "resolucion": "",
+        "fechaInicio": {
+          "$date": "2026-06-17T19:37:27.009Z"
+        }
+      },
+      {
+        "fecha": {
+          "$date": "2026-06-17T19:52:16.957Z"
+        },
+        "usuario": {
+          "$oid": "685aebb013bf3eff09f102ec"
+        },
+        "usuarioNombre": "Jose Manuel",
+        "de": "En proceso",
+        "a": "Resuelto",
+        "comentario": "",
+        "requiereMaterial": "",
+        "resolucion": "Ver si llega el mensaje de resuelto",
+        "fechaInicio": {
+          "$date": "2026-06-17T19:37:27.009Z"
+        },
+        "fechaCierre": {
+          "$date": "2026-06-17T19:52:16.954Z"
+        },
+        "tiempoSolucionMin": 15
+      },
+      {
+        "fecha": {
+          "$date": "2026-06-17T19:52:16.960Z"
+        },
+        "usuario": {
+          "$oid": "685aebb013bf3eff09f102ec"
+        },
+        "usuarioNombre": "Jose Manuel",
+        "de": "Resuelto",
+        "a": "Resuelto",
+        "comentario": "Actualización de resolución",
+        "requiereMaterial": "",
+        "resolucion": "Ver si llega el mensaje de resuelto",
+        "fechaInicio": {
+          "$date": "2026-06-17T19:37:27.009Z"
+        },
+        "fechaCierre": {
+          "$date": "2026-06-17T19:52:16.954Z"
+        },
+        "tiempoSolucionMin": 15
+      },
+      {
+        "fecha": {
+          "$date": "2026-06-17T19:54:18.477Z"
+        },
+        "usuario": {
+          "$oid": "685aebb013bf3eff09f102ec"
+        },
+        "usuarioNombre": "Jose Manuel",
+        "de": "Resuelto",
+        "a": "Cerrado",
+        "comentario": "Ticket cerrado por el usuario solicitante",
+        "requiereMaterial": "",
+        "resolucion": "",
+        "fechaInicio": {
+          "$date": "2026-06-17T19:37:27.009Z"
+        },
+        "fechaCierre": {
+          "$date": "2026-06-17T19:54:18.477Z"
+        },
+        "tiempoSolucionMin": 17
+      }
+    ],
+    "createdAt": {
+      "$date": "2026-06-16T22:05:03.375Z"
+    },
+    "updatedAt": {
+      "$date": "2026-06-17T19:54:18.482Z"
+    },
+    "folio": "SYS-2026-000014",
+    "__v": 4
+  },
+  {
+    "_id": {
+      "$oid": "6a31d6bea3a52d47b782e02c"
+    },
+    "descripcion": "Prueba de whatsapp en otro numeros V1",
+    "tipo": "Sistemas",
+    "subtipo": "laboratorio",
+    "laboratorio": "Laboratorio A",
+    "equipo": "PC3",
+    "ubicacion": null,
+    "salon": null,
+    "tipoFalla": "No enciende",
+    "prioridad": "Sin prioridad",
+    "estatus": "Rechazado",
+    "requiereMaterial": "",
+    "resolucion": "",
+    "creadoPor": {
+      "$oid": "685aebb013bf3eff09f102ec"
+    },
+    "asignadoA": null,
+    "fechaInicio": null,
+    "fechaPausa": null,
+    "fechaReanudacion": null,
+    "fechaExcedido": null,
+    "fechaCierre": null,
+    "driveFolderId": "1tKrpGyOnBWpqoR6W8yxRBDY-jVWgJR8V",
+    "driveFolderLink": "https://drive.google.com/drive/folders/1tKrpGyOnBWpqoR6W8yxRBDY-jVWgJR8V",
+    "archivado": true,
+    "fechaArchivado": {
+      "$date": "2026-06-17T19:33:41.529Z"
+    },
+    "archivadoPor": {
+      "$oid": "6862a623c9b690df50d6f884"
+    },
+    "canal": "web",
+    "whatsapp": {
+      "from": "",
+      "contactName": "",
+      "lastMessageId": "",
+      "lastMessageAt": null
+    },
+    "comentariosAdmin": [],
+    "fechaCreacion": {
+      "$date": "2026-06-16T23:05:34.866Z"
+    },
+    "evidencias": [],
+    "historial": [
+      {
+        "fecha": {
+          "$date": "2026-06-17T19:33:41.528Z"
+        },
+        "usuario": {
+          "$oid": "6862a623c9b690df50d6f884"
+        },
+        "usuarioNombre": "rosario",
+        "de": "Abierto",
+        "a": "Rechazado",
+        "comentario": "RECHAZADO: Prueba otra vez",
+        "requiereMaterial": "",
+        "resolucion": ""
+      }
+    ],
+    "createdAt": {
+      "$date": "2026-06-16T23:05:34.868Z"
+    },
+    "updatedAt": {
+      "$date": "2026-06-17T19:33:41.530Z"
+    },
+    "folio": "SYS-2026-000015",
+    "__v": 1
+  },
+  {
+    "_id": {
+      "$oid": "6a32f080a3a52d47b782e25a"
+    },
+    "descripcion": "Prueba de whatsapp",
+    "tipo": "Sistemas",
+    "subtipo": "laboratorio",
+    "laboratorio": "Laboratorio A",
+    "equipo": "PC3",
+    "ubicacion": null,
+    "salon": null,
+    "tipoFalla": "No enciende",
+    "prioridad": "Alta",
+    "estatus": "Resuelto",
+    "requiereMaterial": "",
+    "resolucion": "Prueba funciono",
+    "creadoPor": {
+      "$oid": "686426122b5d399a1569b6e4"
+    },
+    "asignadoA": {
+      "$oid": "685aebb013bf3eff09f102ec"
+    },
+    "fechaInicio": {
+      "$date": "2026-06-17T19:50:09.183Z"
+    },
+    "fechaPausa": null,
+    "fechaReanudacion": null,
+    "fechaExcedido": null,
+    "fechaCierre": {
+      "$date": "2026-06-17T19:51:42.170Z"
+    },
+    "driveFolderId": "1It6ExjzmXfodXdxCihQPwsXtLbG_8BlE",
+    "driveFolderLink": "https://drive.google.com/drive/folders/1It6ExjzmXfodXdxCihQPwsXtLbG_8BlE",
+    "archivado": false,
+    "fechaArchivado": null,
+    "archivadoPor": null,
+    "canal": "web",
+    "whatsapp": {
+      "from": "",
+      "contactName": "",
+      "lastMessageId": "",
+      "lastMessageAt": null
+    },
+    "comentariosAdmin": [],
+    "fechaCreacion": {
+      "$date": "2026-06-17T19:07:44.860Z"
+    },
+    "evidencias": [],
+    "historial": [
+      {
+        "fecha": {
+          "$date": "2026-06-17T19:09:03.949Z"
+        },
+        "usuario": {
+          "$oid": "6862a623c9b690df50d6f884"
+        },
+        "usuarioNombre": "rosario",
+        "de": "Abierto",
+        "a": "Abierto",
+        "comentario": "Cambio de prioridad: Sin prioridad → Alta",
+        "requiereMaterial": "",
+        "resolucion": ""
+      },
+      {
+        "fecha": {
+          "$date": "2026-06-17T19:09:03.953Z"
+        },
+        "usuario": {
+          "$oid": "6862a623c9b690df50d6f884"
+        },
+        "usuarioNombre": "rosario",
+        "de": "Abierto",
+        "a": "Abierto",
+        "comentario": "Asignado a usuario 685aebb013bf3eff09f102ec",
+        "requiereMaterial": "",
+        "resolucion": ""
+      },
+      {
+        "fecha": {
+          "$date": "2026-06-17T19:50:09.186Z"
+        },
+        "usuario": {
+          "$oid": "6862a623c9b690df50d6f884"
+        },
+        "usuarioNombre": "rosario",
+        "de": "Abierto",
+        "a": "En proceso",
+        "comentario": "",
+        "requiereMaterial": "",
+        "resolucion": "",
+        "fechaInicio": {
+          "$date": "2026-06-17T19:50:09.183Z"
+        }
+      },
+      {
+        "fecha": {
+          "$date": "2026-06-17T19:51:42.170Z"
+        },
+        "usuario": {
+          "$oid": "685aebb013bf3eff09f102ec"
+        },
+        "usuarioNombre": "Jose Manuel",
+        "de": "En proceso",
+        "a": "Resuelto",
+        "comentario": "",
+        "requiereMaterial": "",
+        "resolucion": "Prueba funciono",
+        "fechaInicio": {
+          "$date": "2026-06-17T19:50:09.183Z"
+        },
+        "fechaCierre": {
+          "$date": "2026-06-17T19:51:42.170Z"
+        },
+        "tiempoSolucionMin": 2
+      },
+      {
+        "fecha": {
+          "$date": "2026-06-17T19:51:42.170Z"
+        },
+        "usuario": {
+          "$oid": "685aebb013bf3eff09f102ec"
+        },
+        "usuarioNombre": "Jose Manuel",
+        "de": "Resuelto",
+        "a": "Resuelto",
+        "comentario": "Actualización de resolución",
+        "requiereMaterial": "",
+        "resolucion": "Prueba funciono",
+        "fechaInicio": {
+          "$date": "2026-06-17T19:50:09.183Z"
+        },
+        "fechaCierre": {
+          "$date": "2026-06-17T19:51:42.170Z"
+        },
+        "tiempoSolucionMin": 2
+      }
+    ],
+    "createdAt": {
+      "$date": "2026-06-17T19:07:44.861Z"
+    },
+    "updatedAt": {
+      "$date": "2026-06-17T19:51:42.172Z"
+    },
+    "folio": "SYS-2026-000016",
+    "__v": 3
+  },
+  {
+    "_id": {
+      "$oid": "6a32fb59610e6a9c124fbc7f"
+    },
+    "descripcion": "Probar notificaciones",
+    "tipo": "Sistemas",
+    "subtipo": "laboratorio",
+    "laboratorio": "Laboratorio A",
+    "equipo": "PC3",
+    "ubicacion": null,
+    "salon": null,
+    "tipoFalla": "No enciende",
+    "prioridad": "Sin prioridad",
+    "estatus": "Abierto",
+    "requiereMaterial": "",
+    "resolucion": "",
+    "creadoPor": {
+      "$oid": "685aebb013bf3eff09f102ec"
+    },
+    "asignadoA": null,
+    "fechaInicio": null,
+    "fechaPausa": null,
+    "fechaReanudacion": null,
+    "fechaExcedido": null,
+    "fechaCierre": null,
+    "driveFolderId": "1rrV-bULk0_OJ9XRSqrvTqsza2wsbL2qw",
+    "driveFolderLink": "https://drive.google.com/drive/folders/1rrV-bULk0_OJ9XRSqrvTqsza2wsbL2qw",
+    "archivado": false,
+    "fechaArchivado": null,
+    "archivadoPor": null,
+    "canal": "web",
+    "whatsapp": {
+      "from": "",
+      "contactName": "",
+      "lastMessageId": "",
+      "lastMessageAt": null
+    },
+    "comentariosAdmin": [],
+    "fechaCreacion": {
+      "$date": "2026-06-17T19:54:01.750Z"
+    },
+    "evidencias": [],
+    "historial": [],
+    "createdAt": {
+      "$date": "2026-06-17T19:54:01.751Z"
+    },
+    "updatedAt": {
+      "$date": "2026-06-17T19:54:03.149Z"
+    },
+    "folio": "SYS-2026-000017",
+    "__v": 0
+  }
+]

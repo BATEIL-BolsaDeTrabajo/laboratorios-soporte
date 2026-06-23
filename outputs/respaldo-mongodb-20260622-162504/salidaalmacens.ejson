@@ -1,0 +1,178 @@
+[
+  {
+    "_id": {
+      "$oid": "6931d14b71c047f8e5d1799a"
+    },
+    "producto": {
+      "$oid": "6931ce0e58536cb4a40d7005"
+    },
+    "cantidad": 3,
+    "entregadoA": "Juan Pérez",
+    "departamento": "Sistemas",
+    "comentarios": "Para mantenimiento de laboratorio A",
+    "fecha": {
+      "$date": "2025-12-04T18:22:03.563Z"
+    },
+    "realizadoPor": {
+      "$oid": "6862a623c9b690df50d6f884"
+    },
+    "createdAt": {
+      "$date": "2025-12-04T18:22:03.563Z"
+    },
+    "updatedAt": {
+      "$date": "2025-12-04T18:22:03.563Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "69320df5eeeab73ba5206973"
+    },
+    "producto": {
+      "$oid": "69320c16eeeab73ba5206917"
+    },
+    "cantidad": 20,
+    "entregadoA": "Jose",
+    "departamento": "Sistemas",
+    "comentarios": "Los va a usar en el laboratorio B",
+    "fecha": {
+      "$date": "2025-12-04T22:40:53.916Z"
+    },
+    "realizadoPor": {
+      "$oid": "6862a623c9b690df50d6f884"
+    },
+    "createdAt": {
+      "$date": "2025-12-04T22:40:53.916Z"
+    },
+    "updatedAt": {
+      "$date": "2025-12-04T22:40:53.916Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "694abfe93073f2831f5a90c1"
+    },
+    "producto": {
+      "$oid": "69320c16eeeab73ba5206917"
+    },
+    "cantidad": 20,
+    "entregadoA": "jose",
+    "departamento": "sistemas",
+    "comentarios": "Se los llevo para los laboratorios",
+    "fecha": {
+      "$date": "2025-12-23T16:14:33.021Z"
+    },
+    "realizadoPor": {
+      "$oid": "6862a623c9b690df50d6f884"
+    },
+    "createdAt": {
+      "$date": "2025-12-23T16:14:33.022Z"
+    },
+    "updatedAt": {
+      "$date": "2025-12-23T16:14:33.022Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "694ac0393073f2831f5a90e7"
+    },
+    "producto": {
+      "$oid": "69320c16eeeab73ba5206917"
+    },
+    "cantidad": 16,
+    "entregadoA": "jose",
+    "departamento": "sistemas",
+    "comentarios": "",
+    "fecha": {
+      "$date": "2025-12-23T16:15:53.092Z"
+    },
+    "realizadoPor": {
+      "$oid": "6862a623c9b690df50d6f884"
+    },
+    "createdAt": {
+      "$date": "2025-12-23T16:15:53.093Z"
+    },
+    "updatedAt": {
+      "$date": "2025-12-23T16:15:53.093Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "697b75df98f8106ca97f73cd"
+    },
+    "producto": {
+      "$oid": "69320c16eeeab73ba5206917"
+    },
+    "cantidad": 10,
+    "entregadoA": "Jose manuel",
+    "departamento": "sistemas",
+    "comentarios": "Ninguno",
+    "fecha": {
+      "$date": "2026-01-29T14:59:43.021Z"
+    },
+    "realizadoPor": {
+      "$oid": "69778f89a8c20c0d15dd3176"
+    },
+    "createdAt": {
+      "$date": "2026-01-29T14:59:43.024Z"
+    },
+    "updatedAt": {
+      "$date": "2026-01-29T14:59:43.024Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "697b781fac9ad1312a5474a8"
+    },
+    "producto": {
+      "$oid": "69320c16eeeab73ba5206917"
+    },
+    "cantidad": 19,
+    "entregadoA": "Jose manuel",
+    "departamento": "sistemas",
+    "comentarios": "as",
+    "fecha": {
+      "$date": "2026-01-29T15:09:19.329Z"
+    },
+    "realizadoPor": {
+      "$oid": "69778f89a8c20c0d15dd3176"
+    },
+    "createdAt": {
+      "$date": "2026-01-29T15:09:19.330Z"
+    },
+    "updatedAt": {
+      "$date": "2026-01-29T15:09:19.330Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "69c58fe03a8ed0475e3a306c"
+    },
+    "producto": {
+      "$oid": "69320c16eeeab73ba5206917"
+    },
+    "cantidad": 5,
+    "entregadoA": "Jose manuel",
+    "departamento": "sistemas",
+    "tipoSalida": "Reparacion",
+    "comentarios": "Se usara para reparar el laboratorio B",
+    "fecha": {
+      "$date": "2026-03-26T19:58:24.952Z"
+    },
+    "realizadoPor": {
+      "$oid": "6862a623c9b690df50d6f884"
+    },
+    "createdAt": {
+      "$date": "2026-03-26T19:58:24.954Z"
+    },
+    "updatedAt": {
+      "$date": "2026-03-26T19:58:24.954Z"
+    },
+    "__v": 0
+  }
+]

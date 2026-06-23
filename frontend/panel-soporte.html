@@ -2,21 +2,183 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>Panel de Trabajo – Soporte & Mantenimiento</title>
+  <title>Panel de Trabajo - Soporte & Mantenimiento</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="css/toasts.css" rel="stylesheet" />
   <style>
-    /* ======= NUEVOS COLORES KPI ======= */
-    .bg-orange { background-color:#FF9800 !important; }   /* Naranja */
-    .kpi-info-white { color:#fff !important; }
+    :root{
+      --panel-bg:#f5f7fb;
+      --card-shadow:0 10px 30px rgba(15,23,42,.08);
+      --soft-border:1px solid rgba(15,23,42,.08);
+    }
 
-    /* ======= COLORES TARJETAS POR ESTATUS ======= */
-    .card-estatus-Abierto               { border-color:#FF9800 !important; background:#FF9800; color:#fff; }
-    .card-estatus-En-proceso            { border-color:#FFC107 !important; background:#FFC107; color:#111; }
-    .card-estatus-En-espera-de-material { border-color:#9E9E9E !important; background:#9E9E9E; color:#fff; }
-    .card-estatus-Resuelto              { border-color:#03A9F4 !important; background:#03A9F4; color:#fff; }
-    .card-estatus-Cerrado               { border-color:#4CAF50 !important; background:#4CAF50; color:#fff; }
-    .card-estatus-Tiempo-excedido       { border-color:#E53935 !important; background:#E53935; color:#fff; }
+    body { background:var(--panel-bg) !important; }
+
+    .filters-wrap,
+    .toolbar-wrap,
+    .summary-wrap,
+    .ticket-card {
+      background:#fff;
+      border-radius:18px;
+      box-shadow:var(--card-shadow);
+      border:var(--soft-border);
+    }
+
+    .filters-wrap,
+    .toolbar-wrap,
+    .summary-wrap { padding:16px; }
+
+    .kpi {
+      border-radius:16px;
+      padding:16px;
+      text-align:center;
+      box-shadow:0 8px 20px rgba(0,0,0,.08);
+      transition:transform .18s ease, box-shadow .18s ease, outline-color .18s ease;
+      outline:3px solid transparent;
+      cursor:pointer;
+    }
+    .kpi:hover { transform:translateY(-2px); }
+    .kpi .label { font-weight:700; opacity:.92; font-size:.92rem; }
+    .kpi .value { font-size:2rem; font-weight:800; line-height:1; }
+    .kpi-total    { background:#1E73FF; color:#fff; }
+    .kpi-proceso  { background:#FFC107; color:#111; }
+    .kpi-espera   { background:#747c84; color:#fff; }
+    .kpi-resueltos{ background:#03A9F4; color:#fff; }
+    .kpi-cerrados { background:#4CAF50; color:#fff; }
+    .kpi-excedido { background:#E53935; color:#fff; }
+
+    .ticket-card{
+      overflow:hidden;
+      height:100%;
+      transition:transform .18s ease, box-shadow .18s ease;
+    }
+    .ticket-card:hover{
+      transform:translateY(-3px);
+      box-shadow:0 14px 28px rgba(15,23,42,.12);
+    }
+
+    .ticket-topbar{
+      display:flex;
+      justify-content:space-between;
+      gap:12px;
+      align-items:flex-start;
+      margin-bottom:14px;
+    }
+
+    .ticket-title{
+      font-size:1.15rem;
+      font-weight:800;
+      margin:0;
+    }
+
+    .ticket-folio{
+      font-size:.95rem;
+      font-weight:700;
+      color:#334155;
+    }
+
+    .ticket-status-chip{
+      border-radius:999px;
+      padding:.45rem .7rem;
+      font-size:.8rem;
+      font-weight:800;
+      display:inline-flex;
+      align-items:center;
+      white-space:nowrap;
+    }
+
+    .status-abierto { background:#fff1db; color:#9a5b00; }
+    .status-en-proceso { background:#fff5cc; color:#8a6a00; }
+    .status-en-espera-de-material { background:#eceff3; color:#475569; }
+    .status-resuelto { background:#e0f2fe; color:#075985; }
+    .status-cerrado { background:#dcfce7; color:#166534; }
+    .status-tiempo-excedido { background:#fee2e2; color:#b91c1c; }
+
+    .meta-grid{
+      display:grid;
+      grid-template-columns:repeat(2,minmax(0,1fr));
+      gap:10px 16px;
+      margin-bottom:14px;
+    }
+
+    .meta-item{
+      background:rgba(248,250,252,.9);
+      border:1px solid rgba(148,163,184,.2);
+      border-radius:12px;
+      padding:10px 12px;
+      min-height:56px;
+    }
+    .meta-item .meta-label{
+      display:block;
+      font-size:.78rem;
+      text-transform:uppercase;
+      letter-spacing:.04em;
+      color:#64748b;
+      margin-bottom:3px;
+      font-weight:700;
+    }
+    .meta-item .meta-value{
+      font-size:.95rem;
+      font-weight:600;
+      color:#0f172a;
+      word-break:break-word;
+    }
+
+    .description-box{
+      background:#f8fafc;
+      border:1px solid rgba(148,163,184,.2);
+      border-radius:12px;
+      padding:12px;
+      margin-bottom:14px;
+      min-height:72px;
+      white-space:pre-wrap;
+    }
+
+    .section-label{
+      font-weight:800;
+      font-size:.9rem;
+      color:#334155;
+      margin-bottom:6px;
+    }
+
+    .action-grid{
+      display:grid;
+      grid-template-columns:repeat(2, minmax(0,1fr));
+      gap:8px;
+    }
+
+    .ticket-action-btn{
+      background:#ffc107 !important;
+      border-color:#ffc107 !important;
+      color:#000 !important;
+      font-weight:700;
+    }
+    .ticket-action-btn:hover,
+    .ticket-action-btn:focus{
+      background:#e0a800 !important;
+      border-color:#d39e00 !important;
+      color:#000 !important;
+    }
+
+    .small-muted{
+      color:#64748b;
+      font-size:.88rem;
+    }
+
+    .loading-box{
+      background:#fff;
+      border-radius:18px;
+      border:2px dashed rgba(148,163,184,.35);
+      padding:30px;
+      text-align:center;
+      color:#64748b;
+    }
+
+    @media (max-width: 767.98px) {
+      .meta-grid, .action-grid { grid-template-columns:1fr; }
+      .ticket-topbar{ flex-direction:column; }
+    }
   </style>
 </head>
 <body class="bg-light">
@@ -27,32 +189,23 @@
   <div class="container py-4">
     <h2 class="text-center mb-2">Panel de Trabajo</h2>
 
-    <!-- Alternador de comportamiento KPI -->
-    <div class="d-flex justify-content-center mb-4">
-      <div class="form-check form-switch">
-        <input class="form-check-input" type="checkbox" id="sync-kpi">
-        <label class="form-check-label" for="sync-kpi">
-          Sincronizar KPIs con filtros
-        </label>
-      </div>
-    </div>
-
     <!-- Conmutador de panel visible (se muestra solo si el usuario puede ver ambos) -->
     <div id="panel-switch" class="d-flex justify-content-center gap-2 mb-4 d-none">
-      <button id="btn-soporte" class="btn btn-outline-primary btn-sm">🖥️ Soporte</button>
-      <button id="btn-mantenimiento" class="btn btn-outline-primary btn-sm">🔧 Mantenimiento</button>
+      <button id="btn-soporte" class="btn btn-outline-primary btn-sm">Soporte</button>
+      <button id="btn-mantenimiento" class="btn btn-outline-primary btn-sm">Mantenimiento</button>
     </div>
 
     <!-- ======== PANEL SOPORTE (Sistemas) ======== -->
     <section id="sec-soporte" class="mb-5">
-      <h4 class="mb-3">🖥️ Soporte (Sistemas)</h4>
+      <h4 class="mb-3">Soporte (Sistemas)</h4>
 
       <!-- Filtros -->
-      <div class="row g-2 align-items-center mb-3">
+      <div class="filters-wrap mb-4">
+      <div class="row g-3 align-items-end">
         <div class="col-md-3">
+          <label class="form-label">Filtrar por estatus</label>
           <select id="filtroS-estatus" class="form-select">
             <option value="">Todos los estados</option>
-            <option>Abierto</option>
             <option>En proceso</option>
             <option>En espera de material</option>
             <option>Resuelto</option>
@@ -61,75 +214,58 @@
           </select>
         </div>
         <div class="col-md-4">
-          <input id="filtroS-busqueda" type="text" class="form-control" placeholder="Buscar por descripción o solicitante...">
+          <label class="form-label">Buscar ticket</label>
+          <input id="filtroS-busqueda" type="text" class="form-control" placeholder="Buscar por descripcion o solicitante...">
         </div>
         <div class="col-md-2">
-          <div class="form-check">
+          <div class="form-check mb-2">
             <input class="form-check-input" type="checkbox" id="filtroS-mios">
             <label class="form-check-label" for="filtroS-mios">
-              Solo asignados a mí
+              Solo asignados a mi
             </label>
           </div>
         </div>
-        <div class="col-md-1">
-          <button class="btn btn-secondary w-100" onclick="aplicarFiltros('S')">Filtrar</button>
-        </div>
-        <div class="col-md-2">
-          <button class="btn btn-outline-secondary w-100" onclick="resetFiltros('S')">Limpiar</button>
-        </div>
       </div>
-
-      <!-- KPIs -->
-      <div class="text-center mb-2">
-        <span class="fs-6 fw-semibold">⏱️ Tiempo promedio de resolución:
-          <span id="kpiS-tiempo">--</span>
-        </span>
       </div>
 
       <div class="row g-3 mb-4">
         <div class="col-6 col-md-2">
-          <div class="p-3 text-center rounded-3 bg-primary text-white kpiS-filter" data-estado="">
-            <div class="fw-semibold">Total</div>
-            <div id="kpiS-total" class="fs-2">0</div>
+          <div class="kpi kpi-total kpiS-filter" data-estado="">
+            <div class="label">Total</div>
+            <div id="kpiS-total" class="value">0</div>
           </div>
         </div>
         <div class="col-6 col-md-2">
-          <div class="p-3 text-center rounded-3 bg-orange text-white kpiS-filter" data-estado="Abierto">
-            <div class="fw-semibold">Abiertos</div>
-            <div id="kpiS-abiertos" class="fs-2">0</div>
-          </div>
-        </div>
-        <div class="col-6 col-md-2">
-          <div class="p-3 text-center rounded-3 bg-warning text-dark kpiS-filter" data-estado="En proceso">
-            <div class="fw-semibold">En proceso</div>
-            <div id="kpiS-proceso" class="fs-2">0</div>
+          <div class="kpi kpi-proceso kpiS-filter" data-estado="En proceso">
+            <div class="label">En proceso</div>
+            <div id="kpiS-proceso" class="value">0</div>
           </div>
         </div>
         <!-- KPI: En espera -->
         <div class="col-6 col-md-2">
-          <div class="p-3 text-center rounded-3 bg-secondary text-white kpiS-filter" data-estado="En espera de material">
-            <div class="fw-semibold">En espera</div>
-            <div id="kpiS-espera" class="fs-2">0</div>
+          <div class="kpi kpi-espera kpiS-filter" data-estado="En espera de material">
+            <div class="label">En espera</div>
+            <div id="kpiS-espera" class="value">0</div>
           </div>
         </div>
         <div class="col-6 col-md-2">
           <!-- Azul cielo con texto blanco -->
-          <div class="p-3 text-center rounded-3 bg-info kpi-info-white kpiS-filter" data-estado="Resuelto">
-            <div class="fw-semibold">Resueltos</div>
-            <div id="kpiS-resueltos" class="fs-2">0</div>
+          <div class="kpi kpi-resueltos kpiS-filter" data-estado="Resuelto">
+            <div class="label">Resueltos</div>
+            <div id="kpiS-resueltos" class="value">0</div>
           </div>
         </div>
         <!-- Rojo con texto blanco -->
         <div class="col-6 col-md-2">
-          <div class="p-3 text-center rounded-3 kpiS-filter" style="background:#E53935;color:#fff;" data-estado="Tiempo excedido">
-            <div class="fw-semibold">Excedido</div>
-            <div id="kpiS-excedido" class="fs-2">0</div>
+          <div class="kpi kpi-excedido kpiS-filter" data-estado="Tiempo excedido">
+            <div class="label">Excedido</div>
+            <div id="kpiS-excedido" class="value">0</div>
           </div>
         </div>
         <div class="col-6 col-md-2">
-          <div class="p-3 text-center rounded-3 bg-success text-white kpiS-filter" data-estado="Cerrado">
-            <div class="fw-semibold">Cerrados</div>
-            <div id="kpiS-cerrados" class="fs-2">0</div>
+          <div class="kpi kpi-cerrados kpiS-filter" data-estado="Cerrado">
+            <div class="label">Cerrados</div>
+            <div id="kpiS-cerrados" class="value">0</div>
           </div>
         </div>
       </div>
@@ -141,14 +277,15 @@
 
     <!-- ======== PANEL MANTENIMIENTO (General) ======== -->
     <section id="sec-mantenimiento" class="mt-5">
-      <h4 class="mb-3">🔧 Mantenimiento (General)</h4>
+      <h4 class="mb-3">Mantenimiento (General)</h4>
 
       <!-- Filtros -->
-      <div class="row g-2 align-items-center mb-3">
+      <div class="filters-wrap mb-4">
+      <div class="row g-3 align-items-end">
         <div class="col-md-3">
+          <label class="form-label">Filtrar por estatus</label>
           <select id="filtroM-estatus" class="form-select">
             <option value="">Todos los estados</option>
-            <option>Abierto</option>
             <option>En proceso</option>
             <option>En espera de material</option>
             <option>Resuelto</option>
@@ -157,73 +294,57 @@
           </select>
         </div>
         <div class="col-md-4">
-          <input id="filtroM-busqueda" type="text" class="form-control" placeholder="Buscar por descripción o solicitante...">
+          <label class="form-label">Buscar ticket</label>
+          <input id="filtroM-busqueda" type="text" class="form-control" placeholder="Buscar por descripcion o solicitante...">
         </div>
         <div class="col-md-2">
-          <div class="form-check">
+          <div class="form-check mb-2">
             <input class="form-check-input" type="checkbox" id="filtroM-mios">
             <label class="form-check-label" for="filtroM-mios">
-              Solo asignados a mí
+              Solo asignados a mi
             </label>
           </div>
         </div>
-        <div class="col-md-1">
-          <button class="btn btn-secondary w-100" onclick="aplicarFiltros('M')">Filtrar</button>
-        </div>
-        <div class="col-md-2">
-          <button class="btn btn-outline-secondary w-100" onclick="resetFiltros('M')">Limpiar</button>
-        </div>
       </div>
-
-      <div class="text-center mb-2">
-        <span class="fs-6 fw-semibold">⏱️ Tiempo promedio de resolución:
-          <span id="kpiM-tiempo">--</span>
-        </span>
       </div>
 
       <div class="row g-3 mb-4">
         <div class="col-6 col-md-2">
-          <div class="p-3 text-center rounded-3 bg-primary text-white kpiM-filter" data-estado="">
-            <div class="fw-semibold">Total</div>
-            <div id="kpiM-total" class="fs-2">0</div>
+          <div class="kpi kpi-total kpiM-filter" data-estado="">
+            <div class="label">Total</div>
+            <div id="kpiM-total" class="value">0</div>
           </div>
         </div>
         <div class="col-6 col-md-2">
-          <div class="p-3 text-center rounded-3 bg-orange text-white kpiM-filter" data-estado="Abierto">
-            <div class="fw-semibold">Abiertos</div>
-            <div id="kpiM-abiertos" class="fs-2">0</div>
-          </div>
-        </div>
-        <div class="col-6 col-md-2">
-          <div class="p-3 text-center rounded-3 bg-warning text-dark kpiM-filter" data-estado="En proceso">
-            <div class="fw-semibold">En proceso</div>
-            <div id="kpiM-proceso" class="fs-2">0</div>
+          <div class="kpi kpi-proceso kpiM-filter" data-estado="En proceso">
+            <div class="label">En proceso</div>
+            <div id="kpiM-proceso" class="value">0</div>
           </div>
         </div>
         <!-- KPI: En espera -->
         <div class="col-6 col-md-2">
-          <div class="p-3 text-center rounded-3 bg-secondary text-white kpiM-filter" data-estado="En espera de material">
-            <div class="fw-semibold">En espera</div>
-            <div id="kpiM-espera" class="fs-2">0</div>
+          <div class="kpi kpi-espera kpiM-filter" data-estado="En espera de material">
+            <div class="label">En espera</div>
+            <div id="kpiM-espera" class="value">0</div>
           </div>
         </div>
         <div class="col-6 col-md-2">
-          <div class="p-3 text-center rounded-3 bg-info kpi-info-white kpiM-filter" data-estado="Resuelto">
-            <div class="fw-semibold">Resueltos</div>
-            <div id="kpiM-resueltos" class="fs-2">0</div>
+          <div class="kpi kpi-resueltos kpiM-filter" data-estado="Resuelto">
+            <div class="label">Resueltos</div>
+            <div id="kpiM-resueltos" class="value">0</div>
           </div>
         </div>
         <!-- Rojo con texto blanco -->
         <div class="col-6 col-md-2">
-          <div class="p-3 text-center rounded-3 kpiM-filter" style="background:#E53935;color:#fff;" data-estado="Tiempo excedido">
-            <div class="fw-semibold">Excedido</div>
-            <div id="kpiM-excedido" class="fs-2">0</div>
+          <div class="kpi kpi-excedido kpiM-filter" data-estado="Tiempo excedido">
+            <div class="label">Excedido</div>
+            <div id="kpiM-excedido" class="value">0</div>
           </div>
         </div>
         <div class="col-6 col-md-2">
-          <div class="p-3 text-center rounded-3 bg-success text-white kpiM-filter" data-estado="Cerrado">
-            <div class="fw-semibold">Cerrados</div>
-            <div id="kpiM-cerrados" class="fs-2">0</div>
+          <div class="kpi kpi-cerrados kpiM-filter" data-estado="Cerrado">
+            <div class="label">Cerrados</div>
+            <div id="kpiM-cerrados" class="value">0</div>
           </div>
         </div>
       </div>
@@ -263,19 +384,11 @@
     </div>
   </div>
 
+  <script src="js/toasts.js"></script>
   <script>
     // ================== CONFIG BASE ==================
     const token = localStorage.getItem("token");
     if (!token) window.location.href = "login.html";
-
-    const ESTILOS = {
-      "Abierto":               { border: "0", bg: "card-estatus-Abierto",               text: "" },
-      "En proceso":            { border: "0", bg: "card-estatus-En-proceso",            text: "" },
-      "En espera de material": { border: "0", bg: "card-estatus-En-espera-de-material", text: "" },
-      "Resuelto":              { border: "0", bg: "card-estatus-Resuelto",              text: "" },
-      "Cerrado":               { border: "0", bg: "card-estatus-Cerrado",               text: "" },
-      "Tiempo excedido":       { border: "0", bg: "card-estatus-Tiempo-excedido",       text: "" }
-    };
 
     // Roles / permisos
     function rolesActuales() {
@@ -294,7 +407,7 @@
     }
     function esAdminActual() { return rolesActuales().includes('admin'); }
 
-    // 🆕 Obtener el ID del usuario actual
+    // Obtener el ID del usuario actual
     function idUsuarioActual() {
       try {
         const u = JSON.parse(localStorage.getItem('usuario') || '{}');
@@ -352,8 +465,6 @@
     ajustarPanelesPorRol();
 
     // ================== KPI helpers ==================
-    const fmtPromedio = (ms)=>{ if(!ms||!isFinite(ms))return"--";const m=Math.round(ms/60000);return `${Math.floor(m/60)}h ${m%60}m`;};
-
     function calcKPIs(tickets){
       const by = s => tickets.filter(t => esMismoEstatus(t.estatus, s)).length;
 
@@ -365,25 +476,12 @@
       const excedido  = tickets.filter(t => esTicketExcedido(t)).length;
       const cerrados  = by("Cerrado");
 
-      const term = tickets.filter(t =>
-        t.fechaCierre ||
-        esMismoEstatus(t.estatus,"Cerrado") ||
-        esMismoEstatus(t.estatus,"Resuelto")
-      );
-
-      let prom = 0;
-      if (term.length){
-        prom = term.reduce((a,t)=>
-          a + (new Date(t.fechaCierre || t.updatedAt || t.createdAt) - new Date(t.fechaCreacion || t.createdAt)), 0
-        ) / term.length;
-      }
-      return { total, abiertos, proceso, espera, resueltos, cerrados, excedido, prom };
+      return { total, abiertos, proceso, espera, resueltos, cerrados, excedido };
     }
 
 
     function renderKPIs(kpi, prefijo){
       document.getElementById(`${prefijo}-total`).textContent     = kpi.total;
-      document.getElementById(`${prefijo}-abiertos`).textContent  = kpi.abiertos;
       document.getElementById(`${prefijo}-proceso`).textContent   = kpi.proceso;
       const esperaEl = document.getElementById(`${prefijo}-espera`);
       const exc = document.getElementById(`${prefijo}-excedido`);
@@ -391,42 +489,32 @@
       if (esperaEl) esperaEl.textContent = kpi.espera;
       document.getElementById(`${prefijo}-resueltos`).textContent = kpi.resueltos;
       document.getElementById(`${prefijo}-cerrados`).textContent  = kpi.cerrados;
-      document.getElementById(`${prefijo}-tiempo`).textContent    = fmtPromedio(kpi.prom);
     }
 
-    // ----------- Ubicación dinámica y badges -----------
+    // ----------- Ubicacion dinamica y badges -----------
     function textoUbicacion(t){
       const tipo = (t.tipo || '').toLowerCase();
       const subtipo = (t.subtipo || '').toLowerCase();
       if (tipo === 'sistemas') {
         if (subtipo === 'laboratorio') {
-          const eq = t.equipo ? ` • Equipo: ${t.equipo}` : '';
-          return `Laboratorio: ${t.laboratorio || '—'}${eq}`;
+          const eq = t.equipo ? ` - Equipo: ${t.equipo}` : '';
+          return `Laboratorio: ${t.laboratorio || '-'}${eq}`;
         }
-        return `Ubicación: ${t.ubicacion || '—'}`;
+        return `Ubicacion: ${t.ubicacion || '-'}`;
       }
       if (tipo === 'mantenimiento') {
-        return `Salón/Área: ${t.salon || '—'}`;
+        return `Salon/Area: ${t.salon || '-'}`;
       }
       return '';
     }
     function badgeEstatus(estatus){
-      const map = {
-        'Abierto': 'bg-secondary',
-        'En proceso': 'bg-warning',
-        'En espera de material': 'bg-secondary',
-        'Resuelto': 'bg-info',
-        'Cerrado': 'bg-success',
-        'Tiempo excedido': 'bg-danger',
-        'Cancelado': 'bg-dark'
-      };
-      const cls = map[estatus] || 'bg-secondary';
-      return `<span class="badge ${cls}">${estatus}</span>`;
+      const cls = `status-${String(estatus || '').toLowerCase().replace(/[^a-z0-9]+/g, '-')}`;
+      return `<span class="ticket-status-chip ${cls}">${estatus || 'Sin estatus'}</span>`;
     }
 
     // ================== formateador de fechas ==================
     function fmtFecha(dt){
-      if(!dt) return '—';
+      if(!dt) return '-';
       const d = new Date(dt);
       const pad = n => String(n).padStart(2,'0');
       return `${pad(d.getDate())}/${pad(d.getMonth()+1)}/${d.getFullYear()} ${pad(d.getHours())}:${pad(d.getMinutes())}`;
@@ -438,54 +526,77 @@ function renderTarjetas(tickets, contId){
   c.innerHTML = "";
   const admin = esAdminActual();
 
+  if (!tickets.length) {
+    c.innerHTML = `
+      <div class="col-12">
+        <div class="loading-box">No hay tickets con los filtros seleccionados.</div>
+      </div>`;
+    return;
+  }
+
   tickets.forEach(t => {
     const esC = t.estatus === "Cerrado";
-    const e   = ESTILOS[t.estatus] || { border:"0", bg:"bg-light", text:"" };
 
     const ops = admin
-      ? ["Abierto","En proceso","En espera de material","Resuelto","Cerrado"]
-      : ["Abierto","En proceso","En espera de material","Resuelto"];
+      ? ["En proceso","En espera de material","Resuelto","Cerrado"]
+      : ["En proceso","En espera de material","Resuelto"];
 
     const enEspera = t.estatus === 'En espera de material';
     const tieneMaterial = !!(t.requiereMaterial && t.requiereMaterial.trim());
 
     c.innerHTML += `
       <div class="col-md-6">
-        <div class="card border-${e.border} ${e.bg} ${e.text}">
-          <div class="card-body">
-
-            <!-- Encabezado -->
-            <div class="d-flex justify-content-between align-items-start mb-1">
-              <h5 class="card-title mb-0">Área: ${t.tipo}</h5>
-              <div class="small text-muted">Folio: <span class="fw-semibold">${t.folio || '—'}</span></div>
-              <div class="text-end small">
-                <div><strong>Estado:</strong> ${badgeEstatus(t.estatus)}</div>
-                <div><strong>Prioridad:</strong> <span class="badge ${
+        <div class="ticket-card">
+          <div class="card-body p-3 p-lg-4">
+            <div class="ticket-topbar">
+              <div>
+                <div class="ticket-folio">${t.folio || '—'}</div>
+                <h5 class="ticket-title">Área: ${t.tipo || '—'}</h5>
+                <div class="small-muted">${textoUbicacion(t) || 'Sin ubicación especificada'}</div>
+              </div>
+              <div class="d-flex flex-column gap-2 align-items-end">
+                ${badgeEstatus(t.estatus)}
+                <span class="badge ${
                   (t.prioridad==='Alta') ? 'bg-danger' :
-                  (t.prioridad==='Media') ? 'bg-warning' :
+                  (t.prioridad==='Media') ? 'bg-warning text-dark' :
                   (t.prioridad==='Baja')  ? 'bg-primary' : 'bg-secondary'
-                }">${t.prioridad || 'Sin prioridad'}</span></div>
-                <div><strong>Creado por:</strong> ${t.creadoPor?.nombre || "—"}</div>
-                <div><strong>Asignado a:</strong> ${t.asignadoA?.nombre || "Sin asignar"}</div>
+                }">${t.prioridad || 'Sin prioridad'}</span>
               </div>
             </div>
 
-            <!-- Fechas -->
-            <div class="row g-2 small text-muted mb-2">
-              <div class="col-12 col-md-4"><strong>Solicitado:</strong> ${fmtFecha(t.fechaCreacion || t.createdAt)}</div>
-              <div class="col-12 col-md-4"><strong>Inicio:</strong> ${fmtFecha(t.fechaInicio)}</div>
-              <div class="col-12 col-md-4"><strong>Finalización:</strong> ${fmtFecha(t.fechaCierre)}</div>
+            <div class="meta-grid">
+              <div class="meta-item">
+                <span class="meta-label">Solicitado</span>
+                <div class="meta-value">${fmtFecha(t.fechaCreacion || t.createdAt)}</div>
+              </div>
+              <div class="meta-item">
+                <span class="meta-label">Inicio</span>
+                <div class="meta-value">${fmtFecha(t.fechaInicio)}</div>
+              </div>
+              <div class="meta-item">
+                <span class="meta-label">Finalización</span>
+                <div class="meta-value">${fmtFecha(t.fechaCierre)}</div>
+              </div>
+              <div class="meta-item">
+                <span class="meta-label">Creado por</span>
+                <div class="meta-value">${t.creadoPor?.nombre || '—'}</div>
+              </div>
+              <div class="meta-item">
+                <span class="meta-label">Asignado a</span>
+                <div class="meta-value">${t.asignadoA?.nombre || 'Sin asignar'}</div>
+              </div>
+              <div class="meta-item">
+                <span class="meta-label">Material</span>
+                <div class="meta-value">${t.requiereMaterial || 'Ninguno'}</div>
+              </div>
             </div>
 
-            <!-- Ubicación -->
-            <div class="text-muted small mb-3">${textoUbicacion(t)}</div>
+            <div class="description-box">
+              <div class="section-label">Descripción detallada</div>
+              <div>${t.descripcion || 'Sin descripción'}</div>
+            </div>
 
-            <!-- Descripción -->
-            <label class="form-label">Descripción detallada:</label>
-            <div class="form-control mb-3" style="min-height:72px; white-space:pre-wrap;">${t.descripcion || '—'}</div>
-
-            <!-- Fila: Estatus / Material -->
-            <div class="row g-2 align-items-start mb-2">
+            <div class="row g-2 align-items-start mb-3">
               <div class="col-12 col-md-6">
                 <label class="form-label">Estatus:</label>
                 <select class="form-select"
@@ -497,7 +608,6 @@ function renderTarjetas(tickets, contId){
               </div>
 
               <div class="col-12 col-md-6">
-                <!-- EDITABLE: solo cuando está En espera de material -->
                 <div id="wrap-material-edit-${t._id}" class="${enEspera ? '' : 'd-none'}">
                   <label class="form-label">Requiere material:</label>
                   <textarea class="form-control"
@@ -508,7 +618,6 @@ function renderTarjetas(tickets, contId){
                   <div class="form-text">Editable únicamente cuando el estatus está en espera.</div>
                 </div>
 
-                <!-- SOLO LECTURA: cuando NO está en espera pero hay material capturado -->
                 <div id="wrap-material-read-${t._id}" class="${(!enEspera && tieneMaterial) ? '' : 'd-none'}">
                   <label class="form-label">Material requerido (histórico):</label>
                   <div class="form-control" style="min-height: 38px; white-space:pre-wrap;" aria-readonly="true">
@@ -518,18 +627,15 @@ function renderTarjetas(tickets, contId){
               </div>
             </div>
 
-            <!-- Resolución -->
             <label class="form-label">Resolución del problema:</label>
             <textarea class="form-control mb-3" id="resolucion-${t._id}" rows="2" placeholder="Describe cómo se resolvió" ${esC ? "disabled" : ""}>${t.resolucion || ''}</textarea>
 
-            <!-- NUEVO: Comentario interno -->
             <label class="form-label">Comentario interno:</label>
             <textarea class="form-control mb-3"
                       id="comentario-${t._id}"
                       rows="2"
                       placeholder="Agrega notas internas, avances, etc."></textarea>
 
-            <!-- 🆕 BLOQUE PARA SUBIR EVIDENCIA -->
             <div class="mb-3">
               <label class="form-label">Evidencia del trabajo realizado (foto):</label>
               <input type="file"
@@ -540,46 +646,42 @@ function renderTarjetas(tickets, contId){
               <div class="form-text">Sube imágenes JPG, PNG, etc. (se guardan en la carpeta del ticket en Drive).</div>
             </div>
 
-            <!-- Botones -->
-            <div class="d-flex flex-wrap gap-2">
-              <button class="btn btn-primary flex-fill"
+            <div class="action-grid">
+              <button class="btn ticket-action-btn"
                       onclick="actualizarTicket('${t._id}')"
                       ${esC ? "disabled" : ""}>Guardar cambios</button>
 
               ${ (t.estatus === 'En espera de material' && !esC)
-                  ? `<button class="btn btn-outline-success flex-fill"
-                             onclick="reanudarTicket('${t._id}')">Reanudar (material recibido)</button>`
+                  ? `<button class="btn ticket-action-btn"
+                             onclick="reanudarTicket('${t._id}')">Reanudar</button>`
                   : '' }
 
-              <button class="btn btn-success flex-fill"
+              <button class="btn ticket-action-btn"
                       onclick="asignarmeTicket('${t._id}')"
                       ${(esC || t.asignadoA) ? "disabled" : ""}>Asignarme</button>
 
-              <button class="btn btn-outline-light flex-fill"
+              <button class="btn ticket-action-btn"
                       onclick="guardarComentario('${t._id}', '${t.folio || ''}', '${t.tipo || ''}')">
                 Guardar comentario
               </button>
 
-              <button class="btn btn-dark flex-fill"
+              <button class="btn ticket-action-btn"
                       onclick="verComentarios('${t._id}', '${t.folio || ''}', '${t.tipo || ''}')">
                 Comentarios
               </button>
 
-              <!-- 🆕 BOTÓN SUBIR EVIDENCIA -->
-              <button class="btn btn-outline-secondary flex-fill"
+              <button class="btn ticket-action-btn"
                       onclick="subirEvidencia('${t._id}')"
                       ${esC ? "disabled" : ""}>
                 Subir evidencia
               </button>
             </div>
-
           </div>
         </div>
       </div>`;
   });
 }
-
-    // Mostrar/ocultar material según estatus
+    // Mostrar/ocultar material segun estatus
     function onChangeEstatus(id){
       const sel  = document.getElementById(`estatus-${id}`);
       const edit = document.getElementById(`wrap-material-edit-${id}`);
@@ -612,7 +714,7 @@ function renderTarjetas(tickets, contId){
       const m = (e === 'En espera de material' && taM) ? (taM.value || '') : '';
 
       if ((e === 'Resuelto' || e === 'Cerrado') && !rs.trim()){
-        alert('Para marcar como Resuelto o Cerrado, agrega la resolución del problema.');
+        alert('Para marcar como Resuelto o Cerrado, agrega la resolucion del problema.');
         return;
       }
       if (e === 'En espera de material' && (!m || !m.trim())){
@@ -685,7 +787,7 @@ function renderTarjetas(tickets, contId){
           .sort((a,b)=> new Date(a.fecha) - new Date(b.fecha));
 
         document.getElementById('comentarios-titulo').textContent =
-          `Comentarios – ${folio || 'Folio —'} (${tipo || '—'})`;
+          `Comentarios - ${folio || 'Folio -'} (${tipo || '-'})`;
 
         const tb = document.getElementById('comentarios-tbody');
         if (!rows.length){
@@ -694,7 +796,7 @@ function renderTarjetas(tickets, contId){
           tb.innerHTML = rows.map(c => `
             <tr>
               <td>${fmtFecha(c.fecha)}</td>
-              <td>${c.usuarioNombre || '—'}</td>
+              <td>${c.usuarioNombre || '-'}</td>
               <td style="white-space:pre-wrap">${(c.texto || '').trim()}</td>
             </tr>
           `).join('');
@@ -712,7 +814,7 @@ function renderTarjetas(tickets, contId){
 async function subirEvidencia(id){
   const input = document.getElementById(`file-evidencia-${id}`);
   if (!input) {
-    alert('No se encontró el control de archivo.');
+    alert('No se encontro el control de archivo.');
     return;
   }
 
@@ -753,7 +855,7 @@ async function subirEvidencia(id){
     }
   } catch (err) {
     console.error('Error de red al subir evidencia:', err);
-    alert('Ocurrió un error al subir la evidencia.');
+    alert('Ocurrio un error al subir la evidencia.');
   }
 }
 
@@ -767,7 +869,6 @@ async function subirEvidencia(id){
     let kpiGlobal = { S:null, M:null };
 
     const STORAGE_KEYS = {
-      sync: 'panel_syncKPI',
       S: { est:'filtroS_estatus', q:'filtroS_busqueda', m:'filtroS_mios' },
       M: { est:'filtroM_estatus', q:'filtroM_busqueda', m:'filtroM_mios' }
     };
@@ -793,14 +894,6 @@ async function subirEvidencia(id){
         if (chk) chk.checked = (v === '1');
       }
     }
-    function saveSync(){
-      localStorage.setItem(STORAGE_KEYS.sync, document.getElementById('sync-kpi').checked ? '1' : '0');
-    }
-    function loadSync(){
-      const v = localStorage.getItem(STORAGE_KEYS.sync);
-      document.getElementById('sync-kpi').checked = v === '1';
-    }
-
     function filtrarLista(pref, base){
       const tipo = pref==="S"?"Sistemas":"Mantenimiento";
       const estado = document.getElementById(`filtro${pref}-estatus`).value.trim();
@@ -809,17 +902,17 @@ async function subirEvidencia(id){
       return base.filter(t=>{
         if(t.tipo!==tipo) return false;
         if (estado) {
-          // Si el filtro es "Tiempo excedido", usamos la lógica del ticket excedido
+          // Si el filtro es "Tiempo excedido", usamos la logica del ticket excedido
           if (esTiempoExcedido(estado)) {
             if (!esTicketExcedido(t)) return false;
           } else {
-            // Para los demás estados, comparación normal tolerante
+            // Para los demas estados, comparacion normal tolerante
             if (!esMismoEstatus(t.estatus, estado)) return false;
           }
         }
 
 
-        // 🆕 Solo los tickets asignados al usuario actual
+        // Solo los tickets asignados al usuario actual
         if (soloMios && USUARIO_ID) {
           const asignado = (t.asignadoA && (t.asignadoA._id || t.asignadoA.id)) || t.asignadoA || '';
           if (String(asignado) !== USUARIO_ID) return false;
@@ -830,7 +923,14 @@ async function subirEvidencia(id){
           if (!txt.includes(q)) return false;
         }
         return true;
-      });
+      }).sort(ordenarTicketsRecientes);
+    }
+
+    function ordenarTicketsRecientes(a, b){
+      const fechaA = new Date(a.fechaCreacion || a.createdAt || 0).getTime();
+      const fechaB = new Date(b.fechaCreacion || b.createdAt || 0).getTime();
+      if (fechaA !== fechaB) return fechaB - fechaA;
+      return String(b.folio || b._id || '').localeCompare(String(a.folio || a._id || ''));
     }
 
     function refrescar(){
@@ -840,34 +940,45 @@ async function subirEvidencia(id){
       kpiGlobal.S = calcKPIs(soporte);
       kpiGlobal.M = calcKPIs(mant);
 
-      loadSync();
       loadFilters('S');
       loadFilters('M');
 
       const listaS = filtrarLista('S', todosTickets);
       const listaM = filtrarLista('M', todosTickets);
 
-      const usarFiltros = document.getElementById('sync-kpi').checked;
-      renderKPIs(usarFiltros ? calcKPIs(listaS) : kpiGlobal.S, 'kpiS');
-      renderKPIs(usarFiltros ? calcKPIs(listaM) : kpiGlobal.M, 'kpiM');
+      renderKPIs(kpiGlobal.S, 'kpiS');
+      renderKPIs(kpiGlobal.M, 'kpiM');
 
       renderTarjetas(listaS, 'tickets-soporte');
       renderTarjetas(listaM, 'tickets-mantenimiento');
     }
 
     async function cargar(){
-      const r=await fetch("/api/tickets",{headers:{Authorization:`Bearer ${token}`}});
-      if(!r.ok){
-        console.error('Error /api/tickets', r.status);
-        document.getElementById('tickets-soporte').innerHTML = '<div class="text-danger">No se pudieron cargar los tickets.</div>';
+      try {
+        const r=await fetch("/api/tickets",{headers:{Authorization:`Bearer ${token}`}});
+        const data = await r.json().catch(() => null);
+
+        if(!r.ok){
+          const mensaje = data?.mensaje || data?.error || `No se pudieron cargar los tickets. Codigo ${r.status}`;
+          console.error('Error /api/tickets', r.status, data);
+          mostrarToast(mensaje, r.status === 401 ? 'warning' : 'danger');
+          document.getElementById('tickets-soporte').innerHTML = `<div class="col-12"><div class="loading-box">${mensaje}</div></div>`;
+          document.getElementById('tickets-mantenimiento').innerHTML = '';
+          return;
+        }
+
+        todosTickets=(Array.isArray(data) ? data : []).sort(ordenarTicketsRecientes);
+        refrescar();
+      } catch (error) {
+        console.error('Error conectando /api/tickets', error);
+        const mensaje = 'No se pudo conectar con el servidor de tickets.';
+        mostrarToast(mensaje, 'danger');
+        document.getElementById('tickets-soporte').innerHTML = `<div class="col-12"><div class="loading-box">${mensaje}</div></div>`;
         document.getElementById('tickets-mantenimiento').innerHTML = '';
-        return;
       }
-      todosTickets=await r.json();
-      refrescar();
     }
 
-    // 🔹 CLICK EN TARJETAS KPI PARA FILTRAR (Soporte y Mantenimiento)
+    // CLICK EN TARJETAS KPI PARA FILTRAR (Soporte y Mantenimiento)
     function initKpiClicks() {
       // Soporte (S)
       document.querySelectorAll('.kpiS-filter').forEach(card => {
@@ -897,16 +1008,19 @@ async function subirEvidencia(id){
     }
 
     // Eventos
-    document.getElementById('sync-kpi').addEventListener('change', ()=>{ saveSync(); refrescar(); });
     document.getElementById('filtroS-estatus').addEventListener('change', ()=>{ saveFilters('S'); aplicarFiltros('S'); });
-    document.getElementById('filtroS-busqueda').addEventListener('input', ()=>{ saveFilters('S'); });
+    document.getElementById('filtroS-busqueda').addEventListener('input', ()=>{ aplicarFiltrosDebounced('S'); });
     document.getElementById('filtroS-mios').addEventListener('change', ()=>{ saveFilters('S'); aplicarFiltros('S'); });
 
     document.getElementById('filtroM-estatus').addEventListener('change', ()=>{ saveFilters('M'); aplicarFiltros('M'); });
-    document.getElementById('filtroM-busqueda').addEventListener('input', ()=>{ saveFilters('M'); });
+    document.getElementById('filtroM-busqueda').addEventListener('input', ()=>{ aplicarFiltrosDebounced('M'); });
     document.getElementById('filtroM-mios').addEventListener('change', ()=>{ saveFilters('M'); aplicarFiltros('M'); });
 
     function aplicarFiltros(pref){ saveFilters(pref); refrescar(); }
+    function aplicarFiltrosDebounced(pref){
+      clearTimeout(window[`__panel_${pref}_debounce`]);
+      window[`__panel_${pref}_debounce`] = setTimeout(() => aplicarFiltros(pref), 250);
+    }
     function resetFiltros(pref){
       document.getElementById(`filtro${pref}-estatus`).value = '';
       document.getElementById(`filtro${pref}-busqueda`).value = '';
@@ -931,7 +1045,7 @@ async function subirEvidencia(id){
       if (esTiempoExcedido(a) && esTiempoExcedido(b)) return true;
       return normEstatus(a) === normEstatus(b);
     }
-    // Devuelve true si el ticket está en tiempo excedido
+    // Devuelve true si el ticket esta en tiempo excedido
     function esTicketExcedido(t) {
       if (!t) return false;
 
@@ -954,17 +1068,17 @@ async function subirEvidencia(id){
   <script src="/socket.io/socket.io.js"></script>
 
   <script>
-    // Conexión Socket.IO para refrescar panel de soporte/mantenimiento
+    // Conexion Socket.IO para refrescar panel de soporte/mantenimiento
   (function () {
     try {
       const socket = io();
 
       socket.on('connect', () => {
-        console.log('✅ Socket conectado en panel-soporte');
+        console.log('Socket conectado en panel-soporte');
       });
 
       socket.on('ticketsActualizados', (payload) => {
-        console.log('🔄 ticketsActualizados (soporte/mant):', payload);
+        console.log('ticketsActualizados (soporte/mant):', payload);
 
         // Volvemos a cargar todos los tickets
         if (typeof cargar === 'function') {

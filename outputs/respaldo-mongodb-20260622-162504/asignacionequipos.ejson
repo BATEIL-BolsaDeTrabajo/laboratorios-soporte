@@ -1,0 +1,93 @@
+[
+  {
+    "_id": {
+      "$oid": "6a3476d1fcf38d14005fe6a3"
+    },
+    "colaborador": {
+      "$oid": "685aebb013bf3eff09f102ec"
+    },
+    "tipoEquipo": "Laptop",
+    "marca": "Lenovo",
+    "modelo": "Pug",
+    "numeroSerie": "2521487965244",
+    "numeroInventario": "52",
+    "estadoEquipo": "bueno",
+    "fechaAsignacion": {
+      "$date": "2026-06-18T00:00:00Z"
+    },
+    "observaciones": "El equipo es nuevo",
+    "estadoAsignacion": "retirado",
+    "motivoRetiro": "Se daño y se hara el cambio",
+    "historial": [
+      {
+        "accion": "equipo_asignado",
+        "descripcion": "Equipo asignado a Jose Manuel: Laptop Lenovo Pug Serie: 2521487965244.",
+        "usuario": {
+          "$oid": "685aebb013bf3eff09f102ec"
+        },
+        "fecha": {
+          "$date": "2026-06-18T22:53:05.667Z"
+        }
+      },
+      {
+        "accion": "equipo_retirado",
+        "descripcion": "Equipo retirado de Jose Manuel. Se daño y se hara el cambio",
+        "usuario": {
+          "$oid": "685aebb013bf3eff09f102ec"
+        },
+        "fecha": {
+          "$date": "2026-06-18T22:58:04.277Z"
+        }
+      }
+    ],
+    "createdAt": {
+      "$date": "2026-06-18T22:53:05.673Z"
+    },
+    "updatedAt": {
+      "$date": "2026-06-18T22:58:04.279Z"
+    },
+    "__v": 1,
+    "fechaRetiro": {
+      "$date": "2026-06-18T22:58:04.277Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a3477a7fcf38d14005fe6b1"
+    },
+    "colaborador": {
+      "$oid": "685aebb013bf3eff09f102ec"
+    },
+    "tipoEquipo": "Impresora",
+    "marca": "HP",
+    "modelo": "HP LaserJet p102w",
+    "numeroSerie": "54714852747",
+    "numeroInventario": "100",
+    "estadoEquipo": "regular",
+    "fechaAsignacion": {
+      "$date": "2026-06-18T00:00:00Z"
+    },
+    "observaciones": "La impresora ya tiene sus años",
+    "estadoAsignacion": "activo",
+    "motivoRetiro": "",
+    "historial": [
+      {
+        "accion": "equipo_asignado",
+        "descripcion": "Equipo asignado a Jose Manuel: Impresora HP HP LaserJet p102w Serie: 54714852747.",
+        "usuario": {
+          "$oid": "685aebb013bf3eff09f102ec"
+        },
+        "fecha": {
+          "$date": "2026-06-18T22:56:39.834Z"
+        }
+      }
+    ],
+    "createdAt": {
+      "$date": "2026-06-18T22:56:39.835Z"
+    },
+    "updatedAt": {
+      "$date": "2026-06-18T22:56:39.835Z"
+    },
+    "__v": 0
+  }
+]

@@ -11,8 +11,54 @@
       background:#f3f4f6;
     }
 
+    .admin-users-container{
+      max-width: 100%;
+    }
+
+    .users-table-shell{
+      max-height: 980px;
+      overflow-y: auto;
+      overflow-x: hidden;
+      border: 1px solid #dee2e6;
+      border-radius: 6px;
+      background: #fff;
+    }
+
+    .users-table{
+      table-layout: fixed;
+      width: 100%;
+      margin-bottom: 0;
+    }
+
+    .users-table thead th{
+      position: sticky;
+      top: 0;
+      z-index: 2;
+    }
+
+    .users-table td,
+    .users-table th{
+      min-width: 0 !important;
+      overflow-wrap: anywhere;
+    }
+
+    .users-table th:nth-child(1),
+    .users-table td:nth-child(1){ width: 12%; }
+
+    .users-table th:nth-child(2),
+    .users-table td:nth-child(2){ width: 18%; }
+
+    .users-table th:nth-child(3),
+    .users-table td:nth-child(3){ width: 43%; }
+
+    .users-table th:nth-child(4),
+    .users-table td:nth-child(4){ width: 14%; }
+
+    .users-table th:nth-child(5),
+    .users-table td:nth-child(5){ width: 13%; }
+
     .roles-wrapper{
-      min-width: 520px;
+      width: 100%;
       text-align: left;
     }
 
@@ -28,7 +74,7 @@
     .roles-dual{
       display:flex;
       align-items:center;
-      gap:10px;
+      gap:8px;
       flex-wrap:nowrap;
     }
 
@@ -39,10 +85,10 @@
 
     .roles-selectbox{
       width:100%;
-      min-height:160px;
-      border-radius:10px;
+      min-height:118px;
+      border-radius:8px;
       border:1px solid #ced4da;
-      padding:6px;
+      padding:5px;
       background:#fff;
     }
 
@@ -61,9 +107,13 @@
 
     .roles-extra{
       display:flex;
-      gap:8px;
+      gap:6px;
       flex-wrap:wrap;
-      margin-top:10px;
+      margin-top:8px;
+    }
+
+    .roles-extra .btn{
+      white-space: nowrap;
     }
 
     .table td,
@@ -72,18 +122,34 @@
     }
 
     .pass-input{
-      min-width:180px;
+      min-width:0;
+      width:100%;
+      font-size:14px;
+      padding-left:8px;
+      padding-right:8px;
+    }
+
+    .action-buttons{
+      display:flex;
+      gap:8px;
+      flex-wrap:wrap;
+      justify-content:center;
     }
 
     @media (max-width: 992px){
-      .roles-wrapper{
-        min-width: 500px;
+      .container.admin-users-container{
+        max-width: 100%;
       }
     }
 
     @media (max-width: 768px){
-      .roles-wrapper{
-        min-width: 460px;
+      .roles-dual{
+        flex-wrap: wrap;
+      }
+
+      .roles-actions{
+        flex-direction: row;
+        width: 100%;
       }
     }
   </style>
@@ -92,9 +158,42 @@
 <div id="navbar-container"></div>
 
 <body>
-  <div class="container py-4">
+  <div class="container-fluid admin-users-container py-4 px-3 px-xl-4">
     <h2 class="text-center mb-4">Administrar Usuarios</h2>
-    <div id="usuarios" class="table-responsive"></div>
+    <div id="usuarios"></div>
+  </div>
+
+  <div class="modal fade" id="modalContacto" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Datos de contacto</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+        </div>
+        <div class="modal-body">
+          <input type="hidden" id="contacto-user-id">
+          <div class="mb-3">
+            <label class="form-label" for="contacto-nombre">Usuario</label>
+            <input type="text" class="form-control" id="contacto-nombre" disabled>
+          </div>
+          <div class="mb-3">
+            <label class="form-label" for="contacto-correo">Correo electronico</label>
+            <input type="email" class="form-control" id="contacto-correo" placeholder="usuario@bateil.edu.mx">
+          </div>
+          <div class="mb-2">
+            <label class="form-label" for="contacto-whatsapp">WhatsApp</label>
+            <input type="tel" class="form-control" id="contacto-whatsapp" placeholder="521...">
+            <div class="form-text">Usa lada de pais y numero, sin espacios. Ejemplo: 5217112345678.</div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancelar</button>
+          <button type="button" class="btn btn-primary" id="btnGuardarContacto" onclick="guardarContacto()">
+            Guardar contacto
+          </button>
+        </div>
+      </div>
+    </div>
   </div>
 
   <script>
@@ -125,6 +224,8 @@
     ];
 
     const rolesUsuarios = {};
+    const usuariosPorId = {};
+    let modalContacto = null;
 
     function obtenerLabelRol(key) {
       const rol = ROLES_DISPONIBLES.find(r => r.key === key);
@@ -157,12 +258,13 @@
         const contenedor = document.getElementById("usuarios");
 
         let tabla = `
-          <table class="table table-bordered table-striped align-middle text-center">
+          <div class="users-table-shell">
+          <table class="table table-bordered table-striped align-middle text-center users-table">
             <thead class="table-dark">
               <tr>
-                <th style="min-width:180px;">Nombre</th>
-                <th style="min-width:250px;">Correo</th>
-                <th style="min-width:560px;">Roles</th>
+                <th class="col-name">Nombre</th>
+                <th class="col-email">Correo</th>
+                <th class="col-roles">Roles</th>
                 <th style="min-width:200px;">Nueva Contraseña</th>
                 <th style="min-width:120px;">Acción</th>
               </tr>
@@ -172,11 +274,12 @@
 
         usuarios.forEach(usuario => {
           rolesUsuarios[usuario._id] = [...(usuario.roles || [])];
+          usuariosPorId[usuario._id] = usuario;
 
           tabla += `
             <tr>
               <td>${usuario.nombre || ""}</td>
-              <td>${usuario.correo || ""}</td>
+              <td id="correo-${usuario._id}">${usuario.correo || ""}</td>
               <td>${crearRolesUI(usuario._id)}</td>
               <td>
                 <input
@@ -187,9 +290,14 @@
                 >
               </td>
               <td>
-                <button class="btn btn-primary btn-sm" onclick="guardarCambios('${usuario._id}')">
-                  Guardar
-                </button>
+                <div class="action-buttons">
+                  <button class="btn btn-outline-secondary btn-sm" onclick="abrirContacto('${usuario._id}')">
+                    Contacto
+                  </button>
+                  <button class="btn btn-primary btn-sm" onclick="guardarCambios('${usuario._id}')">
+                    Guardar
+                  </button>
+                </div>
               </td>
             </tr>
           `;
@@ -198,6 +306,7 @@
         tabla += `
             </tbody>
           </table>
+          </div>
         `;
 
         contenedor.innerHTML = tabla;
@@ -206,10 +315,27 @@
           renderDualList(usuario._id);
         });
 
+        ajustarAltoTablaUsuarios();
+
       } catch (error) {
         console.error(error);
         alert("Error al cargar usuarios");
       }
+    }
+
+    function ajustarAltoTablaUsuarios() {
+      const shell = document.querySelector(".users-table-shell");
+      const header = document.querySelector(".users-table thead");
+      const filas = Array.from(document.querySelectorAll(".users-table tbody tr"));
+
+      if (!shell || !header || filas.length <= 5) return;
+
+      const altoHeader = header.getBoundingClientRect().height;
+      const altoFilas = filas
+        .slice(0, 5)
+        .reduce((total, fila) => total + fila.getBoundingClientRect().height, 0);
+
+      shell.style.maxHeight = `${Math.ceil(altoHeader + altoFilas + 2)}px`;
     }
 
     function crearRolesUI(id) {
@@ -341,6 +467,61 @@
       } catch (error) {
         console.error(error);
         alert("Error al guardar cambios");
+      }
+    }
+
+    function abrirContacto(id) {
+      const usuario = usuariosPorId[id];
+      if (!usuario) return;
+
+      document.getElementById("contacto-user-id").value = id;
+      document.getElementById("contacto-nombre").value = usuario.nombre || "";
+      document.getElementById("contacto-correo").value = usuario.correo || "";
+      document.getElementById("contacto-whatsapp").value = usuario.telefonoWhatsapp || "";
+
+      modalContacto ||= new bootstrap.Modal(document.getElementById("modalContacto"));
+      modalContacto.show();
+    }
+
+    async function guardarContacto() {
+      const id = document.getElementById("contacto-user-id").value;
+      const correo = document.getElementById("contacto-correo").value.trim();
+      const telefonoWhatsapp = document.getElementById("contacto-whatsapp").value.trim();
+      const btn = document.getElementById("btnGuardarContacto");
+
+      if (!id) return;
+
+      try {
+        btn.disabled = true;
+        btn.textContent = "Guardando...";
+
+        const res = await fetch(`/api/users/${id}`, {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`
+          },
+          body: JSON.stringify({ correo, telefonoWhatsapp })
+        });
+
+        const data = await res.json();
+
+        if (!res.ok) {
+          alert(data.mensaje || "Error al actualizar contacto");
+          return;
+        }
+
+        usuariosPorId[id].correo = correo.toLowerCase();
+        usuariosPorId[id].telefonoWhatsapp = telefonoWhatsapp.replace(/[^\d]/g, "");
+        document.getElementById(`correo-${id}`).textContent = usuariosPorId[id].correo;
+        modalContacto?.hide();
+        alert(data.mensaje || "Contacto actualizado correctamente");
+      } catch (error) {
+        console.error(error);
+        alert("Error al guardar contacto");
+      } finally {
+        btn.disabled = false;
+        btn.textContent = "Guardar contacto";
       }
     }
 

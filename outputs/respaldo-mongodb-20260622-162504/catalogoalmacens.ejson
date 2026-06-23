@@ -1,0 +1,322 @@
+[
+  {
+    "_id": {
+      "$oid": "6a35bbc6cad55f190bd530d2"
+    },
+    "nombreNormalizado": "limpieza",
+    "tipo": "categoria",
+    "__v": 0,
+    "activo": true,
+    "actualizadoPor": {
+      "$oid": "000000000000000000000001"
+    },
+    "createdAt": {
+      "$date": "2026-06-19T21:59:34.433Z"
+    },
+    "nombre": "limpieza",
+    "orden": 0,
+    "updatedAt": {
+      "$date": "2026-06-19T22:00:12.926Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a35bbc6cad55f190bd530d3"
+    },
+    "nombreNormalizado": "red",
+    "tipo": "categoria",
+    "__v": 0,
+    "activo": true,
+    "actualizadoPor": {
+      "$oid": "000000000000000000000001"
+    },
+    "createdAt": {
+      "$date": "2026-06-19T21:59:34.433Z"
+    },
+    "nombre": "Red",
+    "orden": 0,
+    "updatedAt": {
+      "$date": "2026-06-19T22:00:12.926Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a35bbc6cad55f190bd530d4"
+    },
+    "nombreNormalizado": "litros",
+    "tipo": "unidadMedida",
+    "__v": 0,
+    "activo": true,
+    "actualizadoPor": {
+      "$oid": "000000000000000000000001"
+    },
+    "createdAt": {
+      "$date": "2026-06-19T21:59:34.433Z"
+    },
+    "nombre": "Litros",
+    "orden": 0,
+    "updatedAt": {
+      "$date": "2026-06-19T22:00:12.926Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a35bbc6cad55f190bd530d5"
+    },
+    "nombreNormalizado": "adasd",
+    "tipo": "unidadMedida",
+    "__v": 0,
+    "activo": true,
+    "actualizadoPor": {
+      "$oid": "000000000000000000000001"
+    },
+    "createdAt": {
+      "$date": "2026-06-19T21:59:34.433Z"
+    },
+    "nombre": "adasd",
+    "orden": 0,
+    "updatedAt": {
+      "$date": "2026-06-19T22:00:12.926Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a35bbc6cad55f190bd530d6"
+    },
+    "nombreNormalizado": "pieza",
+    "tipo": "unidadMedida",
+    "__v": 0,
+    "activo": true,
+    "actualizadoPor": {
+      "$oid": "000000000000000000000001"
+    },
+    "createdAt": {
+      "$date": "2026-06-19T21:59:34.433Z"
+    },
+    "nombre": "PIEZA",
+    "orden": 0,
+    "updatedAt": {
+      "$date": "2026-06-19T22:00:12.926Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a35bbc6cad55f190bd530d7"
+    },
+    "nombreNormalizado": "as",
+    "tipo": "unidadMedida",
+    "__v": 0,
+    "activo": true,
+    "actualizadoPor": {
+      "$oid": "000000000000000000000001"
+    },
+    "createdAt": {
+      "$date": "2026-06-19T21:59:34.433Z"
+    },
+    "nombre": "as",
+    "orden": 0,
+    "updatedAt": {
+      "$date": "2026-06-19T22:00:12.926Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a35bbc6cad55f190bd530d8"
+    },
+    "nombreNormalizado": "sistemas",
+    "tipo": "departamento",
+    "__v": 0,
+    "activo": true,
+    "actualizadoPor": {
+      "$oid": "000000000000000000000001"
+    },
+    "createdAt": {
+      "$date": "2026-06-19T21:59:34.433Z"
+    },
+    "nombre": "Sistemas",
+    "orden": 0,
+    "updatedAt": {
+      "$date": "2026-06-19T22:00:12.926Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a35bbc6cad55f190bd530d9"
+    },
+    "nombreNormalizado": "reparacion",
+    "tipo": "tipoSalida",
+    "__v": 0,
+    "activo": true,
+    "actualizadoPor": {
+      "$oid": "000000000000000000000001"
+    },
+    "createdAt": {
+      "$date": "2026-06-19T21:59:34.433Z"
+    },
+    "nombre": "Reparacion",
+    "orden": 0,
+    "updatedAt": {
+      "$date": "2026-06-19T22:00:12.926Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a35bbc6cad55f190bd530da"
+    },
+    "nombreNormalizado": "soldadura",
+    "tipo": "categoria",
+    "__v": 0,
+    "activo": true,
+    "actualizadoPor": {
+      "$oid": "000000000000000000000001"
+    },
+    "createdAt": {
+      "$date": "2026-06-19T21:59:34.433Z"
+    },
+    "nombre": "soldadura",
+    "orden": 0,
+    "updatedAt": {
+      "$date": "2026-06-19T22:00:12.926Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a35bbc6cad55f190bd530db"
+    },
+    "nombreNormalizado": "almacen",
+    "tipo": "categoria",
+    "__v": 0,
+    "activo": true,
+    "actualizadoPor": {
+      "$oid": "000000000000000000000001"
+    },
+    "createdAt": {
+      "$date": "2026-06-19T21:59:34.433Z"
+    },
+    "nombre": "Almacen",
+    "orden": 0,
+    "updatedAt": {
+      "$date": "2026-06-19T22:00:12.926Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a35bbc6cad55f190bd530dc"
+    },
+    "nombreNormalizado": "prueba",
+    "tipo": "categoria",
+    "__v": 0,
+    "activo": true,
+    "actualizadoPor": {
+      "$oid": "000000000000000000000001"
+    },
+    "createdAt": {
+      "$date": "2026-06-19T21:59:34.433Z"
+    },
+    "nombre": "prueba",
+    "orden": 0,
+    "updatedAt": {
+      "$date": "2026-06-19T22:00:12.926Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a35bbc6cad55f190bd530dd"
+    },
+    "nombreNormalizado": "asdasd",
+    "tipo": "categoria",
+    "__v": 0,
+    "activo": true,
+    "actualizadoPor": {
+      "$oid": "000000000000000000000001"
+    },
+    "createdAt": {
+      "$date": "2026-06-19T21:59:34.433Z"
+    },
+    "nombre": "asdasd",
+    "orden": 0,
+    "updatedAt": {
+      "$date": "2026-06-19T22:00:12.926Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a35bbc6cad55f190bd530de"
+    },
+    "nombreNormalizado": "as",
+    "tipo": "categoria",
+    "__v": 0,
+    "activo": true,
+    "actualizadoPor": {
+      "$oid": "000000000000000000000001"
+    },
+    "createdAt": {
+      "$date": "2026-06-19T21:59:34.433Z"
+    },
+    "nombre": "as",
+    "orden": 0,
+    "updatedAt": {
+      "$date": "2026-06-19T22:00:12.926Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a35bbc6cad55f190bd530df"
+    },
+    "nombreNormalizado": "litro",
+    "tipo": "unidadMedida",
+    "__v": 0,
+    "activo": true,
+    "actualizadoPor": {
+      "$oid": "000000000000000000000001"
+    },
+    "createdAt": {
+      "$date": "2026-06-19T21:59:34.433Z"
+    },
+    "nombre": "litro",
+    "orden": 0,
+    "updatedAt": {
+      "$date": "2026-06-19T22:00:12.926Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a35bbc6cad55f190bd530e0"
+    },
+    "nombreNormalizado": "bote",
+    "tipo": "unidadMedida",
+    "__v": 0,
+    "activo": true,
+    "actualizadoPor": {
+      "$oid": "000000000000000000000001"
+    },
+    "createdAt": {
+      "$date": "2026-06-19T21:59:34.433Z"
+    },
+    "nombre": "Bote",
+    "orden": 0,
+    "updatedAt": {
+      "$date": "2026-06-19T22:00:12.926Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a35bbc6cad55f190bd530e1"
+    },
+    "nombreNormalizado": "60",
+    "tipo": "unidadMedida",
+    "__v": 0,
+    "activo": true,
+    "actualizadoPor": {
+      "$oid": "000000000000000000000001"
+    },
+    "createdAt": {
+      "$date": "2026-06-19T21:59:34.433Z"
+    },
+    "nombre": "60",
+    "orden": 0,
+    "updatedAt": {
+      "$date": "2026-06-19T22:00:12.926Z"
+    }
+  }
+]

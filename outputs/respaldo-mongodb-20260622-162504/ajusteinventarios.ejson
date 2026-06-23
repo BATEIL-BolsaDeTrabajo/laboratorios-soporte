@@ -1,0 +1,98 @@
+[
+  {
+    "_id": {
+      "$oid": "69320f25eeeab73ba5206992"
+    },
+    "producto": {
+      "$oid": "69320c16eeeab73ba5206917"
+    },
+    "tipo": "devolucion",
+    "cantidad": 5,
+    "motivo": "No se utilizaron",
+    "realizadoPor": {
+      "$oid": "6862a623c9b690df50d6f884"
+    },
+    "fecha": {
+      "$date": "2025-12-04T22:45:57.851Z"
+    },
+    "createdAt": {
+      "$date": "2025-12-04T22:45:57.851Z"
+    },
+    "updatedAt": {
+      "$date": "2025-12-04T22:45:57.851Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "694ac0803073f2831f5a9101"
+    },
+    "producto": {
+      "$oid": "69320c16eeeab73ba5206917"
+    },
+    "tipo": "devolucion",
+    "cantidad": 10,
+    "motivo": "No los uso",
+    "realizadoPor": {
+      "$oid": "6862a623c9b690df50d6f884"
+    },
+    "fecha": {
+      "$date": "2025-12-23T16:17:04.654Z"
+    },
+    "createdAt": {
+      "$date": "2025-12-23T16:17:04.655Z"
+    },
+    "updatedAt": {
+      "$date": "2025-12-23T16:17:04.655Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "697b7808ac9ad1312a54749a"
+    },
+    "producto": {
+      "$oid": "6931ce0e58536cb4a40d7005"
+    },
+    "tipo": "devolucion",
+    "cantidad": 5,
+    "motivo": "No se usaron",
+    "realizadoPor": {
+      "$oid": "69778f89a8c20c0d15dd3176"
+    },
+    "fecha": {
+      "$date": "2026-01-29T15:08:56.174Z"
+    },
+    "createdAt": {
+      "$date": "2026-01-29T15:08:56.175Z"
+    },
+    "updatedAt": {
+      "$date": "2026-01-29T15:08:56.175Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "697b7890ac9ad1312a5474be"
+    },
+    "producto": {
+      "$oid": "69320c16eeeab73ba5206917"
+    },
+    "tipo": "devolucion",
+    "cantidad": 19,
+    "motivo": "oiuh",
+    "realizadoPor": {
+      "$oid": "69778f89a8c20c0d15dd3176"
+    },
+    "fecha": {
+      "$date": "2026-01-29T15:11:12.664Z"
+    },
+    "createdAt": {
+      "$date": "2026-01-29T15:11:12.664Z"
+    },
+    "updatedAt": {
+      "$date": "2026-01-29T15:11:12.664Z"
+    },
+    "__v": 0
+  }
+]

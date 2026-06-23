@@ -4,6 +4,8 @@ const User = require('../models/User');
 const bcrypt = require('bcrypt');
 const { verifyToken, verifyRole } = require('../middlewares/auth');
 
+const DIAS_VACACIONES_ANUALES = 22;
+
 // 👇 FUNCIONES AUXILIARES
 function actualizarDiasSiCorresponde(usuario) {
   const hoy = new Date();
@@ -19,7 +21,9 @@ function actualizarDiasSiCorresponde(usuario) {
   if (hoy < aniversarioEsteAño) return usuario;
   if (ultima && ultima.getFullYear() === añoActual) return usuario;
 
-  usuario.diasVacacionesDisponibles = (usuario.diasVacacionesDisponibles || 0) + 10;
+  const diasRestantes = Math.max(usuario.diasVacacionesDisponibles || 0, 0);
+  usuario.diasVacacionesAcumulados = (usuario.diasVacacionesAcumulados || 0) + diasRestantes;
+  usuario.diasVacacionesDisponibles = DIAS_VACACIONES_ANUALES;
   usuario.ultimaActualizacionDias = hoy;
 
   return usuario;
@@ -34,7 +38,7 @@ router.get('/', verifyToken, verifyRole(['admin', 'rrhh', 'finanzas']), async (r
       usuarios = await User.find({}, '-contraseña');
     } else {
       // RRHH solo ve campos específicos
-      usuarios = await User.find({}, 'nombre roles _id fechaIngreso diasVacacionesDisponibles ultimaActualizacionDias');
+      usuarios = await User.find({}, 'nombre roles _id fechaIngreso diasVacacionesDisponibles diasVacacionesAcumulados ultimaActualizacionDias');
       usuarios = usuarios.map(u => actualizarDiasSiCorresponde(u));
       await Promise.all(usuarios.map(u => u.save()));
     }
@@ -47,7 +51,7 @@ router.get('/', verifyToken, verifyRole(['admin', 'rrhh', 'finanzas']), async (r
 
 // 📝 Modificar usuario
 router.put('/:id', verifyToken, verifyRole(['admin', 'rrhh']), async (req, res) => {
-  const { roles, nuevaContraseña, fechaIngreso, diasVacacionesDisponibles, actualizarDiasManual, puesto, departamento } = req.body;
+  const { roles, nuevaContraseña, fechaIngreso, diasVacacionesDisponibles, actualizarDiasManual, puesto, departamento, telefonoWhatsapp, correo } = req.body;
 
   try {
     const usuario = await User.findById(req.params.id);
@@ -60,6 +64,29 @@ router.put('/:id', verifyToken, verifyRole(['admin', 'rrhh']), async (req, res) 
 
     if (nuevaContraseña && req.usuario.roles.includes('admin')) {
       usuario.contraseña = await bcrypt.hash(nuevaContraseña, 10);
+    }
+
+    if (typeof correo !== 'undefined' && req.usuario.roles.includes('admin')) {
+      const correoLimpio = String(correo || '').trim().toLowerCase();
+
+      if (!correoLimpio) {
+        return res.status(400).json({ mensaje: 'El correo no puede quedar vacio' });
+      }
+
+      const correoDuplicado = await User.findOne({
+        _id: { $ne: usuario._id },
+        correo: correoLimpio
+      });
+
+      if (correoDuplicado) {
+        return res.status(409).json({ mensaje: 'Ese correo ya esta registrado en otro usuario' });
+      }
+
+      usuario.correo = correoLimpio;
+    }
+
+    if (typeof telefonoWhatsapp !== 'undefined' && req.usuario.roles.includes('admin')) {
+      usuario.telefonoWhatsapp = String(telefonoWhatsapp || '').replace(/[^\d]/g, '');
     }
 
     // RRHH puede actualizar fecha de ingreso y días disponibles
@@ -107,7 +134,7 @@ router.get('/talleres', verifyToken, verifyRole(['finanzas']), async (req, res) 
 // Crear usuario (solo admin y rrhh)
 router.post('/crear', verifyToken, verifyRole(['admin', 'rrhh']), async (req, res) => {
   try {
-    const { nombre, correo, contraseña, rol, fechaIngreso, diasVacacionesDisponibles, puesto, departamento } = req.body;
+    const { nombre, correo, contraseña, rol, fechaIngreso, diasVacacionesDisponibles, puesto, departamento, telefonoWhatsapp } = req.body;
 
     // Verifica si el usuario ya existe
     const existe = await User.findOne({ correo });
@@ -122,6 +149,7 @@ router.post('/crear', verifyToken, verifyRole(['admin', 'rrhh']), async (req, re
       correo,
       contraseña: hashedPassword,
       roles: [rol],
+      telefonoWhatsapp: String(telefonoWhatsapp || '').replace(/[^\d]/g, ''),
       fechaIngreso,
       diasVacacionesDisponibles,
       puesto,

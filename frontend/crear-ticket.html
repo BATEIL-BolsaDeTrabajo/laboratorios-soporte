@@ -4,260 +4,248 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Crear Ticket</title>
-  <!-- Usa tu propio CSS o Bootstrap; dejo CDN por si lo necesitas -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    .ticket-choice {
+      max-width: 1080px;
+    }
+
+    .choice-hero {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      align-items: center;
+      gap: 1.5rem;
+      margin-bottom: 1.5rem;
+      padding: 1.6rem;
+      color: var(--bateil-white, #fff);
+      background:
+        linear-gradient(135deg, rgba(248, 196, 0, 0.22), transparent 44%),
+        var(--bateil-black, #0b0b0d);
+      border-bottom: 5px solid var(--bateil-yellow, #f8c400);
+      border-radius: 8px;
+      box-shadow: var(--bateil-shadow, 0 18px 45px rgba(17, 24, 39, 0.12));
+    }
+
+    .choice-hero h1 {
+      margin: 0;
+      font-size: clamp(2rem, 4vw, 3rem);
+      font-weight: 900;
+    }
+
+    .choice-hero p {
+      max-width: 42rem;
+      margin: 0.35rem 0 0;
+      color: rgba(255, 255, 255, 0.75);
+      font-size: 1.05rem;
+    }
+
+    .choice-hero img {
+      width: clamp(86px, 11vw, 130px);
+      filter: drop-shadow(0 16px 22px rgba(0, 0, 0, 0.32));
+    }
+
+    .ticket-choice-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 1.25rem;
+    }
+
+    .ticket-choice-card {
+      position: relative;
+      min-height: 420px;
+      overflow: hidden;
+      color: inherit;
+      text-decoration: none;
+      background: #fff;
+      border: 1px solid var(--bateil-border, rgba(17, 24, 39, 0.12));
+      border-radius: 8px;
+      box-shadow: 0 16px 38px rgba(17, 24, 39, 0.12);
+      transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
+    }
+
+    .ticket-choice-card:hover,
+    .ticket-choice-card:focus {
+      color: inherit;
+      border-color: var(--bateil-yellow, #f8c400);
+      box-shadow: 0 24px 52px rgba(17, 24, 39, 0.18);
+      transform: translateY(-4px);
+      outline: none;
+    }
+
+    .choice-visual {
+      position: relative;
+      min-height: 180px;
+      padding: 1.25rem;
+      color: #fff;
+      background: var(--bateil-black, #0b0b0d);
+    }
+
+    .choice-visual::after {
+      content: "";
+      position: absolute;
+      inset: auto 1.1rem -1px auto;
+      width: 108px;
+      aspect-ratio: 1 / 1.18;
+      background: url("/assets/benito-bateil.png") center bottom / contain no-repeat;
+      opacity: 0.92;
+      filter: drop-shadow(0 16px 18px rgba(0, 0, 0, 0.3));
+    }
+
+    .choice-visual.support {
+      background:
+        radial-gradient(circle at 18% 18%, rgba(248, 196, 0, 0.85), transparent 7rem),
+        linear-gradient(135deg, #0b0b0d 0%, #1d2733 100%);
+    }
+
+    .choice-visual.maintenance {
+      background:
+        radial-gradient(circle at 18% 18%, rgba(248, 196, 0, 0.85), transparent 7rem),
+        linear-gradient(135deg, #16110a 0%, #2f2f33 100%);
+    }
+
+    .choice-icon {
+      display: inline-grid;
+      place-items: center;
+      width: 64px;
+      height: 64px;
+      color: var(--bateil-black, #0b0b0d);
+      background: var(--bateil-yellow, #f8c400);
+      border-radius: 8px;
+      font-size: 1.7rem;
+      font-weight: 900;
+    }
+
+    .choice-body {
+      padding: 1.35rem;
+    }
+
+    .choice-label {
+      color: var(--bateil-muted, #646b76);
+      font-size: 0.78rem;
+      font-weight: 900;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    .choice-body h2 {
+      margin: 0.35rem 0 0.65rem;
+      font-size: clamp(1.65rem, 3vw, 2.15rem);
+      font-weight: 900;
+    }
+
+    .choice-body p {
+      min-height: 3.8rem;
+      margin: 0;
+      color: var(--bateil-muted, #646b76);
+      line-height: 1.45;
+    }
+
+    .choice-list {
+      display: grid;
+      gap: 0.45rem;
+      margin: 1.1rem 0 1.35rem;
+      padding: 0;
+      list-style: none;
+      color: var(--bateil-ink, #111827);
+      font-weight: 700;
+    }
+
+    .choice-list li::before {
+      content: "";
+      display: inline-block;
+      width: 0.55rem;
+      height: 0.55rem;
+      margin-right: 0.5rem;
+      background: var(--bateil-yellow, #f8c400);
+      border-radius: 999px;
+      vertical-align: 0.05rem;
+    }
+
+    .choice-action {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      min-height: 48px;
+      color: var(--bateil-black, #0b0b0d);
+      background: var(--bateil-yellow, #f8c400);
+      border-radius: 6px;
+      font-weight: 900;
+    }
+
+    @media (max-width: 820px) {
+      .choice-hero,
+      .ticket-choice-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .choice-hero img {
+        justify-self: start;
+      }
+
+      .ticket-choice-card {
+        min-height: auto;
+      }
+    }
+  </style>
 </head>
 <body class="bg-light">
-
-  <!-- Si tienes navbar.js, se inyectará tu navbar aquí -->
   <div id="navbar-container"></div>
 
-  <div class="container py-4" style="max-width: 920px;">
-    <h2 class="text-center mb-4">Crear Ticket</h2>
-
-    <!-- Área -->
-    <div class="mb-3">
-      <label class="form-label fw-semibold">Área responsable</label>
-      <div class="d-flex gap-3">
-        <div class="form-check">
-          <input class="form-check-input" type="radio" name="area" id="areaSistemas" value="sistemas" checked>
-          <label class="form-check-label" for="areaSistemas">Sistemas (Soporte)</label>
-        </div>
-        <div class="form-check">
-          <input class="form-check-input" type="radio" name="area" id="areaMantenimiento" value="mantenimiento">
-          <label class="form-check-label" for="areaMantenimiento">Mantenimiento (General)</label>
-        </div>
+  <main class="container ticket-choice py-4">
+    <section class="choice-hero" aria-label="Seleccionar tipo de ticket">
+      <div>
+        <h1>Crear Ticket</h1>
+        <p>Elige el tipo de reporte para abrir el formulario correcto y enviarlo al area indicada desde el inicio.</p>
       </div>
-    </div>
+      <img src="/assets/benito-bateil.png" alt="Benito BATEIL">
+    </section>
 
-    <!-- Contexto para Sistemas -->
-    <div id="wrap-contexto" class="mb-3">
-      <label class="form-label fw-semibold">Tipo de solicitud en Sistemas</label>
-      <select id="contextoSistemas" class="form-select">
-        <option value="laboratorio">Laboratorio de Cómputo</option>
-        <option value="otro">Otro (fuera de laboratorio)</option>
-      </select>
-    </div>
+    <section class="ticket-choice-grid" aria-label="Tipos de ticket">
+      <a class="ticket-choice-card" href="crear-ticket-form.html?area=sistemas">
+        <div class="choice-visual support">
+          <span class="choice-icon">SIS</span>
+        </div>
+        <div class="choice-body">
+          <div class="choice-label">Soporte</div>
+          <h2>Ticket de Soporte</h2>
+          <p>Para reportes relacionados con equipos, laboratorios, internet, software, correo o recursos digitales.</p>
+          <ul class="choice-list">
+            <li>Computadoras y perifericos</li>
+            <li>Internet, software o correo</li>
+            <li>Laboratorios y proyectores</li>
+          </ul>
+          <span class="choice-action">Crear ticket de soporte</span>
+        </div>
+      </a>
 
-    <!-- Sistemas / Laboratorio -->
-    <div id="wrap-sis-lab" class="card card-body mb-3">
-      <div class="row g-3">
-        <div class="col-md-6">
-          <label class="form-label">Laboratorio</label>
-          <select id="lab" class="form-select">
-            <option value="">Selecciona...</option>
-            <option>Laboratorio A</option>
-            <option>Laboratorio B</option>
-            <option>Laboratorio C</option>
-            <option>Laboratorio D</option>
-            <option>Laboratorio de Química</option>
-            <option>Audiovisual</option>
-          </select>
+      <a class="ticket-choice-card" href="crear-ticket-form.html?area=mantenimiento">
+        <div class="choice-visual maintenance">
+          <span class="choice-icon">MT</span>
         </div>
-        <div class="col-md-6">
-          <label class="form-label">Equipo (Etiqueta)</label>
-          <input id="equipo" class="form-control" placeholder="Ej. PC-03">
+        <div class="choice-body">
+          <div class="choice-label">Mantenimiento</div>
+          <h2>Ticket de Mantenimiento</h2>
+          <p>Para reportes de aulas, mobiliario, electricidad, aire acondicionado, puertas o espacios generales.</p>
+          <ul class="choice-list">
+            <li>Salon, oficina o patio</li>
+            <li>Luz, contactos o apagadores</li>
+            <li>Mobiliario, clima o instalaciones</li>
+          </ul>
+          <span class="choice-action">Crear ticket de mantenimiento</span>
         </div>
-        <div class="col-12">
-          <label class="form-label">Tipo de falla (Sistemas / Laboratorio)</label>
-          <select id="tipoFallaSisLab" class="form-select"></select>
-        </div>
-      </div>
-    </div>
+      </a>
+    </section>
+  </main>
 
-    <!-- Sistemas / Otro -->
-    <div id="wrap-sis-otro" class="card card-body mb-3 d-none">
-      <div class="row g-3">
-        <div class="col-md-6">
-          <label class="form-label">Ubicación</label>
-          <input id="ubicacionOtro" class="form-control" placeholder="Ej. Dirección, Biblioteca, etc.">
-        </div>
-        <div class="col-md-6">
-          <label class="form-label">Tipo de falla (Sistemas / Otros)</label>
-          <select id="tipoFallaSisOtro" class="form-select"></select>
-        </div>
-      </div>
-    </div>
-
-    <!-- Mantenimiento -->
-    <div id="wrap-mant" class="card card-body mb-3 d-none">
-      <div class="row g-3">
-        <div class="col-md-6">
-          <label class="form-label">Salón / Área</label>
-          <input id="salon" class="form-control" placeholder="Ej. A1, A2, B3, Patio, Oficina, etc.">
-          <!-- Luego lo cambiamos por un <select> con tu catálogo completo -->
-        </div>
-        <div class="col-md-6">
-          <label class="form-label">Tipo de falla (Mantenimiento)</label>
-          <select id="tipoFallaMant" class="form-select"></select>
-        </div>
-      </div>
-    </div>
-
-    <!-- Descripción -->
-    <div class="mb-3">
-      <label class="form-label">Descripción detallada</label>
-      <textarea id="descripcion" class="form-control" rows="4" placeholder="Cuéntanos el problema con detalle..."></textarea>
-    </div>
-
-    <div class="d-grid">
-      <button id="btnEnviar" class="btn btn-primary btn-lg">Enviar Ticket</button>
-    </div>
-  </div>
-
-  <!-- Bootstrap JS (si ya lo cargas en tu plantilla, puedes quitar esta línea) -->
   <script src="js/navbar.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-
   <script>
-    // ===== Autenticación: exige token y redirige si no existe =====
     const token = localStorage.getItem('token');
     if (!token) {
       window.location.href = "login.html";
     }
-
-    // ===== Catálogos (luego los podemos traer desde BD) =====
-    const CATALOGOS = {
-      sistemasLab: [
-        "No enciende",
-        "Sin imagen / monitor",
-        "Sin internet (solo ese equipo)",
-        "Teclado / mouse fallando",
-        "Software no abre",
-        "No imprime",
-        "Otra (especificar)"
-      ],
-      sistemasOtro: [
-        "No tengo internet (área/oficina)",
-        "Formateo / reinstalación",
-        "Correo / Office 365",
-        "Impresora compartida",
-        "Problema con proyector",
-        "Otra (especificar)"
-      ],
-      mantenimiento: [
-        "No funciona aire acondicionado",
-        "No hay luz eléctrica",
-        "Contacto / apagador dañado",
-        "Vidrio / puerta dañada",
-        "Silla / mesa rota",
-        "Fuga de agua",
-        "Otra (especificar)"
-      ]
-    };
-
-    function llenarOpciones(select, items) {
-      select.innerHTML = '<option value="">Selecciona...</option>' +
-        items.map(x => `<option>${x}</option>`).join('');
-    }
-    // Llenar selects de tipo de falla
-    llenarOpciones(document.getElementById('tipoFallaSisLab'), CATALOGOS.sistemasLab);
-    llenarOpciones(document.getElementById('tipoFallaSisOtro'), CATALOGOS.sistemasOtro);
-    llenarOpciones(document.getElementById('tipoFallaMant'), CATALOGOS.mantenimiento);
-
-    // ===== Mostrar/ocultar secciones según selección =====
-    const areaRadios = document.querySelectorAll('input[name="area"]');
-    const wrapContexto = document.getElementById('wrap-contexto');
-    const contextoSistemas = document.getElementById('contextoSistemas');
-    const wrapSisLab = document.getElementById('wrap-sis-lab');
-    const wrapSisOtro = document.getElementById('wrap-sis-otro');
-    const wrapMant = document.getElementById('wrap-mant');
-
-    function refrescarUI() {
-      const area = [...areaRadios].find(r => r.checked).value;
-
-      if (area === 'sistemas') {
-        wrapContexto.classList.remove('d-none');
-        wrapMant.classList.add('d-none');
-
-        const ctx = contextoSistemas.value;
-        wrapSisLab.classList.toggle('d-none', ctx !== 'laboratorio');
-        wrapSisOtro.classList.toggle('d-none', ctx !== 'otro');
-      } else {
-        wrapContexto.classList.add('d-none');
-        wrapSisLab.classList.add('d-none');
-        wrapSisOtro.classList.add('d-none');
-        wrapMant.classList.remove('d-none');
-      }
-    }
-    areaRadios.forEach(r => r.addEventListener('change', refrescarUI));
-    contextoSistemas.addEventListener('change', refrescarUI);
-    refrescarUI(); // inicial
-
-    // ===== Envío del ticket =====
-    document.getElementById('btnEnviar').addEventListener('click', async () => {
-      const area = [...areaRadios].find(r=>r.checked).value;
-      const descripcion = document.getElementById('descripcion').value.trim();
-
-      const payload = {
-        area,                 // 'sistemas' | 'mantenimiento'
-        tipo: null,           // 'laboratorio' | 'otro' (solo en sistemas)
-        laboratorio: null,
-        equipo: null,
-        ubicacion: null,
-        salon: null,
-        tipoFalla: null,
-        descripcion
-      };
-
-      if (area === 'sistemas') {
-        const ctx = contextoSistemas.value; // 'laboratorio' | 'otro'
-        payload.tipo = ctx;
-
-        if (ctx === 'laboratorio') {
-          payload.laboratorio = document.getElementById('lab').value || null;
-          payload.equipo = document.getElementById('equipo').value.trim() || null;
-          payload.tipoFalla = document.getElementById('tipoFallaSisLab').value || null;
-
-          if (!payload.laboratorio) return alert('Selecciona un laboratorio');
-          if (!payload.equipo) return alert('Escribe la etiqueta del equipo (Ej. PC-03)');
-          if (!payload.tipoFalla) return alert('Selecciona el tipo de falla');
-
-        } else { // otro (fuera de laboratorio)
-          payload.ubicacion = document.getElementById('ubicacionOtro').value.trim() || null;
-          payload.tipoFalla = document.getElementById('tipoFallaSisOtro').value || null;
-
-          if (!payload.ubicacion) return alert('Indica la ubicación');
-          if (!payload.tipoFalla) return alert('Selecciona el tipo de falla');
-        }
-
-      } else { // mantenimiento
-        payload.salon = document.getElementById('salon').value.trim() || null;
-        payload.tipoFalla = document.getElementById('tipoFallaMant').value || null;
-
-        if (!payload.salon) return alert('Indica el salón o área');
-        if (!payload.tipoFalla) return alert('Selecciona el tipo de falla');
-      }
-
-      if (!descripcion) return alert('Escribe la descripción detallada');
-
-      try {
-        const res = await fetch('/api/tickets', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${token}`
-          },
-          body: JSON.stringify(payload)
-        });
-
-        if (!res.ok) {
-          const t = await res.text();
-          throw new Error(t || 'No se pudo crear el ticket');
-        }
-
-        alert('✅ Ticket creado');
-        // Limpieza rápida
-        document.getElementById('descripcion').value = '';
-        if (payload.area === 'sistemas' && payload.tipo === 'laboratorio') {
-          document.getElementById('equipo').value = '';
-        }
-      } catch (err) {
-        console.error(err);
-        alert('❌ Error: ' + err.message);
-      }
-    });
   </script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
   <script src="/socket.io/socket.io.js"></script>
 </body>
 </html>

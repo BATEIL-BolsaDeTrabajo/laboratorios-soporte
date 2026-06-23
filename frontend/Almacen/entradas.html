@@ -17,9 +17,12 @@
 
     <div class="d-flex justify-content-between align-items-center mb-3">
       <h2>Entradas al almacén</h2>
-      <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalEntrada" onclick="prepararNuevaEntrada()">
-        + Registrar entrada
-      </button>
+      <div class="d-flex gap-2">
+        <button class="btn btn-outline-success" type="button" onclick="exportarEntradas()">Exportar Excel</button>
+        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalEntrada" onclick="prepararNuevaEntrada()">
+          + Registrar entrada
+        </button>
+      </div>
     </div>
 
     <!-- FILTROS -->
@@ -37,6 +40,11 @@
           <div class="col-md-3">
             <label class="form-label">Proveedor</label>
             <input type="text" id="filtroProveedor" class="form-control">
+          </div>
+
+          <div class="col-md-3">
+            <label class="form-label">Buscar</label>
+            <input type="search" id="filtroBusqueda" class="form-control" placeholder="Producto, proveedor o folio">
           </div>
 
           <div class="col-md-2">
@@ -76,6 +84,8 @@
         </tbody>
       </table>
     </div>
+
+    <div id="paginacionEntradas" class="d-flex justify-content-between align-items-center mt-3"></div>
 
   </div>
 
@@ -146,6 +156,8 @@
 
     // 🔒 Candado para evitar doble submit
     let enviandoEntrada = false;
+    let paginaActual = 1;
+    const limitePagina = 25;
 
     function crearClientRequestId() {
       if (window.crypto && typeof window.crypto.randomUUID === "function") {
@@ -198,18 +210,53 @@
     /** ===========================
      *  CARGAR ENTRADAS
      =========================== */
-    async function cargarEntradas() {
+    function crearParametrosEntradas(incluirPaginacion = true) {
       const params = new URLSearchParams();
 
       const p = document.getElementById("filtroProducto").value;
       const prov = document.getElementById("filtroProveedor").value;
       const d = document.getElementById("filtroDesde").value;
       const h = document.getElementById("filtroHasta").value;
+      const q = document.getElementById("filtroBusqueda").value.trim();
 
       if (p) params.append("productoId", p);
       if (prov) params.append("proveedor", prov);
       if (d) params.append("fechaInicio", d);
       if (h) params.append("fechaFin", h);
+      if (q) params.append("q", q);
+      if (incluirPaginacion) {
+        params.append("pagina", paginaActual);
+        params.append("limite", limitePagina);
+      }
+
+      return params;
+    }
+
+    function renderizarPaginacionEntradas(paginacion) {
+      const contenedor = document.getElementById("paginacionEntradas");
+      if (!paginacion || !paginacion.total) {
+        contenedor.innerHTML = "";
+        return;
+      }
+
+      contenedor.innerHTML = `
+        <span class="text-muted small">${paginacion.total} registros</span>
+        <div class="d-flex align-items-center gap-2">
+          <button class="btn btn-sm btn-outline-secondary" type="button" onclick="cambiarPaginaEntradas(-1)" ${paginacion.pagina <= 1 ? "disabled" : ""}>Anterior</button>
+          <span class="small">Página ${paginacion.pagina} de ${paginacion.totalPaginas}</span>
+          <button class="btn btn-sm btn-outline-secondary" type="button" onclick="cambiarPaginaEntradas(1)" ${paginacion.pagina >= paginacion.totalPaginas ? "disabled" : ""}>Siguiente</button>
+        </div>
+      `;
+    }
+
+    function cambiarPaginaEntradas(delta) {
+      paginaActual += delta;
+      cargarEntradas(paginaActual);
+    }
+
+    async function cargarEntradas(pagina = 1) {
+      paginaActual = pagina;
+      const params = crearParametrosEntradas();
 
       const res = await fetch("/api/almacen/entradas?" + params.toString(), {
         headers: { "Authorization": "Bearer " + token }
@@ -224,6 +271,7 @@
       if (!data.entradas?.length) {
         tablaBody.innerHTML =
           `<tr><td colspan="7" class="text-center text-muted">Sin datos.</td></tr>`;
+        renderizarPaginacionEntradas(data.paginacion);
         return;
       }
 
@@ -262,6 +310,26 @@
           </tr>
         `;
       });
+
+      renderizarPaginacionEntradas(data.paginacion);
+    }
+
+    async function exportarEntradas() {
+      const res = await fetch("/api/almacen/entradas/exportar?" + crearParametrosEntradas(false).toString(), {
+        headers: { "Authorization": "Bearer " + token }
+      });
+
+      if (!res.ok) {
+        const data = await res.json().catch(() => ({}));
+        alert(data.mensaje || "No se pudo exportar el reporte.");
+        return;
+      }
+
+      const enlace = document.createElement("a");
+      enlace.href = URL.createObjectURL(await res.blob());
+      enlace.download = "reporte-entradas.xlsx";
+      enlace.click();
+      URL.revokeObjectURL(enlace.href);
     }
 
     /** ===========================
@@ -407,6 +475,10 @@
     /** ===========================
      *  INICIALIZACIÓN
      =========================== */
+    document.getElementById("filtroBusqueda").addEventListener("input", () => cargarEntradas(1));
+    document.getElementById("filtroProveedor").addEventListener("input", () => cargarEntradas(1));
+    document.getElementById("filtroProducto").addEventListener("change", () => cargarEntradas(1));
+
     document.addEventListener("DOMContentLoaded", () => {
       cargarProductosSelect();
       cargarEntradas();

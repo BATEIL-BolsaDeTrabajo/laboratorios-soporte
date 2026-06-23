@@ -2,42 +2,294 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>Dashboard - Estadísticas</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Dashboard - Estadisticas</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    :root {
+      --ink: #111827;
+      --muted: #6b7280;
+      --line: #d9dee7;
+      --panel: #ffffff;
+      --canvas: #f5f7fb;
+      --gold: #f7c600;
+      --red: #dc3545;
+      --green: #198754;
+      --blue: #2563eb;
+      --cyan: #0f9f9a;
+      --gray: #6c757d;
+    }
+
+    body {
+      background:
+        radial-gradient(circle at 0% 8%, rgba(247, 198, 0, 0.16), transparent 28rem),
+        linear-gradient(180deg, #f8fafc 0%, #eef2f7 100%);
+      color: var(--ink);
+      min-height: 100vh;
+    }
+
+    .dashboard-shell {
+      max-width: 1480px;
+    }
+
+    .page-heading {
+      display: flex;
+      justify-content: space-between;
+      align-items: end;
+      gap: 1rem;
+      margin-bottom: 1.25rem;
+    }
+
+    .page-title {
+      font-size: clamp(1.75rem, 2.2vw, 2.45rem);
+      font-weight: 800;
+      letter-spacing: 0;
+      margin: 0;
+    }
+
+    .page-subtitle {
+      color: var(--muted);
+      margin: .35rem 0 0;
+      max-width: 740px;
+    }
+
+    .summary-strip {
+      color: var(--muted);
+      font-size: .92rem;
+      text-align: right;
+    }
+
+    .metric-card {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-left: 6px solid var(--accent);
+      border-radius: 8px;
+      box-shadow: 0 10px 26px rgba(15, 23, 42, .07);
+      min-height: 116px;
+      padding: 1rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .metric-label {
+      color: var(--muted);
+      font-size: .84rem;
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+
+    .metric-value {
+      color: var(--ink);
+      font-size: 2.25rem;
+      font-weight: 800;
+      line-height: 1;
+      margin-top: .4rem;
+    }
+
+    .metric-note {
+      color: var(--muted);
+      font-size: .86rem;
+      margin-top: .5rem;
+    }
+
+    .chart-panel {
+      background: rgba(255, 255, 255, .94);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      box-shadow: 0 10px 26px rgba(15, 23, 42, .07);
+      height: 100%;
+      padding: 1rem;
+    }
+
+    .chart-header {
+      display: flex;
+      align-items: start;
+      justify-content: space-between;
+      gap: 1rem;
+      min-height: 64px;
+      margin-bottom: .75rem;
+    }
+
+    .chart-title {
+      font-size: 1rem;
+      font-weight: 800;
+      margin: 0;
+    }
+
+    .chart-caption {
+      color: var(--muted);
+      font-size: .88rem;
+      margin: .2rem 0 0;
+    }
+
+    .chart-frame {
+      position: relative;
+      height: 330px;
+      width: 100%;
+    }
+
+    .chart-frame.compact {
+      height: 285px;
+    }
+
+    .status-pill {
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      color: var(--muted);
+      font-size: .78rem;
+      font-weight: 700;
+      padding: .28rem .65rem;
+      white-space: nowrap;
+    }
+
+    .dashboard-empty {
+      background: #fff;
+      border: 1px dashed var(--line);
+      border-radius: 8px;
+      color: var(--muted);
+      padding: 2rem;
+      text-align: center;
+    }
+
+    @media (max-width: 768px) {
+      .page-heading {
+        align-items: start;
+        flex-direction: column;
+      }
+
+      .summary-strip {
+        text-align: left;
+      }
+
+      .chart-header {
+        min-height: auto;
+        flex-direction: column;
+      }
+
+      .chart-frame,
+      .chart-frame.compact {
+        height: 300px;
+      }
+    }
+  </style>
 </head>
-<body class="bg-light">
+<body>
 
 <div id="navbar-container"></div>
 
-  <div class="container py-4">
-    <h2 class="text-center mb-4">Dashboard de Soporte</h2>
-
-    <p class="text-center fs-5 fw-bold" id="promedio">Calculando tiempo promedio de resolución...</p>
-
-    <div class="row g-4 mb-4 text-center" id="indicadores"></div>
-
-    <div class="row g-4">
-      <div class="col-md-6">
-        <canvas id="graficoTipos"></canvas>
-      </div>
-      <div class="col-md-6">
-        <canvas id="graficoEstatus"></canvas>
-      </div>
-      <div class="col-md-6">
-        <canvas id="graficoMateriales"></canvas>
-      </div>
-      <div class="col-md-6">
-        <canvas id="graficoAsignados"></canvas>
-      </div>
-      <div class="col-md-6">
-        <canvas id="graficoResueltos"></canvas>
-      </div>
+<main class="container-fluid dashboard-shell py-4 px-3 px-lg-4">
+  <section class="page-heading">
+    <div>
+      <h1 class="page-title">Dashboard de Soporte</h1>
+      <p class="page-subtitle">
+        Vista de efectividad para tickets de soporte y mantenimiento: carga actual, cumplimiento, resolucion y tendencia operativa.
+      </p>
     </div>
-  </div>
+    <div class="summary-strip" id="resumenDashboard">Cargando informacion...</div>
+  </section>
 
-  <script>
+  <section class="row g-3 mb-4" id="indicadores"></section>
+
+  <section class="row g-3" id="graficas">
+    <div class="col-12 col-xl-7">
+      <article class="chart-panel">
+        <div class="chart-header">
+          <div>
+            <h2 class="chart-title">Estatus por area</h2>
+            <p class="chart-caption">Compara el avance de Sistemas y Mantenimiento por etapa.</p>
+          </div>
+          <span class="status-pill">Operacion</span>
+        </div>
+        <div class="chart-frame">
+          <canvas id="graficoEstatusArea"></canvas>
+        </div>
+      </article>
+    </div>
+
+    <div class="col-12 col-xl-5">
+      <article class="chart-panel">
+        <div class="chart-header">
+          <div>
+            <h2 class="chart-title">Cumplimiento de tiempo</h2>
+            <p class="chart-caption">Tickets marcados como excedidos contra el resto del volumen.</p>
+          </div>
+          <span class="status-pill">SLA</span>
+        </div>
+        <div class="chart-frame compact">
+          <canvas id="graficoCumplimiento"></canvas>
+        </div>
+      </article>
+    </div>
+
+    <div class="col-12 col-xl-6">
+      <article class="chart-panel">
+        <div class="chart-header">
+          <div>
+            <h2 class="chart-title">Carga actual por responsable</h2>
+            <p class="chart-caption">Tickets activos asignados por persona, incluyendo los pendientes sin asignar.</p>
+          </div>
+          <span class="status-pill">Carga</span>
+        </div>
+        <div class="chart-frame">
+          <canvas id="graficoCarga"></canvas>
+        </div>
+      </article>
+    </div>
+
+    <div class="col-12 col-xl-6">
+      <article class="chart-panel">
+        <div class="chart-header">
+          <div>
+            <h2 class="chart-title">Resoluciones por responsable</h2>
+            <p class="chart-caption">Tickets resueltos o cerrados por integrante del equipo.</p>
+          </div>
+          <span class="status-pill">Efectividad</span>
+        </div>
+        <div class="chart-frame">
+          <canvas id="graficoResoluciones"></canvas>
+        </div>
+      </article>
+    </div>
+
+    <div class="col-12 col-xl-8">
+      <article class="chart-panel">
+        <div class="chart-header">
+          <div>
+            <h2 class="chart-title">Tendencia semanal</h2>
+            <p class="chart-caption">Tickets creados contra tickets resueltos/cerrados en las ultimas 8 semanas.</p>
+          </div>
+          <span class="status-pill">Tendencia</span>
+        </div>
+        <div class="chart-frame">
+          <canvas id="graficoTendencia"></canvas>
+        </div>
+      </article>
+    </div>
+
+    <div class="col-12 col-xl-4">
+      <article class="chart-panel">
+        <div class="chart-header">
+          <div>
+            <h2 class="chart-title">Antiguedad de tickets activos</h2>
+            <p class="chart-caption">Detecta pendientes acumulados por dias desde su creacion.</p>
+          </div>
+          <span class="status-pill">Riesgo</span>
+        </div>
+        <div class="chart-frame compact">
+          <canvas id="graficoAntiguedad"></canvas>
+        </div>
+      </article>
+    </div>
+  </section>
+</main>
+
+<script>
   const token = localStorage.getItem("token");
+  const chartInstances = [];
+  const graficasMarkup = document.getElementById("graficas").innerHTML;
+
   if (!token) {
     window.location.href = "login.html";
   }
@@ -47,163 +299,486 @@
     window.location.href = "login.html";
   }
 
+  const colores = {
+    abierto: "#2563eb",
+    proceso: "#f59e0b",
+    espera: "#8b5cf6",
+    resuelto: "#16a34a",
+    cerrado: "#0f766e",
+    excedido: "#dc3545",
+    rechazado: "#6b7280",
+    amarillo: "#f7c600",
+    gris: "#6c757d"
+  };
+
+  const estatusOrden = [
+    "Abierto",
+    "En proceso",
+    "En espera de material",
+    "Resuelto",
+    "Cerrado",
+    "Tiempo excedido",
+    "Rechazado"
+  ];
+
+  const estatusColor = {
+    "Abierto": colores.abierto,
+    "En proceso": colores.proceso,
+    "En espera de material": colores.espera,
+    "Resuelto": colores.resuelto,
+    "Cerrado": colores.cerrado,
+    "Tiempo excedido": colores.excedido,
+    "Rechazado": colores.rechazado
+  };
+
+  function esActivo(ticket) {
+    return !["Resuelto", "Cerrado", "Rechazado"].includes(ticket.estatus);
+  }
+
+  function esResuelto(ticket) {
+    return ["Resuelto", "Cerrado"].includes(ticket.estatus);
+  }
+
+  function esExcedido(ticket) {
+    return ticket.estatus === "Tiempo excedido" ||
+      ticket.tiempoExcedido === true ||
+      ticket.tiempo_excedido === true ||
+      ticket.excedido === true ||
+      Boolean(ticket.fechaExcedido);
+  }
+
+  function nombreResponsable(ticket) {
+    if (!ticket.asignadoA) return "Sin asignar";
+    return ticket.asignadoA.nombre || ticket.asignadoA.correo || "Sin nombre";
+  }
+
+  function fechaTicket(ticket, campoPrincipal) {
+    return new Date(ticket[campoPrincipal] || ticket.fechaCreacion || ticket.createdAt || Date.now());
+  }
+
+  function sumar(objeto, llave, incremento = 1) {
+    objeto[llave] = (objeto[llave] || 0) + incremento;
+  }
+
+  function topEntradas(objeto, limite = 8) {
+    const ordenadas = Object.entries(objeto).sort((a, b) => b[1] - a[1]);
+    if (ordenadas.length <= limite) return ordenadas;
+
+    const visibles = ordenadas.slice(0, limite - 1);
+    const otros = ordenadas.slice(limite - 1).reduce((sum, item) => sum + item[1], 0);
+    return [...visibles, ["Otros", otros]];
+  }
+
+  function inicioSemana(fecha) {
+    const copia = new Date(fecha);
+    copia.setHours(0, 0, 0, 0);
+    const dia = copia.getDay();
+    const ajuste = dia === 0 ? -6 : 1 - dia;
+    copia.setDate(copia.getDate() + ajuste);
+    return copia;
+  }
+
+  function etiquetaSemana(fecha) {
+    return fecha.toLocaleDateString("es-MX", { day: "2-digit", month: "short" });
+  }
+
+  function crearGrafica(id, config) {
+    const canvas = document.getElementById(id);
+    if (!canvas) return null;
+    const chart = new Chart(canvas, config);
+    chartInstances.push(chart);
+    return chart;
+  }
+
+  function limpiarGraficas() {
+    while (chartInstances.length) {
+      chartInstances.pop().destroy();
+    }
+  }
+
+  function opcionesBase(extra = {}) {
+    return {
+      responsive: true,
+      maintainAspectRatio: false,
+      interaction: { mode: "index", intersect: false },
+      plugins: {
+        legend: {
+          position: "bottom",
+          labels: { boxWidth: 12, boxHeight: 12, usePointStyle: true }
+        },
+        tooltip: {
+          backgroundColor: "#111827",
+          padding: 12,
+          titleFont: { weight: "700" }
+        }
+      },
+      scales: {
+        x: {
+          grid: { color: "rgba(17,24,39,.07)" },
+          ticks: { color: "#6b7280" }
+        },
+        y: {
+          beginAtZero: true,
+          ticks: { precision: 0, color: "#6b7280" },
+          grid: { color: "rgba(17,24,39,.08)" }
+        }
+      },
+      ...extra
+    };
+  }
+
+  function pintarIndicadores(metricas) {
+    const indicadores = [
+      {
+        label: "Total",
+        valor: metricas.total,
+        nota: "Tickets registrados",
+        color: "var(--gold)"
+      },
+      {
+        label: "Activos",
+        valor: metricas.activos,
+        nota: "Abiertos, en proceso o en espera",
+        color: "var(--blue)"
+      },
+      {
+        label: "Resueltos",
+        valor: metricas.resueltos,
+        nota: "Resueltos o cerrados",
+        color: "var(--green)"
+      },
+      {
+        label: "Tiempo excedido",
+        valor: metricas.excedidos,
+        nota: `${metricas.porcentajeExcedidos}% del total`,
+        color: "var(--red)"
+      },
+      {
+        label: "Sin asignar",
+        valor: metricas.sinAsignar,
+        nota: "Pendientes de responsable",
+        color: "var(--gray)"
+      }
+    ];
+
+    document.getElementById("indicadores").innerHTML = indicadores.map(item => `
+      <div class="col-12 col-sm-6 col-xl">
+        <article class="metric-card" style="--accent:${item.color}">
+          <div>
+            <div class="metric-label">${item.label}</div>
+            <div class="metric-value">${item.valor}</div>
+          </div>
+          <div class="metric-note">${item.nota}</div>
+        </article>
+      </div>
+    `).join("");
+  }
+
+  function pintarEstadoVacio() {
+    limpiarGraficas();
+    document.getElementById("indicadores").innerHTML = "";
+    document.getElementById("graficas").innerHTML = `
+      <div class="col-12">
+        <div class="dashboard-empty">No hay tickets disponibles para generar metricas.</div>
+      </div>
+    `;
+    document.getElementById("resumenDashboard").textContent = "Sin informacion disponible";
+  }
+
+  function construirSemanas() {
+    const semanaActual = inicioSemana(new Date());
+    const semanas = [];
+
+    for (let i = 7; i >= 0; i--) {
+      const fecha = new Date(semanaActual);
+      fecha.setDate(semanaActual.getDate() - (i * 7));
+      semanas.push({
+        fecha,
+        llave: fecha.toISOString().slice(0, 10),
+        etiqueta: etiquetaSemana(fecha),
+        creados: 0,
+        cerrados: 0
+      });
+    }
+
+    return semanas;
+  }
+
+  function procesarTickets(tickets) {
+    const estatusPorArea = {
+      Sistemas: Object.fromEntries(estatusOrden.map(e => [e, 0])),
+      Mantenimiento: Object.fromEntries(estatusOrden.map(e => [e, 0]))
+    };
+    const cargaPorUsuario = {};
+    const resueltosPorUsuario = {};
+    const antiguedad = { "0-1 dias": 0, "2-3 dias": 0, "4-7 dias": 0, "+7 dias": 0 };
+    const semanas = construirSemanas();
+    const indiceSemanas = Object.fromEntries(semanas.map((semana, index) => [semana.llave, index]));
+
+    let activos = 0;
+    let resueltos = 0;
+    let excedidos = 0;
+    let sinAsignar = 0;
+    let soporte = 0;
+    let mantenimiento = 0;
+    const ahora = new Date();
+
+    tickets.forEach(ticket => {
+      const area = ticket.tipo === "Mantenimiento" ? "Mantenimiento" : "Sistemas";
+      const estatus = estatusOrden.includes(ticket.estatus) ? ticket.estatus : "Abierto";
+
+      estatusPorArea[area][estatus] += 1;
+      if (area === "Sistemas") soporte += 1;
+      if (area === "Mantenimiento") mantenimiento += 1;
+
+      if (esActivo(ticket)) {
+        activos += 1;
+        sumar(cargaPorUsuario, nombreResponsable(ticket));
+
+        if (!ticket.asignadoA) sinAsignar += 1;
+
+        const creado = fechaTicket(ticket, "fechaCreacion");
+        const dias = Math.max(0, Math.floor((ahora - creado) / 86400000));
+        if (dias <= 1) sumar(antiguedad, "0-1 dias");
+        else if (dias <= 3) sumar(antiguedad, "2-3 dias");
+        else if (dias <= 7) sumar(antiguedad, "4-7 dias");
+        else sumar(antiguedad, "+7 dias");
+      }
+
+      if (esResuelto(ticket)) {
+        resueltos += 1;
+        sumar(resueltosPorUsuario, nombreResponsable(ticket));
+      }
+
+      if (esExcedido(ticket)) {
+        excedidos += 1;
+      }
+
+      const semanaCreacion = inicioSemana(fechaTicket(ticket, "fechaCreacion")).toISOString().slice(0, 10);
+      if (indiceSemanas[semanaCreacion] !== undefined) {
+        semanas[indiceSemanas[semanaCreacion]].creados += 1;
+      }
+
+      if (esResuelto(ticket) && ticket.fechaCierre) {
+        const semanaCierre = inicioSemana(fechaTicket(ticket, "fechaCierre")).toISOString().slice(0, 10);
+        if (indiceSemanas[semanaCierre] !== undefined) {
+          semanas[indiceSemanas[semanaCierre]].cerrados += 1;
+        }
+      }
+    });
+
+    return {
+      total: tickets.length,
+      activos,
+      resueltos,
+      excedidos,
+      sinAsignar,
+      soporte,
+      mantenimiento,
+      porcentajeExcedidos: tickets.length ? Math.round((excedidos / tickets.length) * 100) : 0,
+      enTiempo: Math.max(tickets.length - excedidos, 0),
+      estatusPorArea,
+      cargaPorUsuario,
+      resueltosPorUsuario,
+      antiguedad,
+      semanas
+    };
+  }
+
+  function pintarGraficas(metricas) {
+    if (!document.getElementById("graficoEstatusArea")) {
+      document.getElementById("graficas").innerHTML = graficasMarkup;
+    }
+
+    limpiarGraficas();
+
+    crearGrafica("graficoEstatusArea", {
+      type: "bar",
+      data: {
+        labels: ["Sistemas", "Mantenimiento"],
+        datasets: estatusOrden.map(estatus => ({
+          label: estatus,
+          data: [
+            metricas.estatusPorArea.Sistemas[estatus],
+            metricas.estatusPorArea.Mantenimiento[estatus]
+          ],
+          backgroundColor: estatusColor[estatus],
+          borderRadius: 5,
+          maxBarThickness: 48
+        }))
+      },
+      options: opcionesBase({
+        scales: {
+          x: { stacked: true, grid: { display: false }, ticks: { color: "#374151" } },
+          y: { stacked: true, beginAtZero: true, ticks: { precision: 0, color: "#6b7280" }, grid: { color: "rgba(17,24,39,.08)" } }
+        }
+      })
+    });
+
+    crearGrafica("graficoCumplimiento", {
+      type: "doughnut",
+      data: {
+        labels: ["Dentro de tiempo", "Tiempo excedido"],
+        datasets: [{
+          data: [metricas.enTiempo, metricas.excedidos],
+          backgroundColor: [colores.cyan, colores.excedido],
+          borderColor: "#ffffff",
+          borderWidth: 3,
+          hoverOffset: 8
+        }]
+      },
+      options: opcionesBase({
+        cutout: "68%",
+        scales: {}
+      })
+    });
+
+    const carga = topEntradas(metricas.cargaPorUsuario);
+    crearGrafica("graficoCarga", {
+      type: "bar",
+      data: {
+        labels: carga.map(item => item[0]),
+        datasets: [{
+          label: "Tickets activos",
+          data: carga.map(item => item[1]),
+          backgroundColor: carga.map(item => item[0] === "Sin asignar" ? colores.gray : colores.abierto),
+          borderRadius: 5,
+          maxBarThickness: 42
+        }]
+      },
+      options: opcionesBase({
+        indexAxis: "y",
+        plugins: {
+          legend: { display: false },
+          tooltip: opcionesBase().plugins.tooltip
+        },
+        scales: {
+          x: { beginAtZero: true, ticks: { precision: 0, color: "#6b7280" }, grid: { color: "rgba(17,24,39,.08)" } },
+          y: { grid: { display: false }, ticks: { color: "#374151" } }
+        }
+      })
+    });
+
+    const resoluciones = topEntradas(metricas.resueltosPorUsuario);
+    crearGrafica("graficoResoluciones", {
+      type: "bar",
+      data: {
+        labels: resoluciones.map(item => item[0]),
+        datasets: [{
+          label: "Tickets resueltos",
+          data: resoluciones.map(item => item[1]),
+          backgroundColor: resoluciones.map(item => item[0] === "Sin asignar" ? colores.gray : colores.resuelto),
+          borderRadius: 5,
+          maxBarThickness: 42
+        }]
+      },
+      options: opcionesBase({
+        indexAxis: "y",
+        plugins: {
+          legend: { display: false },
+          tooltip: opcionesBase().plugins.tooltip
+        },
+        scales: {
+          x: { beginAtZero: true, ticks: { precision: 0, color: "#6b7280" }, grid: { color: "rgba(17,24,39,.08)" } },
+          y: { grid: { display: false }, ticks: { color: "#374151" } }
+        }
+      })
+    });
+
+    crearGrafica("graficoTendencia", {
+      type: "line",
+      data: {
+        labels: metricas.semanas.map(semana => semana.etiqueta),
+        datasets: [
+          {
+            label: "Creados",
+            data: metricas.semanas.map(semana => semana.creados),
+            borderColor: colores.abierto,
+            backgroundColor: "rgba(37, 99, 235, .12)",
+            borderWidth: 3,
+            tension: .35,
+            fill: true,
+            pointRadius: 4
+          },
+          {
+            label: "Resueltos/Cerrados",
+            data: metricas.semanas.map(semana => semana.cerrados),
+            borderColor: colores.resuelto,
+            backgroundColor: "rgba(22, 163, 74, .10)",
+            borderWidth: 3,
+            tension: .35,
+            fill: true,
+            pointRadius: 4
+          }
+        ]
+      },
+      options: opcionesBase()
+    });
+
+    crearGrafica("graficoAntiguedad", {
+      type: "bar",
+      data: {
+        labels: Object.keys(metricas.antiguedad),
+        datasets: [{
+          label: "Tickets activos",
+          data: Object.values(metricas.antiguedad),
+          backgroundColor: [colores.cyan, colores.amarillo, colores.proceso, colores.excedido],
+          borderRadius: 5,
+          maxBarThickness: 44
+        }]
+      },
+      options: opcionesBase({
+        plugins: {
+          legend: { display: false },
+          tooltip: opcionesBase().plugins.tooltip
+        }
+      })
+    });
+  }
+
   async function cargarDatos() {
     const res = await fetch("/api/tickets", {
       headers: { Authorization: `Bearer ${token}` }
     });
 
-    const tickets = await res.json();
-
-    const tipos = { Sistemas: 0, Mantenimiento: 0 };
-    const estatus = { Abierto: 0, "En proceso": 0, Resuelto: 0, Cerrado: 0 };
-    let conMaterial = 0;
-    let sinAsignar = 0;
-    const asignadosPorUsuario = {};
-    const resueltosPorUsuario = {};
-
-    tickets.forEach(t => {
-      tipos[t.tipo] = (tipos[t.tipo] || 0) + 1;
-      estatus[t.estatus] = (estatus[t.estatus] || 0) + 1;
-      if (!t.asignadoA) {
-        sinAsignar++;
-      } else {
-        const nombre = t.asignadoA?.nombre || "(Sin nombre)";
-        asignadosPorUsuario[nombre] = (asignadosPorUsuario[nombre] || 0) + 1;
-        if (t.estatus === "Resuelto" || t.estatus === "Cerrado") {
-          resueltosPorUsuario[nombre] = (resueltosPorUsuario[nombre] || 0) + 1;
-        }
-      }
-      if (t.requiereMaterial && t.requiereMaterial.trim() !== "") {
-        conMaterial++;
-      }
-    });
-
-    const indicadores = [
-      { label: "Total", valor: tickets.length, color: "primary" },
-      { label: "Abiertos", valor: estatus.Abierto, color: "danger" },
-      { label: "En proceso", valor: estatus["En proceso"], color: "warning text-dark" },
-      { label: "Cerrados", valor: estatus.Resuelto + estatus.Cerrado, color: "success" },
-      { label: "Sin asignar", valor: sinAsignar, color: "secondary" }
-    ];
-
-    const contenedorIndicadores = document.getElementById("indicadores");
-    indicadores.forEach(i => {
-      contenedorIndicadores.innerHTML += `
-        <div class="col-md-2">
-          <div class="card bg-${i.color} text-white shadow">
-            <div class="card-body">
-              <h5 class="card-title">${i.label}</h5>
-              <h2>${i.valor}</h2>
-            </div>
-          </div>
-        </div>
-      `;
-    });
-
-    let totalMinutos = 0;
-    let ticketsCerrados = 0;
-
-    tickets.forEach(t => {
-      if (t.fechaCierre) {
-        const inicio = new Date(t.fechaCreacion);
-        const fin = new Date(t.fechaCierre);
-        const minutos = Math.floor((fin - inicio) / 60000);
-        totalMinutos += minutos;
-        ticketsCerrados++;
-      }
-    });
-
-    if (ticketsCerrados > 0) {
-      const promedioMin = Math.round(totalMinutos / ticketsCerrados);
-      const horas = Math.floor(promedioMin / 60);
-      const minutos = promedioMin % 60;
-      document.getElementById("promedio").textContent =
-        `⏱ Tiempo promedio de resolución: ${horas}h ${minutos}m`;
-    } else {
-      document.getElementById("promedio").textContent =
-        "⏱ No hay tickets resueltos o cerrados para calcular el promedio.";
+    if (!res.ok) {
+      throw new Error("No se pudieron cargar los tickets.");
     }
 
-    const sinMaterial = tickets.length - conMaterial;
+    const tickets = await res.json();
 
-    new Chart(document.getElementById("graficoTipos"), {
-      type: "bar",
-      data: {
-        labels: Object.keys(tipos),
-        datasets: [{
-          label: "Tickets por tipo",
-          data: Object.values(tipos),
-          borderWidth: 1
-        }]
-      }
-    });
+    if (!Array.isArray(tickets) || tickets.length === 0) {
+      pintarEstadoVacio();
+      return;
+    }
 
-    new Chart(document.getElementById("graficoEstatus"), {
-      type: "pie",
-      data: {
-        labels: Object.keys(estatus),
-        datasets: [{
-          label: "Tickets por estatus",
-          data: Object.values(estatus)
-        }]
-      }
-    });
+    const metricas = procesarTickets(tickets);
+    pintarIndicadores(metricas);
+    pintarGraficas(metricas);
 
-    new Chart(document.getElementById("graficoMateriales"), {
-      type: "doughnut",
-      data: {
-        labels: ["Requieren material", "No requieren material"],
-        datasets: [{
-          data: [conMaterial, sinMaterial]
-        }]
-      }
-    });
-
-    new Chart(document.getElementById("graficoAsignados"), {
-      type: "bar",
-      data: {
-        labels: Object.keys(asignadosPorUsuario),
-        datasets: [{
-          label: "Tickets asignados por usuario",
-          data: Object.values(asignadosPorUsuario),
-          backgroundColor: "rgba(54, 162, 235, 0.7)",
-          borderColor: "#36A2EB",
-          borderWidth: 1
-        }]
-      },
-      options: {
-        responsive: true,
-        plugins: {
-          legend: { display: false },
-          title: { display: true, text: "Usuarios con tickets asignados" }
-        }
-      }
-    });
-
-    new Chart(document.getElementById("graficoResueltos"), {
-      type: "bar",
-      data: {
-        labels: Object.keys(resueltosPorUsuario),
-        datasets: [{
-          label: "Tickets resueltos",
-          data: Object.values(resueltosPorUsuario),
-          backgroundColor: "#28a745"
-        }]
-      },
-      options: {
-        responsive: true,
-        plugins: {
-          legend: { display: false },
-          title: { display: true, text: "Usuarios que han resuelto más tickets" }
-        }
-      }
-    });
+    document.getElementById("resumenDashboard").textContent =
+      `${metricas.soporte} de Sistemas | ${metricas.mantenimiento} de Mantenimiento | ${metricas.porcentajeExcedidos}% excedidos`;
   }
 
-  cargarDatos();
+  cargarDatos().catch(error => {
+    console.error(error);
+    limpiarGraficas();
+    document.getElementById("resumenDashboard").textContent = "No se pudo cargar la informacion";
+    document.getElementById("graficas").innerHTML = `
+      <div class="col-12">
+        <div class="dashboard-empty">Ocurrio un error al cargar el dashboard. Intenta actualizar la pagina.</div>
+      </div>
+    `;
+  });
 </script>
 <script src="js/navbar.js"></script>
 <script src="/socket.io/socket.io.js"></script>
+<script>
+  if (window.io) {
+    const socket = io();
+    socket.on("ticketsActualizados", () => cargarDatos().catch(console.error));
+  }
+</script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
