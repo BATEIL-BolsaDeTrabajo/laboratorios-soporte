@@ -14,6 +14,10 @@ const userSchema = new mongoose.Schema({
     type: Number,
     default: 0
   },
+  diasVacacionesPrestacion: {
+    type: Number,
+    default: 0
+  },
   diasVacacionesAcumulados: {
     type: Number,
     default: 0

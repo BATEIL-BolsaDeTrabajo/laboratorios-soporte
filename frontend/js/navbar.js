@@ -10,7 +10,7 @@
 })();
 
 // ================== CARGAR NAVBAR ==================
-  fetch("/navbar.html?v=15")
+  fetch("/navbar.html?v=16")
   .then((res) => res.text())
   .then((html) => {
     const cont =
@@ -133,6 +133,7 @@ function configurarMenuPorRoles() {
   if (has("soporte")) {
     show([
       "item-soporte-header",
+      "item-soporte-autoticket",
       "item-soporte-tickets",
       "item-soporte-labs",
       "item-soporte-divider",
@@ -143,6 +144,7 @@ function configurarMenuPorRoles() {
   if (has("mantenimiento")) {
     show([
       "item-mantenimiento-header",
+      "item-mantenimiento-autoticket",
       "item-mantenimiento-tickets",
       "item-mantenimiento-divider",
     ]);

@@ -157,8 +157,18 @@ async function cargarHorariosDeLaSemana() {
 // Vacaciones: reiniciar dias en aniversario si corresponde
 const DIAS_VACACIONES_ANUALES = 22;
 
+function consolidarDiasAcumulados(usuario) {
+  const diasDisponibles = Math.max(usuario.diasVacacionesDisponibles || 0, 0);
+  const diasAcumulados = Math.max(usuario.diasVacacionesAcumulados || 0, 0);
+
+  usuario.diasVacacionesDisponibles = diasDisponibles + diasAcumulados;
+  usuario.diasVacacionesAcumulados = 0;
+  return usuario;
+}
+
 function actualizarDiasSiCorresponde(usuario) {
   const hoy = new Date();
+  consolidarDiasAcumulados(usuario);
   if (!usuario.fechaIngreso) return usuario;
 
   const ingreso = new Date(usuario.fechaIngreso);
@@ -171,9 +181,7 @@ function actualizarDiasSiCorresponde(usuario) {
   if (hoy < aniversario) return usuario; // Aún no llega el aniversario este año
   if (ultima && ultima.getFullYear() === añoActual) return usuario; // Ya se actualizó este año
 
-  const diasRestantes = Math.max(usuario.diasVacacionesDisponibles || 0, 0);
-  usuario.diasVacacionesAcumulados = (usuario.diasVacacionesAcumulados || 0) + diasRestantes;
-  usuario.diasVacacionesDisponibles = DIAS_VACACIONES_ANUALES;
+  usuario.diasVacacionesDisponibles += DIAS_VACACIONES_ANUALES;
   usuario.ultimaActualizacionDias = hoy;
   return usuario;
 }

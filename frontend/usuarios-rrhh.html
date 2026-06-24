@@ -22,6 +22,7 @@
           <th>Rol</th>
           <th>Fecha de Ingreso</th>
           <th>Días Disponibles</th>
+          <th>Dias de Prestacion</th>
           <th>Puesto</th>
           <th>Departamento</th>
           <th>Actualizar</th>
@@ -57,6 +58,9 @@
               <input type="number" class="form-control form-control-sm" id="dias-${u._id}" value="${u.diasVacacionesDisponibles ?? 0}">
             </td>
             <td>
+              <input type="number" class="form-control form-control-sm" id="prestacion-${u._id}" value="${u.diasVacacionesPrestacion ?? 0}">
+            </td>
+            <td>
               <input type="text" class="form-control form-control-sm" id="puesto-${u._id}" value="${u.puesto ?? ""}">
             </td>
             <td>
@@ -80,6 +84,7 @@
     async function actualizar(id) {
       const fecha = document.getElementById(`fecha-${id}`).value;
       const dias = document.getElementById(`dias-${id}`).value;
+      const diasPrestacion = document.getElementById(`prestacion-${id}`).value;
       const puesto = document.getElementById(`puesto-${id}`).value;
       const departamento = document.getElementById(`depto-${id}`).value;
 
@@ -93,6 +98,7 @@
           body: JSON.stringify({
             fechaIngreso: fecha,
             diasVacacionesDisponibles: Number(dias),
+            diasVacacionesPrestacion: Number(diasPrestacion),
             puesto,
             departamento,
             actualizarDiasManual: true,

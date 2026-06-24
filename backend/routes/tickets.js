@@ -327,6 +327,70 @@ router.post('/', verifyToken, async (req, res) => {
   }
 });
 
+/* ========= Autoticket (soporte / mantenimiento) ========= */
+router.post('/autoticket', verifyToken, verifyRole(['soporte', 'mantenimiento']), async (req, res) => {
+  try {
+    const tecnicoId = req.usuario?.id;
+    const solicitanteId = String(req.body?.solicitanteId || '').trim();
+    const descripcion = String(req.body?.descripcion || '').trim();
+    const roles = (req.usuario?.roles || []).map(r => String(r).toLowerCase());
+
+    if (!tecnicoId) return res.status(401).json({ ok: false, error: 'Token válido pero sin id de usuario.' });
+    if (!solicitanteId) return res.status(400).json({ ok: false, error: 'Selecciona a la persona que solicitó el apoyo.' });
+    if (!descripcion) return res.status(400).json({ ok: false, error: 'Describe el problema que se solucionó.' });
+
+    const solicitante = await User.findById(solicitanteId, 'nombre correo');
+    if (!solicitante) return res.status(404).json({ ok: false, error: 'La persona seleccionada ya no existe.' });
+
+    const tipo = roles.includes('soporte') ? 'Sistemas' : 'Mantenimiento';
+    const ahora = new Date();
+    const nuevo = await Ticket.create({
+      descripcion,
+      tipo,
+      creadoPor: solicitante._id,
+      asignadoA: tecnicoId,
+      estatus: 'Resuelto',
+      resolucion: descripcion,
+      fechaInicio: ahora,
+      fechaCierre: ahora,
+      historial: [{
+        fecha: ahora,
+        usuario: tecnicoId,
+        usuarioNombre: req.usuario?.nombre || '',
+        de: 'Autoticket',
+        a: 'Resuelto',
+        comentario: 'Autoticket registrado como resuelto.',
+        resolucion: descripcion,
+        fechaInicio: ahora,
+        fechaCierre: ahora,
+        tiempoSolucionMin: 0
+      }]
+    });
+
+    try {
+      const folder = await ensureTicketFolder(nuevo);
+      if (folder?.id) {
+        nuevo.driveFolderId = folder.id;
+        nuevo.driveFolderLink = folder.webViewLink || null;
+        await nuevo.save();
+      }
+    } catch (error) {
+      console.error('Error creando carpeta de Drive para autoticket:', error.message || error);
+    }
+
+    const io = req.app.get('io');
+    const etiqueta = ticketLabel(nuevo);
+    await notificarAdminsFinanzas(io, `Autoticket resuelto (${nuevo.tipo}) - ${etiqueta}`, 'resuelto', nuevo._id);
+    await notificarUsuario(io, solicitante._id, `Tu autoticket fue resuelto (${nuevo.tipo}) - ${etiqueta}`, 'resuelto', nuevo._id);
+    if (io) io.emit('ticketsActualizados', { accion: 'autoticket-creado', ticketId: nuevo._id.toString(), estatus: nuevo.estatus, tipo: nuevo.tipo });
+
+    res.status(201).json({ ok: true, mensaje: 'Autoticket registrado como resuelto.', ticket: nuevo });
+  } catch (err) {
+    console.error('POST /tickets/autoticket error:', err);
+    res.status(500).json({ ok: false, error: 'No se pudo registrar el autoticket.' });
+  }
+});
+
 /* ========= Tickets asignables (admin/finanzas) ========= */
 router.get('/asignables', verifyToken, verifyRole(['admin', 'finanzas']), async (req, res) => {
   try {

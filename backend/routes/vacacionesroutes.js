@@ -33,20 +33,12 @@ function contarDiasVacaciones(fechaInicio, fechaFin) {
 }
 
 function calcularConsumoVacaciones(diasSolicitados, diasAcumulados, diasDisponibles) {
-  const acumuladosAntes = Math.max(diasAcumulados || 0, 0);
-  const disponiblesAntes = Math.max(diasDisponibles || 0, 0);
-  const usadosDeAcumulados = Math.min(diasSolicitados, acumuladosAntes);
-  const faltanteDespuesDeAcumulados = diasSolicitados - usadosDeAcumulados;
-  const usadosDeDisponibles = Math.min(faltanteDespuesDeAcumulados, disponiblesAntes);
-  const diasPorPagar = Math.max(faltanteDespuesDeAcumulados - usadosDeDisponibles, 0);
+  const saldoTotalAntes = Math.max(diasAcumulados || 0, 0) + Math.max(diasDisponibles || 0, 0);
+  const diasPorPagar = Math.max(diasSolicitados - saldoTotalAntes, 0);
 
   return {
-    acumuladosAntes,
-    disponiblesAntes,
-    acumuladosRestantes: acumuladosAntes - usadosDeAcumulados,
-    disponiblesRestantes: disponiblesAntes - usadosDeDisponibles,
-    saldoTotalAntes: acumuladosAntes + disponiblesAntes,
-    saldoTotalRestante: acumuladosAntes + disponiblesAntes - usadosDeAcumulados - usadosDeDisponibles,
+    saldoTotalAntes,
+    saldoTotalRestante: Math.max(saldoTotalAntes - diasSolicitados, 0),
     diasPorPagar
   };
 }
@@ -109,7 +101,7 @@ router.get('/todas', verifyToken, verifyRole(['rrhh']), async (req, res) => {
   try {
     const solicitudes = await Vacacion.find().populate(
       'solicitante revisadoPor',
-      'nombre roles diasVacacionesDisponibles diasVacacionesAcumulados'
+      'nombre roles diasVacacionesDisponibles diasVacacionesPrestacion diasVacacionesAcumulados'
     );
     res.json(solicitudes);
   } catch (err) {
@@ -177,8 +169,8 @@ router.put('/revisar/:id', verifyToken, verifyRole(['subdireccion', 'finanzas'])
       vacacion.diasDisponiblesAntes = consumo.saldoTotalAntes;
       vacacion.diasRestantes = consumo.saldoTotalRestante;
       vacacion.diasPorPagar = consumo.diasPorPagar;
-      solicitante.diasVacacionesAcumulados = consumo.acumuladosRestantes;
-      solicitante.diasVacacionesDisponibles = consumo.disponiblesRestantes;
+      solicitante.diasVacacionesAcumulados = 0;
+      solicitante.diasVacacionesDisponibles = consumo.saldoTotalRestante;
       await solicitante.save();
     }
 
@@ -229,7 +221,7 @@ router.get('/usuario/:id', verifyToken, verifyRole(['rrhh']), async (req, res) =
 // 📄 Obtener una solicitud específica por ID (para formato imprimible)
 router.get('/solicitud/:id', verifyToken, async (req, res) => {
   try {
-    const solicitud = await Vacacion.findById(req.params.id).populate('solicitante', 'nombre fechaIngreso puesto departamento diasVacacionesDisponibles');
+    const solicitud = await Vacacion.findById(req.params.id).populate('solicitante', 'nombre fechaIngreso puesto departamento diasVacacionesDisponibles diasVacacionesPrestacion');
     if (!solicitud) {
       return res.status(404).json({ mensaje: 'Solicitud no encontrada' });
     }

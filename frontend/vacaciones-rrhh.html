@@ -32,7 +32,7 @@
           <th>Estatus</th>
           <th>Motivo respuesta</th>
           <th>Dias disponibles</th>
-          <th>Dias acumulados</th>
+          <th>Dias de prestacion</th>
           <th>Formato</th>
         </tr>
       </thead>
@@ -95,7 +95,7 @@
           const fila = document.createElement('tr');
           const solicitante = s.solicitante?.nombre || '---';
           const diasDisponibles = s.solicitante?.diasVacacionesDisponibles ?? 0;
-          const diasAcumulados = s.solicitante?.diasVacacionesAcumulados ?? 0;
+          const diasPrestacion = s.solicitante?.diasVacacionesPrestacion ?? 0;
 
           fila.innerHTML = `
             <td>${solicitante}</td>
@@ -109,7 +109,7 @@
             </td>
             <td>${s.motivoRespuesta || '-'}</td>
             <td>${diasDisponibles}</td>
-            <td>${diasAcumulados}</td>
+            <td>${diasPrestacion}</td>
             <td>
               ${s.estatus === 'Aceptado'
                 ? `<div class="d-flex gap-2 flex-wrap">
@@ -237,7 +237,7 @@
                 Estado de cuenta de vacaciones<br>
                 Dias Disfrutados: ${solicitud.diasSolicitados || 0}<br>
                 Saldo: Dias: ${user.diasVacacionesDisponibles ?? ""}<br>
-                Politica: __________________
+                Dias de prestacion: ${user.diasVacacionesPrestacion ?? 0}
               </td>
             </tr>
             <tr class="firmas">

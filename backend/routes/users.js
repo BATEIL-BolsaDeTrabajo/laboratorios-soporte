@@ -6,9 +6,19 @@ const { verifyToken, verifyRole } = require('../middlewares/auth');
 
 const DIAS_VACACIONES_ANUALES = 22;
 
+function consolidarDiasAcumulados(usuario) {
+  const diasDisponibles = Math.max(usuario.diasVacacionesDisponibles || 0, 0);
+  const diasAcumulados = Math.max(usuario.diasVacacionesAcumulados || 0, 0);
+
+  usuario.diasVacacionesDisponibles = diasDisponibles + diasAcumulados;
+  usuario.diasVacacionesAcumulados = 0;
+  return usuario;
+}
+
 // 👇 FUNCIONES AUXILIARES
 function actualizarDiasSiCorresponde(usuario) {
   const hoy = new Date();
+  consolidarDiasAcumulados(usuario);
   if (!usuario.fechaIngreso) return usuario;
 
   const ingreso = new Date(usuario.fechaIngreso);
@@ -21,9 +31,7 @@ function actualizarDiasSiCorresponde(usuario) {
   if (hoy < aniversarioEsteAño) return usuario;
   if (ultima && ultima.getFullYear() === añoActual) return usuario;
 
-  const diasRestantes = Math.max(usuario.diasVacacionesDisponibles || 0, 0);
-  usuario.diasVacacionesAcumulados = (usuario.diasVacacionesAcumulados || 0) + diasRestantes;
-  usuario.diasVacacionesDisponibles = DIAS_VACACIONES_ANUALES;
+  usuario.diasVacacionesDisponibles += DIAS_VACACIONES_ANUALES;
   usuario.ultimaActualizacionDias = hoy;
 
   return usuario;
@@ -38,7 +46,7 @@ router.get('/', verifyToken, verifyRole(['admin', 'rrhh', 'finanzas']), async (r
       usuarios = await User.find({}, '-contraseña');
     } else {
       // RRHH solo ve campos específicos
-      usuarios = await User.find({}, 'nombre roles _id fechaIngreso diasVacacionesDisponibles diasVacacionesAcumulados ultimaActualizacionDias');
+      usuarios = await User.find({}, 'nombre roles _id fechaIngreso diasVacacionesDisponibles diasVacacionesPrestacion diasVacacionesAcumulados puesto departamento ultimaActualizacionDias');
       usuarios = usuarios.map(u => actualizarDiasSiCorresponde(u));
       await Promise.all(usuarios.map(u => u.save()));
     }
@@ -51,7 +59,7 @@ router.get('/', verifyToken, verifyRole(['admin', 'rrhh', 'finanzas']), async (r
 
 // 📝 Modificar usuario
 router.put('/:id', verifyToken, verifyRole(['admin', 'rrhh']), async (req, res) => {
-  const { roles, nuevaContraseña, fechaIngreso, diasVacacionesDisponibles, actualizarDiasManual, puesto, departamento, telefonoWhatsapp, correo } = req.body;
+  const { roles, nuevaContraseña, fechaIngreso, diasVacacionesDisponibles, diasVacacionesPrestacion, actualizarDiasManual, puesto, departamento, telefonoWhatsapp, correo } = req.body;
 
   try {
     const usuario = await User.findById(req.params.id);
@@ -95,6 +103,9 @@ router.put('/:id', verifyToken, verifyRole(['admin', 'rrhh']), async (req, res) 
       if (typeof diasVacacionesDisponibles === 'number') {
         usuario.diasVacacionesDisponibles = diasVacacionesDisponibles;
       }
+      if (typeof diasVacacionesPrestacion === 'number') {
+        usuario.diasVacacionesPrestacion = diasVacacionesPrestacion;
+      }
       if (actualizarDiasManual) {
         usuario.ultimaActualizacionDias = new Date();
       }
@@ -116,6 +127,20 @@ router.get('/docentes', verifyToken, verifyRole(['subdireccion']), async (req, r
     res.json(docentes);
   } catch (err) {
     res.status(500).json({ mensaje: 'Error al obtener docentes' });
+  }
+});
+
+// Personas que pueden seleccionarse como solicitantes al registrar un autoticket.
+router.get('/autoticket-solicitantes', verifyToken, verifyRole(['soporte', 'mantenimiento']), async (req, res) => {
+  try {
+    const usuarios = await User.find(
+      { roles: { $ne: 'admin' } },
+      'nombre correo roles'
+    ).sort({ nombre: 1 }).lean();
+    res.json({ ok: true, usuarios });
+  } catch (err) {
+    console.error('GET /users/autoticket-solicitantes error:', err);
+    res.status(500).json({ ok: false, mensaje: 'No se pudieron obtener los solicitantes.' });
   }
 });
 
