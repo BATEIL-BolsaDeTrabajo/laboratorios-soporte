@@ -72,7 +72,7 @@
     <div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-3">
       <div>
         <a href="/almacen/dashboard-almacen.html" class="btn btn-secondary mb-3">&larr; Regresar</a>
-        <h2 class="mb-0">Asignacion de Equipo</h2>
+        <h2 class="mb-0"><i class="fa-solid fa-laptop-file me-2 text-primary" aria-hidden="true"></i>Asignación de Equipo</h2>
       </div>
       <div class="d-flex gap-2">
         <button class="btn btn-outline-dark" type="button" onclick="exportarExcel()">Exportar Excel</button>
@@ -464,6 +464,7 @@
               <div class="col-md-3"><strong>Asignado:</strong> ${fmtFecha(e.fechaAsignacion)}</div>
               <div class="col-md-3"><strong>Asignacion:</strong> ${escapeHtml(e.estadoAsignacion)}</div>
               <div class="col-md-3"><strong>Retiro:</strong> ${fmtFecha(e.fechaRetiro)}</div>
+              <div class="col-md-3"><strong>Aceptado:</strong> ${e.aceptadoPorColaborador ? `Si, ${fmtFecha(e.fechaAceptacion)}` : "Pendiente"}</div>
               <div class="col-12"><strong>Observaciones:</strong> ${escapeHtml(e.observaciones || "-")}</div>
             </div>
             <div class="table-responsive mt-3">

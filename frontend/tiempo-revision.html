@@ -9,7 +9,7 @@
 <body class="bg-light">
 <div id="navbar-container"></div>
   <div class="container mt-5">
-    <h2 class="mb-4">🧾 Revisión Tiempo por Tiempo</h2>
+    <h2 class="mb-4"><i class="fa-solid fa-clipboard-check me-2 text-primary" aria-hidden="true"></i>Revisión Tiempo por Tiempo</h2>
     <div id="mensaje"></div>
 
     <table class="table table-bordered table-hover">
@@ -62,8 +62,8 @@
             <td>
               <select class="form-select form-select-sm" id="accion-${t._id}">
                 <option value="">-- Acción --</option>
-                <option value="Aceptado">✅ Aceptar</option>
-                <option value="Rechazado">❌ Rechazar</option>
+                <option value="Aceptado">Aceptar</option>
+                <option value="Rechazado">Rechazar</option>
               </select>
               <input type="text" class="form-control form-control-sm mt-1" placeholder="Motivo (opcional)" id="motivo-${t._id}">
               <button class="btn btn-sm btn-primary mt-2" onclick="aprobar('${t._id}')">Guardar</button>

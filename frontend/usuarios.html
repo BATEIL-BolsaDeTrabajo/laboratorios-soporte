@@ -116,6 +116,41 @@
       white-space: nowrap;
     }
 
+    .menu-permissions{
+      margin-top:12px;
+      padding-top:10px;
+      border-top:1px solid #dee2e6;
+    }
+
+    .menu-role-section{
+      border:1px solid #e1e5ea;
+      border-radius:10px;
+      overflow:hidden;
+      margin-bottom:12px;
+    }
+
+    .menu-role-title{
+      margin:0;
+      padding:9px 14px;
+      background:#f1f3f5;
+      color:#343a40;
+      font-size:14px;
+      font-weight:700;
+    }
+
+    .menu-permissions-grid{
+      display:grid;
+      grid-template-columns:repeat(2, minmax(0, 1fr));
+      gap:8px 14px;
+      padding:12px 14px;
+    }
+
+    .menu-permissions-grid label{
+      font-size:14px;
+      line-height:1.25;
+      cursor:pointer;
+    }
+
     .table td,
     .table th{
       vertical-align: middle;
@@ -196,6 +231,25 @@
     </div>
   </div>
 
+  <div class="modal fade" id="modalPermisosMenu" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-scrollable">
+      <div class="modal-content">
+        <div class="modal-header bg-dark text-white">
+          <div>
+            <h5 class="modal-title">Opciones de menú permitidas</h5>
+            <div class="small text-white-50" id="permisos-menu-usuario"></div>
+          </div>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+        </div>
+        <div class="modal-body" id="permisos-menu-contenido"></div>
+        <div class="modal-footer">
+          <span class="text-muted small me-auto">Los cambios se aplican al presionar Guardar en el usuario.</span>
+          <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Listo</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <script>
     const token = localStorage.getItem("token");
 
@@ -224,8 +278,11 @@
     ];
 
     const rolesUsuarios = {};
+    const permisosMenuUsuarios = {};
     const usuariosPorId = {};
     let modalContacto = null;
+    let modalPermisosMenu = null;
+    let usuarioPermisosMenuActual = null;
 
     function obtenerLabelRol(key) {
       const rol = ROLES_DISPONIBLES.find(r => r.key === key);
@@ -248,6 +305,33 @@
       return ROLES_DISPONIBLES.filter(rol => !rolesAsignados.includes(rol.key));
     }
 
+    const OPCIONES_MENU = [
+      ['docente', 'docente-crear', 'Crear Ticket'], ['docente', 'docente-mistickets', 'Mis Tickets'], ['docente', 'docente-reservar', 'Reservar Laboratorio'], ['docente', 'docente-mis', 'Mis Reservas'], ['docente', 'docente-vacaciones', 'Solicitar Vacaciones'], ['docente', 'docente-historial', 'Historial de Vacaciones'],
+      ['soporte', 'soporte-autoticket', 'Autoticket'], ['soporte', 'soporte-tickets', 'Tickets de Soporte'], ['soporte', 'soporte-labs', 'Tickets Laboratorio'],
+      ['mantenimiento', 'mantenimiento-autoticket', 'Autoticket'], ['mantenimiento', 'mantenimiento-tickets', 'Tickets de Mantenimiento'],
+      ['admin', 'admin-dashboard', 'Dashboard'], ['admin', 'admin-usuarios', 'Usuarios'], ['admin', 'admin-tickets', 'Ver Tickets'], ['admin', 'admin-asignables', 'Tickets Asignables'], ['admin', 'admin-ciclos', 'Ciclos'], ['admin', 'admin-colegiatura', 'Colegiatura'], ['admin', 'admin-seguimientoAcademico', 'Seguimiento Academico'],
+      ['rrhh', 'rrhh-solicitudes', 'Solicitudes Recibidas'], ['rrhh', 'rrhh-ticketsoporte', 'Crear Ticket'], ['rrhh', 'rrhh-mistickets', 'Mis Tickets'], ['rrhh', 'rrhh-gestiondias', 'Gestionar Fechas'], ['rrhh', 'rrhh-histDiasyTiempo', 'Historial Días y Tiempo'], ['rrhh', 'rrhh-RegistrarUsuario', 'Registrar usuario'],
+      ['direccion', 'direccion-crear', 'Crear Ticket'], ['direccion', 'direccion-mistickets', 'Mis Tickets'], ['direccion', 'direccion-panelCalificaciones', 'Panel de Calificaciones'], ['direccion', 'direccion-subirCalificaciones', 'Subir Calificaciones'], ['direccion', 'direccion-seguimientoAcademico', 'Seguimiento Academico'], ['direccion', 'direccion-historial', 'Historial de Tickets'], ['direccion', 'direccion-ciclos', 'Ciclos'], ['direccion', 'direccion-colegiatura', 'Colegiatura'],
+      ['subdireccion', 'subdireccion-crear', 'Crear Ticket'], ['subdireccion', 'subdireccion-mistickets', 'Mis Tickets'], ['subdireccion', 'subdireccion-revision', 'Revisar Vacaciones'], ['subdireccion', 'subdireccion-tiempo', 'Registrar Tiempo por Tiempo'], ['subdireccion', 'subdireccion-soltxt', 'Solicitudes TxT'], ['subdireccion', 'subdireccion-panelCalificaciones', 'Panel de Calificaciones'], ['subdireccion', 'subdireccion-subirCalificaciones', 'Subir Calificaciones'], ['subdireccion', 'subdireccion-seguimientoAcademico', 'Seguimiento Academico'], ['subdireccion', 'subdireccion-historial', 'Historial de Tickets'], ['subdireccion', 'subdireccion-ciclos', 'Ciclos'], ['subdireccion', 'subdireccion-colegiatura', 'Colegiatura'],
+      ['finanzas', 'finanzas-dashboard', 'Dashboard'], ['finanzas', 'finanzas-crear', 'Crear Ticket'], ['finanzas', 'finanzas-archtickets', 'Tickets Archivados'], ['finanzas', 'finanzas-mistickets', 'Mis Tickets'], ['finanzas', 'finanzas-tickets', 'Ver Tickets'], ['finanzas', 'finanzas-historial', 'Historial de Tickets'], ['finanzas', 'finanzas-colegiatura', 'Colegiatura'], ['finanzas', 'finanzas-revision', 'Revisar Vacaciones'], ['finanzas', 'finanzas-tiempo', 'Registrar Tiempo por Tiempo'], ['finanzas', 'finanzas-revisiontiempo', 'Aprobar Tiempo por Tiempo'],
+      ['almacen', 'almacen-dashboard', 'Dashboard Almacén'], ['almacen', 'almacen-productos', 'Catálogo Productos'], ['almacen', 'almacen-entradas', 'Entradas'], ['almacen', 'almacen-recibidos', 'Productos recibidos'], ['almacen', 'almacen-salidas', 'Salidas'], ['almacen', 'almacen-ajustes', 'Ajustes'], ['almacen', 'almacen-configuracion', 'Configuración'], ['almacen', 'almacen-asignacion-equipo', 'Asignación de Equipo'],
+      ['coordinacionD', 'coordinacionD-crear', 'Crear Ticket'], ['coordinacionD', 'coordinacionD-mistickets', 'Mis Tickets'], ['coordinacionD', 'coordinacionD-reservas', 'Reservas de Laboratorios'],
+      ['coordinador', 'coordinador-crear', 'Crear Ticket'], ['coordinador', 'coordinador-mistickets', 'Mis Tickets'], ['coordinador', 'coordinador-colegiatura', 'Colegiatura'], ['coordinador', 'coordinador-seguimientoAcademico', 'Seguimiento Academico'],
+      ['caja', 'caja-crear', 'Crear Ticket'], ['caja', 'caja-mistickets', 'Mis Tickets'], ['caja', 'caja-colegiatura', 'Colegiatura']
+    ];
+
+    function opcionesMenuDisponibles(id) {
+      const roles = rolesUsuarios[id] || [];
+      return OPCIONES_MENU.filter(([rol]) => roles.includes(rol) || (rol === 'docente' && roles.includes('talleres')));
+    }
+
+    const TITULOS_MENU_POR_ROL = {
+      docente: '🎓 Docente', soporte: '🖥️ Soporte', mantenimiento: '🔧 Mantenimiento',
+      admin: '👨‍💼 Administración', rrhh: '🧑‍💼 Recursos Humanos', direccion: '🏫 Dirección',
+      subdireccion: '📘 Subdirección', finanzas: '💰 Finanzas', almacen: '📦 Almacén',
+      coordinacionD: '📘 Coordinación D', coordinador: '📘 Coordinación', caja: '🎟️ Caja'
+    };
+
     async function cargarUsuarios() {
       try {
         const res = await fetch("/api/users", {
@@ -264,7 +348,7 @@
               <tr>
                 <th class="col-name">Nombre</th>
                 <th class="col-email">Correo</th>
-                <th class="col-roles">Roles</th>
+                <th class="col-roles">Roles y menú</th>
                 <th style="min-width:200px;">Nueva Contraseña</th>
                 <th style="min-width:120px;">Acción</th>
               </tr>
@@ -274,6 +358,9 @@
 
         usuarios.forEach(usuario => {
           rolesUsuarios[usuario._id] = [...(usuario.roles || [])];
+          permisosMenuUsuarios[usuario._id] = Array.isArray(usuario.menuPermissions)
+            ? [...usuario.menuPermissions]
+            : null;
           usuariosPorId[usuario._id] = usuario;
 
           tabla += `
@@ -368,6 +455,11 @@
               Quitar todos
             </button>
           </div>
+
+          <div class="menu-permissions">
+            <div class="menu-permissions-title">Opciones de menú permitidas</div>
+            <div id="menu-permissions-${id}"></div>
+          </div>
         </div>
       `;
     }
@@ -383,6 +475,73 @@
 
       selectDisponibles.innerHTML = crearOpcionesRoles(disponibles);
       selectAsignados.innerHTML = crearOpcionesAsignadas(asignados);
+      renderPermisosMenu(id);
+    }
+
+    function renderPermisosMenu(id) {
+      const contenedor = document.getElementById(`menu-permissions-${id}`);
+      if (!contenedor) return;
+
+      const opciones = opcionesMenuDisponibles(id);
+      const permisos = permisosMenuUsuarios[id];
+      if (!opciones.length) {
+        contenedor.innerHTML = '<span class="text-muted small">Asigna un rol para elegir sus opciones.</span>';
+        return;
+      }
+
+      const permitidas = permisos === null ? opciones.length : permisos.filter(key => opciones.some(([, opcion]) => opcion === key)).length;
+      contenedor.innerHTML = `
+        <button type="button" class="btn btn-outline-primary btn-sm w-100" onclick="abrirPermisosMenu('${id}')">
+          ⚙️ Configurar opciones de menú <span class="badge text-bg-primary ms-1">${permitidas}/${opciones.length}</span>
+        </button>`;
+    }
+
+    function abrirPermisosMenu(id) {
+      usuarioPermisosMenuActual = id;
+      const usuario = usuariosPorId[id] || {};
+      const contenedor = document.getElementById('permisos-menu-contenido');
+      const subtitulo = document.getElementById('permisos-menu-usuario');
+      const opciones = opcionesMenuDisponibles(id);
+      const permisos = permisosMenuUsuarios[id];
+
+      subtitulo.textContent = usuario.nombre || '';
+      const porRol = opciones.reduce((grupos, opcion) => {
+        (grupos[opcion[0]] ||= []).push(opcion);
+        return grupos;
+      }, {});
+
+      contenedor.innerHTML = Object.entries(porRol).map(([rol, items]) => `
+        <section class="menu-role-section">
+          <h6 class="menu-role-title">${TITULOS_MENU_POR_ROL[rol] || rol}</h6>
+          <div class="menu-permissions-grid">
+            ${items.map(([, key, label]) => {
+              const checked = permisos === null || permisos.includes(key);
+              return `<label><input type="checkbox" class="form-check-input me-1" value="${key}" ${checked ? 'checked' : ''} onchange="cambiarPermisoMenu()">${label}</label>`;
+            }).join('')}
+          </div>
+        </section>`).join('');
+
+      modalPermisosMenu ||= new bootstrap.Modal(document.getElementById('modalPermisosMenu'));
+      modalPermisosMenu.show();
+    }
+
+    function cambiarPermisoMenu() {
+      const id = usuarioPermisosMenuActual;
+      if (!id) return;
+      const disponibles = opcionesMenuDisponibles(id).map(([, key]) => key);
+      permisosMenuUsuarios[id] = Array.from(document.querySelectorAll('#permisos-menu-contenido input:checked'))
+        .map(input => input.value)
+        .filter(key => disponibles.includes(key));
+      renderPermisosMenu(id);
+    }
+
+    function normalizarPermisosMenu(id, agregarNuevas = false) {
+      if (permisosMenuUsuarios[id] === null) return;
+      const disponibles = opcionesMenuDisponibles(id).map(([, key]) => key);
+      const actuales = permisosMenuUsuarios[id] || [];
+      permisosMenuUsuarios[id] = agregarNuevas
+        ? disponibles
+        : actuales.filter(key => disponibles.includes(key));
     }
 
     function obtenerSeleccionados(select) {
@@ -392,6 +551,7 @@
     function agregarRoles(id) {
       const selectDisponibles = document.getElementById(`roles-disponibles-${id}`);
       const seleccionados = obtenerSeleccionados(selectDisponibles);
+      const opcionesAntes = new Set(opcionesMenuDisponibles(id).map(([, key]) => key));
 
       if (seleccionados.length === 0) {
         alert("Selecciona uno o más roles disponibles");
@@ -408,6 +568,13 @@
         }
       });
 
+      if (Array.isArray(permisosMenuUsuarios[id])) {
+        const disponibles = opcionesMenuDisponibles(id).map(([, key]) => key);
+        permisosMenuUsuarios[id] = [
+          ...permisosMenuUsuarios[id].filter(key => disponibles.includes(key)),
+          ...disponibles.filter(key => !opcionesAntes.has(key))
+        ];
+      }
       renderDualList(id);
     }
 
@@ -421,16 +588,19 @@
       }
 
       rolesUsuarios[id] = (rolesUsuarios[id] || []).filter(rol => !seleccionados.includes(rol));
+      normalizarPermisosMenu(id);
       renderDualList(id);
     }
 
     function agregarTodos(id) {
       rolesUsuarios[id] = ROLES_DISPONIBLES.map(rol => rol.key);
+      normalizarPermisosMenu(id, true);
       renderDualList(id);
     }
 
     function quitarTodos(id) {
       rolesUsuarios[id] = [];
+      normalizarPermisosMenu(id);
       renderDualList(id);
     }
 
@@ -440,6 +610,9 @@
         const nuevaContraseña = document.getElementById(`pass-${id}`).value.trim();
 
         const body = { roles };
+        if (Array.isArray(permisosMenuUsuarios[id])) {
+          body.menuPermissions = permisosMenuUsuarios[id];
+        }
 
         if (nuevaContraseña !== "") {
           body.nuevaContraseña = nuevaContraseña;

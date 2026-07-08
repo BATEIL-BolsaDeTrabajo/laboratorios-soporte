@@ -231,7 +231,13 @@
           const payload = JSON.parse(atob(data.token.split(".")[1]));
           const roles = payload.roles;
 
-          localStorage.setItem("usuario", JSON.stringify({ roles }));
+          localStorage.setItem("usuario", JSON.stringify({
+            roles,
+            menuPermissions: payload.menuPermissions,
+            nombre: payload.nombre,
+            email: payload.email,
+            _id: payload.id
+          }));
 
           if (roles.includes("admin")) {
             window.location.href = "dashboard.html";

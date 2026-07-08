@@ -9,10 +9,10 @@
 <body class="bg-light">
   <div id="navbar-container"></div>
   <div class="container mt-4">
-    <h4 class="mb-3">Gestión de Vacaciones por Usuario</h4>
+    <h4 class="mb-3"><i class="fa-solid fa-users me-2 text-primary" aria-hidden="true"></i>Gestión de Vacaciones por Usuario</h4>
 
     <div class="mb-3">
-      <input type="text" id="filtroUsuarios" class="form-control" placeholder="🔍 Buscar por nombre, puesto o departamento..." />
+      <input type="text" id="filtroUsuarios" class="form-control" placeholder="Buscar por nombre, puesto o departamento..." aria-label="Buscar por nombre, puesto o departamento" />
     </div>
 
     <table class="table table-bordered table-sm">
@@ -26,14 +26,56 @@
           <th>Puesto</th>
           <th>Departamento</th>
           <th>Actualizar</th>
+          <th>Contacto</th>
         </tr>
       </thead>
       <tbody id="tabla-usuarios"></tbody>
     </table>
   </div>
 
+  <div class="modal fade" id="modalContacto" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Datos de contacto</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+        </div>
+        <div class="modal-body">
+          <input type="hidden" id="contacto-user-id">
+          <div class="mb-3">
+            <label class="form-label" for="contacto-nombre">Nombre</label>
+            <input type="text" class="form-control" id="contacto-nombre">
+          </div>
+          <div class="mb-3">
+            <label class="form-label" for="contacto-correo">Correo electronico</label>
+            <input type="email" class="form-control" id="contacto-correo" placeholder="usuario@bateil.edu.mx">
+          </div>
+          <div class="mb-0">
+            <label class="form-label" for="contacto-whatsapp">WhatsApp</label>
+            <input type="tel" class="form-control" id="contacto-whatsapp" placeholder="521...">
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancelar</button>
+          <button type="button" class="btn btn-primary" id="btnGuardarContacto" onclick="guardarContacto()">Guardar contacto</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <script>
     const token = localStorage.getItem("token");
+    const usuariosPorId = {};
+    let modalContacto = null;
+
+    function escapeHtml(valor) {
+      return String(valor ?? "")
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+    }
 
     async function cargarUsuarios() {
       const contenedor = document.getElementById("tabla-usuarios");
@@ -46,11 +88,14 @@
         const data = await res.json();
 
         data.forEach((u) => {
+          usuariosPorId[u._id] = u;
           const departamentoActual = String(u.departamento || "").trim().toLowerCase();
           const fila = document.createElement("tr");
           fila.innerHTML = `
-            <td>${u.nombre}</td>
-            <td>${u.roles?.[0]}</td>
+            <td>
+              <input type="text" class="form-control form-control-sm" id="nombre-${u._id}" value="${escapeHtml(u.nombre)}">
+            </td>
+            <td>${escapeHtml(u.roles?.[0])}</td>
             <td>
               <input type="date" class="form-control form-control-sm" id="fecha-${u._id}" value="${u.fechaIngreso ? new Date(u.fechaIngreso).toISOString().split("T")[0] : ""}">
             </td>
@@ -61,7 +106,7 @@
               <input type="number" class="form-control form-control-sm" id="prestacion-${u._id}" value="${u.diasVacacionesPrestacion ?? 0}">
             </td>
             <td>
-              <input type="text" class="form-control form-control-sm" id="puesto-${u._id}" value="${u.puesto ?? ""}">
+              <input type="text" class="form-control form-control-sm" id="puesto-${u._id}" value="${escapeHtml(u.puesto)}">
             </td>
             <td>
               <select class="form-select form-select-sm" id="depto-${u._id}">
@@ -70,23 +115,32 @@
               </select>
             </td>
             <td>
-              <button class="btn btn-sm btn-primary" onclick="actualizar('${u._id}')">💾 Guardar</button>
+              <button class="btn btn-sm btn-primary" onclick="actualizar('${u._id}')"><i class="fa-solid fa-floppy-disk me-1" aria-hidden="true"></i>Guardar</button>
+            </td>
+            <td>
+              <button class="btn btn-sm btn-outline-secondary" onclick="abrirContacto('${u._id}')">Contacto</button>
             </td>
           `;
           contenedor.appendChild(fila);
         });
 
       } catch (err) {
-        alert("❌ Error al cargar usuarios.");
+        alert("Error al cargar usuarios.");
       }
     }
 
     async function actualizar(id) {
+      const nombre = document.getElementById(`nombre-${id}`).value.trim();
       const fecha = document.getElementById(`fecha-${id}`).value;
       const dias = document.getElementById(`dias-${id}`).value;
       const diasPrestacion = document.getElementById(`prestacion-${id}`).value;
       const puesto = document.getElementById(`puesto-${id}`).value;
       const departamento = document.getElementById(`depto-${id}`).value;
+
+      if (!nombre) {
+        alert("El nombre no puede quedar vacio.");
+        return;
+      }
 
       try {
         const res = await fetch(`/api/users/${id}`, {
@@ -96,6 +150,7 @@
             Authorization: `Bearer ${token}`,
           },
           body: JSON.stringify({
+            nombre,
             fechaIngreso: fecha,
             diasVacacionesDisponibles: Number(dias),
             diasVacacionesPrestacion: Number(diasPrestacion),
@@ -107,12 +162,73 @@
 
         const result = await res.json();
         if (res.ok) {
-          alert("✅ Usuario actualizado");
+          usuariosPorId[id] = {
+            ...usuariosPorId[id],
+            nombre,
+            fechaIngreso: fecha,
+            diasVacacionesDisponibles: Number(dias),
+            diasVacacionesPrestacion: Number(diasPrestacion),
+            puesto,
+            departamento,
+          };
+          alert("Usuario actualizado.");
         } else {
-          alert("❌ Error: " + result.mensaje);
+          alert("Error: " + result.mensaje);
         }
       } catch (err) {
-        alert("⚠️ Error de red");
+        alert("Error de red.");
+      }
+    }
+
+    function abrirContacto(id) {
+      const usuario = usuariosPorId[id];
+      if (!usuario) return;
+
+      document.getElementById("contacto-user-id").value = id;
+      document.getElementById("contacto-nombre").value = usuario.nombre || "";
+      document.getElementById("contacto-correo").value = usuario.correo || "";
+      document.getElementById("contacto-whatsapp").value = usuario.telefonoWhatsapp || "";
+
+      modalContacto ||= new bootstrap.Modal(document.getElementById("modalContacto"));
+      modalContacto.show();
+    }
+
+    async function guardarContacto() {
+      const id = document.getElementById("contacto-user-id").value;
+      const nombre = document.getElementById("contacto-nombre").value.trim();
+      const correo = document.getElementById("contacto-correo").value.trim();
+      const telefonoWhatsapp = document.getElementById("contacto-whatsapp").value.trim();
+      const boton = document.getElementById("btnGuardarContacto");
+
+      if (!nombre) {
+        alert("Escribe el nombre del usuario");
+        return;
+      }
+
+      boton.disabled = true;
+      try {
+        const res = await fetch(`/api/users/${id}`, {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`
+          },
+          body: JSON.stringify({ nombre, correo, telefonoWhatsapp })
+        });
+        const data = await res.json();
+
+        if (!res.ok) {
+          alert(data.mensaje || "Error al actualizar contacto");
+          return;
+        }
+
+        modalContacto?.hide();
+        await cargarUsuarios();
+        alert(data.mensaje || "Contacto actualizado correctamente");
+      } catch (err) {
+        alert("Error de red");
+      } finally {
+        boton.disabled = false;
       }
     }
 
@@ -121,7 +237,10 @@
       const filas = document.querySelectorAll("#tabla-usuarios tr");
 
       filas.forEach((fila) => {
-        const texto = fila.innerText.toLowerCase();
+        const valores = Array.from(fila.querySelectorAll("input, select"))
+          .map((campo) => campo.value)
+          .join(" ");
+        const texto = `${fila.innerText} ${valores}`.toLowerCase();
         fila.style.display = texto.includes(filtro) ? "" : "none";
       });
     });

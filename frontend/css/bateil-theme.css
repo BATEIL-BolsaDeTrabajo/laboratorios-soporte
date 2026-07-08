@@ -30,6 +30,34 @@ body > * {
   z-index: 2100;
 }
 
+/* La barra usa una capa alta para sus desplegables; los modales deben
+   aparecer por encima de ella en todas las pantallas. */
+.modal-backdrop {
+  z-index: 2190 !important;
+}
+
+.modal {
+  z-index: 2200 !important;
+}
+
+.modal-dialog {
+  margin: 4.75rem auto 1.5rem;
+}
+
+.modal-dialog-scrollable {
+  height: calc(100% - 6.25rem);
+}
+
+@media (max-width: 575.98px) {
+  .modal-dialog {
+    margin: 4.25rem 0.75rem 1rem;
+  }
+
+  .modal-dialog-scrollable {
+    height: calc(100% - 5.25rem);
+  }
+}
+
 .navbar {
   background: var(--bateil-black) !important;
   border-bottom: 1px solid rgba(248, 196, 0, 0.28);

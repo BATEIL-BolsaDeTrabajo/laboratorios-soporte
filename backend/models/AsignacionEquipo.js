@@ -74,6 +74,14 @@ const asignacionEquipoSchema = new Schema({
     default: 'activo',
     index: true
   },
+  aceptadoPorColaborador: {
+    type: Boolean,
+    default: false,
+    index: true
+  },
+  fechaAceptacion: {
+    type: Date
+  },
   fechaRetiro: {
     type: Date
   },

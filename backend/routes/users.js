@@ -46,7 +46,7 @@ router.get('/', verifyToken, verifyRole(['admin', 'rrhh', 'finanzas']), async (r
       usuarios = await User.find({}, '-contraseña');
     } else {
       // RRHH solo ve campos específicos
-      usuarios = await User.find({}, 'nombre roles _id fechaIngreso diasVacacionesDisponibles diasVacacionesPrestacion diasVacacionesAcumulados puesto departamento ultimaActualizacionDias');
+      usuarios = await User.find({}, 'nombre correo telefonoWhatsapp roles _id fechaIngreso diasVacacionesDisponibles diasVacacionesPrestacion diasVacacionesAcumulados puesto departamento ultimaActualizacionDias');
       usuarios = usuarios.map(u => actualizarDiasSiCorresponde(u));
       await Promise.all(usuarios.map(u => u.save()));
     }
@@ -59,22 +59,26 @@ router.get('/', verifyToken, verifyRole(['admin', 'rrhh', 'finanzas']), async (r
 
 // 📝 Modificar usuario
 router.put('/:id', verifyToken, verifyRole(['admin', 'rrhh']), async (req, res) => {
-  const { roles, nuevaContraseña, fechaIngreso, diasVacacionesDisponibles, diasVacacionesPrestacion, actualizarDiasManual, puesto, departamento, telefonoWhatsapp, correo } = req.body;
+  const { nombre, roles, nuevaContraseña, fechaIngreso, diasVacacionesDisponibles, diasVacacionesPrestacion, actualizarDiasManual, puesto, departamento, telefonoWhatsapp, correo } = req.body;
 
   try {
     const usuario = await User.findById(req.params.id);
     if (!usuario) return res.status(404).json({ mensaje: 'Usuario no encontrado' });
 
     // ADMIN puede cambiar roles o contraseña
-    if (roles && req.usuario.roles.includes('admin')) {
+    if (Array.isArray(roles) && req.usuario.roles.includes('admin')) {
       usuario.roles = roles;
+    }
+
+    if (Array.isArray(req.body.menuPermissions) && req.usuario.roles.includes('admin')) {
+      usuario.menuPermissions = req.body.menuPermissions;
     }
 
     if (nuevaContraseña && req.usuario.roles.includes('admin')) {
       usuario.contraseña = await bcrypt.hash(nuevaContraseña, 10);
     }
 
-    if (typeof correo !== 'undefined' && req.usuario.roles.includes('admin')) {
+    if (typeof correo !== 'undefined' && (req.usuario.roles.includes('admin') || req.usuario.roles.includes('rrhh'))) {
       const correoLimpio = String(correo || '').trim().toLowerCase();
 
       if (!correoLimpio) {
@@ -93,11 +97,20 @@ router.put('/:id', verifyToken, verifyRole(['admin', 'rrhh']), async (req, res) 
       usuario.correo = correoLimpio;
     }
 
-    if (typeof telefonoWhatsapp !== 'undefined' && req.usuario.roles.includes('admin')) {
+    if (typeof telefonoWhatsapp !== 'undefined' && (req.usuario.roles.includes('admin') || req.usuario.roles.includes('rrhh'))) {
       usuario.telefonoWhatsapp = String(telefonoWhatsapp || '').replace(/[^\d]/g, '');
     }
 
-    // RRHH puede actualizar fecha de ingreso y días disponibles
+    // Admin y RRHH pueden corregir el nombre del usuario.
+    if (typeof nombre !== 'undefined' && (req.usuario.roles.includes('admin') || req.usuario.roles.includes('rrhh'))) {
+      const nombreLimpio = String(nombre || '').trim();
+      if (!nombreLimpio) {
+        return res.status(400).json({ mensaje: 'El nombre no puede quedar vacio' });
+      }
+      usuario.nombre = nombreLimpio;
+    }
+
+    // RRHH puede actualizar fecha de ingreso y dias disponibles.
     if (req.usuario.roles.includes('rrhh')) {
       if (fechaIngreso) usuario.fechaIngreso = new Date(`${fechaIngreso}T12:00:00`);
       if (typeof diasVacacionesDisponibles === 'number') {

@@ -26,6 +26,7 @@ app.use('/api/users', require('./routes/users'));
 app.use('/api/vacaciones', require('./routes/vacacionesroutes.js'));
 app.use('/api/tiempo', require('./routes/tiempoRoutes'));
 app.use('/api/calificaciones', require('./routes/calificaciones'));
+app.use('/api/seguimiento-academico', require('./routes/academicTracking'));
 app.use('/api/notifications', notificationsRoutes);
 app.use('/api/almacen', require('./routes/almacen'));
 app.use('/api/whatsapp', require('./routes/whatsapp'));

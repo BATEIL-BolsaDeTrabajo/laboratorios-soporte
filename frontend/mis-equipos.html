@@ -49,6 +49,12 @@
       text-align: right;
       overflow-wrap: anywhere;
     }
+
+    .equipo-aceptacion {
+      border-top: 1px solid #eef0f3;
+      margin-top: .25rem;
+      padding-top: 1rem;
+    }
   </style>
 </head>
 
@@ -99,8 +105,10 @@
     }
 
     function renderEquipo(equipo, index) {
+      const aceptado = Boolean(equipo.aceptadoPorColaborador);
+
       return `
-        <article class="equipo-card">
+        <article class="equipo-card" id="equipo-${escapeHtml(equipo._id)}">
           <div class="equipo-card-header">
             <div class="small text-warning fw-bold">Equipo ${index + 1}</div>
             <h5 class="mb-0">${escapeHtml(equipo.tipoEquipo)}</h5>
@@ -113,9 +121,45 @@
             <div class="equipo-dato"><strong>Estado</strong><span>${escapeHtml(estadoLabels[equipo.estadoEquipo] || equipo.estadoEquipo || "-")}</span></div>
             <div class="equipo-dato"><strong>Asignado</strong><span>${fmtFecha(equipo.fechaAsignacion)}</span></div>
             <div class="equipo-dato"><strong>Observaciones</strong><span>${escapeHtml(equipo.observaciones || "-")}</span></div>
+            <div class="equipo-aceptacion">
+              ${aceptado
+                ? `<div class="alert alert-success py-2 mb-0">Aceptado el ${fmtFecha(equipo.fechaAceptacion)}</div>`
+                : `<p class="small text-muted mb-2">Confirmo que estoy de acuerdo y acepto el equipo que Almacen me asigno.</p>
+                   <button class="btn btn-warning w-100 fw-bold" type="button" onclick="aceptarEquipo('${escapeHtml(equipo._id)}', this)">Aceptar equipo asignado</button>`
+              }
+            </div>
           </div>
         </article>
       `;
+    }
+
+    async function aceptarEquipo(id, boton) {
+      if (!confirm("Confirmas que estas de acuerdo y aceptas este equipo asignado?")) return;
+
+      const textoOriginal = boton.textContent;
+      boton.disabled = true;
+      boton.textContent = "Aceptando...";
+
+      try {
+        const res = await fetch(`/api/almacen/mis-equipos/${encodeURIComponent(id)}/aceptar`, {
+          method: "PATCH",
+          headers: { Authorization: "Bearer " + token }
+        });
+
+        if (res.status === 401) {
+          window.location.href = "/login.html";
+          return;
+        }
+
+        const data = await res.json().catch(() => ({}));
+        if (!res.ok) throw new Error(data.mensaje || "No se pudo aceptar el equipo.");
+
+        await cargarMisEquipos();
+      } catch (err) {
+        boton.disabled = false;
+        boton.textContent = textoOriginal;
+        alert(err.message);
+      }
     }
 
     async function cargarMisEquipos() {

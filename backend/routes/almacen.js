@@ -1593,13 +1593,62 @@ router.get(
         colaborador: req.usuario?.id,
         estadoAsignacion: 'activo'
       })
-        .select('tipoEquipo marca modelo numeroSerie numeroInventario estadoEquipo fechaAsignacion observaciones estadoAsignacion')
+        .select('tipoEquipo marca modelo numeroSerie numeroInventario estadoEquipo fechaAsignacion observaciones estadoAsignacion aceptadoPorColaborador fechaAceptacion')
         .sort({ fechaAsignacion: -1, createdAt: -1 });
 
       res.json({ equipos });
     } catch (err) {
       console.error('Error al obtener mis equipos:', err);
       res.status(500).json({ mensaje: 'Error al obtener mis equipos' });
+    }
+  }
+);
+
+router.patch(
+  '/mis-equipos/:id/aceptar',
+  verifyToken,
+  async (req, res) => {
+    try {
+      const { id } = req.params;
+
+      if (!mongoose.Types.ObjectId.isValid(id)) {
+        return res.status(400).json({ mensaje: 'ID no valido.' });
+      }
+
+      const asignacion = await AsignacionEquipo.findOne({
+        _id: id,
+        colaborador: req.usuario?.id,
+        estadoAsignacion: 'activo'
+      });
+
+      if (!asignacion) {
+        return res.status(404).json({ mensaje: 'Equipo asignado no encontrado.' });
+      }
+
+      if (asignacion.aceptadoPorColaborador) {
+        return res.json({
+          mensaje: 'Ya habias aceptado este equipo.',
+          asignacion
+        });
+      }
+
+      asignacion.aceptadoPorColaborador = true;
+      asignacion.fechaAceptacion = new Date();
+      asignacion.historial.push(crearMovimientoAsignacion(
+        'equipo_aceptado',
+        'El colaborador acepto estar de acuerdo con el equipo asignado.',
+        req.usuario?.id
+      ));
+
+      await asignacion.save();
+
+      res.json({
+        mensaje: 'Equipo aceptado correctamente.',
+        asignacion
+      });
+    } catch (err) {
+      console.error('Error al aceptar equipo asignado:', err);
+      res.status(500).json({ mensaje: 'Error al aceptar equipo asignado' });
     }
   }
 );
@@ -1905,6 +1954,8 @@ router.patch(
       const colaboradorAnterior = asignacion.colaborador?.nombre || 'colaborador anterior';
       asignacion.colaborador = nuevoColaborador._id;
       asignacion.estadoAsignacion = 'activo';
+      asignacion.aceptadoPorColaborador = false;
+      asignacion.fechaAceptacion = undefined;
       asignacion.fechaRetiro = undefined;
       asignacion.motivoRetiro = '';
       asignacion.fechaAsignacion = new Date();
@@ -1952,6 +2003,8 @@ router.get(
         { header: 'Numero de inventario', key: 'numeroInventario', width: 24 },
         { header: 'Estado del equipo', key: 'estadoEquipo', width: 22 },
         { header: 'Estado asignacion', key: 'estadoAsignacion', width: 20 },
+        { header: 'Aceptado por colaborador', key: 'aceptadoPorColaborador', width: 26 },
+        { header: 'Fecha aceptacion', key: 'fechaAceptacion', width: 20 },
         { header: 'Fecha asignacion', key: 'fechaAsignacion', width: 20 },
         { header: 'Fecha retiro', key: 'fechaRetiro', width: 20 },
         { header: 'Observaciones', key: 'observaciones', width: 40 }
@@ -1970,6 +2023,8 @@ router.get(
           numeroInventario: asignacion.numeroInventario,
           estadoEquipo: asignacion.estadoEquipo,
           estadoAsignacion: asignacion.estadoAsignacion,
+          aceptadoPorColaborador: asignacion.aceptadoPorColaborador ? 'Si' : 'No',
+          fechaAceptacion: asignacion.fechaAceptacion || '',
           fechaAsignacion: asignacion.fechaAsignacion,
           fechaRetiro: asignacion.fechaRetiro || '',
           observaciones: asignacion.observaciones

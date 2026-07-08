@@ -9,10 +9,21 @@
   document.head.appendChild(script);
 })();
 
+(function cargarIconosGlobales() {
+  if (document.querySelector('link[data-app-icons="true"]')) return;
+
+  const stylesheet = document.createElement("link");
+  stylesheet.rel = "stylesheet";
+  stylesheet.href = "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css";
+  stylesheet.referrerPolicy = "no-referrer";
+  stylesheet.dataset.appIcons = "true";
+  document.head.appendChild(stylesheet);
+})();
+
 // ================== CARGAR NAVBAR ==================
-  fetch("/navbar.html?v=16")
+  fetch("/navbar.html?v=20")
   .then((res) => res.text())
-  .then((html) => {
+  .then(async (html) => {
     const cont =
       document.getElementById("navbar-container") ||
       document.getElementById("navbar");
@@ -22,13 +33,44 @@
       return;
     }
 
+    const iconosNavbar = {
+      "💻": "fa-laptop-code", "🗓️": "fa-calendar-days", "🗓": "fa-calendar-days", "📋": "fa-clipboard-list",
+      "🛠️": "fa-screwdriver-wrench", "🎫": "fa-ticket", "📅": "fa-calendar-check",
+      "📊": "fa-chart-column", "📤": "fa-file-arrow-up", "📚": "fa-book-open",
+      "📄": "fa-file-lines", "📝": "fa-pen-to-square", "📁": "fa-folder-open",
+      "🧮": "fa-calculator", "📘": "fa-building", "🎓": "fa-graduation-cap",
+      "⏱": "fa-stopwatch", "⬆": "fa-arrow-up", "⬇": "fa-arrow-down"
+    };
+    Object.entries(iconosNavbar).forEach(([emoji, icono]) => {
+      html = html.replaceAll(emoji, `<i class="fa-solid ${icono} nav-icon" aria-hidden="true"></i>`);
+    });
     cont.innerHTML = html;
+    normalizarEnlacesNavbar(cont);
 
+    await sincronizarUsuarioActual();
     configurarMenuPorRoles();
     mostrarUsuarioNavbar();
     inicializarNotificaciones();
   })
   .catch((err) => console.error("Error cargando navbar:", err));
+
+function normalizarEnlacesNavbar(contenedor) {
+  contenedor.querySelectorAll('a[href]').forEach((link) => {
+    const href = link.getAttribute("href") || "";
+    const esRutaInternaRelativa =
+      href &&
+      !href.startsWith("/") &&
+      !href.startsWith("#") &&
+      !href.startsWith("http://") &&
+      !href.startsWith("https://") &&
+      !href.startsWith("mailto:") &&
+      !href.startsWith("tel:");
+
+    if (esRutaInternaRelativa) {
+      link.setAttribute("href", `/${href}`);
+    }
+  });
+}
 
 // ================== LOGOUT ==================
 function logout() {
@@ -49,6 +91,27 @@ function logout() {
 
 // dejar disponible globalmente
 window.logout = logout;
+
+async function sincronizarUsuarioActual() {
+  const token = localStorage.getItem("token");
+  if (!token) return;
+
+  try {
+    const res = await fetch("/api/users/me", {
+      headers: { Authorization: `Bearer ${token}` }
+    });
+    if (!res.ok) return;
+
+    const usuario = await res.json();
+    localStorage.setItem("usuario", JSON.stringify({
+      ...usuario,
+      _id: usuario._id || usuario.id,
+      email: usuario.correo || usuario.email
+    }));
+  } catch (error) {
+    console.warn("No se pudo actualizar la información del usuario", error);
+  }
+}
 
 // ================== OBTENER ROLES ==================
 function obtenerRolesDesdeStorageOToken() {
@@ -76,6 +139,69 @@ function obtenerRolesDesdeStorageOToken() {
   return roles
     .filter(Boolean)
     .map((r) => String(r).trim().toLowerCase());
+}
+
+// Las cuentas antiguas no tienen esta propiedad y conservan todas las
+// opciones de sus roles. Un arreglo (también vacío) es una selección explícita.
+const MENU_PERMISSION_ITEM_IDS = [
+  "docente-crear", "docente-mistickets", "docente-reservar", "docente-mis", "docente-vacaciones", "docente-historial",
+  "soporte-autoticket", "soporte-tickets", "soporte-labs",
+  "mantenimiento-autoticket", "mantenimiento-tickets",
+  "admin-dashboard", "admin-usuarios", "admin-tickets", "admin-asignables", "admin-ciclos", "admin-colegiatura", "admin-seguimientoAcademico",
+  "rrhh-solicitudes", "rrhh-ticketsoporte", "rrhh-mistickets", "rrhh-gestiondias", "rrhh-histDiasyTiempo", "rrhh-RegistrarUsuario",
+  "direccion-crear", "direccion-mistickets", "direccion-panelCalificaciones", "direccion-subirCalificaciones", "direccion-seguimientoAcademico", "direccion-historial", "direccion-ciclos", "direccion-colegiatura",
+  "subdireccion-crear", "subdireccion-mistickets", "subdireccion-revision", "subdireccion-tiempo", "subdireccion-soltxt", "subdireccion-panelCalificaciones", "subdireccion-subirCalificaciones", "subdireccion-seguimientoAcademico", "subdireccion-historial", "subdireccion-ciclos", "subdireccion-colegiatura",
+  "finanzas-dashboard", "finanzas-crear", "finanzas-archtickets", "finanzas-mistickets", "finanzas-tickets", "finanzas-historial", "finanzas-colegiatura", "finanzas-revision", "finanzas-tiempo", "finanzas-revisiontiempo",
+  "almacen-dashboard", "almacen-productos", "almacen-entradas", "almacen-recibidos", "almacen-salidas", "almacen-ajustes", "almacen-configuracion", "almacen-asignacion-equipo",
+  "coordinacionD-crear", "coordinacionD-mistickets", "coordinacionD-reservas",
+  "coordinador-crear", "coordinador-mistickets", "coordinador-colegiatura", "coordinador-seguimientoAcademico",
+  "caja-crear", "caja-mistickets", "caja-colegiatura"
+];
+
+function obtenerPermisosMenuUsuario() {
+  const usuario = obtenerUsuarioActual();
+  if (Array.isArray(usuario?.menuPermissions)) return usuario.menuPermissions;
+
+  try {
+    const token = localStorage.getItem("token");
+    const payload = token ? JSON.parse(atob(token.split(".")[1])) : null;
+    return Array.isArray(payload?.menuPermissions) ? payload.menuPermissions : null;
+  } catch {
+    return null;
+  }
+}
+
+function aplicarPermisosMenu() {
+  const permisos = obtenerPermisosMenuUsuario();
+  if (permisos === null) return;
+
+  const permitidos = new Set(permisos);
+  // Un administrador nunca debe perder el acceso a la administración de usuarios.
+  // Esto también recupera cuentas admin que hayan quedado con un arreglo vacío.
+  if (obtenerRolesDesdeStorageOToken().includes("admin")) {
+    MENU_PERMISSION_ITEM_IDS
+      .filter((key) => key.startsWith("admin-"))
+      .forEach((key) => permitidos.add(key));
+  }
+  MENU_PERMISSION_ITEM_IDS.forEach((key) => {
+    if (!permitidos.has(key)) document.getElementById(`item-${key}`)?.classList.add("d-none");
+  });
+
+  document.querySelectorAll("#dropdown-items .dropdown-header").forEach((header) => {
+    if (header.id === "item-mi-cuenta-header") return;
+    let nodo = header.nextElementSibling;
+    let tieneOpcion = false;
+    while (nodo && !nodo.classList.contains("dropdown-header")) {
+      if (nodo.querySelector("a.dropdown-item") && !nodo.classList.contains("d-none")) tieneOpcion = true;
+      nodo = nodo.nextElementSibling;
+    }
+    if (!tieneOpcion) header.classList.add("d-none");
+  });
+
+  document.querySelectorAll("#dropdown-items hr.dropdown-divider").forEach((divider) => {
+    const item = divider.closest("li");
+    if (item?.previousElementSibling?.classList.contains("d-none")) item.classList.add("d-none");
+  });
 }
 
 // ================== CONFIGURAR MENÚ POR ROLES ==================
@@ -114,6 +240,7 @@ function configurarMenuPorRoles() {
       "item-admin-asignables",
       "item-admin-ciclos",
       "item-admin-colegiatura",
+      "item-admin-seguimientoAcademico",
       "item-admin-divider",
     ]);
     visible = true;
@@ -173,6 +300,7 @@ function configurarMenuPorRoles() {
       "item-direccion-mistickets",
       "item-direccion-panelCalificaciones",
       "item-direccion-subirCalificaciones",
+      "item-direccion-seguimientoAcademico",
       "item-direccion-historial",
       "item-direccion-colegiatura",
       "item-direccion-ciclos",
@@ -191,6 +319,7 @@ function configurarMenuPorRoles() {
       "item-subdireccion-soltxt",
       "item-subdireccion-panelCalificaciones",
       "item-subdireccion-subirCalificaciones",
+      "item-subdireccion-seguimientoAcademico",
       "item-subdireccion-historial",
       "item-subdireccion-ciclos",
       "item-subdireccion-colegiatura",
@@ -251,6 +380,7 @@ function configurarMenuPorRoles() {
       "item-coordinador-crear",
       "item-coordinador-mistickets",
       "item-coordinador-colegiatura",
+      "item-coordinador-seguimientoAcademico",
       "item-coordinador-divider",
     ]);
     visible = true;
@@ -266,6 +396,9 @@ function configurarMenuPorRoles() {
     ]);
     visible = true;
   }
+
+  aplicarPermisosMenu();
+  visible = MENU_PERMISSION_ITEM_IDS.some((key) => !document.getElementById(`item-${key}`)?.classList.contains("d-none"));
 
   if (visible) {
     const dd = document.getElementById("menu-roles-dropdown");

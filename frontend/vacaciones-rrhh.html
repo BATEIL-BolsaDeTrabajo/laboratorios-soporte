@@ -13,13 +13,13 @@
   <div class="container mt-5">
 
     <div class="mb-4">
-      <button class="btn btn-outline-primary me-2" onclick="mostrarSeccion('vacaciones')">📄 Vacaciones</button>
-      <button class="btn btn-outline-primary me-2" onclick="mostrarSeccion('tiempo')">⏱ Tiempo por Tiempo</button>
-      <button class="btn btn-outline-secondary" onclick="mostrarSeccion('ambos')">👀 Ver Todo</button>
+      <button class="btn btn-outline-primary me-2" onclick="mostrarSeccion('vacaciones')"><i class="fa-solid fa-umbrella-beach me-2" aria-hidden="true"></i>Vacaciones</button>
+      <button class="btn btn-outline-primary me-2" onclick="mostrarSeccion('tiempo')"><i class="fa-solid fa-stopwatch me-2" aria-hidden="true"></i>Tiempo por Tiempo</button>
+      <button class="btn btn-outline-secondary" onclick="mostrarSeccion('ambos')"><i class="fa-solid fa-table-list me-2" aria-hidden="true"></i>Ver Todo</button>
     </div>
 
   <div id="seccion-vacaciones" class="mt-5">
-    <h2 class="mb-4">📋 Solicitudes de Vacaciones - RR.HH.</h2>
+    <h2 class="mb-4"><i class="fa-solid fa-file-signature me-2 text-primary" aria-hidden="true"></i>Solicitudes de Vacaciones - RR.HH.</h2>
     <div id="mensaje"></div>
    
     <table class="table table-bordered table-hover" id="tablaRRHH">
@@ -43,7 +43,7 @@
 
  <div id="seccion-tiempo" class="mt-5">
     <hr class="my-5">
-    <h2 class="mb-4">⏱ Registros de Tiempo por Tiempo</h2>
+    <h2 class="mb-4"><i class="fa-solid fa-stopwatch me-2 text-primary" aria-hidden="true"></i>Registros de Tiempo por Tiempo</h2>
     <table class="table table-bordered table-hover" id="tablaTiempoRRHH">
       <thead class="table-dark">
          <tr>
@@ -331,7 +331,7 @@
     const registros = await res.json();
 
     if (!res.ok) {
-      tabla.innerHTML = `<tr><td colspan="6" class="text-center text-danger">❌ ${registros.mensaje || 'Error al obtener registros'}</td></tr>`;
+      tabla.innerHTML = `<tr><td colspan="6" class="text-center text-danger">${registros.mensaje || 'Error al obtener registros'}</td></tr>`;
       return;
     }
 
@@ -353,7 +353,7 @@
       tabla.appendChild(fila);
     });
   } catch (err) {
-    tabla.innerHTML = `<tr><td colspan="6" class="text-center text-danger">⚠️ Error de red</td></tr>`;
+    tabla.innerHTML = `<tr><td colspan="6" class="text-center text-danger">Error de red</td></tr>`;
   }
 }
 //cargarTiempoPorTiempoRRHH();

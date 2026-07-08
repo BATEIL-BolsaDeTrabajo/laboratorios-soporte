@@ -10,6 +10,10 @@ const userSchema = new mongoose.Schema({
     enum: ['docente', 'admin', 'soporte', 'mantenimiento', 'direccion', 'subdireccion', 'rrhh', 'finanzas', 'talleres','coordinacionD','almacen','coordinador','caja'],
     default: ['docente']
   },
+  menuPermissions: {
+    type: [String],
+    default: undefined
+  },
   diasVacacionesDisponibles: {
     type: Number,
     default: 0
