@@ -22,6 +22,14 @@ const userSchema = new mongoose.Schema({
     type: Number,
     default: 0
   },
+  diasVacacionesAnuales: {
+    type: Number,
+    default: 22
+  },
+  diasVacacionesPrestacionAnuales: {
+    type: Number,
+    default: 0
+  },
   diasVacacionesAcumulados: {
     type: Number,
     default: 0

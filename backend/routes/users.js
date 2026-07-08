@@ -6,6 +6,11 @@ const { verifyToken, verifyRole } = require('../middlewares/auth');
 
 const DIAS_VACACIONES_ANUALES = 22;
 
+function obtenerNumero(valor, respaldo = 0) {
+  const numero = Number(valor);
+  return Number.isFinite(numero) ? numero : respaldo;
+}
+
 function consolidarDiasAcumulados(usuario) {
   const diasDisponibles = Math.max(usuario.diasVacacionesDisponibles || 0, 0);
   const diasAcumulados = Math.max(usuario.diasVacacionesAcumulados || 0, 0);
@@ -31,7 +36,11 @@ function actualizarDiasSiCorresponde(usuario) {
   if (hoy < aniversarioEsteAño) return usuario;
   if (ultima && ultima.getFullYear() === añoActual) return usuario;
 
-  usuario.diasVacacionesDisponibles += DIAS_VACACIONES_ANUALES;
+  const diasAnuales = obtenerNumero(usuario.diasVacacionesAnuales, DIAS_VACACIONES_ANUALES);
+  const diasPrestacionAnuales = obtenerNumero(usuario.diasVacacionesPrestacionAnuales, 0);
+
+  usuario.diasVacacionesDisponibles += diasAnuales;
+  usuario.diasVacacionesPrestacion = Math.max(usuario.diasVacacionesPrestacion || 0, 0) + diasPrestacionAnuales;
   usuario.ultimaActualizacionDias = hoy;
 
   return usuario;
@@ -46,7 +55,7 @@ router.get('/', verifyToken, verifyRole(['admin', 'rrhh', 'finanzas']), async (r
       usuarios = await User.find({}, '-contraseña');
     } else {
       // RRHH solo ve campos específicos
-      usuarios = await User.find({}, 'nombre correo telefonoWhatsapp roles _id fechaIngreso diasVacacionesDisponibles diasVacacionesPrestacion diasVacacionesAcumulados puesto departamento ultimaActualizacionDias');
+      usuarios = await User.find({}, 'nombre correo telefonoWhatsapp roles _id fechaIngreso diasVacacionesDisponibles diasVacacionesPrestacion diasVacacionesAnuales diasVacacionesPrestacionAnuales diasVacacionesAcumulados puesto departamento ultimaActualizacionDias');
       usuarios = usuarios.map(u => actualizarDiasSiCorresponde(u));
       await Promise.all(usuarios.map(u => u.save()));
     }
@@ -59,7 +68,7 @@ router.get('/', verifyToken, verifyRole(['admin', 'rrhh', 'finanzas']), async (r
 
 // 📝 Modificar usuario
 router.put('/:id', verifyToken, verifyRole(['admin', 'rrhh']), async (req, res) => {
-  const { nombre, roles, nuevaContraseña, fechaIngreso, diasVacacionesDisponibles, diasVacacionesPrestacion, actualizarDiasManual, puesto, departamento, telefonoWhatsapp, correo } = req.body;
+  const { nombre, roles, nuevaContraseña, fechaIngreso, diasVacacionesDisponibles, diasVacacionesPrestacion, diasVacacionesAnuales, diasVacacionesPrestacionAnuales, actualizarDiasManual, puesto, departamento, telefonoWhatsapp, correo } = req.body;
 
   try {
     const usuario = await User.findById(req.params.id);
@@ -118,6 +127,12 @@ router.put('/:id', verifyToken, verifyRole(['admin', 'rrhh']), async (req, res) 
       }
       if (typeof diasVacacionesPrestacion === 'number') {
         usuario.diasVacacionesPrestacion = diasVacacionesPrestacion;
+      }
+      if (typeof diasVacacionesAnuales === 'number') {
+        usuario.diasVacacionesAnuales = diasVacacionesAnuales;
+      }
+      if (typeof diasVacacionesPrestacionAnuales === 'number') {
+        usuario.diasVacacionesPrestacionAnuales = diasVacacionesPrestacionAnuales;
       }
       if (actualizarDiasManual) {
         usuario.ultimaActualizacionDias = new Date();
