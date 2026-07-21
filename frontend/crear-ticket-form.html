@@ -168,25 +168,81 @@
       </div>
 
       <div id="wrap-contexto" class="mb-3">
-        <label class="form-label fw-semibold">Tipo de solicitud en Sistemas</label>
+        <label id="contexto-label" class="form-label fw-semibold">Tipo de solicitud en Sistemas</label>
         <select id="contextoSistemas" class="form-select">
-          <option value="laboratorio">Laboratorio de Computo</option>
-          <option value="otro">Otro (fuera de laboratorio)</option>
+          <option value="laboratorio">Área</option>
+          <option value="otro">Otra ubicación</option>
         </select>
       </div>
 
       <div id="wrap-sis-lab" class="card card-body ticket-panel mb-3">
         <div class="row g-3">
           <div class="col-md-6">
-            <label class="form-label">Laboratorio</label>
+            <label class="form-label">Área</label>
             <select id="lab" class="form-select">
               <option value="">Selecciona...</option>
-              <option>Laboratorio A</option>
-              <option>Laboratorio B</option>
-              <option>Laboratorio C</option>
-              <option>Laboratorio D</option>
-              <option>Laboratorio de Quimica</option>
-              <option>Audiovisual</option>
+              <optgroup label="Oficinas y áreas de atención">
+                <option>Dirección</option>
+                <option>Subdirección</option>
+                <option>Coordinación</option>
+                <option>Psicología</option>
+                <option>Subdirección Administrativa</option>
+                <option>Caja</option>
+                <option>Vida Estudiantil</option>
+                <option>Recepción</option>
+                <option>Lobby</option>
+                <option>Vinculación</option>
+                <option>Auxiliar Administrativo</option>
+                <option>Control Escolar</option>
+              </optgroup>
+              <optgroup label="Laboratorios y audiovisual">
+                <option>Laboratorio A</option>
+                <option>Laboratorio B</option>
+                <option>Laboratorio C</option>
+                <option>Laboratorio D</option>
+                <option>Laboratorio de Química</option>
+                <option>Audiovisual</option>
+              </optgroup>
+              <optgroup label="Salones antiguos">
+                <option>Salón Antiguo 1</option>
+                <option>Salón Antiguo 2</option>
+                <option>Salón Antiguo 3</option>
+                <option>Salón Antiguo 4</option>
+                <option>Salón Antiguo 5</option>
+              </optgroup>
+              <optgroup label="Edificio A">
+                <option>Salón A1</option>
+                <option>Salón A2</option>
+                <option>Salón A3</option>
+                <option>Salón A4</option>
+                <option>Salón A5</option>
+              </optgroup>
+              <optgroup label="Edificio B">
+                <option>Salón B1</option>
+                <option>Salón B2</option>
+                <option>Salón B3</option>
+                <option>Salón B4</option>
+                <option>Salón B5</option>
+              </optgroup>
+              <optgroup label="Edificio C">
+                <option>Salón C1</option>
+                <option>Salón C2</option>
+                <option>Salón C3</option>
+                <option>Salón C4</option>
+                <option>Salón C5</option>
+              </optgroup>
+              <optgroup label="Talleres">
+                <option>Taller de Mecatrónica</option>
+                <option>Taller de Soldadura</option>
+                <option>Taller de Combustión</option>
+                <option>Taller de Máquinas</option>
+              </optgroup>
+              <optgroup label="Baños">
+                <option>Baño A</option>
+                <option>Baño B</option>
+                <option>Baño C</option>
+                <option>Baño Antiguo</option>
+              </optgroup>
             </select>
           </div>
           <div class="col-md-6">
@@ -194,7 +250,7 @@
             <input id="equipo" class="form-control" placeholder="Ej. PC-03">
           </div>
           <div class="col-12">
-            <label class="form-label">Tipo de falla (Sistemas / Laboratorio)</label>
+            <label class="form-label">Tipo de falla (Sistemas / Área)</label>
             <select id="tipoFallaSisLab" class="form-select"></select>
           </div>
         </div>
@@ -215,9 +271,13 @@
 
       <div id="wrap-mant" class="card card-body ticket-panel mb-3 d-none">
         <div class="row g-3">
-          <div class="col-md-6">
-            <label class="form-label">Salon / Area</label>
-            <input id="salon" class="form-control" placeholder="Ej. A1, A2, B3, Patio, Oficina, etc.">
+          <div id="wrap-mant-area" class="col-md-6">
+            <label class="form-label">Área</label>
+            <select id="salon" class="form-select"></select>
+          </div>
+          <div id="wrap-mant-otro" class="col-md-6 d-none">
+            <label class="form-label">Otra ubicación</label>
+            <input id="salonOtro" class="form-control" placeholder="Escribe el área o la ubicación">
           </div>
           <div class="col-md-6">
             <label class="form-label">Tipo de falla (Mantenimiento)</label>
@@ -292,6 +352,9 @@
     llenarOpciones(document.getElementById('tipoFallaSisOtro'), CATALOGOS.sistemasOtro);
     llenarOpciones(document.getElementById('tipoFallaMant'), CATALOGOS.mantenimiento);
 
+    // Sistemas y Mantenimiento comparten el mismo catálogo de áreas.
+    document.getElementById('salon').innerHTML = document.getElementById('lab').innerHTML;
+
     const params = new URLSearchParams(window.location.search);
     const selectedArea = params.get('area');
     if (!['sistemas', 'mantenimiento'].includes(selectedArea)) {
@@ -299,10 +362,13 @@
     }
 
     const wrapContexto = document.getElementById('wrap-contexto');
+    const contextoLabel = document.getElementById('contexto-label');
     const contextoSistemas = document.getElementById('contextoSistemas');
     const wrapSisLab = document.getElementById('wrap-sis-lab');
     const wrapSisOtro = document.getElementById('wrap-sis-otro');
     const wrapMant = document.getElementById('wrap-mant');
+    const wrapMantArea = document.getElementById('wrap-mant-area');
+    const wrapMantOtro = document.getElementById('wrap-mant-otro');
     const btnEnviar = document.getElementById('btnEnviar');
     const mensajeForm = document.getElementById('mensaje-form');
 
@@ -311,7 +377,8 @@
 
       if (area === 'sistemas') {
         document.getElementById('form-title').textContent = 'Ticket de Soporte';
-        document.getElementById('form-subtitle').textContent = 'Reporta fallas de equipos, laboratorios, internet o software.';
+        document.getElementById('form-subtitle').textContent = 'Reporta fallas de equipos, áreas, internet o software.';
+        contextoLabel.textContent = 'Tipo de solicitud en Sistemas';
         wrapContexto.classList.remove('d-none');
         wrapMant.classList.add('d-none');
 
@@ -321,10 +388,15 @@
       } else {
         document.getElementById('form-title').textContent = 'Ticket de Mantenimiento';
         document.getElementById('form-subtitle').textContent = 'Reporta fallas de espacios, mobiliario, energia, clima o instalaciones.';
-        wrapContexto.classList.add('d-none');
+        contextoLabel.textContent = 'Tipo de solicitud en Mantenimiento';
+        wrapContexto.classList.remove('d-none');
         wrapSisLab.classList.add('d-none');
         wrapSisOtro.classList.add('d-none');
         wrapMant.classList.remove('d-none');
+
+        const ctx = contextoSistemas.value;
+        wrapMantArea.classList.toggle('d-none', ctx !== 'laboratorio');
+        wrapMantOtro.classList.toggle('d-none', ctx !== 'otro');
       }
     }
 
@@ -383,6 +455,7 @@
       document.getElementById('ubicacionOtro').value = '';
       document.getElementById('tipoFallaSisOtro').value = '';
       document.getElementById('salon').value = '';
+      document.getElementById('salonOtro').value = '';
       document.getElementById('tipoFallaMant').value = '';
       document.getElementById('descripcion').value = '';
       refrescarUI();
@@ -414,7 +487,7 @@
           payload.tipoFalla = document.getElementById('tipoFallaSisLab').value || null;
 
           let ok = true;
-          ok = validarCampo(document.getElementById('lab'), 'Selecciona un laboratorio.') && ok;
+          ok = validarCampo(document.getElementById('lab'), 'Selecciona un área.') && ok;
           ok = validarCampo(document.getElementById('equipo'), 'Escribe la etiqueta del equipo.') && ok;
           ok = validarCampo(document.getElementById('tipoFallaSisLab'), 'Selecciona el tipo de falla.') && ok;
           if (!ok) return mostrarMensaje('Revisa los campos marcados para enviar el ticket.');
@@ -428,11 +501,20 @@
           if (!ok) return mostrarMensaje('Revisa los campos marcados para enviar el ticket.');
         }
       } else {
-        payload.salon = document.getElementById('salon').value.trim() || null;
+        const ctx = contextoSistemas.value;
+        const campoUbicacion = ctx === 'laboratorio'
+          ? document.getElementById('salon')
+          : document.getElementById('salonOtro');
+
+        payload.tipo = ctx;
+        payload.salon = campoUbicacion.value.trim() || null;
         payload.tipoFalla = document.getElementById('tipoFallaMant').value || null;
 
         let ok = true;
-        ok = validarCampo(document.getElementById('salon'), 'Indica el salon o area.') && ok;
+        const mensajeUbicacion = ctx === 'laboratorio'
+          ? 'Selecciona un área.'
+          : 'Escribe el área o la ubicación.';
+        ok = validarCampo(campoUbicacion, mensajeUbicacion) && ok;
         ok = validarCampo(document.getElementById('tipoFallaMant'), 'Selecciona el tipo de falla.') && ok;
         if (!ok) return mostrarMensaje('Revisa los campos marcados para enviar el ticket.');
       }

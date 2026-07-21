@@ -22,13 +22,13 @@ function validarNuevoPayload(body) {
     if (!tipo || !['laboratorio', 'otro'].includes(tipo)) {
       errors.push('En sistemas, tipo debe ser laboratorio|otro.');
     } else if (tipo === 'laboratorio') {
-      if (!laboratorio) errors.push('Selecciona laboratorio.');
+      if (!laboratorio) errors.push('Selecciona un área.');
       if (!equipo) errors.push('Indica etiqueta de equipo.');
     } else if (tipo === 'otro') {
       if (!ubicacion) errors.push('Indica ubicación.');
     }
   } else if (area === 'mantenimiento') {
-    if (!salon) errors.push('Indica salón/área.');
+    if (!salon) errors.push('Selecciona un área.');
   }
 
   return errors;
