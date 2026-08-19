@@ -16,6 +16,13 @@ function normalizeText(value = '') {
   return String(value).trim().replace(/\s+/g, ' ');
 }
 
+function normalizeKey(value = '') {
+  return normalizeText(value)
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .toLowerCase();
+}
+
 function getMonthAliases() {
   return {
     inscripcion: ['INSCRIPCION', 'INSCRIPCIÓN', 'INS', 'INS1'],
@@ -30,14 +37,18 @@ function getMonthAliases() {
     septiembre: ['SEP', 'SEPT', 'SEPTIEMBRE'],
     octubre: ['OCT', 'OCTUBRE'],
     noviembre: ['NOV', 'NOVIEMBRE'],
-    diciembre: ['DIC', 'DICIEMBRE']
+    diciembre: ['DIC', 'DICIEMBRE'],
+    ar: ['AR', 'ATEN'],
+    seguro: ['SEGU', 'SEGURO'],
+    papeleria: ['GASP', 'PAPELERIA', 'PAPELERÍA']
   };
 }
 
 function monthMatches(monthKey, concValue) {
   const aliases = getMonthAliases();
+  const normalizedMonthKey = normalizeKey(monthKey);
   const raw = normalizeText(concValue).toUpperCase();
-  return (aliases[monthKey] || []).includes(raw);
+  return (aliases[normalizedMonthKey] || []).includes(raw);
 }
 
 function getPaymentValue(payments, monthKey) {
@@ -56,6 +67,10 @@ function hasPreviousDebt(row, cycleMonths, monthKey) {
   return orderedMonths
     .slice(0, currentIndex)
     .some(month => getPaymentValue(row.payments, month.key) === 'NO');
+}
+
+function shouldCarryPreviousDebt(monthKey) {
+  return !['ar', 'seguro', 'papeleria'].includes(normalizeKey(monthKey));
 }
 
 function extractStudentsFromCajaSheet(rows) {
@@ -226,7 +241,10 @@ router.post(
 
       for (const row of allCycleRows) {
         if (!fileMatriculas.has(row.matricula)) {
-          const value = hasPreviousDebt(row, cycle.months, monthKey) ? 'NO' : 'SI';
+          const carriesPreviousDebt = shouldCarryPreviousDebt(monthKey);
+          const value = carriesPreviousDebt && hasPreviousDebt(row, cycle.months, monthKey)
+            ? 'NO'
+            : 'SI';
 
           row.payments.set(monthKey, {
             value,

@@ -11,7 +11,7 @@
   <div class="container py-4">
     <div class="d-flex justify-content-between align-items-center mb-4">
       <h2 class="mb-0">Administración de ciclos</h2>
-      <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalCycle">
+      <button class="btn btn-primary" id="btnNewCycle" data-bs-toggle="modal" data-bs-target="#modalCycle">
         Nuevo ciclo
       </button>
     </div>
@@ -40,7 +40,7 @@
       <div class="modal-content">
         <form id="formCycle">
           <div class="modal-header">
-            <h5 class="modal-title">Nuevo ciclo</h5>
+            <h5 class="modal-title" id="cycleModalTitle">Nuevo ciclo</h5>
             <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
           </div>
           <div class="modal-body">
@@ -54,15 +54,19 @@
               <label class="form-check-label" for="cycleActive">Marcar como activo</label>
             </div>
 
-            <h6>Meses del ciclo</h6>
+            <h6>Conceptos del ciclo</h6>
+            <p class="text-muted small mb-2">
+              Para los reportes adicionales usa las claves: <strong>ar</strong>,
+              <strong>seguro</strong> y <strong>papeleria</strong>.
+            </p>
             <div id="monthsContainer"></div>
 
             <button type="button" class="btn btn-outline-secondary mt-3" id="btnAddMonth">
-              Agregar mes
+              Agregar concepto
             </button>
           </div>
           <div class="modal-footer">
-            <button type="submit" class="btn btn-primary">Guardar ciclo</button>
+            <button type="submit" class="btn btn-primary" id="btnSaveCycle">Guardar ciclo</button>
           </div>
         </form>
       </div>
