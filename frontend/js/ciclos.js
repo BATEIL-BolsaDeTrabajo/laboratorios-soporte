@@ -64,8 +64,11 @@ async function loadCycles() {
           <button class="btn btn-sm btn-success me-2 btn-activate" data-id="${cycle._id}">
             Activar
           </button>
-          <button class="btn btn-sm btn-warning btn-deactivate" data-id="${cycle._id}">
+          <button class="btn btn-sm btn-warning me-2 btn-deactivate" data-id="${cycle._id}">
             Desactivar
+          </button>
+          <button class="btn btn-sm btn-danger btn-delete" data-id="${cycle._id}">
+            Eliminar
           </button>
         </td>
       `;
@@ -89,6 +92,40 @@ async function loadCycles() {
           headers: authHeaders()
         });
         loadCycles();
+      });
+    });
+
+    document.querySelectorAll(".btn-delete").forEach(btn => {
+      btn.addEventListener("click", async () => {
+        const cycle = data.find(item => item._id === btn.dataset.id);
+        const confirmed = confirm(
+          `¿Seguro que deseas eliminar el ciclo "${cycle?.name || "seleccionado"}"? Esta acción no se puede deshacer.`
+        );
+
+        if (!confirmed) return;
+
+        btn.disabled = true;
+
+        try {
+          const res = await fetch(`${API}/api/cycles/${btn.dataset.id}`, {
+            method: "DELETE",
+            headers: authHeaders()
+          });
+          const data = await res.json();
+
+          if (!res.ok) {
+            alert(data.mensaje || "Error al eliminar ciclo");
+            return;
+          }
+
+          alert(data.mensaje || "Ciclo eliminado correctamente");
+          await loadCycles();
+        } catch (error) {
+          console.error("Error eliminando ciclo:", error);
+          alert("No se pudo conectar con el servidor para eliminar el ciclo");
+        } finally {
+          btn.disabled = false;
+        }
       });
     });
 

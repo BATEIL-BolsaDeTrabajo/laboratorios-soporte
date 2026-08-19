@@ -18,7 +18,7 @@ function normalizeText(value = '') {
 
 function getMonthAliases() {
   return {
-    inscripcion: ['INSCRIPCION', 'INSCRIPCIÓN', 'INS'],
+    inscripcion: ['INSCRIPCION', 'INSCRIPCIÓN', 'INS', 'INS1'],
     enero: ['ENE', 'ENERO'],
     febrero: ['FEB', 'FEBRERO'],
     marzo: ['MAR', 'MARZO'],
