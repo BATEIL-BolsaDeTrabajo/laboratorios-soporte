@@ -7,6 +7,12 @@ const cycleName = document.getElementById("cycleName");
 const cycleActive = document.getElementById("cycleActive");
 const monthsContainer = document.getElementById("monthsContainer");
 const btnAddMonth = document.getElementById("btnAddMonth");
+const btnNewCycle = document.getElementById("btnNewCycle");
+const cycleModalTitle = document.getElementById("cycleModalTitle");
+const btnSaveCycle = document.getElementById("btnSaveCycle");
+const modalCycleElement = document.getElementById("modalCycle");
+
+let editingCycleId = null;
 
 function authHeaders() {
   return {
@@ -20,13 +26,13 @@ function addMonthRow(key = "", label = "", order = "") {
   div.className = "row g-2 mb-2 month-row";
   div.innerHTML = `
     <div class="col-md-4">
-      <input type="text" class="form-control month-key" placeholder="key (ej. enero)" value="${key}">
+      <input type="text" class="form-control month-key" placeholder="key (ej. enero)">
     </div>
     <div class="col-md-4">
-      <input type="text" class="form-control month-label" placeholder="label (ej. ENE)" value="${label}">
+      <input type="text" class="form-control month-label" placeholder="label (ej. ENE)">
     </div>
     <div class="col-md-3">
-      <input type="number" class="form-control month-order" placeholder="Orden" value="${order}">
+      <input type="number" class="form-control month-order" placeholder="Orden">
     </div>
     <div class="col-md-1 d-flex align-items-center">
       <button type="button" class="btn btn-danger btn-sm btn-remove-month">X</button>
@@ -34,12 +40,42 @@ function addMonthRow(key = "", label = "", order = "") {
   `;
   monthsContainer.appendChild(div);
 
+  div.querySelector(".month-key").value = key;
+  div.querySelector(".month-label").value = label;
+  div.querySelector(".month-order").value = order;
+
   div.querySelector(".btn-remove-month").addEventListener("click", () => {
     div.remove();
   });
 }
 
 btnAddMonth.addEventListener("click", () => addMonthRow());
+
+function resetCycleForm() {
+  editingCycleId = null;
+  formCycle.reset();
+  monthsContainer.innerHTML = "";
+  addMonthRow("inscripcion", "Inscripción", 1);
+  cycleModalTitle.textContent = "Nuevo ciclo";
+  btnSaveCycle.textContent = "Guardar ciclo";
+}
+
+function openEditCycle(cycle) {
+  editingCycleId = cycle._id;
+  cycleName.value = cycle.name;
+  cycleActive.checked = Boolean(cycle.isActive);
+  monthsContainer.innerHTML = "";
+
+  [...cycle.months]
+    .sort((a, b) => a.order - b.order)
+    .forEach(month => addMonthRow(month.key, month.label, month.order));
+
+  cycleModalTitle.textContent = `Editar ciclo ${cycle.name}`;
+  btnSaveCycle.textContent = "Guardar cambios";
+  bootstrap.Modal.getOrCreateInstance(modalCycleElement).show();
+}
+
+btnNewCycle.addEventListener("click", resetCycleForm);
 
 async function loadCycles() {
   try {
@@ -61,6 +97,9 @@ async function loadCycles() {
             : '<span class="badge bg-secondary">No</span>'}
         </td>
         <td>
+          <button class="btn btn-sm btn-primary me-2 btn-edit" data-id="${cycle._id}">
+            Editar
+          </button>
           <button class="btn btn-sm btn-success me-2 btn-activate" data-id="${cycle._id}">
             Activar
           </button>
@@ -92,6 +131,13 @@ async function loadCycles() {
           headers: authHeaders()
         });
         loadCycles();
+      });
+    });
+
+    document.querySelectorAll(".btn-edit").forEach(btn => {
+      btn.addEventListener("click", () => {
+        const cycle = data.find(item => item._id === btn.dataset.id);
+        if (cycle) openEditCycle(cycle);
       });
     });
 
@@ -145,12 +191,17 @@ formCycle.addEventListener("submit", async (e) => {
 
   const body = {
     name: cycleName.value.trim(),
-    isActive: cycleActive.checked,
     months
   };
 
-  const res = await fetch(`${API}/api/cycles`, {
-    method: "POST",
+  if (!editingCycleId) body.isActive = cycleActive.checked;
+
+  const endpoint = editingCycleId
+    ? `${API}/api/cycles/${editingCycleId}`
+    : `${API}/api/cycles`;
+
+  const res = await fetch(endpoint, {
+    method: editingCycleId ? "PUT" : "POST",
     headers: authHeaders(),
     body: JSON.stringify(body)
   });
@@ -162,13 +213,25 @@ formCycle.addEventListener("submit", async (e) => {
     return;
   }
 
-  alert("Ciclo creado correctamente");
-  formCycle.reset();
-  monthsContainer.innerHTML = "";
-  addMonthRow("inscripcion", "Inscripción", 1);
-  bootstrap.Modal.getInstance(document.getElementById("modalCycle")).hide();
-  loadCycles();
+  if (editingCycleId) {
+    const statusAction = cycleActive.checked ? "activate" : "deactivate";
+    const statusRes = await fetch(`${API}/api/cycles/${editingCycleId}/${statusAction}`, {
+      method: "PATCH",
+      headers: authHeaders()
+    });
+
+    if (!statusRes.ok) {
+      const statusData = await statusRes.json();
+      alert(statusData.mensaje || "El ciclo se actualizó, pero no se pudo cambiar su estado");
+      return;
+    }
+  }
+
+  alert(data.mensaje || (editingCycleId ? "Ciclo actualizado correctamente" : "Ciclo creado correctamente"));
+  bootstrap.Modal.getInstance(modalCycleElement).hide();
+  resetCycleForm();
+  await loadCycles();
 });
 
-addMonthRow("inscripcion", "Inscripción", 1);
+resetCycleForm();
 loadCycles();
