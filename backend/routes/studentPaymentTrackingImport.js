@@ -42,7 +42,8 @@ function getMonthAliases() {
     ar: ['AR', 'ATEN'],
     seguro: ['SEGU', 'SEGURO'],
     papeleria: ['GASP', 'PAPELERIA', 'PAPELERÍA'],
-    inscripcion_anual: ['INSAN', 'INSCRIPCION ANUAL', 'INSCRIPCIÓN ANUAL']
+    inscripcion_anual: ['INSAN', 'INSCRIPCION ANUAL', 'INSCRIPCIÓN ANUAL'],
+    inscripcionanual: ['INSAN', 'INSCRIPCION ANUAL', 'INSCRIPCIÓN ANUAL']
   };
 }
 
@@ -72,7 +73,8 @@ function hasPreviousDebt(row, cycleMonths, monthKey) {
 }
 
 function shouldCarryPreviousDebt(monthKey) {
-  return !['ar', 'seguro', 'papeleria', 'inscripcion_anual'].includes(normalizeKey(monthKey));
+  return !['ar', 'seguro', 'papeleria', 'inscripcion_anual', 'inscripcionanual']
+    .includes(normalizeKey(monthKey));
 }
 
 function extractStudentsFromCajaSheet(rows) {
