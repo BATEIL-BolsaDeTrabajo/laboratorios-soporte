@@ -20,7 +20,8 @@ function normalizeKey(value = '') {
   return normalizeText(value)
     .normalize('NFD')
     .replace(/[\u0300-\u036f]/g, '')
-    .toLowerCase();
+    .toLowerCase()
+    .replace(/[\s-]+/g, '_');
 }
 
 function getMonthAliases() {
@@ -40,7 +41,8 @@ function getMonthAliases() {
     diciembre: ['DIC', 'DICIEMBRE'],
     ar: ['AR', 'ATEN'],
     seguro: ['SEGU', 'SEGURO'],
-    papeleria: ['GASP', 'PAPELERIA', 'PAPELERÍA']
+    papeleria: ['GASP', 'PAPELERIA', 'PAPELERÍA'],
+    inscripcion_anual: ['INSAN', 'INSCRIPCION ANUAL', 'INSCRIPCIÓN ANUAL']
   };
 }
 
@@ -70,7 +72,7 @@ function hasPreviousDebt(row, cycleMonths, monthKey) {
 }
 
 function shouldCarryPreviousDebt(monthKey) {
-  return !['ar', 'seguro', 'papeleria'].includes(normalizeKey(monthKey));
+  return !['ar', 'seguro', 'papeleria', 'inscripcion_anual'].includes(normalizeKey(monthKey));
 }
 
 function extractStudentsFromCajaSheet(rows) {
