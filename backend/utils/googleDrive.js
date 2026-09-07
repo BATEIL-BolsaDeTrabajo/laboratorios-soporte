@@ -34,8 +34,6 @@ function loadServiceAccount() {
   );
 }
 
-const key = loadServiceAccount();
-
 // 👇 Usuario real de tu dominio que será el dueño de los archivos
 const IMPERSONATED_USER = 'tickets@bateil.edu.mx';
 
@@ -47,6 +45,9 @@ let driveClientPromise = null;
  */
 async function getDriveClient() {
   if (!driveClientPromise) {
+    // Permite iniciar el proyecto local sin credenciales de Drive.
+    // Se requieren únicamente cuando se utiliza esta integración.
+    const key = loadServiceAccount();
     const jwtClient = new google.auth.JWT({
       email: key.client_email,                 // svc-bateil-tickets@...
       key: key.private_key,
@@ -178,4 +179,3 @@ module.exports = {
   ensureTicketFolder,
   uploadTicketEvidence,
 };
-

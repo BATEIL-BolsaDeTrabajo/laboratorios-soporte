@@ -54,29 +54,6 @@ function monthMatches(monthKey, concValue) {
   return (aliases[normalizedMonthKey] || []).includes(raw);
 }
 
-function getPaymentValue(payments, monthKey) {
-  if (!payments) return '';
-  return payments.get
-    ? (payments.get(monthKey)?.value || '')
-    : (payments[monthKey]?.value || '');
-}
-
-function hasPreviousDebt(row, cycleMonths, monthKey) {
-  const orderedMonths = [...cycleMonths].sort((a, b) => a.order - b.order);
-  const currentIndex = orderedMonths.findIndex(month => month.key === monthKey);
-
-  if (currentIndex <= 0) return false;
-
-  return orderedMonths
-    .slice(0, currentIndex)
-    .some(month => getPaymentValue(row.payments, month.key) === 'NO');
-}
-
-function shouldCarryPreviousDebt(monthKey) {
-  return !['ar', 'seguro', 'papeleria', 'inscripcion_anual', 'inscripcionanual']
-    .includes(normalizeKey(monthKey));
-}
-
 function extractStudentsFromCajaSheet(rows) {
   const students = [];
 
@@ -178,11 +155,11 @@ router.post(
         });
       }
 
-      // si quieres, validamos también que el conc del archivo coincida con el monthKey
-      const mismatchMonth = studentsForCycle.some(s => s.conc && !monthMatches(monthKey, s.conc));
+      // Cada archivo debe identificar el concepto seleccionado antes de actualizar pagos.
+      const mismatchMonth = studentsForCycle.some(s => !monthMatches(monthKey, s.conc));
       if (mismatchMonth) {
         return res.status(400).json({
-          mensaje: 'El archivo contiene registros de un mes distinto al seleccionado'
+          mensaje: 'El archivo contiene registros sin concepto o de un concepto distinto al seleccionado'
         });
       }
 
@@ -192,7 +169,6 @@ router.post(
       let created = 0;
       let updatedToNo = 0;
       let updatedToSi = 0;
-      let keptToNoByPreviousDebt = 0;
 
       // 1. Crear o actualizar alumnos que aparecen en el archivo => NO
       for (const student of studentsForCycle) {
@@ -240,18 +216,14 @@ router.post(
         updatedToNo++;
       }
 
-      // 2. Quien no aparezca solo queda en SI si no arrastra adeudos anteriores.
+      // 2. Ausente del reporte de adeudos => SI únicamente en el concepto importado.
+      // Los otros conceptos conservan su valor y sus datos de actualización.
       const allCycleRows = await StudentPaymentTracking.find({ cycleId });
 
       for (const row of allCycleRows) {
         if (!fileMatriculas.has(row.matricula)) {
-          const carriesPreviousDebt = shouldCarryPreviousDebt(monthKey);
-          const value = carriesPreviousDebt && hasPreviousDebt(row, cycle.months, monthKey)
-            ? 'NO'
-            : 'SI';
-
           row.payments.set(monthKey, {
-            value,
+            value: 'SI',
             updatedAt: now,
             updatedBy: req.usuario.id
           });
@@ -261,12 +233,7 @@ router.post(
 
           await row.save();
 
-          if (value === 'NO') {
-            updatedToNo++;
-            keptToNoByPreviousDebt++;
-          } else {
-            updatedToSi++;
-          }
+          updatedToSi++;
         }
       }
 
@@ -278,8 +245,7 @@ router.post(
         totalPeriodoCorrecto: studentsForCycle.length,
         created,
         updatedToNo,
-        updatedToSi,
-        keptToNoByPreviousDebt
+        updatedToSi
       });
     } catch (error) {
       console.error('Error al importar archivo de caja:', error);

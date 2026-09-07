@@ -11,3 +11,8 @@ yarn-debug.log*
 yarn-error.log*
 backend/credentials/service-account.json
 backend/credentials/
+
+# Copias de datos reales: mantener fuera del repositorio.
+outputs/respaldo-mongodb-*/
+outputs/respaldo-mongodb-*.zip
+backups/

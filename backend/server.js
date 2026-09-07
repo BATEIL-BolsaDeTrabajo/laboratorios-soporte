@@ -274,16 +274,15 @@ mongoose.connect(process.env.MONGODB_URI)
       console.log(`🚀 Servidor con WebSockets en http://localhost:${PORT}`);
     });
 
-    // 📅 Ejecutar funciones automáticas
-    cargarHorariosDeLaSemana();
-    actualizarDiasVacacionesAutomatica();
-
-    // ⏱️ Schedulers
-    cron.schedule('0 0 * * 0', cargarHorariosDeLaSemana);          // Cada domingo
-    cron.schedule('10 0 * * *', actualizarDiasVacacionesAutomatica); // Diario 00:10
+    // En pruebas se puede conservar la copia sin cambios automáticos al arrancar.
+    if (process.env.ENABLE_SCHEDULED_TASKS !== 'false') {
+      cargarHorariosDeLaSemana();
+      actualizarDiasVacacionesAutomatica();
+      cron.schedule('0 0 * * 0', cargarHorariosDeLaSemana);
+      cron.schedule('10 0 * * *', actualizarDiasVacacionesAutomatica);
+    }
   })
   .catch((err) => {
     console.error('🔴 Error en MongoDB:', err);
     process.exit(1);
   });
-
