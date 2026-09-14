@@ -86,38 +86,20 @@ const horasSabado = [
   "12:00 a 1:00"
 ];
 
+const { ZONA_HORARIA, obtenerVentana, sumarDias } = require('./utils/ventanaReservas');
+
 function obtenerFechasSemanaActualOProxima() {
-  const hoy = new Date();
-  hoy.setHours(0, 0, 0, 0);
-
-  const diaHoy = hoy.getDay(); // 0=Dom, 1=Lun...
-  const lunes = new Date(hoy);
-  const diferencia = diaHoy === 0 ? -6 : 1 - diaHoy; // Si es domingo, ir al lunes anterior
-  lunes.setDate(hoy.getDate() + diferencia);
-  lunes.setHours(0, 0, 0, 0);
-
-  const fechas = [];
-  for (let i = 0; i < 6; i++) { // Lunes a Sábado
-    const f = new Date(lunes);
-    f.setDate(lunes.getDate() + i);
-    fechas.push(f);
-  }
-  return fechas;
+  const { lunes } = obtenerVentana();
+  return Array.from({ length: 6 }, (_, i) => new Date(sumarDias(lunes, i) + 'T00:00:00'));
 }
 
-// Conserva reservas: borra SOLO "Disponibles" de la semana objetivo y repone con upsert
+// Conserva horarios existentes y agrega los faltantes con upsert
 async function cargarHorariosDeLaSemana() {
   try {
     console.log("📆 Cargando horarios semanales (conservando reservas)...");
     const fechas = obtenerFechasSemanaActualOProxima();
 
-    // 1) Borrar solo disponibles
-    await Horario.deleteMany({
-      fecha: { $in: fechas },
-      estado: 'Disponible'
-    });
-
-    // 2) Upserts para reponer
+    // Crear solo los horarios faltantes y conservar los existentes.
     const ops = [];
     for (const fecha of fechas) {
       const esSabado = fecha.getDay() === 6; // 6 = sábado
@@ -224,7 +206,7 @@ mongoose.connect(process.env.MONGODB_URI)
     actualizarDiasVacacionesAutomatica();
 
     // Schedules
-    cron.schedule('0 0 * * 0', cargarHorariosDeLaSemana);     // Cada domingo 00:00
+    cron.schedule('0 17 * * 0', cargarHorariosDeLaSemana, { timezone: ZONA_HORARIA });     // Cada domingo a las 17:00
     cron.schedule('10 0 * * *', actualizarDiasVacacionesAutomatica); // Diario 00:10
   })
   .catch(err => {
@@ -278,7 +260,7 @@ mongoose.connect(process.env.MONGODB_URI)
     if (process.env.ENABLE_SCHEDULED_TASKS !== 'false') {
       cargarHorariosDeLaSemana();
       actualizarDiasVacacionesAutomatica();
-      cron.schedule('0 0 * * 0', cargarHorariosDeLaSemana);
+      cron.schedule('0 17 * * 0', cargarHorariosDeLaSemana, { timezone: ZONA_HORARIA });
       cron.schedule('10 0 * * *', actualizarDiasVacacionesAutomatica);
     }
   })

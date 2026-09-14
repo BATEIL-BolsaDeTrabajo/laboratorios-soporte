@@ -2,119 +2,46 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
-  <title>Mis Reservas</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Mis reservas</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
-  <link href="css/toasts.css" rel="stylesheet" />
+  <link href="/css/reservar.css" rel="stylesheet" />
+  <link href="/css/mis-reservas.css" rel="stylesheet" />
 </head>
 <body class="bg-light">
   <div id="navbar-container"></div>
-  <div id="navbar-container"></div>
-
-  <div class="container mt-4">
-    <h3>📅 Mis Reservas</h3>
-    <div id="mensaje" class="mt-2"></div>
-
-    <h5 class="mt-4">Reservas activas</h5>
-    <div id="reservas-activas" class="row row-cols-1 row-cols-md-2 g-3"></div>
-
-    <h5 class="mt-4">Historial de reservas pasadas</h5>
-    <div id="reservas-pasadas" class="row row-cols-1 row-cols-md-2 g-3"></div>
-  </div>
-
-  <script src="js/toasts.js"></script>
-  <script>
-    const token = localStorage.getItem("token");
-
-    function mostrarMensaje(texto, tipo = "info") {
-      const mensaje = document.getElementById("mensaje");
-      if (mensaje) mensaje.innerHTML = "";
-      window.mostrarToast(texto, tipo);
-    }
-
-    function generarTarjeta(r, puedeCancelar) {
-      const fechaStr = new Date(r.fecha).toLocaleDateString();
-      return `
-        <div class="col">
-          <div class="card shadow-sm">
-            <div class="card-body">
-              <h5 class="card-title">📅 ${fechaStr}</h5>
-              <p class="card-text">🕐 ${r.hora}</p>
-              <p class="card-text">🧪 ${r.laboratorio}</p>
-              ${puedeCancelar ? `<button class="btn btn-danger btn-sm" onclick="cancelar('${r._id}')">Cancelar</button>` : ""}
-            </div>
-          </div>
-        </div>
-      `;
-    }
-
-    async function cargarReservas() {
-      const mensaje = document.getElementById("mensaje");
-      mensaje.innerHTML = "";
-
-      try {
-        const res = await fetch("/api/horarios/mis-reservas", {
-          headers: { Authorization: `Bearer ${token}` }
-        });
-        const reservas = await res.json();
-
-        const activas = [];
-        const pasadas = [];
-
-        const hoy = new Date();
-        hoy.setHours(0, 0, 0, 0);
-
-        reservas.forEach(r => {
-          const fecha = new Date(r.fecha);
-          if (fecha >= hoy) activas.push(r);
-          else pasadas.push(r);
-        });
-
-        const activasCont = document.getElementById("reservas-activas");
-        const pasadasCont = document.getElementById("reservas-pasadas");
-        activasCont.innerHTML = "";
-        pasadasCont.innerHTML = "";
-
-        if (activas.length === 0) {
-          activasCont.innerHTML = `<p class="text-muted">No tienes reservas activas.</p>`;
-        } else {
-          activas.forEach(r => activasCont.innerHTML += generarTarjeta(r, true));
-        }
-
-        if (pasadas.length === 0) {
-          pasadasCont.innerHTML = `<p class="text-muted">No hay historial de reservas.</p>`;
-        } else {
-          pasadas.forEach(r => pasadasCont.innerHTML += generarTarjeta(r, false));
-        }
-
-      } catch (err) {
-        mostrarMensaje("Error al obtener reservas", "danger");
-      }
-    }
-
-    async function cancelar(id) {
-      if (!confirm("¿Cancelar esta reserva?")) return;
-
-      const res = await fetch("/api/horarios/cancelar", {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({ horarioId: id })
-      });
-
-      const data = await res.json();
-      if (res.ok) {
-        mostrarMensaje("Reserva cancelada", "success");
-        cargarReservas();
-      } else {
-        mostrarMensaje("Error: " + data.mensaje, "danger");
-      }
-    }
-
-    cargarReservas();
-  </script>
-  <script src="js/navbar.js"></script>
+  <main class="container reservas-page">
+    <header class="reservas-hero">
+      <div>
+        <span class="eyebrow">MI AGENDA ACADÉMICA</span>
+        <h1>Mis reservas</h1>
+        <p>Tus espacios, en un solo lugar. Consulta tus próximas clases y revisa los laboratorios que has reservado.</p>
+        <a class="reservas-link" href="/reservar.html">Reservar un espacio <span aria-hidden="true">↗</span></a>
+      </div>
+      <aside class="apertura" aria-labelledby="titulo-proxima">
+        <span class="eyebrow" id="titulo-proxima">TU PRÓXIMA RESERVA</span>
+        <strong id="proxima-espacio">Consultando…</strong>
+        <p id="proxima-fecha">Estamos preparando tu agenda.</p>
+        <small id="proxima-hora">Laboratorios y audiovisual</small>
+      </aside>
+    </header>
+    <div id="mensaje" role="status" hidden></div>
+    <section class="lista-seccion" aria-labelledby="titulo-activas">
+      <div class="results-heading">
+        <div class="section-heading"><span class="step-number" aria-hidden="true">01</span><div><h2 id="titulo-activas">Reservas activas <span id="total-activas" class="total">—</span></h2><p class="section-description">Hoy y los próximos días. Todo listo para tu clase.</p></div></div>
+        <span class="legend"><span></span> Confirmadas</span>
+      </div>
+      <div id="reservas-activas" class="row g-3" aria-live="polite" aria-busy="true"><p class="text-muted">Cargando tus reservas…</p></div>
+    </section>
+    <section class="lista-seccion historial" aria-labelledby="titulo-pasadas">
+      <div class="results-heading">
+        <div class="section-heading"><span class="step-number" aria-hidden="true">02</span><div><h2 id="titulo-pasadas">Historial de reservas <span id="total-pasadas" class="total">—</span></h2><p class="section-description">Tus reservas anteriores, de la más reciente a la más antigua.</p></div></div>
+      </div>
+      <div id="reservas-pasadas" class="row g-3" aria-live="polite" aria-busy="true"><p class="text-muted">Cargando el historial…</p></div>
+    </section>
+  </main>
+  <script src="/js/mis-reservas.js"></script>
+  <script src="/js/navbar.js"></script>
   <script src="/socket.io/socket.io.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>

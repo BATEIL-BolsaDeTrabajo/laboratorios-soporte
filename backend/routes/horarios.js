@@ -1,16 +1,25 @@
 const express = require('express');
 const router = express.Router();
 const Horario = require('../models/Horario');
+const { obtenerVentana, validarFecha, fechaDeHorario } = require('../utils/ventanaReservas');
 const { verifyToken, verifyRole } = require('../middlewares/auth');
 
 // Obtener horarios por laboratorio y fecha (docentes)
 // Obtener horarios por laboratorio y fecha
 // Obtener horarios por laboratorio y fecha
+router.get('/ventana', verifyToken, (req, res) => {
+  res.set('Cache-Control', 'no-store');
+  res.json(obtenerVentana());
+});
+
 router.get('/', verifyToken, async (req, res) => {
   console.log("📥 Consulta recibida:", req.query.fecha, req.query.laboratorio);
 
   try {
     const { laboratorio, fecha } = req.query;
+
+    const errorFecha = validarFecha(fecha);
+    if (errorFecha) return res.status(400).json({ mensaje: errorFecha });
 
     const fechaBase = new Date(`${fecha}T00:00:00`);
     const fechaSiguiente = new Date(`${fecha}T23:59:59`);
@@ -41,6 +50,9 @@ router.post('/reservar', verifyToken, async (req, res) => {
 
     const horario = await Horario.findById(horarioId);
     if (!horario) return res.status(404).json({ mensaje: 'Horario no encontrado' });
+
+    const errorFecha = validarFecha(fechaDeHorario(horario.fecha));
+    if (errorFecha) return res.status(400).json({ mensaje: errorFecha });
 
     if (horario.estado === "Reservado") {
       return res.status(400).json({ mensaje: 'Este horario ya fue reservado' });
