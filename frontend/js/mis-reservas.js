@@ -15,8 +15,24 @@ function mostrarMensaje(texto, error = false) {
   mensaje.hidden = !texto;
 }
 
+function diaReserva(reserva) {
+  return reserva.fechaCalendario || reserva.fecha.slice(0, 10);
+}
+
+function fechaVisual(fecha) {
+  // Una fecha académica es un día, no un instante UTC.
+  return new Date(fecha.slice(0, 10) + 'T12:00:00');
+}
+
+function hoyAcademico(ahora = new Date()) {
+  const partes = Object.fromEntries(new Intl.DateTimeFormat('en-CA', {
+    timeZone: 'America/Mexico_City', year: 'numeric', month: '2-digit', day: '2-digit'
+  }).formatToParts(ahora).map(p => [p.type, p.value]));
+  return partes.year + '-' + partes.month + '-' + partes.day;
+}
+
 function fechaLarga(fecha) {
-  return new Date(fecha).toLocaleDateString('es-MX', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
+  return fechaVisual(fecha).toLocaleDateString('es-MX', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
 }
 
 // Los horarios del sistema usan 1:00 a 5:00 para los turnos de la tarde.
@@ -31,19 +47,19 @@ function generarTarjeta(reserva, activa) {
   const columna = elemento('div', 'col-md-6 col-lg-4');
   const card = elemento('article', `reserva-card${activa ? '' : ' pasada'}`);
   const top = elemento('div', 'reserva-top');
-  const fecha = new Date(reserva.fecha);
+  const fecha = fechaVisual(diaReserva(reserva));
   const bloque = elemento('div', 'fecha-bloque');
   bloque.append(elemento('span', 'fecha-dia', fecha.getDate().toString().padStart(2, '0')),
     elemento('span', 'fecha-mes', fecha.toLocaleDateString('es-MX', { month: 'short', year: 'numeric' })));
   top.append(bloque, elemento('span', 'horario-status', activa ? 'Confirmada' : 'Pasada'));
-  card.append(top, elemento('h3', '', reserva.laboratorio), elemento('p', 'reserva-fecha', fechaLarga(reserva.fecha)),
+  card.append(top, elemento('h3', '', reserva.laboratorio), elemento('p', 'reserva-fecha', fechaLarga(diaReserva(reserva))),
     elemento('p', 'reserva-hora', reserva.hora));
   const footer = elemento('div', 'reserva-footer');
   footer.append(elemento('small', '', activa ? 'Espacio reservado para ti' : 'Guardada en tu historial'));
   if (activa) {
     const boton = elemento('button', 'cancelar-reserva', 'Cancelar reserva');
     boton.type = 'button';
-    boton.setAttribute('aria-label', `Cancelar reserva de ${reserva.laboratorio}, ${fechaLarga(reserva.fecha)}, ${reserva.hora}`);
+    boton.setAttribute('aria-label', `Cancelar reserva de ${reserva.laboratorio}, ${fechaLarga(diaReserva(reserva))}, ${reserva.hora}`);
     boton.addEventListener('click', () => cancelar(reserva, boton));
     footer.append(boton);
   }
@@ -77,14 +93,13 @@ async function cargarReservas() {
     const res = await fetch('/api/horarios/mis-reservas', { headers: { Authorization: `Bearer ${token}` } });
     const reservas = await res.json();
     if (!res.ok || !Array.isArray(reservas)) throw new Error(reservas.mensaje || 'No se pudieron obtener tus reservas.');
-    const hoy = new Date();
-    hoy.setHours(0, 0, 0, 0);
-    const activas = reservas.filter(r => new Date(r.fecha) >= hoy).sort((a, b) => new Date(a.fecha) - new Date(b.fecha) || minutosInicio(a.hora) - minutosInicio(b.hora));
-    const pasadas = reservas.filter(r => new Date(r.fecha) < hoy).sort((a, b) => new Date(b.fecha) - new Date(a.fecha));
+    const hoy = hoyAcademico();
+    const activas = reservas.filter(r => diaReserva(r) >= hoy).sort((a, b) => diaReserva(a).localeCompare(diaReserva(b)) || minutosInicio(a.hora) - minutosInicio(b.hora));
+    const pasadas = reservas.filter(r => diaReserva(r) < hoy).sort((a, b) => diaReserva(b).localeCompare(diaReserva(a)));
     document.getElementById('total-activas').textContent = activas.length;
     document.getElementById('total-pasadas').textContent = pasadas.length;
     document.getElementById('proxima-espacio').textContent = activas[0]?.laboratorio || 'Tu agenda está libre';
-    document.getElementById('proxima-fecha').textContent = activas.length ? fechaLarga(activas[0].fecha) : 'Elige un espacio y prepara tu próxima clase.';
+    document.getElementById('proxima-fecha').textContent = activas.length ? fechaLarga(diaReserva(activas[0])) : 'Elige un espacio y prepara tu próxima clase.';
     document.getElementById('proxima-hora').textContent = activas[0]?.hora || 'Puedes reservar de lunes a sábado';
     activasCont.replaceChildren(...activas.map(r => generarTarjeta(r, true)));
     pasadasCont.replaceChildren(...pasadas.map(r => generarTarjeta(r, false)));
@@ -107,7 +122,7 @@ async function cargarReservas() {
 }
 
 async function cancelar(reserva, boton) {
-  if (!confirm(`¿Cancelar tu reserva de ${reserva.laboratorio} del ${fechaLarga(reserva.fecha)}, ${reserva.hora}?`)) return;
+  if (!confirm(`¿Cancelar tu reserva de ${reserva.laboratorio} del ${fechaLarga(diaReserva(reserva))}, ${reserva.hora}?`)) return;
   boton.disabled = true;
   boton.textContent = 'Cancelando…';
   try {

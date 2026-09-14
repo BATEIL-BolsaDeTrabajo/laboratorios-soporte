@@ -100,7 +100,11 @@ router.get('/mis-reservas', verifyToken, async (req, res) => {
       reservadoPor: req.usuario.id
     }).sort({ fecha: -1 }).select('laboratorio fecha hora estado');
 
-    res.json(reservas);
+    // Enviar el día de calendario sin convertirlo a la zona horaria del navegador.
+    res.json(reservas.map(reserva => ({
+      ...reserva.toObject(),
+      fechaCalendario: fechaDeHorario(reserva.fecha)
+    })));
   } catch (err) {
     console.error("❌ Error al obtener reservas del docente:", err);
     res.status(500).json({ mensaje: 'Error al obtener reservas' });
