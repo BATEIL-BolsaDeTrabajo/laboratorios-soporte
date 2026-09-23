@@ -288,7 +288,9 @@
     }
 
     function accionAutomatica(materiasReprobadas) {
-      return Number(materiasReprobadas || 0) > 3 ? 'CITA' : 'MENSAJE';
+      const reprobadas = Number(materiasReprobadas || 0);
+      if (reprobadas === 0) return 'NO APLICA';
+      return reprobadas > 3 ? 'CITA' : 'MENSAJE';
     }
 
     function llenarSelect(select, valores, placeholder) {
@@ -421,6 +423,7 @@
             <td class="summary-cell">${Number(registro.promedio || 0).toFixed(1)}</td>
             <td class="action-cell">
               <select class="form-select form-select-sm accion-select" data-id="${registro._id}" disabled>
+                <option value="NO APLICA"${accion === 'NO APLICA' ? ' selected' : ''}>NO APLICA</option>
                 <option value="CITA"${accion === 'CITA' ? ' selected' : ''}>CITA</option>
                 <option value="MENSAJE"${accion === 'MENSAJE' ? ' selected' : ''}>MENSAJE</option>
               </select>

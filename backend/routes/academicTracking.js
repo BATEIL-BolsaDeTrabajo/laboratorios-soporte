@@ -353,7 +353,9 @@ function userName(req) {
 }
 
 function accionAutomatica(materiasReprobadas) {
-  return Number(materiasReprobadas || 0) > 3 ? 'CITA' : 'MENSAJE';
+  const reprobadas = Number(materiasReprobadas || 0);
+  if (reprobadas === 0) return 'NO APLICA';
+  return reprobadas > 3 ? 'CITA' : 'MENSAJE';
 }
 
 router.post('/importar', verifyToken, upload.single('archivo'), async (req, res) => {
@@ -500,7 +502,7 @@ router.get('/:id/proyeccion', verifyToken, async (req, res) => {
 router.patch('/:id/accion', verifyToken, async (req, res) => {
   try {
     const accion = req.body.accion;
-    if (!['CITA', 'MENSAJE'].includes(accion)) {
+    if (!['CITA', 'MENSAJE', 'NO APLICA'].includes(accion)) {
       return res.status(400).json({ error: 'Accion no valida' });
     }
 
