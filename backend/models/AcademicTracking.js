@@ -23,8 +23,8 @@ const academicTrackingSchema = new mongoose.Schema({
   materiasReprobadas: { type: Number, default: 0 },
   accion: {
     type: String,
-    enum: ['CITA', 'MENSAJE'],
-    default: 'MENSAJE'
+    enum: ['CITA', 'MENSAJE', 'NO APLICA'],
+    default: 'NO APLICA'
   },
   comentarios: [followUpCommentSchema],
   acuerdos: [followUpCommentSchema],
