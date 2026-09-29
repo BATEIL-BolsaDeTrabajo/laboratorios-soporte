@@ -20,7 +20,7 @@
           <th>Fecha fin</th>
           <th>Días solicitados</th>
           <th>Días restantes</th>
-          <th>Días acumulados</th>
+          <th>Saldo antes de la solicitud</th>
           <th>Estatus</th>
           <th>Motivo</th>
         </tr>
@@ -89,9 +89,9 @@
             <td>${mes}</td>
             <td>${fechaInicio.toLocaleDateString()}</td>
             <td>${new Date(s.fechaFin).toLocaleDateString()}</td>
-            <td>${s.diasSolicitados}</td>
+            <td>${s.diasSolicitados}${s.tipoSolicitud === "adelanto" ? '<br><span class="badge bg-warning text-dark">Adelanto de días</span>' : ""}</td>
             <td>${s.diasRestantes ?? '-'}</td>
-            <td>${s.diasAcumulados ?? 0}</td>
+            <td>${s.diasDisponiblesAntes ?? '-'}</td>
             <td>
               <span class="badge bg-${s.estatus === 'Aceptado' ? 'success' : s.estatus === 'Rechazado' ? 'danger' : 'warning'}">
                 ${s.estatus}

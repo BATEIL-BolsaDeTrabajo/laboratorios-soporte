@@ -69,6 +69,7 @@
           <th>Fecha de Ingreso</th>
           <th>Días por aniversario</th>
           <th>Prestacion por aniversario</th>
+          <th>Días activos actuales</th>
           <th>Puesto</th>
           <th>Departamento</th>
           <th>Actualizar</th>
@@ -83,23 +84,24 @@
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title">Editar saldos de vacaciones</h5>
+          <h5 class="modal-title">Desglose de saldo de vacaciones</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
         </div>
         <div class="modal-body">
           <input type="hidden" id="dias-user-id">
           <p class="fw-semibold mb-3" id="dias-usuario-nombre"></p>
+          <p class="text-muted small">Estos dos saldos suman los días activos actuales. Las vacaciones consumen primero las prestaciones.</p>
           <div class="saldo-grid">
             <div class="saldo-col">
-              <div class="saldo-col__header">Dias Disponibles</div>
+              <div class="saldo-col__header">Saldo de aniversario</div>
               <div class="saldo-col__body">
-                <input type="number" class="form-control" id="editor-dias-disponibles" min="0" step="1">
+                <input type="number" class="form-control" id="editor-dias-disponibles" step="1">
               </div>
             </div>
             <div class="saldo-col">
-              <div class="saldo-col__header">Dias de Prestacion</div>
+              <div class="saldo-col__header">Saldo de prestaciones</div>
               <div class="saldo-col__body">
-                <input type="number" class="form-control" id="editor-dias-prestacion" min="0" step="1">
+                <input type="number" class="form-control" id="editor-dias-prestacion" step="1">
               </div>
             </div>
           </div>
@@ -157,6 +159,11 @@
         .replace(/'/g, "&#039;");
     }
 
+    function obtenerDiasActivos(usuario) {
+      return Number(usuario.diasVacacionesDisponibles || 0)
+        + Number(usuario.diasVacacionesPrestacion || 0);
+    }
+
     async function cargarUsuarios() {
       const contenedor = document.getElementById("tabla-usuarios");
       contenedor.innerHTML = "";
@@ -186,6 +193,9 @@
               <input type="number" class="form-control form-control-sm" id="prestacion-${u._id}" value="${u.diasVacacionesPrestacionAnuales ?? u.diasVacacionesPrestacion ?? 0}">
             </td>
             <td>
+              <input type="number" class="form-control form-control-sm" id="dias-activos-${u._id}" value="${obtenerDiasActivos(u)}" step="1" required aria-label="Días activos actuales" title="Total actual para gastar. Se conserva la prestación pendiente hasta este total y el resto corresponde a aniversario.">
+            </td>
+            <td>
               <input type="text" class="form-control form-control-sm" id="puesto-${u._id}" value="${escapeHtml(u.puesto)}">
             </td>
             <td>
@@ -200,7 +210,7 @@
             <td>
               <div class="acciones-contacto">
                 <button class="btn btn-sm btn-outline-secondary" onclick="abrirContacto('${u._id}')">Contacto</button>
-                <button class="btn btn-sm btn-warning" onclick="abrirEditorDias('${u._id}')">Editar</button>
+                <button class="btn btn-sm btn-warning" onclick="abrirEditorDias('${u._id}')">Desglose de saldo</button>
               </div>
             </td>
           `;
@@ -217,6 +227,13 @@
       const fecha = document.getElementById(`fecha-${id}`).value;
       const dias = document.getElementById(`dias-${id}`).value;
       const diasPrestacion = document.getElementById(`prestacion-${id}`).value;
+      const campoDiasActivos = document.getElementById(`dias-activos-${id}`);
+      const diasActivos = campoDiasActivos.valueAsNumber;
+      if (!campoDiasActivos.reportValidity() || !Number.isSafeInteger(diasActivos)) {
+        alert("Escribe un número entero de días activos actuales.");
+        return;
+      }
+      const cambioSaldo = diasActivos !== obtenerDiasActivos(usuariosPorId[id]);
       const puesto = document.getElementById(`puesto-${id}`).value;
       const departamento = document.getElementById(`depto-${id}`).value;
 
@@ -234,6 +251,7 @@
           },
           body: JSON.stringify({
             nombre,
+            ...(cambioSaldo ? { diasVacacionesActivosActuales: diasActivos } : {}),
             fechaIngreso: fecha,
             diasVacacionesAnuales: Number(dias),
             diasVacacionesPrestacionAnuales: Number(diasPrestacion),
@@ -246,6 +264,7 @@
         if (res.ok) {
           usuariosPorId[id] = {
             ...usuariosPorId[id],
+            ...result.saldosVacaciones,
             nombre,
             fechaIngreso: fecha,
             diasVacacionesAnuales: Number(dias),
@@ -253,6 +272,7 @@
             puesto,
             departamento,
           };
+          campoDiasActivos.value = obtenerDiasActivos(usuariosPorId[id]);
           alert("Usuario actualizado.");
         } else {
           alert("Error: " + result.mensaje);
@@ -294,11 +314,6 @@
       const diasVacacionesPrestacion = Number(document.getElementById("editor-dias-prestacion").value || 0);
       const boton = document.getElementById("btnGuardarDias");
 
-      if (diasDisponibles < 0 || diasVacacionesPrestacion < 0) {
-        alert("Los dias no pueden ser negativos.");
-        return;
-      }
-
       boton.disabled = true;
       try {
         const res = await fetch(`/api/users/${id}`, {
@@ -324,6 +339,12 @@
           diasVacacionesDisponibles: diasDisponibles,
           diasVacacionesPrestacion,
         };
+
+        const diasActivos = obtenerDiasActivos(usuariosPorId[id]);
+        const saldoActivo = document.getElementById(`dias-activos-${id}`);
+        if (saldoActivo) {
+          saldoActivo.value = diasActivos;
+        }
 
         modalEditarDias?.hide();
         alert(data.mensaje || "Dias actualizados correctamente");

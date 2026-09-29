@@ -101,7 +101,7 @@
             <td>${solicitante}</td>
             <td>${new Date(s.fechaInicio).toLocaleDateString()}</td>
             <td>${new Date(s.fechaFin).toLocaleDateString()}</td>
-            <td>${s.diasSolicitados}</td>
+            <td>${s.diasSolicitados}${s.tipoSolicitud === "adelanto" ? '<br><span class="badge bg-warning text-dark">Adelanto de días</span>' : ""}</td>
             <td>
               <span class="badge bg-${s.estatus === 'Aceptado' ? 'success' : s.estatus === 'Rechazado' ? 'danger' : 'warning'}">
                 ${s.estatus}

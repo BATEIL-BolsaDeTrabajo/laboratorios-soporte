@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const Vacacion = require('../models/Vacacion');
 const User = require('../models/User');
-const { verifyToken, verifyRole } = require('../middlewares/auth');
+const { verifyToken, verifyRole, verifyCurrentRole } = require('../middlewares/auth');
 
 function normalizarDepartamento(departamento = '') {
   return String(departamento)
@@ -32,21 +32,15 @@ function contarDiasVacaciones(fechaInicio, fechaFin) {
   return total;
 }
 
-function calcularConsumoVacaciones(diasSolicitados, diasAcumulados, diasDisponibles) {
-  const saldoTotalAntes = Math.max(diasAcumulados || 0, 0) + Math.max(diasDisponibles || 0, 0);
-  const diasPorPagar = Math.max(diasSolicitados - saldoTotalAntes, 0);
-
-  return {
-    saldoTotalAntes,
-    saldoTotalRestante: Math.max(saldoTotalAntes - diasSolicitados, 0),
-    diasPorPagar
-  };
-}
+const { actualizarDiasSiCorresponde, calcularConsumoVacaciones } = require('../utils/saldoVacaciones');
 
 // 🧑‍🏫 1. Solicitar vacaciones (docentes y talleres)
 router.post('/solicitar', verifyToken, async (req, res) => {
   try {
-    const { fechaInicio, fechaFin, motivo, detalles } = req.body;
+    const { fechaInicio, fechaFin, motivo, detalles, tipoSolicitud = 'normal' } = req.body;
+    if (!['normal', 'adelanto'].includes(tipoSolicitud)) {
+      return res.status(400).json({ mensaje: 'Tipo de solicitud inválido' });
+    }
 
     const fecha1 = new Date(`${fechaInicio}T12:00:00`);
     const fecha2 = new Date(`${fechaFin}T12:00:00`);
@@ -60,6 +54,9 @@ router.post('/solicitar', verifyToken, async (req, res) => {
     }
 
     const diasSolicitados = contarDiasVacaciones(fecha1, fecha2);
+    if (diasSolicitados <= 0) {
+      return res.status(400).json({ mensaje: 'Selecciona al menos un día de vacaciones que no sea domingo.' });
+    }
 
     const usuario = await User.findById(req.usuario.id);
     if (!usuario) return res.status(404).json({ mensaje: 'Usuario no encontrado' });
@@ -70,11 +67,15 @@ router.post('/solicitar', verifyToken, async (req, res) => {
       });
     }
 
-    const consumoPreview = calcularConsumoVacaciones(
-      diasSolicitados,
-      usuario.diasVacacionesAcumulados,
-      usuario.diasVacacionesDisponibles
-    );
+    actualizarDiasSiCorresponde(usuario);
+    if (usuario.isModified()) await usuario.save();
+    const consumoPreview = calcularConsumoVacaciones(diasSolicitados, usuario);
+    if (tipoSolicitud === 'adelanto' && consumoPreview.saldoTotalAntes > 0) {
+      return res.status(400).json({ mensaje: 'Debes agotar tus días disponibles antes de solicitar un adelanto.' });
+    }
+    if (tipoSolicitud === 'normal' && consumoPreview.saldoTotalRestante < 0) {
+      return res.status(400).json({ mensaje: 'No tienes saldo suficiente para este periodo. Ajusta las fechas a tu saldo disponible; Adelantar días se habilita cuando se agote.' });
+    }
 
     const nueva = new Vacacion({
       solicitante: req.usuario.id,
@@ -83,6 +84,7 @@ router.post('/solicitar', verifyToken, async (req, res) => {
       motivo,
       detalles,
       diasSolicitados,
+      tipoSolicitud,
       diasDisponiblesAntes: consumoPreview.saldoTotalAntes,
       diasRestantes: consumoPreview.saldoTotalRestante,
       diasPorPagar: consumoPreview.diasPorPagar
@@ -101,7 +103,7 @@ router.get('/todas', verifyToken, verifyRole(['rrhh']), async (req, res) => {
   try {
     const solicitudes = await Vacacion.find().populate(
       'solicitante revisadoPor',
-      'nombre roles diasVacacionesDisponibles diasVacacionesPrestacion diasVacacionesAcumulados'
+      'nombre roles diasVacacionesDisponibles diasVacacionesPrestacion'
     );
     res.json(solicitudes);
   } catch (err) {
@@ -112,21 +114,16 @@ router.get('/todas', verifyToken, verifyRole(['rrhh']), async (req, res) => {
 // ✅ 3. Ver solicitudes propias (docente o talleres)
 router.get('/mis-solicitudes', verifyToken, async (req, res) => {
   try {
-    const usuario = await User.findById(req.usuario.id).select('diasVacacionesAcumulados');
-    const diasAcumulados = usuario?.diasVacacionesAcumulados || 0;
     const solicitudes = await Vacacion.find({ solicitante: req.usuario.id }).lean();
 
-    res.json(solicitudes.map((solicitud) => ({
-      ...solicitud,
-      diasAcumulados
-    })));
+    res.json(solicitudes);
   } catch (err) {
     res.status(500).json({ mensaje: 'Error al obtener solicitudes' });
   }
 });
 
 // 🧾 4. Aprobar o rechazar solicitud (subdirección o finanzas)
-router.put('/revisar/:id', verifyToken, verifyRole(['subdireccion', 'finanzas']), async (req, res) => {
+router.put('/revisar/:id', verifyToken, verifyCurrentRole(['subdireccion', 'finanzas']), async (req, res) => {
   try {
     const { estatus, motivoRespuesta } = req.body;
     if (!['Aceptado', 'Rechazado'].includes(estatus)) {
@@ -158,19 +155,23 @@ router.put('/revisar/:id', verifyToken, verifyRole(['subdireccion', 'finanzas'])
     }
 
     const estatusAnterior = vacacion.estatus;
+    if (estatusAnterior !== 'Pendiente') {
+      return res.status(409).json({ mensaje: 'Esta solicitud ya fue revisada.' });
+    }
 
     if (estatus === 'Aceptado' && estatusAnterior !== 'Aceptado') {
-      const consumo = calcularConsumoVacaciones(
-        vacacion.diasSolicitados,
-        solicitante.diasVacacionesAcumulados,
-        solicitante.diasVacacionesDisponibles
-      );
+      actualizarDiasSiCorresponde(solicitante);
+      const consumo = calcularConsumoVacaciones(vacacion.diasSolicitados, solicitante);
+      if (vacacion.tipoSolicitud !== 'adelanto' && consumo.saldoTotalRestante < 0) {
+        return res.status(409).json({ mensaje: 'El saldo actual es insuficiente. El usuario debe solicitar un adelanto de días.' });
+      }
 
       vacacion.diasDisponiblesAntes = consumo.saldoTotalAntes;
       vacacion.diasRestantes = consumo.saldoTotalRestante;
       vacacion.diasPorPagar = consumo.diasPorPagar;
       solicitante.diasVacacionesAcumulados = 0;
-      solicitante.diasVacacionesDisponibles = consumo.saldoTotalRestante;
+      solicitante.diasVacacionesDisponibles = consumo.diasAniversarioRestantes;
+      solicitante.diasVacacionesPrestacion = consumo.diasPrestacionRestantes;
       await solicitante.save();
     }
 
@@ -187,7 +188,7 @@ router.put('/revisar/:id', verifyToken, verifyRole(['subdireccion', 'finanzas'])
 });
 
 // 🔐 Ruta para Subdirección y Finanzas: Ver solicitudes pendientes según su rol
-router.get('/pendientes', verifyToken, verifyRole(['subdireccion', 'finanzas']), async (req, res) => {
+router.get('/pendientes', verifyToken, verifyCurrentRole(['subdireccion', 'finanzas']), async (req, res) => {
   try {
     const todas = await Vacacion.find({ estatus: 'Pendiente' }).populate('solicitante');
     const esSubdireccion = req.usuario.roles.includes('subdireccion');
