@@ -24,6 +24,11 @@ const vacacionSchema = new mongoose.Schema({
     type: Number,
     required: true
   },
+  tipoSolicitud: {
+    type: String,
+    enum: ['normal', 'adelanto'],
+    default: 'normal'
+  },
   diasDisponiblesAntes: {
     type: Number
   },

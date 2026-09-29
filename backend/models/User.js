@@ -30,6 +30,8 @@ const userSchema = new mongoose.Schema({
     type: Number,
     default: 0
   },
+  // Campo legado: conservar hasta comprobar que todos los saldos se consolidaron.
+  // La actualización de vacaciones lo integra al saldo de aniversario y lo deja en cero.
   diasVacacionesAcumulados: {
     type: Number,
     default: 0

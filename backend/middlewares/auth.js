@@ -26,4 +26,19 @@ function verifyRole(rolesPermitidos) {
   };
 }
 
-module.exports = { verifyToken, verifyRole };
+// Para operaciones que deben reconocer cambios de rol sin volver a iniciar sesión.
+function verifyCurrentRole(rolesPermitidos) {
+  return async (req, res, next) => {
+    try {
+      const User = require('../models/User');
+      const usuario = await User.findById(req.usuario.id).select('roles');
+      if (!usuario) return res.status(401).json({ mensaje: 'Usuario no encontrado' });
+      req.usuario.roles = usuario.roles || [];
+    } catch (err) {
+      return res.status(500).json({ mensaje: 'No se pudieron verificar los permisos actuales' });
+    }
+    return verifyRole(rolesPermitidos)(req, res, next);
+  };
+}
+
+module.exports = { verifyToken, verifyRole, verifyCurrentRole };

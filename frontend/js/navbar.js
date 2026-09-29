@@ -176,6 +176,10 @@ function aplicarPermisosMenu() {
   if (permisos === null) return;
 
   const permitidos = new Set(permisos);
+  // Revisar vacaciones está disponible para toda cuenta con el rol Finanzas.
+  if (obtenerRolesDesdeStorageOToken().includes("finanzas")) {
+    permitidos.add("finanzas-revision");
+  }
   // Un administrador nunca debe perder el acceso a la administración de usuarios.
   // Esto también recupera cuentas admin que hayan quedado con un arreglo vacío.
   if (obtenerRolesDesdeStorageOToken().includes("admin")) {

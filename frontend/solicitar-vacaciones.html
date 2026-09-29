@@ -5,11 +5,35 @@
   <title>Solicitud de Vacaciones</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
   <link href="css/toasts.css" rel="stylesheet">
+  <style>
+    .saldo-vacaciones {
+      border-left: 6px solid #ffc107;
+    }
+
+    .saldo-vacaciones__numero {
+      font-size: clamp(2rem, 4vw, 3.25rem);
+      font-weight: 800;
+      line-height: 1;
+    }
+  </style>
 </head>
 <body class="bg-light">
 <div id="navbar-container"></div>
   <div class="container mt-5">
     <h2 class="mb-4">📄 Solicitud de Vacaciones</h2>
+
+    <div class="card saldo-vacaciones shadow-sm mb-4">
+      <div class="card-body d-flex flex-column flex-md-row align-items-md-center justify-content-between gap-3">
+        <div>
+          <div class="text-muted fw-semibold">Dias disponibles para solicitar</div>
+          <div id="saldo-vacaciones-texto" class="text-muted">Cargando saldo...</div>
+        </div>
+        <div class="text-md-end">
+          <div id="saldo-vacaciones-numero" class="saldo-vacaciones__numero text-secondary">--</div>
+          <div class="text-muted">dias</div>
+        </div>
+      </div>
+    </div>
 
     <form id="formVacaciones">
       <div class="mb-3">
@@ -32,7 +56,11 @@
         <textarea class="form-control" id="detalles" name="detalles" rows="3"></textarea>
       </div>
 
-      <button type="submit" class="btn btn-primary">Enviar solicitud</button>
+      <div class="d-flex gap-2 flex-wrap">
+        <button type="submit" id="btnEnviarSolicitud" class="btn btn-primary" disabled>Enviar solicitud</button>
+        <button type="submit" id="btnAdelantarDias" class="btn btn-warning" disabled>Adelantar días</button>
+      </div>
+      <p class="text-muted small mt-2">Adelantar días se habilita cuando se agota tu saldo disponible. Solo los días aprobados se descontarán del saldo y se compensarán con los próximos abonos por aniversario.</p>
     </form>
 
     <div id="mensaje" class="mt-4"></div>
@@ -42,18 +70,79 @@
   <script>
     const form = document.getElementById('formVacaciones');
     const mensaje = document.getElementById('mensaje');
+    const token = localStorage.getItem('token');
+    const saldoNumero = document.getElementById('saldo-vacaciones-numero');
+    const saldoTexto = document.getElementById('saldo-vacaciones-texto');
+
+    const btnEnviar = document.getElementById('btnEnviarSolicitud');
+    const btnAdelantar = document.getElementById('btnAdelantarDias');
+    let saldoActual = null;
+    let enviando = false;
+
+    function actualizarBotones() {
+      btnEnviar.disabled = enviando || saldoActual === null || saldoActual <= 0;
+      btnAdelantar.disabled = enviando || saldoActual === null || saldoActual > 0;
+    }
 
     function mostrarMensaje(texto, tipo = 'info') {
       mensaje.innerHTML = '';
       window.mostrarToast(texto, tipo);
     }
 
+    async function cargarSaldoVacaciones() {
+      saldoActual = null;
+      actualizarBotones();
+      try {
+        const res = await fetch('/api/users/me', {
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        });
+        const usuario = await res.json();
+
+        if (!res.ok) {
+          saldoNumero.textContent = '--';
+          saldoNumero.className = 'saldo-vacaciones__numero text-secondary';
+          saldoTexto.textContent = usuario.mensaje || 'No se pudo cargar tu saldo de vacaciones.';
+          return;
+        }
+
+        const diasDisponibles = Number(usuario.diasVacacionesDisponibles || 0);
+        const diasPrestacion = Number(usuario.diasVacacionesPrestacion || 0);
+        const totalDias = diasDisponibles + diasPrestacion;
+
+        saldoActual = totalDias;
+        actualizarBotones();
+        saldoNumero.textContent = Math.max(totalDias, 0);
+        saldoNumero.className = `saldo-vacaciones__numero ${totalDias < 0 ? 'text-danger' : 'text-success'}`;
+        saldoTexto.textContent = totalDias < 0
+          ? `Tienes ${Math.abs(totalDias)} días adelantados pendientes por compensar.`
+          : `${diasDisponibles} disponibles + ${diasPrestacion} de prestacion.`;
+      } catch (err) {
+        saldoNumero.textContent = '--';
+        saldoNumero.className = 'saldo-vacaciones__numero text-secondary';
+        saldoTexto.textContent = 'Error de red al cargar tu saldo.';
+      }
+    }
+
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
 
-      const token = localStorage.getItem('token'); // asegúrate de haber guardado el JWT aquí tras login
+      if (enviando || saldoActual === null) return;
+      const tipoSolicitud = e.submitter === btnAdelantar ? 'adelanto' : 'normal';
+      if (tipoSolicitud === 'adelanto' && saldoActual > 0) {
+        mostrarMensaje('Debes agotar tus días disponibles antes de solicitar un adelanto.', 'warning');
+        return;
+      }
+      if (tipoSolicitud === 'normal' && saldoActual <= 0) {
+        mostrarMensaje('No tienes días disponibles. Utiliza Adelantar días.', 'warning');
+        return;
+      }
+      enviando = true;
+      actualizarBotones();
 
       const datos = {
+        tipoSolicitud,
         fechaInicio: form.fechaInicio.value,
         fechaFin: form.fechaFin.value,
         motivo: form.motivo.value,
@@ -79,8 +168,14 @@
         }
       } catch (err) {
         mostrarMensaje('Error de red', 'danger');
+      } finally {
+        await cargarSaldoVacaciones();
+        enviando = false;
+        actualizarBotones();
       }
     });
+
+    cargarSaldoVacaciones();
   </script>
   <script src="js/navbar.js"></script>
   <script src="/socket.io/socket.io.js"></script>

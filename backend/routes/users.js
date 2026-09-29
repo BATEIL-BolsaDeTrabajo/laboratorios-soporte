@@ -4,47 +4,7 @@ const User = require('../models/User');
 const bcrypt = require('bcrypt');
 const { verifyToken, verifyRole } = require('../middlewares/auth');
 
-const DIAS_VACACIONES_ANUALES = 22;
-
-function obtenerNumero(valor, respaldo = 0) {
-  const numero = Number(valor);
-  return Number.isFinite(numero) ? numero : respaldo;
-}
-
-function consolidarDiasAcumulados(usuario) {
-  const diasDisponibles = Math.max(usuario.diasVacacionesDisponibles || 0, 0);
-  const diasAcumulados = Math.max(usuario.diasVacacionesAcumulados || 0, 0);
-
-  usuario.diasVacacionesDisponibles = diasDisponibles + diasAcumulados;
-  usuario.diasVacacionesAcumulados = 0;
-  return usuario;
-}
-
-// 👇 FUNCIONES AUXILIARES
-function actualizarDiasSiCorresponde(usuario) {
-  const hoy = new Date();
-  consolidarDiasAcumulados(usuario);
-  if (!usuario.fechaIngreso) return usuario;
-
-  const ingreso = new Date(usuario.fechaIngreso);
-  const ultima = usuario.ultimaActualizacionDias ? new Date(usuario.ultimaActualizacionDias) : null;
-
-  const añoActual = hoy.getFullYear();
-  const aniversarioEsteAño = new Date(ingreso);
-  aniversarioEsteAño.setFullYear(añoActual);
-
-  if (hoy < aniversarioEsteAño) return usuario;
-  if (ultima && ultima.getFullYear() === añoActual) return usuario;
-
-  const diasAnuales = obtenerNumero(usuario.diasVacacionesAnuales, DIAS_VACACIONES_ANUALES);
-  const diasPrestacionAnuales = obtenerNumero(usuario.diasVacacionesPrestacionAnuales, 0);
-
-  usuario.diasVacacionesDisponibles += diasAnuales;
-  usuario.diasVacacionesPrestacion = Math.max(usuario.diasVacacionesPrestacion || 0, 0) + diasPrestacionAnuales;
-  usuario.ultimaActualizacionDias = hoy;
-
-  return usuario;
-}
+const { actualizarDiasSiCorresponde, establecerDiasActivos } = require('../utils/saldoVacaciones');
 
 // 🔍 Obtener todos los usuarios (admin y rrhh)
 router.get('/', verifyToken, verifyRole(['admin', 'rrhh', 'finanzas']), async (req, res) => {
@@ -56,10 +16,10 @@ router.get('/', verifyToken, verifyRole(['admin', 'rrhh', 'finanzas']), async (r
     } else {
       // RRHH solo ve campos específicos
       usuarios = await User.find({}, 'nombre correo telefonoWhatsapp roles _id fechaIngreso diasVacacionesDisponibles diasVacacionesPrestacion diasVacacionesAnuales diasVacacionesPrestacionAnuales diasVacacionesAcumulados puesto departamento ultimaActualizacionDias');
-      usuarios = usuarios.map(u => actualizarDiasSiCorresponde(u));
-      await Promise.all(usuarios.map(u => u.save()));
     }
 
+    usuarios.forEach(u => actualizarDiasSiCorresponde(u));
+    await Promise.all(usuarios.filter(u => u.isModified()).map(u => u.save()));
     res.json(usuarios);
   } catch (err) {
     res.status(500).json({ mensaje: 'Error al obtener usuarios' });
@@ -68,11 +28,16 @@ router.get('/', verifyToken, verifyRole(['admin', 'rrhh', 'finanzas']), async (r
 
 // 📝 Modificar usuario
 router.put('/:id', verifyToken, verifyRole(['admin', 'rrhh']), async (req, res) => {
-  const { nombre, roles, nuevaContraseña, fechaIngreso, diasVacacionesDisponibles, diasVacacionesPrestacion, diasVacacionesAnuales, diasVacacionesPrestacionAnuales, actualizarDiasManual, puesto, departamento, telefonoWhatsapp, correo } = req.body;
+  const { nombre, roles, nuevaContraseña, fechaIngreso, diasVacacionesDisponibles, diasVacacionesPrestacion, diasVacacionesAnuales, diasVacacionesPrestacionAnuales, puesto, departamento, telefonoWhatsapp, correo } = req.body;
 
   try {
     const usuario = await User.findById(req.params.id);
     if (!usuario) return res.status(404).json({ mensaje: 'Usuario no encontrado' });
+
+    const diasActivos = req.body.diasVacacionesActivosActuales;
+    if (typeof diasActivos !== 'undefined' && !Number.isSafeInteger(diasActivos)) {
+      return res.status(400).json({ mensaje: 'Los días activos deben ser un número entero.' });
+    }
 
     // ADMIN puede cambiar roles o contraseña
     if (Array.isArray(roles) && req.usuario.roles.includes('admin')) {
@@ -134,7 +99,8 @@ router.put('/:id', verifyToken, verifyRole(['admin', 'rrhh']), async (req, res) 
       if (typeof diasVacacionesPrestacionAnuales === 'number') {
         usuario.diasVacacionesPrestacionAnuales = diasVacacionesPrestacionAnuales;
       }
-      if (actualizarDiasManual) {
+      if (typeof diasActivos !== 'undefined') {
+        establecerDiasActivos(usuario, diasActivos);
         usuario.ultimaActualizacionDias = new Date();
       }
   if (puesto) usuario.puesto = puesto;
@@ -142,7 +108,10 @@ router.put('/:id', verifyToken, verifyRole(['admin', 'rrhh']), async (req, res) 
     }
 
     await usuario.save();
-    res.json({ mensaje: 'Usuario actualizado correctamente' });
+    res.json({ mensaje: 'Usuario actualizado correctamente', saldosVacaciones: {
+      diasVacacionesDisponibles: usuario.diasVacacionesDisponibles,
+      diasVacacionesPrestacion: usuario.diasVacacionesPrestacion
+    } });
   } catch (err) {
     res.status(500).json({ mensaje: 'Error al actualizar usuario' });
   }
@@ -221,6 +190,9 @@ router.post('/crear', verifyToken, verifyRole(['admin', 'rrhh']), async (req, re
 router.get('/me', verifyToken, async (req, res) => {
   try {
     const usuario = await User.findById(req.usuario.id).select('-contraseña');
+    if (!usuario) return res.status(404).json({ mensaje: 'Usuario no encontrado' });
+    actualizarDiasSiCorresponde(usuario);
+    if (usuario.isModified()) await usuario.save();
     res.json(usuario);
   } catch (err) {
     res.status(500).json({ mensaje: 'Error al obtener el usuario autenticado' });

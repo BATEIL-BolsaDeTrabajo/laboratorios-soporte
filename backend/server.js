@@ -137,83 +137,20 @@ async function cargarHorariosDeLaSemana() {
   }
 }
 
-// Vacaciones: reiniciar dias en aniversario si corresponde
-const DIAS_VACACIONES_ANUALES = 22;
-
-function obtenerNumero(valor, respaldo = 0) {
-  const numero = Number(valor);
-  return Number.isFinite(numero) ? numero : respaldo;
-}
-
-function consolidarDiasAcumulados(usuario) {
-  const diasDisponibles = Math.max(usuario.diasVacacionesDisponibles || 0, 0);
-  const diasAcumulados = Math.max(usuario.diasVacacionesAcumulados || 0, 0);
-
-  usuario.diasVacacionesDisponibles = diasDisponibles + diasAcumulados;
-  usuario.diasVacacionesAcumulados = 0;
-  return usuario;
-}
-
-function actualizarDiasSiCorresponde(usuario) {
-  const hoy = new Date();
-  consolidarDiasAcumulados(usuario);
-  if (!usuario.fechaIngreso) return usuario;
-
-  const ingreso = new Date(usuario.fechaIngreso);
-  const ultima = usuario.ultimaActualizacionDias ? new Date(usuario.ultimaActualizacionDias) : null;
-
-  const añoActual = hoy.getFullYear();
-  const aniversario = new Date(ingreso);
-  aniversario.setFullYear(añoActual);
-
-  if (hoy < aniversario) return usuario; // Aún no llega el aniversario este año
-  if (ultima && ultima.getFullYear() === añoActual) return usuario; // Ya se actualizó este año
-
-  const diasAnuales = obtenerNumero(usuario.diasVacacionesAnuales, DIAS_VACACIONES_ANUALES);
-  const diasPrestacionAnuales = obtenerNumero(usuario.diasVacacionesPrestacionAnuales, 0);
-
-  usuario.diasVacacionesDisponibles += diasAnuales;
-  usuario.diasVacacionesPrestacion = Math.max(usuario.diasVacacionesPrestacion || 0, 0) + diasPrestacionAnuales;
-  usuario.ultimaActualizacionDias = hoy;
-  return usuario;
-}
+// Vacaciones: acumular ambos saldos al cumplir cada aniversario.
+const { actualizarDiasSiCorresponde } = require('./utils/saldoVacaciones');
 
 async function actualizarDiasVacacionesAutomatica() {
   try {
     console.log("🔁 Ejecutando revisión automática de días de vacaciones...");
     let usuarios = await User.find({});
-    usuarios = usuarios.map(actualizarDiasSiCorresponde);
-    await Promise.all(usuarios.map(u => u.save()));
+    usuarios = usuarios.map(u => actualizarDiasSiCorresponde(u));
+    await Promise.all(usuarios.filter(u => u.isModified()).map(u => u.save()));
     console.log("✅ Días de vacaciones actualizados automáticamente.");
   } catch (err) {
     console.error("❌ Error en actualización automática de vacaciones:", err);
   }
 }
-
-// ===== Conexión a Mongo y arranque =====
-/*const PORT = process.env.PORT || 3000;
-
-mongoose.connect(process.env.MONGODB_URI)
-  .then(() => {
-    console.log('🟢 Conectado a MongoDB');
-
-    app.listen(PORT, () => {
-      console.log(`🚀 Servidor en http://localhost:${PORT}`);
-    });
-
-    // Ejecutar una vez al iniciar
-    cargarHorariosDeLaSemana();
-    actualizarDiasVacacionesAutomatica();
-
-    // Schedules
-    cron.schedule('0 17 * * 0', cargarHorariosDeLaSemana, { timezone: ZONA_HORARIA });     // Cada domingo a las 17:00
-    cron.schedule('10 0 * * *', actualizarDiasVacacionesAutomatica); // Diario 00:10
-  })
-  .catch(err => {
-    console.error('🔴 Error en MongoDB:', err);
-    process.exit(1);
-  });*/
-
 
 // ===== Conexión a Mongo y arranque =====
 const PORT = process.env.PORT || 3000;
