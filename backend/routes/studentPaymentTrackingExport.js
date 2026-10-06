@@ -8,7 +8,7 @@ const { verifyToken } = require('../middlewares/auth');
 
 router.get('/export-excel', verifyToken, async (req, res) => {
   try {
-    const { cycleId, grupo = '', search = '' } = req.query;
+    const { cycleId, grupo = '', search = '', monthKey = '', paymentValue = '' } = req.query;
 
     if (!cycleId) {
       return res.status(400).json({ mensaje: 'El cycleId es obligatorio' });
@@ -20,6 +20,17 @@ router.get('/export-excel', verifyToken, async (req, res) => {
     }
 
     const filter = { cycleId };
+
+    const selectedMonth = cycle.months.find(m => m.key === monthKey);
+    if (monthKey && !selectedMonth) {
+      return res.status(400).json({ mensaje: 'El mes seleccionado no pertenece a ese ciclo' });
+    }
+    if (paymentValue && (!monthKey || !['SI', 'NO'].includes(paymentValue))) {
+      return res.status(400).json({ mensaje: 'Selecciona un mes y un estado de pago válido' });
+    }
+    if (monthKey && paymentValue) {
+      filter[`payments.${monthKey}.value`] = paymentValue;
+    }
 
     if (grupo) {
       filter.grupo = grupo;
@@ -63,7 +74,7 @@ router.get('/export-excel', verifyToken, async (req, res) => {
     titleRow.height = 22;
 
     const infoRow = worksheet.addRow([
-      `Grupo: ${grupo || 'Todos'}    |    Búsqueda: ${search || 'Sin filtro'}    |    Total: ${rows.length}`
+      `Grupo: ${grupo || 'Todos'}    |    Búsqueda: ${search || 'Sin filtro'}    |    Mes: ${selectedMonth?.label || 'Sin filtro'}    |    Estado: ${paymentValue || 'Todos'}    |    Total: ${rows.length}`
     ]);
     worksheet.mergeCells(infoRow.number, 1, infoRow.number, columns.length);
     infoRow.font = { italic: true, size: 10 };

@@ -4,6 +4,8 @@ const token = localStorage.getItem("token");
 const selectCycle = document.getElementById("selectCycle");
 const selectMonth = document.getElementById("selectMonth");
 const filterGrupo = document.getElementById("filterGrupo");
+const filterMonth = document.getElementById("filterMonth");
+const filterPayment = document.getElementById("filterPayment");
 const btnLoad = document.getElementById("btnLoad");
 const btnImport = document.getElementById("btnImport");
 const fileCaja = document.getElementById("fileCaja");
@@ -84,14 +86,9 @@ function loadMonthsForSelectedCycle() {
   const cycle = activeCyclesCache.find(c => c._id === cycleId);
 
   selectMonth.innerHTML = '<option value="">Seleccione</option>';
-
-  if (!cycle || !Array.isArray(cycle.months)) return;
-
-  [...cycle.months]
-    .sort((a, b) => a.order - b.order)
-    .forEach(m => {
-      selectMonth.innerHTML += `<option value="${m.key}">${m.label}</option>`;
-    });
+  filterMonth.innerHTML = '<option value="">Seleccione un mes</option>';
+  filterPayment.value = "";
+  filterPayment.disabled = true;
 
   filterGrupo.innerHTML = '<option value="">Todos los grupos</option>';
   currentRowsCache = [];
@@ -99,6 +96,16 @@ function loadMonthsForSelectedCycle() {
   thead.innerHTML = "";
   tbody.innerHTML = "";
   summaryDiv.innerHTML = "";
+
+  if (!cycle || !Array.isArray(cycle.months)) return;
+
+  [...cycle.months]
+    .sort((a, b) => a.order - b.order)
+    .forEach(m => {
+      const option = `<option value="${escapeHtml(m.key)}">${escapeHtml(m.label)}</option>`;
+      selectMonth.innerHTML += option;
+      filterMonth.innerHTML += option;
+    });
 }
 
 // ===============================
@@ -107,6 +114,13 @@ function loadMonthsForSelectedCycle() {
 selectCycle.addEventListener("change", loadMonthsForSelectedCycle);
 btnImport.addEventListener("click", importCajaExcel);
 btnLoad.addEventListener("click", loadTable);
+
+filterMonth.addEventListener("change", () => {
+  filterPayment.disabled = !filterMonth.value;
+  if (!filterMonth.value) filterPayment.value = "";
+  applyFiltersAndRender();
+});
+filterPayment.addEventListener("change", applyFiltersAndRender);
 
 if (filterGrupo) {
   filterGrupo.addEventListener("change", applyFiltersAndRender);
@@ -253,6 +267,12 @@ function applyFiltersAndRender() {
 
   if (grupoSeleccionado) {
     filteredRows = filteredRows.filter(r => (r.grupo || "") === grupoSeleccionado);
+  }
+
+  const monthKey = filterMonth.value;
+  const paymentValue = filterPayment.value;
+  if (monthKey && paymentValue) {
+    filteredRows = filteredRows.filter(r => r.payments?.[monthKey]?.value === paymentValue);
   }
 
   renderRows(filteredRows, currentMonthsCache);
@@ -538,7 +558,9 @@ function exportExcel() {
   const params = new URLSearchParams({
     cycleId,
     grupo,
-    search
+    search,
+    monthKey: filterMonth.value,
+    paymentValue: filterMonth.value ? filterPayment.value : ""
   });
 
   const url = `${API}/api/student-payment-tracking/export-excel?${params.toString()}`;

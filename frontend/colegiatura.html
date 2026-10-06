@@ -236,6 +236,8 @@
           </button>
         </div>
 
+        <div class="col-12"></div>
+
         <div class="col-md-4">
           <label class="form-label">Buscar</label>
           <input type="text" id="search" class="form-control" placeholder="Nombre o matrícula">
@@ -245,6 +247,22 @@
           <label class="form-label">Grupo</label>
           <select id="filterGrupo" class="form-select">
             <option value="">Todos los grupos</option>
+          </select>
+        </div>
+
+        <div class="col-md-2">
+          <label for="filterMonth" class="form-label">Mes a consultar</label>
+          <select id="filterMonth" class="form-select">
+            <option value="">Seleccione un mes</option>
+          </select>
+        </div>
+
+        <div class="col-md-2">
+          <label for="filterPayment" class="form-label">Estado de pago</label>
+          <select id="filterPayment" class="form-select" disabled>
+            <option value="">Todos</option>
+            <option value="SI">Sí</option>
+            <option value="NO">No</option>
           </select>
         </div>
 
