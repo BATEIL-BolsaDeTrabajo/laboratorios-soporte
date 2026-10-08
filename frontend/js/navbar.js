@@ -1,5 +1,13 @@
 // js/navbar.js
 
+(function cargarControlSesion() {
+  if (document.querySelector('script[data-app-session="true"]')) return;
+  const script = document.createElement("script");
+  script.src = "/js/session.js";
+  script.dataset.appSession = "true";
+  document.head.appendChild(script);
+})();
+
 (function cargarToastsGlobales() {
   if (window.mostrarToast || document.querySelector('script[data-app-toasts="true"]')) return;
 
