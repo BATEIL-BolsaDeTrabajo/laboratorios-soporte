@@ -13,7 +13,11 @@ const AsignacionEquipo = require('../models/AsignacionEquipo');
 const User = require('../models/User');
 const ExcelJS = require('exceljs');
 
-const { verifyToken, verifyRole } = require('../middlewares/auth');
+const { verifyToken, verifyRole, verifyCurrentRole } = require('../middlewares/auth');
+const exportarAlmacen = require('../utils/exportarAlmacen');
+const fs = require('node:fs/promises');
+const os = require('node:os');
+const path = require('node:path');
 
 const allowAlmacen = ['almacen', 'finanzas'];
 const RESTRICTED_ALMACEN_EMAIL = 'almacen@bateil.edu.mx';
@@ -818,10 +822,31 @@ router.delete(
   }
 );
 
+router.get('/exportar-todo', verifyToken, verifyCurrentRole(['admin']), async (req, res) => {
+  let directorio;
+  try {
+    directorio = await fs.mkdtemp(path.join(os.tmpdir(), 'almacen-'));
+    const archivo = path.join(directorio, 'almacen.xlsx');
+    await exportarAlmacen(archivo);
+    res.set('Cache-Control', 'private, no-store');
+    const nombre = 'almacen-' + new Date().toISOString().slice(0, 10) + '.xlsx';
+    await new Promise((resolve, reject) => {
+      res.download(archivo, nombre, error => error ? reject(error) : resolve());
+    });
+  } catch (error) {
+    console.error('Error al exportar Almacén:', error);
+    if (!res.headersSent && !res.destroyed) {
+      res.status(500).json({ mensaje: 'No se pudo completar la exportación de Almacén.' });
+    }
+  } finally {
+    if (directorio) await fs.rm(directorio, { recursive: true, force: true }).catch(console.error);
+  }
+});
+
 router.get(
   '/resumen',
   verifyToken,
-  verifyRole(allowAlmacen),
+  verifyCurrentRole([...allowAlmacen, 'admin']),
   async (req, res) => {
     try {
       const totalProductos = await Producto.countDocuments({});
@@ -845,6 +870,7 @@ router.get(
 
       res.json({
         totalProductos,
+        puedeExportar: req.usuario.roles.includes('admin'),
         totalInventario,
         productosBajoStock
       });
@@ -1355,7 +1381,7 @@ router.get(
 router.get(
   '/movimientos-recientes',
   verifyToken,
-  verifyRole(allowAlmacen),
+  verifyCurrentRole([...allowAlmacen, 'admin']),
   async (req, res) => {
     try {
       const limite = Number(req.query.limite) || 10;

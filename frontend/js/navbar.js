@@ -191,6 +191,7 @@ function aplicarPermisosMenu() {
   // Un administrador nunca debe perder el acceso a la administración de usuarios.
   // Esto también recupera cuentas admin que hayan quedado con un arreglo vacío.
   if (obtenerRolesDesdeStorageOToken().includes("admin")) {
+    permitidos.add("almacen-dashboard");
     MENU_PERMISSION_ITEM_IDS
       .filter((key) => key.startsWith("admin-"))
       .forEach((key) => permitidos.add(key));
@@ -245,6 +246,9 @@ function configurarMenuPorRoles() {
 
   if (has("admin")) {
     show([
+      "item-almacen-header",
+      "item-almacen-dashboard",
+      "item-almacen-divider",
       "item-admin-header",
       "item-admin-dashboard",
       "item-admin-usuarios",

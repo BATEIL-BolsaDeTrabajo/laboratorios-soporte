@@ -32,6 +32,10 @@
     <h2 class="text-center mb-4"><i class="fa-solid fa-boxes-stacked me-2 text-primary" aria-hidden="true"></i>Panel de Almacén</h2>
 
     <!-- KPIs -->
+    <div class="text-end mb-3" id="exportacion" hidden>
+      <button type="button" class="btn btn-outline-success" id="exportar-almacen">Descargar todo el almacén en Excel</button>
+      <div id="estado-exportacion" class="small mt-1" role="status"></div>
+    </div>
     <div class="row g-3 mb-4" id="kpi-row">
       <div class="col-12 col-md-4">
         <div class="kpi-card bg-primary">
@@ -129,6 +133,42 @@
     let productosBajoStock = [];
     let tipoBajoStockActual = 'venta';
 
+    function agregarFila(tbody, valores) {
+      const fila = tbody.insertRow();
+      valores.forEach(valor => { fila.insertCell().textContent = valor; });
+    }
+
+    document.getElementById('exportar-almacen').addEventListener('click', async event => {
+      const boton = event.currentTarget;
+      const estado = document.getElementById('estado-exportacion');
+      boton.disabled = true;
+      estado.textContent = 'Preparando el archivo de Excel…';
+      try {
+        const res = await fetch('/api/almacen/exportar-todo', {
+          headers: { Authorization: 'Bearer ' + token }
+        });
+        if (res.status === 401) return window.location.replace('/login.html');
+        if (res.status === 403) {
+          boton.hidden = true;
+          throw new Error('La descarga requiere el rol de administrador.');
+        }
+        if (!res.ok) throw new Error('No se pudo descargar el archivo. Intenta nuevamente.');
+        const url = URL.createObjectURL(await res.blob());
+        const enlace = document.createElement('a');
+        enlace.href = url;
+        enlace.download = 'almacen-' + new Date().toISOString().slice(0, 10) + '.xlsx';
+        document.body.append(enlace);
+        enlace.click();
+        enlace.remove();
+        setTimeout(() => URL.revokeObjectURL(url), 60000);
+        estado.textContent = 'Archivo listo para descargar.';
+      } catch (error) {
+        estado.textContent = error.message;
+      } finally {
+        boton.disabled = false;
+      }
+    });
+
     function fmtFecha(dt) {
       if (!dt) return "—";
       const d = new Date(dt);
@@ -148,7 +188,7 @@
       }
 
       productos.forEach((producto) => {
-        tbody.innerHTML += `<tr><td>${producto.nombre}</td><td>${producto.categoria}</td><td>${producto.stockActual}</td><td>${producto.stockMinimo}</td></tr>`;
+        agregarFila(tbody, [producto.nombre, producto.categoria, producto.stockActual, producto.stockMinimo]);
       });
     }
 
@@ -172,6 +212,7 @@
 
         const data = await res.json();
 
+        document.getElementById('exportacion').hidden = !data.puedeExportar;
         // KPIs
         document.getElementById("kpi-total-productos").textContent =
           data.totalProductos ?? 0;
@@ -221,13 +262,7 @@
             '<tr><td colspan="3" class="text-center text-muted">Sin entradas.</td></tr>';
         } else {
           entradas.forEach(e => {
-            tbodyE.innerHTML += `
-              <tr>
-                <td>${e.producto?.nombre || "-"}</td>
-                <td>${e.cantidad}</td>
-                <td>${fmtFecha(e.fecha)}</td>
-              </tr>
-            `;
+            agregarFila(tbodyE, [e.producto?.nombre || "-", e.cantidad, fmtFecha(e.fecha)]);
           });
         }
 
@@ -236,13 +271,7 @@
             '<tr><td colspan="3" class="text-center text-muted">Sin salidas.</td></tr>';
         } else {
           salidas.forEach(s => {
-            tbodyS.innerHTML += `
-              <tr>
-                <td>${s.producto?.nombre || "-"}</td>
-                <td>${s.cantidad}</td>
-                <td>${fmtFecha(s.fecha)}</td>
-              </tr>
-            `;
+            agregarFila(tbodyS, [s.producto?.nombre || "-", s.cantidad, fmtFecha(s.fecha)]);
           });
         }
 
